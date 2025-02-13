@@ -15,7 +15,7 @@
 //to calculate if buggy turned 90 degrees i use the distance between the wheels i didnt know that so update the track width below
 //also update the wheel diameter 
 //and change the encoder resolution if we using multiple signals i dont know
-//when you run it the buggy should be in an idle state pressing the joystick up should put it in a state where each potentiometer controls each wheel
+//when you run it the buggy should be in an idle state pressing the joystick up should put it in a state where each potentiometer controls each wheel display should print encoder distance
 //when in this state pressing the fire (joystick in) wil return back to the idle state
 //when in idle state pressing down will set the buggy to square idle mode in this mode pressing up or down will return to idle but pressing fire will start drawing square
 //Takes one second before starting square to give u time 
@@ -244,7 +244,7 @@ long map(long x, long in_min, long in_max, long out_min, long out_max){
 };
 // Main Loop
 int main() {
-    lcdUpdateTicker.attach(&updateLCD, 1);  // Update LCD every second
+    lcdUpdateTicker.attach(&updateLCD, 0.7);  // Update LCD every 0.7second random number lol maybe change with testing 
 
     // Attach interrupts for general button presses
     up.fall(callback(&switchToSpeedControlMode));
@@ -266,7 +266,10 @@ int main() {
                 setLEDgreen(redLED, greenLED, blueLED);
                 if (lcdUpdateRequired) {
                     lcd.cls();
+                    lcd.locate(25,8);
                     lcd.printf("Speed Control Mode");
+                    lcd.locate(8, 17);
+                    lcd.printf("L=%.2f R=%.2f", leftEncoder.getDistance(), rightEncoder.getDistance());
                     lcdUpdateRequired = false;
                 }
                 // Map potentiometer values to motor speed
