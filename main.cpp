@@ -5,6 +5,30 @@
 #include "Potentiometer.h"
 #include "LED.h"
 
+
+
+//made this code no idea if it works havent been able to test it based it off the timer from last semester
+//Encoder and Motor functionality in seperate files eg Motor.cpp and the class defnitions in files like Motor.h
+//i hope this works
+//no pins are correct except for the ones for leds, fire, up and down buttons and the display and potentiometers
+//go through and correct the pin assignments
+//to calculate if buggy turned 90 degrees i use the distance between the wheels i didnt know that so update the track width below
+//also update the wheel diameter 
+//and change the encoder resolution if we using multiple signals i dont know
+//when you run it the buggy should be in an idle state pressing the joystick up should put it in a state where each potentiometer controls each wheel
+//when in this state pressing the fire (joystick in) wil return back to the idle state
+//when in idle state pressing down will set the buggy to square idle mode in this mode pressing up or down will return to idle but pressing fire will start drawing square
+//Takes one second before starting square to give u time 
+//hope it works :)
+
+
+//i use bipolar motor control so it can go backwards and forwards easier this makes turning 90 degrees to make a square easier
+//i not sure if this best for final design as bipolar has higher losses so less battery life more heat to deal with  
+
+//if the buggy doesnt turn 90 degrees correctly maybe just change the Turn DIstance value and do trial and error 
+//if you need to turn left instead of right replace wich value of speed is negative in updatesquaremovement function and change it to measure the right encoder instead
+
+
 // Constants for the square movement
 #define WHEEL_DIAMETER 0.037f  // 3.7 cm wheels i dont know it but it seems right maybe
 #define ENCODER_RESOLUTION 1   // Encoder resolution (1, 2, or 4)
@@ -139,6 +163,16 @@ void updateSquareMovement() {
         case STOP:
             leftMotor.stop();
             rightMotor.stop();
+
+            // After completing the square, reset static variables and exit square pattern mode
+            sideCount = 0;  // Reset side count
+            targetDistance = SQUARE_DISTANCE;  // Reset target distance
+            state = MOVE_FORWARD;  // Reset state for next potential square
+
+            motorState = idle_mode;  // Switch to idle mode or another mode
+            lcd.cls();
+            lcd.printf("Square Complete, Idle Mode");
+
             break;
     }
 }
@@ -183,7 +217,11 @@ void switchToSquarePatternMode() {
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
-
+    wait(1);
+    leftMotor.stop();
+    rightMotor.stop();
+    leftEncoder.reset();
+    rightEncoder.reset();
     // No button interrupts in square_pattern_mode
 }
 
@@ -200,6 +238,10 @@ void stopMotorAndSwitchToIdleMode() {
     fire.fall(NULL);
 }
 
+
+long map(long x, long in_min, long in_max, long out_min, long out_max){
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+};
 // Main Loop
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 1);  // Update LCD every second
@@ -228,9 +270,10 @@ int main() {
                     lcdUpdateRequired = false;
                 }
                 // Map potentiometer values to motor speed
-                float speedRaw = potentiometerLeft.getCurrentSampleNorm();
-                leftMotor.setSpeed(speedRaw);  // Set motor speed based on potentiometer
-                rightMotor.setSpeed(speedRaw);
+                float speedRawL = potentiometerLeft.getCurrentSampleNorm();
+                float speedRawR = potentiometerRight.getCurrentSampleNorm();
+                leftMotor.setSpeed(speedRawL);  // Set motor speed based on potentiometer
+                rightMotor.setSpeed(speedRawR);
                 break;
 
             case square_idle_mode:
