@@ -30,14 +30,14 @@
 
 
 // Constants for the square movement
-#define WHEEL_DIAMETER 0.037f  // 3.7 cm wheels i dont know it but it seems right maybe
+#define WHEEL_DIAMETER 0.075f  // 3.7 cm wheels i dont know it but it seems right maybe
 #define ENCODER_RESOLUTION 1   // Encoder resolution (1, 2, or 4)
 #define TRACK_WIDTH 0.2f       // Distance between wheels (meters) change to correct value
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
 // Pin Assignments for Motor Control
-Motor leftMotor(PA_1, PA_2, PA_3, PA_7);  // (Bipolar1, Dir1, PWM1, Enable)
-Motor rightMotor(PA_4, PA_5, PA_6, PA_7); // (Bipolar2, Dir2, PWM2, Enable)
+Motor leftMotor(PB_7,PA_13,PB_14,PA_14);  // (Bipolar1, Dir1, PWM1, Enable)
+Motor rightMotor(PB_15,PB_2,PB_13,PA_14); // (Bipolar2, Dir2, PWM2, Enable)
 
 // Encoder Pins
 Encoder leftEncoder(PB_5, PB_6, WHEEL_DIAMETER, ENCODER_RESOLUTION);   // Change pins
@@ -247,6 +247,8 @@ int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);  // Update LCD every 0.7second random number lol maybe change with testing 
 
     // Attach interrupts for general button presses
+    leftMotor.stop();
+    rightMotor.stop();
     up.fall(callback(&switchToSpeedControlMode));
     down.fall(callback(&switchToSquareIdleMode));
     fire.fall(NULL);
@@ -273,6 +275,8 @@ int main() {
                     lcdUpdateRequired = false;
                 }
                 // Map potentiometer values to motor speed
+                potentiometerLeft.sample();
+                potentiometerRight.sample();
                 float speedRawL = potentiometerLeft.getCurrentSampleNorm();
                 float speedRawR = potentiometerRight.getCurrentSampleNorm();
                 leftMotor.setSpeed(speedRawL);  // Set motor speed based on potentiometer

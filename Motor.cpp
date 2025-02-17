@@ -1,7 +1,7 @@
 #include "Motor.h"
 
 Motor::Motor(PinName bipolar, PinName direction, PinName pwm, PinName enable) 
-    : _bipolar(bipolar), _direction(direction), _pwm(pwm), _enable(enable) {
+    : _bipolar(bipolar), _direction(direction), _pwm(pwm), _enable(enable) { 
     
     _pwm.period(0.001f); // Set PWM period (1 kHz)
     _enable = 1;         // Enable motor driver
