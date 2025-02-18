@@ -130,22 +130,45 @@ void updateSquareMovement() {
     static bool retracing = false;  // Track whether we're retracing
 
     switch (state) {
-        case MOVE_FORWARD:
-            leftMotor.setSpeed(0.3);  
-            rightMotor.setSpeed(0.3);
-            
-            if (leftEncoder.getDistance() >= targetDistance) {
+        case MOVE_FORWARD: {
+            // Base speed for moving forward
+            float baseSpeed = 0.3f;
+
+            // Read current encoder distances
+            float leftDistance = leftEncoder.getDistance();
+            float rightDistance = rightEncoder.getDistance();
+
+            // Calculate error: if the left wheel travels farther, error will be positive, etc.
+            float error = leftDistance - rightDistance;
+
+            const float Kp = 0.1f;  // Proportional gain (tune this)
+            // static float integral = 0.0f;
+            // static float lastError = 0.0f;
+            // const float Ki = 0.0f;  // Integral gain
+            // const float Kd = 0.0f;  // Derivative gain
+            // float dt = 0.01f;     // Approximate loop time in seconds 
+            // integral += error * dt;
+            // float derivative = (error - lastError) / dt;
+            // lastError = error;
+            // float correction = (Kp * error) + (Ki * integral) + (Kd * derivative);
+
+            float correction = Kp * error;
+            // Adjust motor speeds: subtract correction from one side and add to the other.
+            leftMotor.setSpeed(baseSpeed - correction);
+            rightMotor.setSpeed(baseSpeed + correction);
+
+            // Check if we've reached the target distance
+            if (leftDistance >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
                 rightEncoder.reset();
-                
-                targetDistance = TURN_DISTANCE;  // Prepare for turning
 
-                // Determine next state based on retracing flag
-                state = retracing ? TURN_RIGHT : TURN_LEFT;  
+                targetDistance = TURN_DISTANCE;  // Prepare for turning
+                state = retracing ? TURN_RIGHT : TURN_LEFT;
             }
             break;
+        }
 
         case TURN_LEFT:  // Now we turn left first
             rightMotor.setSpeed(0.35);  // Rotate right wheel only
