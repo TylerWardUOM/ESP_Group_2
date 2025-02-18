@@ -40,8 +40,8 @@ Motor leftMotor(PB_7,PA_13,PB_14,PA_14);  // (Bipolar1, Dir1, PWM1, Enable)
 Motor rightMotor(PB_15,PB_2,PB_13,PA_14); // (Bipolar2, Dir2, PWM2, Enable)
 
 // Encoder Pins
-Encoder leftEncoder(PB_5, PB_6, WHEEL_DIAMETER, ENCODER_RESOLUTION);   // Change pins
-Encoder rightEncoder(PB_7, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION);
+Encoder leftEncoder(PA_13, PB_6, WHEEL_DIAMETER, ENCODER_RESOLUTION);   // Change pins
+Encoder rightEncoder(PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);  // Left potentiometer pin
@@ -171,6 +171,7 @@ void updateSquareMovement() {
 
             motorState = idle_mode;  // Switch to idle mode or another mode
             lcd.cls();
+            lcd.locate(0, 0);
             lcd.printf("Square Complete, Idle Mode");
 
             break;
@@ -181,6 +182,7 @@ void updateSquareMovement() {
 void switchToSpeedControlMode() {
     motorState = speed_control_mode;
     lcd.cls();
+    lcd.locate(0, 0);
     lcd.printf("Speed Control Mode");
 
     // Detach interrupts for other modes
@@ -195,6 +197,7 @@ void switchToSpeedControlMode() {
 void switchToSquareIdleMode() {
     motorState = square_idle_mode;
     lcd.cls();
+    lcd.locate(0, 0);
     lcd.printf("Square Idle Mode");
 
     // Detach interrupts for other modes
@@ -211,6 +214,7 @@ void switchToSquareIdleMode() {
 void switchToSquarePatternMode() {
     motorState = square_pattern_mode;
     lcd.cls();
+    lcd.locate(0, 0);
     lcd.printf("Square Pattern Mode");
 
     // Detach interrupts for other modes
@@ -230,6 +234,7 @@ void stopMotorAndSwitchToIdleMode() {
     rightMotor.stop();
     motorState = idle_mode;
     lcd.cls();
+    lcd.locate(0, 0);
     lcd.printf("Idle Mode");
 
     // Detach interrupts for idle mode
@@ -287,6 +292,7 @@ int main() {
                 setLEDblue(redLED, greenLED, blueLED);
                 if (lcdUpdateRequired) {
                     lcd.cls();
+                    lcd.locate(0, 0);
                     lcd.printf("Square Idle Mode");
                     lcdUpdateRequired = false;
                 }
@@ -296,6 +302,7 @@ int main() {
                 setLEDblue(redLED, greenLED, blueLED);
                 if (lcdUpdateRequired) {
                     lcd.cls();
+                    lcd.locate(0, 0);
                     lcd.printf("Square Pattern Mode");
                     lcdUpdateRequired = false;
                 }
