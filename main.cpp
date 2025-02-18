@@ -69,12 +69,14 @@ typedef enum {
 MotorState motorState = idle_mode;
 
 int sideCount = 0;
-const float SQUARE_DISTANCE = 0.1f;  // 0.5 meters per side
+const float SQUARE_DISTANCE = 0.3f;  // 0.5 meters per side
 
 // Movement State Enum for square movement
 typedef enum {
     MOVE_FORWARD,   // State for moving forward
-    TURN_RIGHT,     // State for turning right
+    TURN_RIGHT,
+    TURN_LEFT,
+    TURN_AROUND,     // State for turning right
     STOP            // State for stopping
 } MovementState;
 
@@ -125,39 +127,85 @@ void turnoffLED(LED red, LED green, LED blue) {
 void updateSquareMovement() {
     static float targetDistance = SQUARE_DISTANCE;
     static MovementState state = MOVE_FORWARD;  // Start with moving forward
+    static bool retracing = false;  // Track whether we're retracing
 
-    // This switch controls the robot's behavior based on current movement state
     switch (state) {
         case MOVE_FORWARD:
-            leftMotor.setSpeed(0.3);  // Move forward
+            leftMotor.setSpeed(0.3);  
             rightMotor.setSpeed(0.3);
+            
             if (leftEncoder.getDistance() >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
                 rightEncoder.reset();
-                targetDistance = TURN_DISTANCE;  // Prepare for turn
-                state = TURN_RIGHT;  // Change state to turning right
+                
+                targetDistance = TURN_DISTANCE;  // Prepare for turning
+
+                // Determine next state based on retracing flag
+                state = retracing ? TURN_RIGHT : TURN_LEFT;  
             }
             break;
 
-        case TURN_RIGHT:
+        case TURN_LEFT:  // Now we turn left first
+            rightMotor.setSpeed(0.35);  // Rotate right wheel only
+            leftMotor.stop(); 
+            
+            if (rightEncoder.getDistance() >= targetDistance*1.3) {
+                leftMotor.stop();
+                rightMotor.stop();
+                leftEncoder.reset();
+                rightEncoder.reset();
+                wait(0.5);
+                
+                sideCount++;  
+
+                if (sideCount < 4) {
+                    targetDistance = SQUARE_DISTANCE;  
+                    state = MOVE_FORWARD;  
+                } else {
+                    state = TURN_AROUND;  // After completing the square, rotate 180 degrees
+                }
+            }
+            break;
+
+        case TURN_RIGHT:  // Turn right on retrace
             leftMotor.setSpeed(0.35);  // Rotate left wheel only
-            rightMotor.stop(); // stops right wheel
+            rightMotor.stop(); 
+            
             if (leftEncoder.getDistance() >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
                 rightEncoder.reset();
                 wait(0.5);
-                sideCount++;  // Increase side count after a turn
+                
+                sideCount++;  
 
                 if (sideCount < 4) {
-                    targetDistance = SQUARE_DISTANCE;  // Reset for next side
-                    state = MOVE_FORWARD;  // Continue with forward motion
+                    targetDistance = SQUARE_DISTANCE;  
+                    state = MOVE_FORWARD;  
                 } else {
-                    state = STOP;  // Stop after completing 4 sides
+                    state = STOP;  // Stop after completing 4 sides on retracing
                 }
+            }
+            break;
+
+        case TURN_AROUND:
+            leftMotor.setSpeed(-0.35);
+            rightMotor.setSpeed(0.35);  // Rotate both in opposite directions
+            
+            if (leftEncoder.getDistance() >= (TURN_DISTANCE/2.05)) {  // 180-degree turn
+                leftMotor.stop();
+                rightMotor.stop();
+                leftEncoder.reset();
+                rightEncoder.reset();
+                wait(1);
+
+                retracing = true;  // Start retracing
+                sideCount = 0;  // Reset side count for retracing
+                targetDistance = SQUARE_DISTANCE;
+                state = MOVE_FORWARD;
             }
             break;
 
@@ -165,10 +213,11 @@ void updateSquareMovement() {
             leftMotor.stop();
             rightMotor.stop();
 
-            // After completing the square, reset static variables and exit square pattern mode
-            sideCount = 0;  // Reset side count
-            targetDistance = SQUARE_DISTANCE;  // Reset target distance
-            state = MOVE_FORWARD;  // Reset state for next potential square
+            // Reset all static variables for the next cycle
+            retracing = false;  
+            sideCount = 0;  
+            targetDistance = SQUARE_DISTANCE;  
+            state = MOVE_FORWARD;  
 
             lcd.cls();
             lcd.locate(0, 0);
@@ -178,6 +227,9 @@ void updateSquareMovement() {
             break;
     }
 }
+
+
+
 
 // Mode Switching Functions
 void switchToSpeedControlMode() {
