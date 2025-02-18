@@ -1,10 +1,10 @@
 #include "Motor.h"
 
-Motor::Motor(PinName bipolar, PinName direction, PinName pwm, PinName enable) 
-    : _bipolar(bipolar), _direction(direction), _pwm(pwm), _enable(enable) { 
+Motor::Motor(PinName bipolar, float multiplier, PinName pwm, PinName enable) 
+    : _bipolar(bipolar), _multiplier(multiplier), _pwm(pwm), _enable(enable) { 
     
-    _pwm.period(0.02f); // Set PWM period (20 kHz)
-    _enable = 1;         // Enable motor driver
+    _pwm.period(0.00005f); // Set PWM period (20 kHz)
+    _enable = 0;         // Enable motor driver
     _bipolar = 1;        // Set to bipolar mode
 }
 
@@ -16,10 +16,17 @@ void Motor::setSpeed(float speed) {
     // For bipolar control, a 50% duty cycle is stationary.
     // Map speed from [-1.0,1.0] to [0.0,1.0] where 0.0 corresponds to -1.0,
     // 0.5 corresponds to 0.0 (stationary), and 1.0 corresponds to 1.0.
-    float duty = 0.5f + (speed * 0.5f);
+    float duty = 0.5f + (speed * 0.5f*_multiplier);
     _pwm.write(duty);
 }
 
+void Motor::enable(){
+    _enable = 1;
+}
+
+void Motor::disable(){
+    _enable = 0;
+}
 
 void Motor::stop() {
     _pwm.write(0.5f);  // Stop motor

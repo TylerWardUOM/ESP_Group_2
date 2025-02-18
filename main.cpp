@@ -32,12 +32,12 @@
 // Constants for the square movement
 #define WHEEL_DIAMETER 0.075f  // 3.7 cm wheels i dont know it but it seems right maybe
 #define ENCODER_RESOLUTION 1   // Encoder resolution (1, 2, or 4)
-#define TRACK_WIDTH 0.2f       // Distance between wheels (meters) change to correct value
+#define TRACK_WIDTH 0.272f       // Distance between wheels (meters) change to correct value
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
 // Pin Assignments for Motor Control
-Motor leftMotor(PB_7,PA_13,PB_14,PA_14);  // (Bipolar1, Dir1, PWM1, Enable)
-Motor rightMotor(PB_15,PB_2,PB_13,PA_14); // (Bipolar2, Dir2, PWM2, Enable)
+Motor leftMotor(PB_7,1.22,PB_14,PA_14);  // (Bipolar1, Dir1, PWM1, Enable)
+Motor rightMotor(PB_15,1,PB_13,PA_14); // (Bipolar2, Dir2, PWM2, Enable)
 
 // Encoder Pins
 Encoder leftEncoder(PA_13, PB_6, WHEEL_DIAMETER, ENCODER_RESOLUTION);   // Change pins
@@ -69,7 +69,7 @@ typedef enum {
 MotorState motorState = idle_mode;
 
 int sideCount = 0;
-const float SQUARE_DISTANCE = 0.5f;  // 0.5 meters per side
+const float SQUARE_DISTANCE = 0.1f;  // 0.5 meters per side
 
 // Movement State Enum for square movement
 typedef enum {
@@ -129,8 +129,8 @@ void updateSquareMovement() {
     // This switch controls the robot's behavior based on current movement state
     switch (state) {
         case MOVE_FORWARD:
-            leftMotor.setSpeed(0.5);  // Move forward
-            rightMotor.setSpeed(0.5);
+            leftMotor.setSpeed(0.3);  // Move forward
+            rightMotor.setSpeed(0.3);
             if (leftEncoder.getDistance() >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
@@ -142,13 +142,14 @@ void updateSquareMovement() {
             break;
 
         case TURN_RIGHT:
-            leftMotor.setSpeed(0.5);  // Rotate left wheel only
-            rightMotor.setSpeed(-0.5); // Reverse right wheel
+            leftMotor.setSpeed(0.35);  // Rotate left wheel only
+            rightMotor.stop(); // stops right wheel
             if (leftEncoder.getDistance() >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
                 rightEncoder.reset();
+                wait(0.5);
                 sideCount++;  // Increase side count after a turn
 
                 if (sideCount < 4) {
@@ -169,10 +170,10 @@ void updateSquareMovement() {
             targetDistance = SQUARE_DISTANCE;  // Reset target distance
             state = MOVE_FORWARD;  // Reset state for next potential square
 
-            motorState = idle_mode;  // Switch to idle mode or another mode
             lcd.cls();
             lcd.locate(0, 0);
             lcd.printf("Square Complete, Idle Mode");
+            stopMotorAndSwitchToIdleMode();
 
             break;
     }
@@ -180,10 +181,13 @@ void updateSquareMovement() {
 
 // Mode Switching Functions
 void switchToSpeedControlMode() {
+    leftMotor.enable();
     motorState = speed_control_mode;
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Speed Control Mode");
+    leftEncoder.reset();
+    rightEncoder.reset();
 
     // Detach interrupts for other modes
     up.fall(NULL);
@@ -195,6 +199,7 @@ void switchToSpeedControlMode() {
 }
 
 void switchToSquareIdleMode() {
+    leftMotor.disable();
     motorState = square_idle_mode;
     lcd.cls();
     lcd.locate(0, 0);
@@ -226,10 +231,12 @@ void switchToSquarePatternMode() {
     rightMotor.stop();
     leftEncoder.reset();
     rightEncoder.reset();
+    leftMotor.enable();
     // No button interrupts in square_pattern_mode
 }
 
 void stopMotorAndSwitchToIdleMode() {
+    leftMotor.disable();
     leftMotor.stop();
     rightMotor.stop();
     motorState = idle_mode;

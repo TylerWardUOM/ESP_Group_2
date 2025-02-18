@@ -5,13 +5,15 @@
 
 class Motor {
 public:
-    Motor(PinName bipolar, PinName direction, PinName pwm, PinName enable);
+    Motor(PinName bipolar, float multiplier , PinName pwm, PinName enable);
     void setSpeed(float speed);  // Speed from -1.0 to 1.0
     void stop();
+    void disable();
+    void enable();
 
 private:
     DigitalOut _bipolar;
-    DigitalOut _direction;
+    float _multiplier;
     PwmOut _pwm;
     DigitalOut _enable;
 };
