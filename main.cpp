@@ -69,7 +69,7 @@ typedef enum {
 MotorState motorState = idle_mode;
 
 int sideCount = 0;
-const float SQUARE_DISTANCE = 0.3f;  // 0.5 meters per side
+const float SQUARE_DISTANCE = 0.5f;  // 0.5 meters per side
 
 // Movement State Enum for square movement
 typedef enum {
@@ -141,7 +141,7 @@ void updateSquareMovement() {
             // Calculate error: if the left wheel travels farther, error will be positive, etc.
             float error = leftDistance - rightDistance;
 
-            const float Kp = 0.1f;  // Proportional gain (tune this)
+            const float Kp = 0.05f;  // Proportional gain (tune this)
             // static float integral = 0.0f;
             // static float lastError = 0.0f;
             // const float Ki = 0.0f;  // Integral gain
@@ -174,7 +174,7 @@ void updateSquareMovement() {
             rightMotor.setSpeed(0.35);  // Rotate right wheel only
             leftMotor.stop(); 
             
-            if (rightEncoder.getDistance() >= targetDistance*1.3) {
+            if (rightEncoder.getDistance() >= targetDistance*1.4) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
@@ -218,7 +218,7 @@ void updateSquareMovement() {
             leftMotor.setSpeed(-0.35);
             rightMotor.setSpeed(0.35);  // Rotate both in opposite directions
             
-            if (leftEncoder.getDistance() >= (TURN_DISTANCE/2.05)) {  // 180-degree turn
+            if (leftEncoder.getDistance() >= (TURN_DISTANCE/2.25)) {  // 180-degree turn
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
