@@ -8,7 +8,7 @@
 // Constants for the square movement
 #define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
-#define TRACK_WIDTH 0.272f          // distance between wheels (meters)
+#define TRACK_WIDTH 0.28f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
 // Pin Assignments for Motor Control
@@ -45,7 +45,7 @@ typedef enum {
 MotorState motorState = idle_mode;
 
 int sideCount = 0;
-const float SQUARE_DISTANCE = 0.3f;  // distance for each side in meters
+const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
 
 // Movement State Enum for square movement
 typedef enum {
@@ -84,8 +84,8 @@ private:
 
 // Global PID Controllers for different states
 // (Tune these parameters as needed)
-PIDController pidForward(0.1f, 0.01f, 0.005f);   // used during straight movement
-PIDController pidTurn(0.2f, 0.02f, 0.01f);         // used during turning
+PIDController pidForward(0.6f, 0.03f, 0.13f);   // used during straight movement
+PIDController pidTurn(0.4f, 0.0f, 0.0f);         // used during turning
 
 // Timer for PID dt calculations
 Timer pidTimer;
@@ -135,6 +135,8 @@ void turnoffLED(LED red, LED green, LED blue) {
 //
 // Square Movement Function (with full PID control)
 //
+#define MULTIPLIER_SCALING_FACTOR 2.2f  // Adjust this value for tuning
+
 void updateSquareMovement() {
     static float targetDistance = SQUARE_DISTANCE;
     static MovementState state = MOVE_FORWARD;
@@ -154,52 +156,65 @@ void updateSquareMovement() {
 
     switch (state) {
         case MOVE_FORWARD: {
-            // Base forward speed
-            float baseSpeed = 0.3f;
+            float baseSpeed = 0.28f;  // Lowered base speed for forward movement
             float leftDistance = leftEncoder.getDistance();
             float rightDistance = rightEncoder.getDistance();
 
-            // Use PID to correct for any misalignment between the wheels.
-            // A positive error means the left wheel has moved farther than the right.
-            float error = leftDistance - rightDistance;
-            float correction = pidForward.update(error, dt);
+            // Compute the error (positive means left moved more than right)
+            float error = rightDistance - leftDistance;
+            float pidOutput = pidForward.update(error, dt);
 
-            // Apply correction: subtract from left, add to right.
-            float leftSpeed = baseSpeed - correction;
-            float rightSpeed = baseSpeed + correction;
+            // Apply scaling factor to PID output
+            float multiplier = 1.0f - (pidOutput * MULTIPLIER_SCALING_FACTOR);
+            if (multiplier < 0.55f) multiplier = 0.6f;
+            if (multiplier > 1.5f) multiplier = 1.4f;
+
+            float leftSpeed = baseSpeed;
+            float rightSpeed = baseSpeed * multiplier;
+
             leftMotor.setSpeed(leftSpeed);
             rightMotor.setSpeed(rightSpeed);
 
-            // When the average distance reaches the target side length, switch state.
+            printf("MOVE_FORWARD | L: %.2f | R: %.2f | Multiplier: %.2f | Error: %.2f\n",
+                leftDistance, rightDistance, multiplier, error);
+
             if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
                 rightEncoder.reset();
-                pidForward.reset();  // reset PID state for next phase
-
-                targetDistance = TURN_DISTANCE;  // now turn 90 degrees
+                pidForward.reset();
+                targetDistance = TURN_DISTANCE;
                 state = retracing ? TURN_RIGHT : TURN_LEFT;
+                wait(0.5);
             }
             break;
         }
 
         case TURN_LEFT: {
-            // For turning left, we only drive the right motor while the left motor stays stopped.
-            printf("yes");
-            float currentTurnDistance = rightEncoder.getDistance();
-            float error = targetDistance - currentTurnDistance;
-            float turnSpeed = pidTurn.update(error, dt);
+            float leftDistance = fabs(leftEncoder.getDistance());
+            float rightDistance = fabs(rightEncoder.getDistance());
+            float avgDistance = (leftDistance + rightDistance) / 2.0f;
 
-            // Clamp the turn speed to a maximum and ensure a minimum speed.
-            if (turnSpeed > 0.35f) turnSpeed = 0.35f;
-            if (turnSpeed < 0.1f) turnSpeed = 0.1f;
+            float error = (targetDistance / 2) - avgDistance;
+            float pidOutput = pidTurn.update(error, dt);
 
-            rightMotor.setSpeed(turnSpeed);
-            leftMotor.stop();
+            // Apply scaling factor to PID output
+            float multiplier = 1.0f - (pidOutput * MULTIPLIER_SCALING_FACTOR);
+            if (multiplier < 0.7f) multiplier = 0.7f;
+            if (multiplier > 1.3f) multiplier = 1.3f;
 
-            // If the turning target is met (or error is very small), complete the turn.
-            if (fabs(error) < 0.02f || currentTurnDistance >= targetDistance) {
+            float baseTurnSpeed = 0.2f;  // Lowered base turn speed
+            float leftSpeed = -baseTurnSpeed * multiplier;
+            float rightSpeed = baseTurnSpeed;
+
+            leftMotor.setSpeed(leftSpeed);
+            rightMotor.setSpeed(rightSpeed);
+
+            printf("TURN_LEFT | Target: %.2f | L: %.2f | R: %.2f | Multiplier: %.2f | Error: %.2f\n",
+                targetDistance, leftDistance, rightDistance, multiplier, error);
+
+            if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
@@ -209,28 +224,39 @@ void updateSquareMovement() {
 
                 sideCount++;
                 if (sideCount < 4) {
-                    targetDistance = SQUARE_DISTANCE;  
+                    targetDistance = SQUARE_DISTANCE;
                     state = MOVE_FORWARD;
                 } else {
-                    state = TURN_AROUND;  // finished square; now turn 180° for retrace
+                    state = TURN_AROUND;
                 }
             }
             break;
         }
 
         case TURN_RIGHT: {
-            // For turning right during retrace, only the left motor runs.
-            float currentTurnDistance = leftEncoder.getDistance();
-            float error = targetDistance - currentTurnDistance;
-            float turnSpeed = pidTurn.update(error, dt);
+            float leftDistance = fabs(leftEncoder.getDistance());
+            float rightDistance = fabs(rightEncoder.getDistance());
+            float avgDistance = (leftDistance + rightDistance) / 2.0f;
 
-            if (turnSpeed > 0.35f) turnSpeed = 0.35f;
-            if (turnSpeed < 0.1f) turnSpeed = 0.1f;
+            float error = (targetDistance/2) - avgDistance;
+            float pidOutput = pidTurn.update(error, dt);
 
-            leftMotor.setSpeed(turnSpeed);
-            rightMotor.stop();
+            // Apply scaling factor to PID output
+            float multiplier = 1.0f - (pidOutput * MULTIPLIER_SCALING_FACTOR);
+            if (multiplier < 0.7f) multiplier = 0.7f;
+            if (multiplier > 1.3f) multiplier = 1.3f;
 
-            if (fabs(error) < 0.02f || currentTurnDistance >= targetDistance) {
+            float baseTurnSpeed = 0.2f;  // Lowered base turn speed
+            float leftSpeed = baseTurnSpeed;
+            float rightSpeed = -baseTurnSpeed * multiplier;
+
+            leftMotor.setSpeed(leftSpeed);
+            rightMotor.setSpeed(rightSpeed);
+
+            printf("TURN_RIGHT | Target: %.2f | L: %.2f | R: %.2f | Multiplier: %.2f | Error: %.2f\n",
+                targetDistance, leftDistance, rightDistance, multiplier, error);
+
+            if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
@@ -250,20 +276,24 @@ void updateSquareMovement() {
         }
 
         case TURN_AROUND: {
-            // For a 180° turn, run the motors in opposite directions.
-            // We use (for example) the left encoder for feedback.
-            float currentTurnDistance = leftEncoder.getDistance();
-            float targetTurn = TURN_DISTANCE / 2;  // same target as before
-            float error = targetTurn - currentTurnDistance;
+            float leftDistance = fabs(leftEncoder.getDistance());
+            float rightDistance = fabs(rightEncoder.getDistance());
+            float avgDistance = (leftDistance + rightDistance) / 2.0f;
+
+            float targetTurn = TURN_DISTANCE / 2;
+            float error = targetTurn - avgDistance;
             float turnSpeed = pidTurn.update(error, dt);
 
             if (turnSpeed > 0.35f) turnSpeed = 0.35f;
-            if (turnSpeed < 0.1f) turnSpeed = 0.1f;
+            if (turnSpeed < 0.25f) turnSpeed = 0.25f;
 
-            leftMotor.setSpeed(-turnSpeed);  // reverse left motor
-            rightMotor.setSpeed(turnSpeed);  // forward right motor
+            leftMotor.setSpeed(-turnSpeed);
+            rightMotor.setSpeed(turnSpeed);
 
-            if (fabs(error) < 0.02f || currentTurnDistance >= targetTurn) {
+            printf("TURN_AROUND | Target: %.2f | L: %.2f | R: %.2f | Avg: %.2f | Error: %.2f | Speed: %.2f\n",
+                targetTurn, leftDistance, rightDistance, avgDistance, error, turnSpeed);
+
+            if (fabs(error) < 0.02f || avgDistance >= targetTurn) {
                 leftMotor.stop();
                 rightMotor.stop();
                 leftEncoder.reset();
@@ -271,7 +301,7 @@ void updateSquareMovement() {
                 wait(1);
                 pidTurn.reset();
 
-                retracing = true;  // now retrace the square in reverse
+                retracing = true;
                 sideCount = 0;
                 targetDistance = SQUARE_DISTANCE;
                 state = MOVE_FORWARD;
@@ -295,6 +325,8 @@ void updateSquareMovement() {
         }
     }
 }
+
+
 
 //
 // Mode Switching Functions
