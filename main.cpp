@@ -4,10 +4,10 @@
 #include "Motor.h"
 #include "Encoder.h"
 #include "Potentiometer.h"
-#include "LED.h"
 #include "Wheel.h"
 #include "PIDController.h"
 #include "ControlSystem.h"
+#include "RGBled.h"
 
 // Constants for the square movement
 #define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
@@ -17,6 +17,8 @@
 
 Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_6,WHEEL_DIAMETER,ENCODER_RESOLUTION,100); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,100);
+// Global instance of ControlSystem
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
@@ -24,10 +26,7 @@ Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
 
 // LCD and LED Pins
 C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
-LED redLED(D5);
-LED greenLED(D9);
-LED blueLED(D8);
-
+RGBLed LED(D5,D9,D8);
 // Button Pins
 InterruptIn fire(D4);  // Interrupt for the center button on the joystick
 InterruptIn up(A2);    // Interrupt for the up button
@@ -42,19 +41,6 @@ typedef enum {
 } MotorState;
 
 MotorState motorState = idle_mode;
-
-int sideCount = 0;
-const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
-
-// Movement State Enum for square movement
-typedef enum {
-    MOVE_FORWARD,
-    TURN_RIGHT,
-    TURN_LEFT,
-    TURN_AROUND,
-    STOP
-} MovementState;
-
 
 //
 // Function Prototypes
@@ -73,67 +59,69 @@ void updateLCD() {
     lcdUpdateRequired = true;
 }
 
-// LED Control Functions
-void setLEDgreen(LED red, LED green, LED blue) {
-    red.off();
-    green.on();
-    blue.off();
-}
 
-void setLEDred(LED red, LED green, LED blue) {
-    red.on();
-    green.off();
-    blue.off();
-}
 
-void setLEDblue(LED red, LED green, LED blue) {
-    red.off();
-    green.off();
-    blue.on();
-}
+// Movement State Enum for square movement
+typedef enum {
+    MOVE_FORWARD,   // State for moving forward
+    TURN_RIGHT,
+    TURN_LEFT,
+    TURN_AROUND,     // State for turning right
+    STOP            // State for stopping
+} MovementState;
 
-void turnoffLED(LED red, LED green, LED blue) {
-    red.off();
-    green.off();
-    blue.off();
-}
 
-//
-// Square Movement Function (with full PID control)
-//
-// Global instance of ControlSystem
-ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH);
 
+const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
 void updateSquareMovement() {
-    static int step = 0;
-    static bool retracing = false;
+    static MovementState state = MOVE_FORWARD;  // Start with moving forward
+    static bool retracing = false;  // Track whether we're retracing
+    static int sideCount = 0;  // Track the number of sides completed
 
-    if (control.isMovementComplete()) {
-        switch (step) {
-            case 0: case 1: case 2: case 3:
-                control.moveForward(SQUARE_DISTANCE);
-                step++;
-                break;
-            case 4:
-                control.turn(retracing ? -90 : 90);
-                step++;
-                break;
-            case 5: case 6: case 7: case 8:
-                control.moveForward(SQUARE_DISTANCE);
-                step++;
-                break;
-            case 9:
-                control.turn(retracing ? -90 : 90);
-                step++;
-                break;
-            case 10:
-                control.turn(180);
-                retracing = true;
-                step = 0;
-                break;
-        }
+    switch (state) {
+        case MOVE_FORWARD:
+            // Move forward a fixed distance (one side of the square)
+            control.moveForward(SQUARE_DISTANCE);  // moveForward is used as in your original logic
+            if (control.isMovementComplete()) {  // Wait for the movement to complete
+                state = retracing ? TURN_RIGHT : TURN_LEFT;
+            }
+            break;
+
+        case TURN_LEFT:  // Turn left after moving forward (square pattern)
+            control.turn(90);  // Turn 90° left
+            if (control.isMovementComplete()) {
+                sideCount++;  
+                state = (sideCount < 4) ? MOVE_FORWARD : TURN_AROUND;  
+            }
+            break;
+
+        case TURN_RIGHT:  // Turn right while retracing
+            control.turn(-90);  // Turn 90° right (opposite direction for retracing)
+            if (control.isMovementComplete()) {
+                sideCount++;  // Increment the side count
+                state = (sideCount < 4) ? MOVE_FORWARD : STOP;
+            }
+            break;
+
+        case TURN_AROUND:  // Turn around (180°) after completing the square
+            control.turn(180);  // Turn 180° to prepare for retracing
+            if (control.isMovementComplete()) {
+                retracing = true;  // Start retracing
+                sideCount = 0;  // Reset side count for retracing
+                state = MOVE_FORWARD;  // Start moving forward again, but retracing
+            }
+            break;
+
+        case STOP:  // Stop after retracing all sides
+            retracing = false;  
+            sideCount = 0;  
+            state = MOVE_FORWARD;  
+            lcd.cls();
+            lcd.locate(0, 0);
+            lcd.printf("Square Complete, Idle Mode");
+            stopMotorAndSwitchToIdleMode();  // Call to stop the motors and switch to idle
+            break;
     }
-
     control.update();
 }
 
@@ -223,11 +211,13 @@ int main() {
     up.fall(callback(&switchToSpeedControlMode));
     down.fall(callback(&switchToSquareIdleMode));
     fire.fall(NULL);
+    float speedRawL;
+    float speedRawR;
 
     while (true) {
         switch (motorState) {
             case idle_mode:
-                setLEDred(redLED, greenLED, blueLED);
+                LED.setRed();
                 if (lcdUpdateRequired) {
                     lcd.locate(0, 0);
                     lcd.printf("Idle Mode");
@@ -236,7 +226,7 @@ int main() {
                 break;
 
             case speed_control_mode:
-                setLEDgreen(redLED, greenLED, blueLED);
+                LED.setGreen();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(25,8);
@@ -247,14 +237,14 @@ int main() {
                 }
                 potentiometerLeft.sample();
                 potentiometerRight.sample();
-                float speedRawL = potentiometerLeft.getCurrentSampleNorm();
-                float speedRawR = potentiometerRight.getCurrentSampleNorm();
+                speedRawL = potentiometerLeft.getCurrentSampleNorm();
+                speedRawR = potentiometerRight.getCurrentSampleNorm();
                 leftWheel.setSpeed(speedRawL);
                 rightWheel.setSpeed(speedRawR);
                 break;
 
             case square_idle_mode:
-                setLEDblue(redLED, greenLED, blueLED);
+                LED.setBlue();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
@@ -264,7 +254,7 @@ int main() {
                 break;
 
             case square_pattern_mode:
-                setLEDblue(redLED, greenLED, blueLED);
+                LED.setWhite();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
