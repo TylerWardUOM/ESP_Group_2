@@ -31,13 +31,14 @@ RGBLed LED(D5,D9,D8);
 InterruptIn fire(D4);  // Interrupt for the center button on the joystick
 InterruptIn up(A2);    // Interrupt for the up button
 InterruptIn down(A3);  // Interrupt for the down button
-
+InterruptIn righ(A5); 
 // Motor State Enum
 typedef enum {
     idle_mode,
     speed_control_mode,
     square_idle_mode,   // idle state for square pattern
-    square_pattern_mode
+    square_pattern_mode,
+    line_mode
 } MotorState;
 
 MotorState motorState = idle_mode;
@@ -49,6 +50,7 @@ void stopMotorAndSwitchToIdleMode();
 void switchToSpeedControlMode();
 void switchToSquareIdleMode();
 void switchToSquarePatternMode();
+void switchToLineMode();
 void updateSquareMovement();
 void updateLCD();
 
@@ -178,6 +180,13 @@ void switchToSquarePatternMode() {
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
     leftWheel.motor.enable();
+}
+
+void switchToLineMode(){
+    leftWheel.motor.enable();
+    motorState = line_mode;
+    lcd.cls();
+    lcd.locate(0,0);
 }
 
 void stopMotorAndSwitchToIdleMode() {
