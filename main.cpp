@@ -1,58 +1,32 @@
+#include "Wheel.h"
 #include "mbed.h"
 #include "C12832.h"
 #include "Motor.h"
 #include "Encoder.h"
 #include "Potentiometer.h"
-#include "LED.h"
-
-
-
-//made this code no idea if it works havent been able to test it based it off the timer from last semester
-//Encoder and Motor functionality in seperate files eg Motor.cpp and the class defnitions in files like Motor.h
-//i hope this works
-//no pins are correct except for the ones for leds, fire, up and down buttons and the display and potentiometers
-//go through and correct the pin assignments
-//to calculate if buggy turned 90 degrees i use the distance between the wheels i didnt know that so update the track width below
-//also update the wheel diameter 
-//and change the encoder resolution if we using multiple signals i dont know
-//when you run it the buggy should be in an idle state pressing the joystick up should put it in a state where each potentiometer controls each wheel display should print encoder distance
-//when in this state pressing the fire (joystick in) wil return back to the idle state
-//when in idle state pressing down will set the buggy to square idle mode in this mode pressing up or down will return to idle but pressing fire will start drawing square
-//Takes one second before starting square to give u time 
-//hope it works :)
-
-
-//i use bipolar motor control so it can go backwards and forwards easier this makes turning 90 degrees to make a square easier
-//i not sure if this best for final design as bipolar has higher losses so less battery life more heat to deal with  
-
-//if the buggy doesnt turn 90 degrees correctly maybe just change the Turn DIstance value and do trial and error 
-//if you need to turn left instead of right replace wich value of speed is negative in updatesquaremovement function and change it to measure the right encoder instead
-
+#include "Wheel.h"
+#include "PIDController.h"
+#include "ControlSystem.h"
+#include "RGBled.h"
 
 // Constants for the square movement
-#define WHEEL_DIAMETER 0.075f  // 3.7 cm wheels i dont know it but it seems right maybe
-#define ENCODER_RESOLUTION 1   // Encoder resolution (1, 2, or 4)
-#define TRACK_WIDTH 0.272f       // Distance between wheels (meters) change to correct value
+#define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
+#define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
+#define TRACK_WIDTH 0.28f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
-// Pin Assignments for Motor Control
-Motor leftMotor(PB_7,1.22,PB_14,PA_14);  // (Bipolar1, Dir1, PWM1, Enable)
-Motor rightMotor(PB_15,1,PB_13,PA_14); // (Bipolar2, Dir2, PWM2, Enable)
-
-// Encoder Pins
-Encoder leftEncoder(PA_13, PB_6, WHEEL_DIAMETER, ENCODER_RESOLUTION);   // Change pins
-Encoder rightEncoder(PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION);
+Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_6,WHEEL_DIAMETER,ENCODER_RESOLUTION,100); //change max rpm by testing
+Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,100);
+// Global instance of ControlSystem
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH);
 
 // Potentiometer Pins
-Potentiometer potentiometerLeft(A0, 3.3);  // Left potentiometer pin
-Potentiometer potentiometerRight(A1, 3.3); // Right potentiometer pin
+Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
+Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
 
 // LCD and LED Pins
 C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
-LED redLED(D5);
-LED greenLED(D9);
-LED blueLED(D8);
-
+RGBLed LED(D5,D9,D8);
 // Button Pins
 InterruptIn fire(D4);  // Interrupt for the center button on the joystick
 InterruptIn up(A2);    // Interrupt for the up button
@@ -62,14 +36,30 @@ InterruptIn down(A3);  // Interrupt for the down button
 typedef enum {
     idle_mode,
     speed_control_mode,
-    square_idle_mode,   // New state for idle in the square pattern
+    square_idle_mode,   // idle state for square pattern
     square_pattern_mode
 } MotorState;
 
 MotorState motorState = idle_mode;
 
-int sideCount = 0;
-const float SQUARE_DISTANCE = 0.3f;  // 0.5 meters per side
+//
+// Function Prototypes
+//
+void stopMotorAndSwitchToIdleMode();
+void switchToSpeedControlMode();
+void switchToSquareIdleMode();
+void switchToSquarePatternMode();
+void updateSquareMovement();
+void updateLCD();
+
+// Update LCD periodically using a Ticker
+Ticker lcdUpdateTicker; 
+bool lcdUpdateRequired = false;
+void updateLCD() {
+    lcdUpdateRequired = true;
+}
+
+
 
 // Movement State Enum for square movement
 typedef enum {
@@ -82,187 +72,92 @@ typedef enum {
 
 
 
-// Function Prototypes
-void stopMotorAndSwitchToIdleMode();
-void switchToSpeedControlMode();
-void switchToSquareIdleMode();
-void switchToSquarePatternMode();
-void updateSquareMovement();
-void updateLCD();
-
-// Update LCD periodically
-Ticker lcdUpdateTicker; 
-bool lcdUpdateRequired = false;
-
-void updateLCD() {
-    lcdUpdateRequired = true;
-}
-
-// LED Control Functions
-void setLEDgreen(LED red, LED green, LED blue) {
-    red.off();
-    green.on();
-    blue.off();
-}
-
-void setLEDred(LED red, LED green, LED blue) {
-    red.on();
-    green.off();
-    blue.off();
-}
-
-void setLEDblue(LED red, LED green, LED blue) {
-    red.off();
-    green.off();
-    blue.on();
-}
-
-void turnoffLED(LED red, LED green, LED blue) {
-    red.off();
-    green.off();
-    blue.off();
-}
-
-// Square Movement Function
+const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
 void updateSquareMovement() {
-    static float targetDistance = SQUARE_DISTANCE;
     static MovementState state = MOVE_FORWARD;  // Start with moving forward
     static bool retracing = false;  // Track whether we're retracing
+    static int sideCount = 0;  // Track the number of sides completed
 
     switch (state) {
         case MOVE_FORWARD:
-            leftMotor.setSpeed(0.3);  
-            rightMotor.setSpeed(0.3);
-            
-            if (leftEncoder.getDistance() >= targetDistance) {
-                leftMotor.stop();
-                rightMotor.stop();
-                leftEncoder.reset();
-                rightEncoder.reset();
-                
-                targetDistance = TURN_DISTANCE;  // Prepare for turning
-
-                // Determine next state based on retracing flag
-                state = retracing ? TURN_RIGHT : TURN_LEFT;  
+            // Move forward a fixed distance (one side of the square)
+            control.moveForward(SQUARE_DISTANCE);  // moveForward is used as in your original logic
+            if (control.isMovementComplete()) {  // Wait for the movement to complete
+                state = retracing ? TURN_RIGHT : TURN_LEFT;
             }
             break;
 
-        case TURN_LEFT:  // Now we turn left first
-            rightMotor.setSpeed(0.35);  // Rotate right wheel only
-            leftMotor.stop(); 
-            
-            if (rightEncoder.getDistance() >= targetDistance*1.3) {
-                leftMotor.stop();
-                rightMotor.stop();
-                leftEncoder.reset();
-                rightEncoder.reset();
-                wait(0.5);
-                
+        case TURN_LEFT:  // Turn left after moving forward (square pattern)
+            control.turn(90);  // Turn 90° left
+            if (control.isMovementComplete()) {
                 sideCount++;  
-
-                if (sideCount < 4) {
-                    targetDistance = SQUARE_DISTANCE;  
-                    state = MOVE_FORWARD;  
-                } else {
-                    state = TURN_AROUND;  // After completing the square, rotate 180 degrees
-                }
+                state = (sideCount < 4) ? MOVE_FORWARD : TURN_AROUND;  
             }
             break;
 
-        case TURN_RIGHT:  // Turn right on retrace
-            leftMotor.setSpeed(0.35);  // Rotate left wheel only
-            rightMotor.stop(); 
-            
-            if (leftEncoder.getDistance() >= targetDistance) {
-                leftMotor.stop();
-                rightMotor.stop();
-                leftEncoder.reset();
-                rightEncoder.reset();
-                wait(0.5);
-                
-                sideCount++;  
-
-                if (sideCount < 4) {
-                    targetDistance = SQUARE_DISTANCE;  
-                    state = MOVE_FORWARD;  
-                } else {
-                    state = STOP;  // Stop after completing 4 sides on retracing
-                }
+        case TURN_RIGHT:  // Turn right while retracing
+            control.turn(-90);  // Turn 90° right (opposite direction for retracing)
+            if (control.isMovementComplete()) {
+                sideCount++;  // Increment the side count
+                state = (sideCount < 4) ? MOVE_FORWARD : STOP;
             }
             break;
 
-        case TURN_AROUND:
-            leftMotor.setSpeed(-0.35);
-            rightMotor.setSpeed(0.35);  // Rotate both in opposite directions
-            
-            if (leftEncoder.getDistance() >= (TURN_DISTANCE/2.05)) {  // 180-degree turn
-                leftMotor.stop();
-                rightMotor.stop();
-                leftEncoder.reset();
-                rightEncoder.reset();
-                wait(1);
-
+        case TURN_AROUND:  // Turn around (180°) after completing the square
+            control.turn(180);  // Turn 180° to prepare for retracing
+            if (control.isMovementComplete()) {
                 retracing = true;  // Start retracing
                 sideCount = 0;  // Reset side count for retracing
-                targetDistance = SQUARE_DISTANCE;
-                state = MOVE_FORWARD;
+                state = MOVE_FORWARD;  // Start moving forward again, but retracing
             }
             break;
 
-        case STOP:
-            leftMotor.stop();
-            rightMotor.stop();
-
-            // Reset all static variables for the next cycle
+        case STOP:  // Stop after retracing all sides
             retracing = false;  
             sideCount = 0;  
-            targetDistance = SQUARE_DISTANCE;  
             state = MOVE_FORWARD;  
-
             lcd.cls();
             lcd.locate(0, 0);
             lcd.printf("Square Complete, Idle Mode");
-            stopMotorAndSwitchToIdleMode();
-
+            stopMotorAndSwitchToIdleMode();  // Call to stop the motors and switch to idle
             break;
     }
+    control.update();
 }
 
 
 
 
+//
 // Mode Switching Functions
+//
 void switchToSpeedControlMode() {
-    leftMotor.enable();
+    leftWheel.motor.enable();
     motorState = speed_control_mode;
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Speed Control Mode");
-    leftEncoder.reset();
-    rightEncoder.reset();
+    leftWheel.encoder.reset();
+    rightWheel.encoder.reset();
 
-    // Detach interrupts for other modes
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
 
-    // Attach interrupts for speed control mode
     fire.fall(callback(&stopMotorAndSwitchToIdleMode));
 }
 
 void switchToSquareIdleMode() {
-    leftMotor.disable();
+    leftWheel.motor.disable();
     motorState = square_idle_mode;
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Square Idle Mode");
 
-    // Detach interrupts for other modes
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
 
-    // Attach interrupts for square_idle_mode
     up.fall(callback(&stopMotorAndSwitchToIdleMode));
     down.fall(callback(&stopMotorAndSwitchToIdleMode));
     fire.fall(callback(&switchToSquarePatternMode));
@@ -274,53 +169,55 @@ void switchToSquarePatternMode() {
     lcd.locate(0, 0);
     lcd.printf("Square Pattern Mode");
 
-    // Detach interrupts for other modes
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
     wait(1);
-    leftMotor.stop();
-    rightMotor.stop();
-    leftEncoder.reset();
-    rightEncoder.reset();
-    leftMotor.enable();
-    // No button interrupts in square_pattern_mode
+    leftWheel.stop();
+    rightWheel.stop();
+    leftWheel.encoder.reset();
+    rightWheel.encoder.reset();
+    leftWheel.motor.enable();
 }
 
 void stopMotorAndSwitchToIdleMode() {
-    leftMotor.disable();
-    leftMotor.stop();
-    rightMotor.stop();
+    leftWheel.motor.disable();
+    leftWheel.stop();
+    rightWheel.stop();
     motorState = idle_mode;
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Idle Mode");
 
-    // Detach interrupts for idle mode
     up.fall(callback(&switchToSpeedControlMode));
     down.fall(callback(&switchToSquareIdleMode));
     fire.fall(NULL);
 }
 
-
 long map(long x, long in_min, long in_max, long out_min, long out_max){
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-};
-// Main Loop
-int main() {
-    lcdUpdateTicker.attach(&updateLCD, 0.7);  // Update LCD every 0.7second random number lol maybe change with testing 
+}
 
-    // Attach interrupts for general button presses
-    leftMotor.stop();
-    rightMotor.stop();
+//
+// Main Loop
+//
+int main() {
+    lcdUpdateTicker.attach(&updateLCD, 0.7);
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeed();
+
+    leftWheel.stop();
+    rightWheel.stop();
     up.fall(callback(&switchToSpeedControlMode));
     down.fall(callback(&switchToSquareIdleMode));
     fire.fall(NULL);
+    float speedRawL;
+    float speedRawR;
 
     while (true) {
         switch (motorState) {
             case idle_mode:
-                setLEDred(redLED, greenLED, blueLED);
+                LED.setRed();
                 if (lcdUpdateRequired) {
                     lcd.locate(0, 0);
                     lcd.printf("Idle Mode");
@@ -329,26 +226,25 @@ int main() {
                 break;
 
             case speed_control_mode:
-                setLEDgreen(redLED, greenLED, blueLED);
+                LED.setGreen();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(25,8);
                     lcd.printf("Speed Control Mode");
                     lcd.locate(8, 17);
-                    lcd.printf("L=%.2f R=%.2f", leftEncoder.getDistance(), rightEncoder.getDistance());
+                    lcd.printf("L=%.2f R=%.2f", leftWheel.encoder.getDistance(), rightWheel.encoder.getDistance());
                     lcdUpdateRequired = false;
                 }
-                // Map potentiometer values to motor speed
                 potentiometerLeft.sample();
                 potentiometerRight.sample();
-                float speedRawL = potentiometerLeft.getCurrentSampleNorm();
-                float speedRawR = potentiometerRight.getCurrentSampleNorm();
-                leftMotor.setSpeed(speedRawL);  // Set motor speed based on potentiometer
-                rightMotor.setSpeed(speedRawR);
+                speedRawL = potentiometerLeft.getCurrentSampleNorm();
+                speedRawR = potentiometerRight.getCurrentSampleNorm();
+                leftWheel.setSpeed(speedRawL);
+                rightWheel.setSpeed(speedRawR);
                 break;
 
             case square_idle_mode:
-                setLEDblue(redLED, greenLED, blueLED);
+                LED.setBlue();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
@@ -358,14 +254,14 @@ int main() {
                 break;
 
             case square_pattern_mode:
-                setLEDblue(redLED, greenLED, blueLED);
+                LED.setWhite();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
                     lcd.printf("Square Pattern Mode");
                     lcdUpdateRequired = false;
                 }
-                updateSquareMovement();  // Perform square pattern movement
+                updateSquareMovement();  // perform square movement with PID control
                 break;
 
             default:

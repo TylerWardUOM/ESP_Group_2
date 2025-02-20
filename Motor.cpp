@@ -31,3 +31,7 @@ void Motor::disable(){
 void Motor::stop() {
     _pwm.write(0.5f);  // Stop motor
 }
+
+float Motor::getSpeed(){
+    return _speed;
+}
