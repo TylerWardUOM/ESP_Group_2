@@ -10,12 +10,14 @@ public:
     void stop();
     void disable();
     void enable();
+    float getSpeed();
 
 private:
     DigitalOut _bipolar;
     float _multiplier;
     PwmOut _pwm;
     DigitalOut _enable;
+    float _speed;
 };
 
 #endif
