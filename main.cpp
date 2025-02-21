@@ -22,7 +22,7 @@
 #define KI_TURN 0
 #define KD_TURN 0
 #define SCALING_TURN 0
-
+#define MAX_RPM 200
 
 Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_6,WHEEL_DIAMETER,ENCODER_RESOLUTION,100); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,100);
@@ -40,13 +40,17 @@ RGBLed LED(D5,D9,D8);
 InterruptIn fire(D4);  // Interrupt for the center button on the joystick
 InterruptIn up(A2);    // Interrupt for the up button
 InterruptIn down(A3);  // Interrupt for the down button
-
+InterruptIn right(A5); 
+InterruptIn left(A4);
 // Motor State Enum
 typedef enum {
     idle_mode,
     speed_control_mode,
     square_idle_mode,   // idle state for square pattern
-    square_pattern_mode
+    square_pattern_mode,
+    line_menu_mode,
+    turn_menu_mode,
+    waiting_for_movement
 } MotorState;
 
 MotorState motorState = idle_mode;
@@ -58,8 +62,13 @@ void stopMotorAndSwitchToIdleMode();
 void switchToSpeedControlMode();
 void switchToSquareIdleMode();
 void switchToSquarePatternMode();
+void switchToLineMenuMode();
+void switchToTurnMenuMode();
+void switchToLineMode();
+void switchToTurnMode();
 void updateSquareMovement();
 void updateLCD();
+long map(long x, long in_min, long in_max, long out_min, long out_max);
 
 // Update LCD periodically using a Ticker
 Ticker lcdUpdateTicker; 
@@ -152,6 +161,8 @@ void switchToSpeedControlMode() {
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
+    right.fall(NULL);
+    left.fall(NULL);
 
     fire.fall(callback(&stopMotorAndSwitchToIdleMode));
 }
@@ -166,6 +177,8 @@ void switchToSquareIdleMode() {
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
+    right.fall(NULL);
+    left.fall(NULL);
 
     up.fall(callback(&stopMotorAndSwitchToIdleMode));
     down.fall(callback(&stopMotorAndSwitchToIdleMode));
@@ -181,6 +194,8 @@ void switchToSquarePatternMode() {
     up.fall(NULL);
     down.fall(NULL);
     fire.fall(NULL);
+    right.fall(NULL);
+    left.fall(NULL);
     wait(1);
     leftWheel.stop();
     rightWheel.stop();
@@ -188,6 +203,65 @@ void switchToSquarePatternMode() {
     rightWheel.encoder.reset();
     leftWheel.motor.enable();
 }
+
+void switchToLineMenuMode(){
+    leftWheel.motor.disable();
+    motorState = line_menu_mode;
+    lcd.cls();
+    lcd.locate(0,0);
+    lcd.printf("Line Mode");
+    leftWheel.encoder.reset();
+    rightWheel.encoder.reset();
+
+    up.fall(NULL);
+    down.fall(NULL);
+    fire.fall(NULL);
+    right.fall(NULL);
+    left.fall(NULL);
+
+    up.fall(&stopMotorAndSwitchToIdleMode);
+    fire.fall(callback(&switchToLineMode));
+}
+
+void switchToTurnMenuMode(){
+    leftWheel.motor.disable();
+    motorState = waiting_for_movement;
+    lcd.cls();
+    lcd.locate(0,0);
+    lcd.printf("Turn Mode");
+    leftWheel.encoder.reset();
+    rightWheel.encoder.reset();
+
+    up.fall(NULL);
+    down.fall(NULL);
+    fire.fall(NULL);
+    right.fall(NULL);
+    left.fall(NULL);
+
+    up.fall(&stopMotorAndSwitchToIdleMode);
+    fire.fall(callback(&switchToTurnMode));
+}
+
+void switchToLineMode(){
+    leftWheel.motor.enable();
+    potentiometerLeft.sample();
+    potentiometerRight.sample();
+    float distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
+    float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+    control.moveForward(distance);
+    motorState = waiting_for_movement;
+}
+
+void switchToTurnMode(){
+    leftWheel.motor.enable();
+    potentiometerLeft.sample();
+    potentiometerRight.sample();
+    float angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
+    float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+    control.turn(angle);
+    motorState = waiting_for_movement;
+}
+
 
 void stopMotorAndSwitchToIdleMode() {
     leftWheel.motor.disable();
@@ -200,6 +274,8 @@ void stopMotorAndSwitchToIdleMode() {
 
     up.fall(callback(&switchToSpeedControlMode));
     down.fall(callback(&switchToSquareIdleMode));
+    right.fall(callback(&switchToLineMenuMode));
+    left.fall(callback(&switchToTurnMenuMode));
     fire.fall(NULL);
 }
 
@@ -219,9 +295,14 @@ int main() {
     rightWheel.stop();
     up.fall(callback(&switchToSpeedControlMode));
     down.fall(callback(&switchToSquareIdleMode));
+    right.fall(callback(&switchToLineMenuMode));
+    left.fall(callback(&switchToTurnMenuMode));
     fire.fall(NULL);
     float speedRawL;
     float speedRawR;
+    float distance;
+    float angle;
+    float speed;
 
     while (true) {
         switch (motorState) {
@@ -272,6 +353,53 @@ int main() {
                 }
                 updateSquareMovement();  // perform square movement with PID control
                 break;
+
+            case line_menu_mode:
+                LED.setGreen();
+                potentiometerLeft.sample();
+                potentiometerRight.sample();
+                distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
+                speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+                if (lcdUpdateRequired) {
+                    lcd.cls();
+                    lcd.locate(25,8);
+                    lcd.printf("Line Menu Mode");
+                    lcd.locate(8, 17);
+                    lcd.printf("Distance=%.2fm Speed=%.2frpm", distance, speed);
+                    lcdUpdateRequired = false;
+                }
+                break;
+
+            case turn_menu_mode:
+                LED.setGreen();
+                potentiometerLeft.sample();
+                potentiometerRight.sample();
+                angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
+                speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+                if (lcdUpdateRequired) {
+                    lcd.cls();
+                    lcd.locate(25,8);
+                    lcd.printf("Turn Menu Mode");
+                    lcd.locate(8, 17);
+                    lcd.printf("Angle=%.2f degrees Speed=%.2frpm", angle, speed);
+                    lcdUpdateRequired = false;
+                }
+                break;
+
+
+            case waiting_for_movement:
+                LED.setWhite();
+                if (lcdUpdateRequired) {
+                    lcd.cls();
+                    lcd.locate(0, 0);
+                    lcd.printf("Waiting for Movement Completion");
+                    lcdUpdateRequired = false;
+                }
+                if (control.isMovementComplete()){
+                    stopMotorAndSwitchToIdleMode();
+                }
+                control.update();
+                break;    
 
             default:
                 break;
