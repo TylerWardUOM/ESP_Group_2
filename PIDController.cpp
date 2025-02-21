@@ -7,7 +7,7 @@ float PIDController::update(float error, float dt) {
     integral += error * dt;
     float derivative = (error - prevError) / dt;
     prevError = error;
-    return kp * error + ki * integral + kd * derivative;
+    return (kp * error + ki * integral + kd * derivative)*_scaling_multiplier;
 }
 
 void PIDController::reset() {

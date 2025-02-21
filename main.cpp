@@ -12,7 +12,7 @@
 //Constants for Wheel
 #define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
-#define MAX_RPM 200
+#define MAX_RPM 500
 
 
 //Constants for Buggy
@@ -101,18 +101,19 @@ void updateSquareMovement() {
     static MovementState state = MOVE_FORWARD;  // Start with moving forward
     static bool retracing = false;  // Track whether we're retracing
     static int sideCount = 0;  // Track the number of sides completed
+    static float basespeed = 0.3f*MAX_RPM;
 
     switch (state) {
         case MOVE_FORWARD:
             // Move forward a fixed distance (one side of the square)
-            control.moveForward(SQUARE_DISTANCE);  // moveForward is used as in your original logic
+            control.moveForward(SQUARE_DISTANCE,basespeed);  // moveForward is used as in your original logic
             if (control.isMovementComplete()) {  // Wait for the movement to complete
                 state = retracing ? TURN_RIGHT : TURN_LEFT;
             }
             break;
 
         case TURN_LEFT:  // Turn left after moving forward (square pattern)
-            control.turn(90);  // Turn 90° left
+            control.turn(90,basespeed);  // Turn 90° left
             if (control.isMovementComplete()) {
                 sideCount++;  
                 state = (sideCount < 4) ? MOVE_FORWARD : TURN_AROUND;  
@@ -120,7 +121,7 @@ void updateSquareMovement() {
             break;
 
         case TURN_RIGHT:  // Turn right while retracing
-            control.turn(-90);  // Turn 90° right (opposite direction for retracing)
+            control.turn(-90,basespeed);  // Turn 90° right (opposite direction for retracing)
             if (control.isMovementComplete()) {
                 sideCount++;  // Increment the side count
                 state = (sideCount < 4) ? MOVE_FORWARD : STOP;
@@ -128,7 +129,7 @@ void updateSquareMovement() {
             break;
 
         case TURN_AROUND:  // Turn around (180°) after completing the square
-            control.turn(180);  // Turn 180° to prepare for retracing
+            control.turn(180,basespeed);  // Turn 180° to prepare for retracing
             if (control.isMovementComplete()) {
                 retracing = true;  // Start retracing
                 sideCount = 0;  // Reset side count for retracing
@@ -231,7 +232,7 @@ void switchToLineMenuMode(){
 
 void switchToTurnMenuMode(){
     leftWheel.motor.disable();
-    motorState = waiting_for_movement;
+    motorState = turn_menu_mode;
     lcd.cls();
     lcd.locate(0,0);
     lcd.printf("Turn Mode");
@@ -254,7 +255,7 @@ void switchToLineMode(){
     potentiometerRight.sample();
     float distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
     float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
-    control.moveForward(distance);
+    control.moveForward(distance,speed);
     motorState = waiting_for_movement;
 }
 
@@ -264,7 +265,7 @@ void switchToTurnMode(){
     potentiometerRight.sample();
     float angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
     float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
-    control.turn(angle);
+    control.turn(angle,speed);
     motorState = waiting_for_movement;
 }
 
@@ -294,8 +295,8 @@ long map(long x, long in_min, long in_max, long out_min, long out_max){
 //
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);
-    leftWheel.regulateSpeed();
-    rightWheel.regulateSpeed();
+    //leftWheel.startRegulation(0.2);
+    //rightWheel.startRegulation(0.2);
 
     leftWheel.stop();
     rightWheel.stop();
@@ -327,14 +328,16 @@ int main() {
                     lcd.cls();
                     lcd.locate(25,8);
                     lcd.printf("Speed Control Mode");
-                    lcd.locate(8, 17);
+                    lcd.locate(3, 17);
                     lcd.printf("L=%.2frpm R=%.2frpm", leftWheel.encoder.getSpeed(), rightWheel.encoder.getSpeed());
                     lcdUpdateRequired = false;
                 }
                 potentiometerLeft.sample();
                 potentiometerRight.sample();
-                speedRawL = potentiometerLeft.getCurrentSampleNorm();
-                speedRawR = potentiometerRight.getCurrentSampleNorm();
+                speedRawL = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM);
+                speedRawR = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+                //Debug Prints
+                //printf("Lraw = %.2f Rraw = %.2f\n",speedRawL,speedRawR);
                 leftWheel.setSpeed(speedRawL);
                 rightWheel.setSpeed(speedRawR);
                 break;

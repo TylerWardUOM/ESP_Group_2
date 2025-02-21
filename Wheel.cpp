@@ -11,12 +11,17 @@ void Wheel::setSpeed(int rpm) {
     if (rpm < -max_rpm) rpm = -max_rpm;
 
     target_rpm = rpm;
+
     float normalizedSpeed = static_cast<float>(rpm) / max_rpm;
+    //Debug Print
+    //printf("RPM = %d",rpm);
+    printf("normalized speed = %.2f\n", normalizedSpeed);
+
     motor.setSpeed(normalizedSpeed);
 }
 
 void Wheel::regulateSpeed() {
-    int actual_rpm = encoder.getRevolutions() * 60;
+    int actual_rpm = encoder.getSpeed();
     int error = target_rpm - actual_rpm;
 
     float adjustment = error * 0.1f;  // Tuning factor
@@ -26,8 +31,8 @@ void Wheel::regulateSpeed() {
     if (newSpeed < -1.0f) newSpeed = -1.0f;
 
     motor.setSpeed(newSpeed);
-
-    printf("Target: %d, Actual: %d, Adjusted Speed: %.2f\n", target_rpm, actual_rpm, newSpeed);
+    //Debug Print
+    //printf("Target: %d, Actual: %d, Adjusted Speed: %.2f\n", target_rpm, actual_rpm, newSpeed);
 }
 
 void Wheel::startRegulation(float interval) {
