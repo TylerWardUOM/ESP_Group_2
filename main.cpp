@@ -12,7 +12,7 @@
 //Constants for Wheel
 #define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
-#define MAX_RPM 500
+#define MAX_RPM 300
 
 
 //Constants for Buggy
@@ -41,7 +41,11 @@ Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
 
 // LCD and LED Pins
 C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
-RGBLed LED(D5,D9,D8);
+
+
+//RGBLed LED(D5,D9,D8);
+
+
 // Button Pins
 InterruptIn fire(D4);  // Interrupt for the center button on the joystick
 InterruptIn up(A2);    // Interrupt for the up button
@@ -314,7 +318,7 @@ int main() {
     while (true) {
         switch (motorState) {
             case idle_mode:
-                LED.setRed();
+                //LED.setRed();
                 if (lcdUpdateRequired) {
                     lcd.locate(0, 0);
                     lcd.printf("Idle Mode");
@@ -323,7 +327,7 @@ int main() {
                 break;
 
             case speed_control_mode:
-                LED.setGreen();
+                //LED.setGreen();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(25,8);
@@ -343,7 +347,7 @@ int main() {
                 break;
 
             case square_idle_mode:
-                LED.setBlue();
+                //LED.setBlue();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
@@ -353,7 +357,7 @@ int main() {
                 break;
 
             case square_pattern_mode:
-                LED.setWhite();
+                //LED.setWhite();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
@@ -364,7 +368,7 @@ int main() {
                 break;
 
             case line_menu_mode:
-                LED.setGreen();
+                //LED.setGreen();
                 potentiometerLeft.sample();
                 potentiometerRight.sample();
                 distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
@@ -380,7 +384,7 @@ int main() {
                 break;
 
             case turn_menu_mode:
-                LED.setGreen();
+                //LED.setGreen();
                 potentiometerLeft.sample();
                 potentiometerRight.sample();
                 angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
@@ -397,7 +401,7 @@ int main() {
 
 
             case waiting_for_movement:
-                LED.setWhite();
+                //LED.setWhite();
                 if (lcdUpdateRequired) {
                     lcd.cls();
                     lcd.locate(0, 0);
