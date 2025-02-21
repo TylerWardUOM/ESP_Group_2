@@ -20,7 +20,7 @@
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
 //Constants for Control
-#define KP_FORWARD 0
+#define KP_FORWARD 0.6
 #define KI_FORWARD 0
 #define KD_FORWARD 0
 #define SCALING_FORWARD 0
