@@ -14,12 +14,20 @@
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
 #define TRACK_WIDTH 0.28f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
+#define KP_FORWARD 0
+#define KI_FORWARD 0
+#define KD_FORWARD 0
+#define SCALING_FORWARD 0
+#define KP_TURN 0
+#define KI_TURN 0
+#define KD_TURN 0
+#define SCALING_TURN 0
 #define MAX_RPM 200
 
 Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_6,WHEEL_DIAMETER,ENCODER_RESOLUTION,100); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,100);
 // Global instance of ControlSystem
-ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH);
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD, KD_FORWARD, SCALING_FORWARD, KP_TURN, KI_TURN, KD_TURN, SCALING_TURN);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
