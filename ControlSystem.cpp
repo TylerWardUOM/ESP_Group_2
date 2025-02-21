@@ -6,21 +6,23 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_wi
       pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
       state(IDLE), targetDistance(0.0f), turnDirection(0), movementCompleted(true), _track_width(track_width) {}
 
-void ControlSystem::moveForward(float distance) {
+void ControlSystem::moveForward(float distance, float speed) {
     targetDistance = distance;
     state = MOVE_FORWARD;
     movementCompleted = false;
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
+    basespeed = speed;
 }
 
-void ControlSystem::turn(float angle) {
+void ControlSystem::turn(float angle, float speed) {
     turnDirection = (angle > 0) ? 1 : -1;
     targetDistance = (_track_width / 2.0f) * (fabs(angle) * 3.14159f / 180.0f);
     state = TURNING;
     movementCompleted = false;
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
+    basespeed = speed;
 }
 
 void ControlSystem::update() {
@@ -54,7 +56,6 @@ bool ControlSystem::isMovementComplete() {
 }
 
 void ControlSystem::processForwardMovement(float dt) {
-    float baseSpeed = 0.28f;
     float leftDistance = leftWheel.encoder.getDistance();
     float rightDistance = rightWheel.encoder.getDistance();
 
@@ -69,8 +70,8 @@ void ControlSystem::processForwardMovement(float dt) {
         multiplier = 1.4f;
     }
 
-    leftWheel.setSpeed(baseSpeed);
-    rightWheel.setSpeed(baseSpeed * multiplier);
+    leftWheel.setSpeed(basespeed);
+    rightWheel.setSpeed(basespeed * multiplier);
 
     if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
         stopWheels();
@@ -97,8 +98,8 @@ void ControlSystem::processTurning(float dt) {
     }
 
     float baseTurnSpeed = 0.2f;
-    leftWheel.setSpeed(-turnDirection * baseTurnSpeed * multiplier);
-    rightWheel.setSpeed(turnDirection * baseTurnSpeed);
+    leftWheel.setSpeed(-turnDirection * basespeed * multiplier);
+    rightWheel.setSpeed(turnDirection * basespeed);
 
     if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
         stopWheels();
@@ -111,4 +112,5 @@ void ControlSystem::processTurning(float dt) {
 void ControlSystem::stopWheels() {
     leftWheel.stop();
     rightWheel.stop();
+    basespeed = 0;
 }

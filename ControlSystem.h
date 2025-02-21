@@ -8,14 +8,14 @@
 class ControlSystem {
 public:
     ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, float kp_forward, float ki_forward, float kd_forward, float scaling_forward, float kp_turn, float ki_turn, float kd_turn, float scaling_turn);
-    void moveForward(float distance);
-    void turn(float angle);
+    void moveForward(float distance, float speed);
+    void turn(float angle, float speed);
     void update();
     bool isMovementComplete();
 
 private:
     enum State { IDLE, MOVE_FORWARD, TURNING };
-    
+    float basespeed;
     Wheel& leftWheel;
     Wheel& rightWheel;
     PIDController pidForward;
