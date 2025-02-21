@@ -29,8 +29,8 @@ void Encoder::encoderISR() {
 void Encoder::updateSpeed() {
     int pulseDiff = _pulses - _lastPulses;
     _lastPulses = _pulses;
-
-    _speed = (static_cast<float>(pulseDiff) / _pulsesPerRev) * _wheelCircumference / 0.1f;
+    _speed = (static_cast<float>(pulseDiff) / _pulsesPerRev) / 0.1f; 
+    _speed *= 60.0f; 
 }
 
 int Encoder::getRevolutions() const {

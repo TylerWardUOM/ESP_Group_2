@@ -1,10 +1,10 @@
 #include "ControlSystem.h"
-//calvins change blakdkjfahkj
-ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width)
+
+ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, float kp_forward, float ki_forward, float kd_forward, float scaling_forward, float kp_turn, float ki_turn, float kd_turn, float scaling_turn)
     : leftWheel(leftWheel), rightWheel(rightWheel),
-      pidForward(0.6f, 0.03f, 0.13f),
-      pidTurn(0.4f, 0.0f, 0.0f),
-      state(IDLE), targetDistance(0.0f), turnDirection(0), movementCompleted(true), _track_width(track_width),basespeed(0) {}
+      pidForward(kp_forward, ki_forward, kd_forward, scaling_forward),
+      pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
+      state(IDLE), targetDistance(0.0f), turnDirection(0), movementCompleted(true), _track_width(track_width) {}
 
 void ControlSystem::moveForward(float distance, float speed) {
     targetDistance = distance;
