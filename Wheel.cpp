@@ -15,7 +15,7 @@ void Wheel::setSpeed(int rpm) {
     float normalizedSpeed = static_cast<float>(rpm) / max_rpm;
     //Debug Print
     //printf("RPM = %d",rpm);
-    printf("normalized speed = %.2f\n", normalizedSpeed);
+    //printf("normalized speed = %.2f\n", normalizedSpeed);
 
     motor.setSpeed(normalizedSpeed);
 }

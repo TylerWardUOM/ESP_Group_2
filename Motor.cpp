@@ -14,7 +14,7 @@ void Motor::setSpeed(float speed) {
     if (speed < -1.0f) speed = -1.0f;
     float duty = 0.5f + (speed * 0.5f*_multiplier);
     //Debug print
-    printf("speed = %.2f Duty = %.2f\n",speed,duty);
+    //printf("speed = %.2f Duty = %.2f\n",speed,duty);
     _pwm.write(duty);
 }
 
