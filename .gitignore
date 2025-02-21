@@ -5,3 +5,15 @@ compile_commands.json
 .cache
 mbed
 C12832
+/.vscode
+/BUILD
+/C12832
+/C12832.lib
+/GettingStarted.html
+/Makefile
+/mbed_app.json
+/mbed_config.h
+/mbed_settings.py
+/mbed_settings.pyc
+/mbed-os.lib
+/mbed.bld
