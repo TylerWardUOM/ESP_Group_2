@@ -9,11 +9,17 @@
 #include "ControlSystem.h"
 #include "RGBled.h"
 
-// Constants for the square movement
+//Constants for Wheel
 #define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
+#define MAX_RPM 200
+
+
+//Constants for Buggy
 #define TRACK_WIDTH 0.28f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
+
+//Constants for Control
 #define KP_FORWARD 0
 #define KI_FORWARD 0
 #define KD_FORWARD 0
@@ -22,10 +28,10 @@
 #define KI_TURN 0
 #define KD_TURN 0
 #define SCALING_TURN 0
-#define MAX_RPM 200
 
-Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_6,WHEEL_DIAMETER,ENCODER_RESOLUTION,100); //change max rpm by testing
-Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,100);
+
+Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_6,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
+Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
 // Global instance of ControlSystem
 ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD, KD_FORWARD, SCALING_FORWARD, KP_TURN, KI_TURN, KD_TURN, SCALING_TURN);
 
@@ -322,7 +328,7 @@ int main() {
                     lcd.locate(25,8);
                     lcd.printf("Speed Control Mode");
                     lcd.locate(8, 17);
-                    lcd.printf("L=%.2f R=%.2f", leftWheel.encoder.getDistance(), rightWheel.encoder.getDistance());
+                    lcd.printf("L=%.2frpm R=%.2frpm", leftWheel.encoder.getSpeed(), rightWheel.encoder.getSpeed());
                     lcdUpdateRequired = false;
                 }
                 potentiometerLeft.sample();
