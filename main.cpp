@@ -411,6 +411,7 @@ int main() {
                 }
                 if (control.isMovementComplete()){
                     stopMotorAndSwitchToIdleMode();
+                    break;
                 }
                 control.update();
                 break;    
