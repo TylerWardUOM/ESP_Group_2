@@ -10,7 +10,7 @@
 #include "RGBled.h"
 
 //Constants for Wheel
-#define WHEEL_DIAMETER 0.075f       // wheel diameter in meters
+#define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
 #define MAX_RPM 300
 
