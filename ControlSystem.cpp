@@ -58,6 +58,7 @@ bool ControlSystem::isMovementComplete() {
 void ControlSystem::processForwardMovement(float dt) {
     float leftDistance = leftWheel.encoder.getDistance();
     float rightDistance = rightWheel.encoder.getDistance();
+    //printf("Left Distance = %f,Right Distance = %f\n",leftDistance,rightDistance);
 
     float error = rightDistance - leftDistance;
     float pidOutput = pidForward.update(error, dt);

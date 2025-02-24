@@ -16,21 +16,21 @@
 
 
 //Constants for Buggy
-#define TRACK_WIDTH 0.28f          // distance between wheels (meters)
+#define TRACK_WIDTH 0.20f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
 //Constants for Control
-#define KP_FORWARD 0.6
-#define KI_FORWARD 0
+#define KP_FORWARD 2.3f
+#define KI_FORWARD 0.6f
 #define KD_FORWARD 0
-#define SCALING_FORWARD 0
-#define KP_TURN 0
-#define KI_TURN 0
+#define SCALING_FORWARD 2.2f
+#define KP_TURN 2.3f
+#define KI_TURN 0.6f
 #define KD_TURN 0
-#define SCALING_TURN 0
+#define SCALING_TURN 2.2f
 
 
-Wheel leftWheel(PB_7,1.22,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
+Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
 // Global instance of ControlSystem
 ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD, KD_FORWARD, SCALING_FORWARD, KP_TURN, KI_TURN, KD_TURN, SCALING_TURN);
@@ -88,6 +88,8 @@ void updateLCD() {
 }
 
 
+Ticker controlticker;
+
 
 // Movement State Enum for square movement
 typedef enum {
@@ -101,57 +103,79 @@ typedef enum {
 
 
 const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
+
 void updateSquareMovement() {
     static MovementState state = MOVE_FORWARD;  // Start with moving forward
     static bool retracing = false;  // Track whether we're retracing
     static int sideCount = 0;  // Track the number of sides completed
-    static float basespeed = 0.3f*MAX_RPM;
+    static float basespeed = 0.30f * MAX_RPM;
+    static bool moving = false;  // Corrected variable name
 
     switch (state) {
         case MOVE_FORWARD:
             // Move forward a fixed distance (one side of the square)
-            control.moveForward(SQUARE_DISTANCE,basespeed);  // moveForward is used as in your original logic
+            if (!moving) {
+                control.moveForward(SQUARE_DISTANCE, basespeed);  // Move forward one side
+                moving = true;
+            }
             if (control.isMovementComplete()) {  // Wait for the movement to complete
-                state = retracing ? TURN_RIGHT : TURN_LEFT;
+                wait(1);
+                state = retracing ? TURN_RIGHT : TURN_LEFT;  // Decide direction after moving forward
+                moving = false;
             }
             break;
 
         case TURN_LEFT:  // Turn left after moving forward (square pattern)
-            control.turn(90,basespeed);  // Turn 90° left
+            if (!moving) {
+                control.turn(90, basespeed);  // Turn 90° left
+                moving = true;
+            }
             if (control.isMovementComplete()) {
-                sideCount++;  
-                state = (sideCount < 4) ? MOVE_FORWARD : TURN_AROUND;  
+                wait(1);
+                sideCount++;  // Increment side count after a turn
+                moving = false;
+                state = (sideCount < 4) ? MOVE_FORWARD : TURN_AROUND;  // Move forward until all sides are completed, then turn around
             }
             break;
 
         case TURN_RIGHT:  // Turn right while retracing
-            control.turn(-90,basespeed);  // Turn 90° right (opposite direction for retracing)
+            if (!moving) {
+                control.turn(-90, basespeed);  // Turn 90° right (opposite direction for retracing)
+                moving = true;
+            }
             if (control.isMovementComplete()) {
-                sideCount++;  // Increment the side count
-                state = (sideCount < 4) ? MOVE_FORWARD : STOP;
+                wait(1);
+                sideCount++;  // Increment side count after a turn
+                moving = false;
+                state = (sideCount < 4) ? MOVE_FORWARD : STOP;  // Move forward or stop if all sides are retraced
             }
             break;
 
         case TURN_AROUND:  // Turn around (180°) after completing the square
-            control.turn(180,basespeed);  // Turn 180° to prepare for retracing
+            if (!moving) {
+                control.turn(90, basespeed);  // Turn 180° to prepare for retracing
+                moving = true;
+            }
             if (control.isMovementComplete()) {
+                wait(1);
                 retracing = true;  // Start retracing
                 sideCount = 0;  // Reset side count for retracing
                 state = MOVE_FORWARD;  // Start moving forward again, but retracing
+                moving = false;
             }
             break;
 
         case STOP:  // Stop after retracing all sides
-            retracing = false;  
-            sideCount = 0;  
-            state = MOVE_FORWARD;  
+            retracing = false;
+            moving=false;
+            sideCount = 0;
+            state = MOVE_FORWARD;
             lcd.cls();
             lcd.locate(0, 0);
             lcd.printf("Square Complete, Idle Mode");
-            stopMotorAndSwitchToIdleMode();  // Call to stop the motors and switch to idle
+            stopMotorAndSwitchToIdleMode();  // Call to stop the motors and switch to idle mode
             break;
     }
-    control.update();
 }
 
 
@@ -212,6 +236,7 @@ void switchToSquarePatternMode() {
     rightWheel.stop();
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
+    controlticker.attach(callback(&control, &ControlSystem::update), 0.01);
     leftWheel.motor.enable();
 }
 
@@ -253,6 +278,7 @@ void switchToTurnMenuMode(){
     fire.fall(callback(&switchToTurnMode));
 }
 
+
 void switchToLineMode(){
     leftWheel.motor.enable();
     potentiometerLeft.sample();
@@ -260,6 +286,7 @@ void switchToLineMode(){
     float distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
     float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
     control.moveForward(distance,speed);
+    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     motorState = waiting_for_movement;
 }
 
@@ -270,12 +297,14 @@ void switchToTurnMode(){
     float angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
     float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
     control.turn(angle,speed);
+    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     motorState = waiting_for_movement;
 }
 
 
 void stopMotorAndSwitchToIdleMode() {
     leftWheel.motor.disable();
+    controlticker.detach();
     leftWheel.stop();
     rightWheel.stop();
     motorState = idle_mode;
@@ -284,10 +313,10 @@ void stopMotorAndSwitchToIdleMode() {
     lcd.printf("Idle Mode");
 
     up.fall(callback(&switchToSpeedControlMode));
-    down.fall(callback(&switchToSquareIdleMode));
+    fire.fall(callback(&switchToSquareIdleMode));
     right.fall(callback(&switchToLineMenuMode));
     left.fall(callback(&switchToTurnMenuMode));
-    fire.fall(NULL);
+    down.fall(NULL);
 }
 
 long map(long x, long in_min, long in_max, long out_min, long out_max){
@@ -305,10 +334,10 @@ int main() {
     leftWheel.stop();
     rightWheel.stop();
     up.fall(callback(&switchToSpeedControlMode));
-    down.fall(callback(&switchToSquareIdleMode));
+    fire.fall(callback(&switchToSquareIdleMode));
     right.fall(callback(&switchToLineMenuMode));
     left.fall(callback(&switchToTurnMenuMode));
-    fire.fall(NULL);
+    down.fall(NULL);
     float speedRawL;
     float speedRawR;
     float distance;
@@ -410,10 +439,11 @@ int main() {
                     lcdUpdateRequired = false;
                 }
                 if (control.isMovementComplete()){
+                    printf("left count =%f Right count =%f\n",leftWheel.encoder.getDistance(),rightWheel.encoder.getDistance());
+                    controlticker.detach();
                     stopMotorAndSwitchToIdleMode();
                     break;
                 }
-                control.update();
                 break;    
 
             default:
