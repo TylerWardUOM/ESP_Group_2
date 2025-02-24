@@ -12,14 +12,14 @@ public:
     void turn(float angle, float speed);
     void update();
     bool isMovementComplete();
+    PIDController pidForward;
+    PIDController pidTurn;
 
 private:
     enum State { IDLE, MOVE_FORWARD, TURNING };
     float basespeed;
     Wheel& leftWheel;
     Wheel& rightWheel;
-    PIDController pidForward;
-    PIDController pidTurn;
     Timer pidTimer;
 
     State state;
