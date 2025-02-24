@@ -136,7 +136,7 @@ void updateSquareMovement() {
 
         case TURN_LEFT:  // Turn left after moving forward (square pattern)
             if (!moving) {
-                control.turn(90, basespeed);  // Turn 90° left
+                control.turn(90*1.0f, basespeed);  // Turn 90° left
                 moving = true;
             }
             if (control.isMovementComplete()) {
@@ -149,7 +149,7 @@ void updateSquareMovement() {
 
         case TURN_RIGHT:  // Turn right while retracing
             if (!moving) {
-                control.turn(-90, basespeed);  // Turn 90° right (opposite direction for retracing)
+                control.turn(-90*1.0f, basespeed);  // Turn 90° right (opposite direction for retracing)
                 moving = true;
             }
             if (control.isMovementComplete()) {
@@ -162,7 +162,7 @@ void updateSquareMovement() {
 
         case TURN_AROUND:  // Turn around (180°) after completing the square
             if (!moving) {
-                control.turn(90, basespeed);  // Turn 180° to prepare for retracing
+                control.turn(90*1.0f, basespeed);  // Turn 180° to prepare for retracing
                 moving = true;
             }
             if (control.isMovementComplete()) {
