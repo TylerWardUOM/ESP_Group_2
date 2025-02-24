@@ -10,25 +10,33 @@
 #include "RGBled.h"
 
 //Constants for Wheel
+//if not going correct distance adjust wheel_diameter
 #define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
 #define MAX_RPM 300
 
 
 //Constants for Buggy
+//If not turning to set angle adjust track width
 #define TRACK_WIDTH 0.20f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
 //Constants for Control
+//If it doesnt go straight adjust these values
 #define KP_FORWARD 2.3f
 #define KI_FORWARD 0.6f
 #define KD_FORWARD 0
 #define SCALING_FORWARD 2.2f
+
+//If turns arent consistent adjust these values
+// If turns perfect one direction of square but not the other add a multipler to the turn angle in updatesquaremovement function
 #define KP_TURN 2.3f
 #define KI_TURN 0.6f
 #define KD_TURN 0
 #define SCALING_TURN 2.2f
 
+//Try get this to smallest value possible if code stops working properly go back to previous
+#define SQUARE_CONTROL_INTERVAL 0.01
 
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
@@ -236,7 +244,7 @@ void switchToSquarePatternMode() {
     rightWheel.stop();
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
-    controlticker.attach(callback(&control, &ControlSystem::update), 0.01);
+    controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
     leftWheel.motor.enable();
 }
 
