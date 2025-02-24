@@ -8,6 +8,8 @@
 #include "PIDController.h"
 #include "ControlSystem.h"
 #include "RGBled.h"
+#include "BuggyModes.h"
+#include "Bluetooth.h"
 
 //Constants for Wheel
 //if not going correct distance adjust wheel_diameter
@@ -61,18 +63,6 @@ InterruptIn up(A2);    // Interrupt for the up button
 InterruptIn down(A3);  // Interrupt for the down button
 InterruptIn right(A5); 
 InterruptIn left(A4);
-// Motor State Enum
-typedef enum {
-    idle_mode,
-    speed_control_mode,
-    square_idle_mode,   // idle state for square pattern
-    square_pattern_mode,
-    line_menu_mode,
-    turn_menu_mode,
-    waiting_for_movement
-} MotorState;
-
-MotorState motorState = idle_mode;
 
 //
 // Function Prototypes
@@ -111,7 +101,7 @@ typedef enum {
 
 
 
-const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
+float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
 
 void updateSquareMovement() {
     static MovementState state = MOVE_FORWARD;  // Start with moving forward
@@ -190,272 +180,165 @@ void updateSquareMovement() {
 
 
 
-//
-// Mode Switching Functions
-//
+// Buggy Mode Variables
+BuggyMode buggyMode = idle_mode;
+
+// Bluetooth Instance
+Serial btSerial(USBTX,USBRX); //temp to test functionality
+Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
+
 void switchToSpeedControlMode() {
     leftWheel.motor.enable();
-    motorState = speed_control_mode;
-    lcd.cls();
-    lcd.locate(0, 0);
-    lcd.printf("Speed Control Mode");
+    buggyMode = speed_control_mode;
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
-
-    up.fall(NULL);
-    down.fall(NULL);
-    fire.fall(NULL);
-    right.fall(NULL);
-    left.fall(NULL);
-
-    fire.fall(callback(&stopMotorAndSwitchToIdleMode));
 }
 
 void switchToSquareIdleMode() {
     leftWheel.motor.disable();
-    motorState = square_idle_mode;
-    lcd.cls();
-    lcd.locate(0, 0);
-    lcd.printf("Square Idle Mode");
-
-    up.fall(NULL);
-    down.fall(NULL);
-    fire.fall(NULL);
-    right.fall(NULL);
-    left.fall(NULL);
-
-    up.fall(callback(&stopMotorAndSwitchToIdleMode));
-    down.fall(callback(&stopMotorAndSwitchToIdleMode));
-    fire.fall(callback(&switchToSquarePatternMode));
+    buggyMode = square_idle_mode;
 }
 
 void switchToSquarePatternMode() {
-    motorState = square_pattern_mode;
-    lcd.cls();
-    lcd.locate(0, 0);
-    lcd.printf("Square Pattern Mode");
-
-    up.fall(NULL);
-    down.fall(NULL);
-    fire.fall(NULL);
-    right.fall(NULL);
-    left.fall(NULL);
-    wait(1);
-    leftWheel.stop();
-    rightWheel.stop();
+    //Set Mode State
+    buggyMode = square_pattern_mode;
+    //Reset Encoders
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
+    //Set Relevant Parameters
+    //Still need to set the left and right turn multipliers
+    control.pidForward.setKp(squareParams.forward_pid_kp);
+    control.pidForward.setKi(squareParams.forward_pid_ki);
+    control.pidForward.setKd(squareParams.forward_pid_kd);
+    control.pidForward.setScalingMultiplier(squareParams.scaling_forward);
+    control.pidTurn.setKp(squareParams.turn_pid_kp);
+    control.pidTurn.setKi(squareParams.turn_pid_ki);
+    control.pidTurn.setKd(squareParams.turn_pid_kd);
+    control.pidTurn.setScalingMultiplier(squareParams.scaling_turn);
+    SQUARE_DISTANCE = squareParams.distance;
+    //Begin Control
     controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
+    //Enable Motor
     leftWheel.motor.enable();
 }
 
-void switchToLineMenuMode(){
-    leftWheel.motor.disable();
-    motorState = line_menu_mode;
+void switchToLineMenuMode() {
+    buggyMode = line_menu_mode;
     lcd.cls();
     lcd.locate(0,0);
     lcd.printf("Line Mode");
-    leftWheel.encoder.reset();
-    rightWheel.encoder.reset();
-
-    up.fall(NULL);
-    down.fall(NULL);
-    fire.fall(NULL);
-    right.fall(NULL);
-    left.fall(NULL);
-
-    up.fall(&stopMotorAndSwitchToIdleMode);
-    fire.fall(callback(&switchToLineMode));
 }
 
-void switchToTurnMenuMode(){
-    leftWheel.motor.disable();
-    motorState = turn_menu_mode;
+void switchToTurnMenuMode() {
+    buggyMode = turn_menu_mode;
     lcd.cls();
     lcd.locate(0,0);
     lcd.printf("Turn Mode");
-    leftWheel.encoder.reset();
-    rightWheel.encoder.reset();
-
-    up.fall(NULL);
-    down.fall(NULL);
-    fire.fall(NULL);
-    right.fall(NULL);
-    left.fall(NULL);
-
-    up.fall(&stopMotorAndSwitchToIdleMode);
-    fire.fall(callback(&switchToTurnMode));
 }
-
 
 void switchToLineMode(){
     leftWheel.motor.enable();
-    potentiometerLeft.sample();
-    potentiometerRight.sample();
-    float distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
-    float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+    //Set Relevant Parameters
+    control.pidForward.setKp(straightlineParams.forward_pid_kp);
+    control.pidForward.setKi(straightlineParams.forward_pid_ki);
+    control.pidForward.setKd(straightlineParams.forward_pid_kd);
+    control.pidForward.setScalingMultiplier(straightlineParams.scaling_forward);
+    float distance = straightlineParams.distance;
+    float speed = straightlineParams.speed;
+    //Begin Control
     control.moveForward(distance,speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
-    motorState = waiting_for_movement;
+    //Update Mode state
+    buggyMode = waiting_for_movement;
 }
 
 void switchToTurnMode(){
+    //Enable Motor
     leftWheel.motor.enable();
-    potentiometerLeft.sample();
-    potentiometerRight.sample();
-    float angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
-    float speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+    //Set Relevant Parameters
+    control.pidTurn.setKp(turnangleParams.turn_pid_kp);
+    control.pidTurn.setKi(turnangleParams.turn_pid_ki);
+    control.pidTurn.setKd(turnangleParams.turn_pid_kd);
+    control.pidTurn.setScalingMultiplier(turnangleParams.scaling_turn);
+    float angle = turnangleParams.angle;
+    float speed = turnangleParams.speed;
+    //Begin Control
     control.turn(angle,speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
-    motorState = waiting_for_movement;
+    //Update Mode state
+    buggyMode = waiting_for_movement;
 }
-
 
 void stopMotorAndSwitchToIdleMode() {
     leftWheel.motor.disable();
     controlticker.detach();
     leftWheel.stop();
     rightWheel.stop();
-    motorState = idle_mode;
+    buggyMode = idle_mode;
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Idle Mode");
-
-    up.fall(callback(&switchToSpeedControlMode));
-    fire.fall(callback(&switchToSquareIdleMode));
-    right.fall(callback(&switchToLineMenuMode));
-    left.fall(callback(&switchToTurnMenuMode));
-    down.fall(NULL);
 }
 
-long map(long x, long in_min, long in_max, long out_min, long out_max){
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-//
-// Main Loop
-//
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);
-    //leftWheel.startRegulation(0.2);
-    //rightWheel.startRegulation(0.2);
-
     leftWheel.stop();
     rightWheel.stop();
-    up.fall(callback(&switchToSpeedControlMode));
-    fire.fall(callback(&switchToSquareIdleMode));
-    right.fall(callback(&switchToLineMenuMode));
-    left.fall(callback(&switchToTurnMenuMode));
-    down.fall(NULL);
-    float speedRawL;
-    float speedRawR;
-    float distance;
-    float angle;
-    float speed;
-
+    
     while (true) {
-        switch (motorState) {
+        bluetooth.processCommand(); // Process Bluetooth commands
+        
+        switch (buggyMode) {
             case idle_mode:
-                //LED.setRed();
-                if (lcdUpdateRequired) {
-                    lcd.locate(0, 0);
-                    lcd.printf("Idle Mode");
-                    lcdUpdateRequired = false;
-                }
+                lcd.locate(0, 0);
+                lcd.printf("Idle Mode");
                 break;
 
             case speed_control_mode:
-                //LED.setGreen();
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(25,8);
-                    lcd.printf("Speed Control Mode");
-                    lcd.locate(3, 17);
-                    lcd.printf("L=%.2frpm R=%.2frpm", leftWheel.encoder.getSpeed(), rightWheel.encoder.getSpeed());
-                    lcdUpdateRequired = false;
-                }
-                potentiometerLeft.sample();
-                potentiometerRight.sample();
-                speedRawL = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM);
-                speedRawR = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
-                //Debug Prints
-                //printf("Lraw = %.2f Rraw = %.2f\n",speedRawL,speedRawR);
-                printf("LCount = %f, Rcount = %f\n",leftWheel.encoder.getRevolutions(),rightWheel.encoder.getRevolutions());
-                leftWheel.setSpeed(speedRawL);
-                rightWheel.setSpeed(speedRawR);
+                lcd.locate(0, 0);
+                lcd.printf("Speed Control Mode");
                 break;
 
             case square_idle_mode:
-                //LED.setBlue();
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(0, 0);
-                    lcd.printf("Square Idle Mode");
-                    lcdUpdateRequired = false;
+                lcd.locate(0, 0);
+                lcd.printf("Square Idle Mode");
+                if (bluetooth.shouldStart()){
+                    switchToSquarePatternMode();
+                    break;
                 }
                 break;
 
             case square_pattern_mode:
-                //LED.setWhite();
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(0, 0);
-                    lcd.printf("Square Pattern Mode");
-                    lcdUpdateRequired = false;
-                }
-                updateSquareMovement();  // perform square movement with PID control
+                lcd.locate(0, 0);
+                lcd.printf("Square Pattern Mode");
+                updateSquareMovement();
                 break;
 
             case line_menu_mode:
-                //LED.setGreen();
-                potentiometerLeft.sample();
-                potentiometerRight.sample();
-                distance = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, 10); //need to map these values
-                speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(25,8);
-                    lcd.printf("Line Menu Mode");
-                    lcd.locate(8, 17);
-                    lcd.printf("Distance=%.2fm Speed=%.2frpm", distance, speed);
-                    lcdUpdateRequired = false;
+                lcd.locate(0, 0);
+                lcd.printf("Line Menu Mode");
+                if (bluetooth.shouldStart()){
+                    switchToLineMode();
+                    break;
                 }
                 break;
 
             case turn_menu_mode:
-                //LED.setGreen();
-                potentiometerLeft.sample();
-                potentiometerRight.sample();
-                angle = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, -180, 180); //need to map these values
-                speed = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(25,8);
-                    lcd.printf("Turn Menu Mode");
-                    lcd.locate(8, 17);
-                    lcd.printf("Angle=%.2f degrees Speed=%.2frpm", angle, speed);
-                    lcdUpdateRequired = false;
+                lcd.locate(0, 0);
+                lcd.printf("Turn Menu Mode");
+                if (bluetooth.shouldStart()){
+                    switchToTurnMode();
+                    break;
                 }
                 break;
 
-
             case waiting_for_movement:
-                //LED.setWhite();
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(0, 0);
-                    lcd.printf("Waiting for Movement Completion");
-                    lcdUpdateRequired = false;
-                }
-                if (control.isMovementComplete()){
-                    printf("left count =%f Right count =%f\n",leftWheel.encoder.getDistance(),rightWheel.encoder.getDistance());
+                lcd.locate(0, 0);
+                lcd.printf("Waiting for Movement");
+                if (control.isMovementComplete()) {
                     controlticker.detach();
                     stopMotorAndSwitchToIdleMode();
-                    break;
                 }
-                break;    
-
-            default:
                 break;
         }
     }
