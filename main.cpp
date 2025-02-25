@@ -180,9 +180,6 @@ void updateSquareMovement() {
 
 
 
-// Buggy Mode Variables
-BuggyMode buggyMode = idle_mode;
-
 // Bluetooth Instance
 Serial btSerial(USBTX,USBRX); //temp to test functionality
 Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
@@ -201,7 +198,7 @@ void switchToSquareIdleMode() {
 
 void switchToSquarePatternMode() {
     //Set Mode State
-    buggyMode = square_pattern_mode;
+    buggyMode = waiting_for_movement;
     //Reset Encoders
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
@@ -308,12 +305,6 @@ int main() {
                 }
                 break;
 
-            case square_pattern_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Square Pattern Mode");
-                updateSquareMovement();
-                break;
-
             case line_menu_mode:
                 lcd.locate(0, 0);
                 lcd.printf("Line Menu Mode");
@@ -337,6 +328,8 @@ int main() {
                 lcd.printf("Waiting for Movement");
                 if (control.isMovementComplete()) {
                     controlticker.detach();
+                    bluetooth.sendMovementFinished();
+                    bluetooth.sendDebugData();
                     stopMotorAndSwitchToIdleMode();
                 }
                 break;
