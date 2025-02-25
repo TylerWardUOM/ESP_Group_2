@@ -1,0 +1,482 @@
+\doxysection{main.\+cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{main.cpp@{main.cpp}}
+{\ttfamily \#include "{}Wheel.\+h"{}}\newline
+{\ttfamily \#include "{}mbed.\+h"{}}\newline
+{\ttfamily \#include "{}C12832.\+h"{}}\newline
+{\ttfamily \#include "{}Motor.\+h"{}}\newline
+{\ttfamily \#include "{}Encoder.\+h"{}}\newline
+{\ttfamily \#include "{}Potentiometer.\+h"{}}\newline
+{\ttfamily \#include "{}PIDController.\+h"{}}\newline
+{\ttfamily \#include "{}Control\+System.\+h"{}}\newline
+{\ttfamily \#include "{}RGBled.\+h"{}}\newline
+{\ttfamily \#include "{}Buggy\+Modes.\+h"{}}\newline
+{\ttfamily \#include "{}Bluetooth.\+h"{}}\newline
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}~0.\+078f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}~1
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}}~300
+\item 
+\#define \mbox{\hyperlink{main_8cpp_aaa2708101c6941b7f207ee73a7234350}{TRACK\+\_\+\+WIDTH}}~0.\+20f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_ae3b1aa95cdbbefa8c4e8ea04332b7332}{TURN\+\_\+\+DISTANCE}}~(3.\+1416f \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8cpp_aaa2708101c6941b7f207ee73a7234350}{TRACK\+\_\+\+WIDTH}} / 4)
+\item 
+\#define \mbox{\hyperlink{main_8cpp_aca76211c85ff749ac7a819ee62f689d6}{KP\+\_\+\+FORWARD}}~2.\+3f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a773dbc7a9ad2294042719b636bd5af49}{KI\+\_\+\+FORWARD}}~0.\+6f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a20dc319822b095dfe52c2c1cc12da876}{KD\+\_\+\+FORWARD}}~0
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a33ab0b85aa6cd4d0425afee9ceec304d}{SCALING\+\_\+\+FORWARD}}~2.\+2f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a3ac971824f8c0a1efd5a2dc553c52050}{KP\+\_\+\+TURN}}~2.\+3f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_ad06ae067146576251495956db37c2dc9}{KI\+\_\+\+TURN}}~0.\+6f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_ae278212ddd4dc0adab9acc44354563e7}{KD\+\_\+\+TURN}}~0
+\item 
+\#define \mbox{\hyperlink{main_8cpp_ab121b3f01339d10f4eaaf81987b79009}{SCALING\+\_\+\+TURN}}~2.\+2f
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a8d50223ebd8fcac39f5faa8524599676}{SQUARE\+\_\+\+CONTROL\+\_\+\+INTERVAL}}~0.\+01
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Serial \mbox{\hyperlink{main_8cpp_aa644cd6b55358b8c8a6a1faaa2f76d19}{bt\+Serial}} (USBTX, USBRX)
+\item 
+\mbox{\hyperlink{class_bluetooth}{Bluetooth}} \mbox{\hyperlink{main_8cpp_aceb8e3882d3079fa6878f850ffd0b01e}{bluetooth}} (\mbox{\hyperlink{main_8cpp_aa644cd6b55358b8c8a6a1faaa2f76d19}{bt\+Serial}}, \&\mbox{\hyperlink{_buggy_modes_8cpp_a3468252f4a26d70228fa50f79fbd9f45}{buggy\+Mode}}, \&\mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{square\+Params}}, \&\mbox{\hyperlink{_buggy_modes_8cpp_a56fd617617b9dd4de828e4c176c83bc5}{straightline\+Params}}, \&\mbox{\hyperlink{_buggy_modes_8cpp_a8de6358e37d1da063746d747aeefa7c5}{turnangle\+Params}})
+\item 
+\mbox{\hyperlink{class_control_system}{Control\+System}} \mbox{\hyperlink{main_8cpp_a2a1c4db0c72aa97873dacc9c782bc140}{control}} (\mbox{\hyperlink{main_8cpp_a41c3c87e822f444f50240b0b164ad6ee}{left\+Wheel}}, \mbox{\hyperlink{main_8cpp_a46e5e555fa4986f2c927f6a6e1fb84c1}{right\+Wheel}}, \mbox{\hyperlink{main_8cpp_aaa2708101c6941b7f207ee73a7234350}{TRACK\+\_\+\+WIDTH}}, \mbox{\hyperlink{main_8cpp_aca76211c85ff749ac7a819ee62f689d6}{KP\+\_\+\+FORWARD}}, \mbox{\hyperlink{main_8cpp_a773dbc7a9ad2294042719b636bd5af49}{KI\+\_\+\+FORWARD}}, \mbox{\hyperlink{main_8cpp_a20dc319822b095dfe52c2c1cc12da876}{KD\+\_\+\+FORWARD}}, \mbox{\hyperlink{main_8cpp_a33ab0b85aa6cd4d0425afee9ceec304d}{SCALING\+\_\+\+FORWARD}}, \mbox{\hyperlink{main_8cpp_a3ac971824f8c0a1efd5a2dc553c52050}{KP\+\_\+\+TURN}}, \mbox{\hyperlink{main_8cpp_ad06ae067146576251495956db37c2dc9}{KI\+\_\+\+TURN}}, \mbox{\hyperlink{main_8cpp_ae278212ddd4dc0adab9acc44354563e7}{KD\+\_\+\+TURN}}, \mbox{\hyperlink{main_8cpp_ab121b3f01339d10f4eaaf81987b79009}{SCALING\+\_\+\+TURN}},\&\mbox{\hyperlink{main_8cpp_aceb8e3882d3079fa6878f850ffd0b01e}{bluetooth}})
+\item 
+C12832 \mbox{\hyperlink{main_8cpp_a5951f9e0a697de6d4610cb9016a4a47f}{lcd}} (D11, D13, D12, D7, D10)
+\item 
+Interrupt\+In \mbox{\hyperlink{main_8cpp_ab837ed372cb7e3ec96060febec96e2ee}{fire}} (D4)
+\item 
+Interrupt\+In \mbox{\hyperlink{main_8cpp_ab72fccd0b81a1204351ec1f96a485ab8}{up}} (A2)
+\item 
+Interrupt\+In \mbox{\hyperlink{main_8cpp_ad6a3b89c24a10a0d42e0b039306531b2}{down}} (A3)
+\item 
+Interrupt\+In \mbox{\hyperlink{main_8cpp_ad19e2ca6e83627c48011604ea8a83e3f}{right}} (A5)
+\item 
+Interrupt\+In \mbox{\hyperlink{main_8cpp_af507b2ac92337fdfb2fe16b522c2c897}{left}} (A4)
+\item 
+void \mbox{\hyperlink{main_8cpp_a137ee9756783467527d043d724d2439e}{stop\+Motor\+And\+Switch\+To\+Idle\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_ad7e3b2ff66769cab6d2848c272ec12c6}{switch\+To\+Speed\+Control\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_abd7d25210b5b4119cdfdb03274a693ec}{switch\+To\+Square\+Idle\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_a8d4d44d804779a744f6ada432deffe81}{switch\+To\+Square\+Pattern\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_a2a23055776d110cb3714df89113f3029}{switch\+To\+Line\+Menu\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_ae5ae5141e36b24ff7d427a6c8588045a}{switch\+To\+Turn\+Menu\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_abc42e9aeea704d82b10d71815fb19900}{switch\+To\+Line\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_a6e5020b3ab8fdaa84f31a85e4287be48}{switch\+To\+Turn\+Mode}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_a6390dbde84215d05f7121b518fc493ad}{update\+Square\+Movement}} ()
+\item 
+void \mbox{\hyperlink{main_8cpp_a78f221846593b1386a6ed0abb3d04aa4}{update\+LCD}} ()
+\item 
+long \mbox{\hyperlink{main_8cpp_aada2d75bc8a8c6eb845bd940eadfa3fd}{map}} (long x, long in\+\_\+min, long in\+\_\+max, long out\+\_\+min, long out\+\_\+max)
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_wheel}{Wheel}} \mbox{\hyperlink{main_8cpp_a41c3c87e822f444f50240b0b164ad6ee}{left\+Wheel}} (PB\+\_\+7, 1.\+10, PB\+\_\+14, PA\+\_\+14, PA\+\_\+13, PB\+\_\+8, \mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}, \mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}, \mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}})
+\item 
+\mbox{\hyperlink{class_wheel}{Wheel}} \mbox{\hyperlink{main_8cpp_a46e5e555fa4986f2c927f6a6e1fb84c1}{right\+Wheel}} (PB\+\_\+15, 1, PB\+\_\+13, PA\+\_\+14, PB\+\_\+2, PB\+\_\+8, \mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}, \mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}, \mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}})
+\item 
+\mbox{\hyperlink{class_potentiometer}{Potentiometer}} \mbox{\hyperlink{main_8cpp_a060e83724d3e20535e7ccc6a7cb8ff06}{potentiometer\+Left}} (A0, 3.\+3)
+\item 
+\mbox{\hyperlink{class_potentiometer}{Potentiometer}} \mbox{\hyperlink{main_8cpp_a96c42dda2182a4c94616dd22f6793f8c}{potentiometer\+Right}} (A1, 3.\+3)
+\item 
+Ticker \mbox{\hyperlink{main_8cpp_a2d371917bc6ca988925fe8f53d392b1d}{lcd\+Update\+Ticker}}
+\item 
+bool \mbox{\hyperlink{main_8cpp_ac2dbc794ee2c0f26aa007356b74500c8}{lcd\+Update\+Required}} = false
+\item 
+Ticker \mbox{\hyperlink{main_8cpp_a81d43f1dae6b8d3d2c276c0f97b3ffb0}{controlticker}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}\index{main.cpp@{main.cpp}!ENCODER\_RESOLUTION@{ENCODER\_RESOLUTION}}
+\index{ENCODER\_RESOLUTION@{ENCODER\_RESOLUTION}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ENCODER\_RESOLUTION}{ENCODER\_RESOLUTION}}
+{\footnotesize\ttfamily \label{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13} 
+\#define ENCODER\+\_\+\+RESOLUTION~1}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a20dc319822b095dfe52c2c1cc12da876}\index{main.cpp@{main.cpp}!KD\_FORWARD@{KD\_FORWARD}}
+\index{KD\_FORWARD@{KD\_FORWARD}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{KD\_FORWARD}{KD\_FORWARD}}
+{\footnotesize\ttfamily \label{main_8cpp_a20dc319822b095dfe52c2c1cc12da876} 
+\#define KD\+\_\+\+FORWARD~0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00030}{30}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ae278212ddd4dc0adab9acc44354563e7}\index{main.cpp@{main.cpp}!KD\_TURN@{KD\_TURN}}
+\index{KD\_TURN@{KD\_TURN}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{KD\_TURN}{KD\_TURN}}
+{\footnotesize\ttfamily \label{main_8cpp_ae278212ddd4dc0adab9acc44354563e7} 
+\#define KD\+\_\+\+TURN~0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00037}{37}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a773dbc7a9ad2294042719b636bd5af49}\index{main.cpp@{main.cpp}!KI\_FORWARD@{KI\_FORWARD}}
+\index{KI\_FORWARD@{KI\_FORWARD}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{KI\_FORWARD}{KI\_FORWARD}}
+{\footnotesize\ttfamily \label{main_8cpp_a773dbc7a9ad2294042719b636bd5af49} 
+\#define KI\+\_\+\+FORWARD~0.\+6f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00029}{29}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ad06ae067146576251495956db37c2dc9}\index{main.cpp@{main.cpp}!KI\_TURN@{KI\_TURN}}
+\index{KI\_TURN@{KI\_TURN}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{KI\_TURN}{KI\_TURN}}
+{\footnotesize\ttfamily \label{main_8cpp_ad06ae067146576251495956db37c2dc9} 
+\#define KI\+\_\+\+TURN~0.\+6f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00036}{36}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_aca76211c85ff749ac7a819ee62f689d6}\index{main.cpp@{main.cpp}!KP\_FORWARD@{KP\_FORWARD}}
+\index{KP\_FORWARD@{KP\_FORWARD}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{KP\_FORWARD}{KP\_FORWARD}}
+{\footnotesize\ttfamily \label{main_8cpp_aca76211c85ff749ac7a819ee62f689d6} 
+\#define KP\+\_\+\+FORWARD~2.\+3f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a3ac971824f8c0a1efd5a2dc553c52050}\index{main.cpp@{main.cpp}!KP\_TURN@{KP\_TURN}}
+\index{KP\_TURN@{KP\_TURN}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{KP\_TURN}{KP\_TURN}}
+{\footnotesize\ttfamily \label{main_8cpp_a3ac971824f8c0a1efd5a2dc553c52050} 
+\#define KP\+\_\+\+TURN~2.\+3f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00035}{35}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}\index{main.cpp@{main.cpp}!MAX\_RPM@{MAX\_RPM}}
+\index{MAX\_RPM@{MAX\_RPM}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{MAX\_RPM}{MAX\_RPM}}
+{\footnotesize\ttfamily \label{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa} 
+\#define MAX\+\_\+\+RPM~300}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00018}{18}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a33ab0b85aa6cd4d0425afee9ceec304d}\index{main.cpp@{main.cpp}!SCALING\_FORWARD@{SCALING\_FORWARD}}
+\index{SCALING\_FORWARD@{SCALING\_FORWARD}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{SCALING\_FORWARD}{SCALING\_FORWARD}}
+{\footnotesize\ttfamily \label{main_8cpp_a33ab0b85aa6cd4d0425afee9ceec304d} 
+\#define SCALING\+\_\+\+FORWARD~2.\+2f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ab121b3f01339d10f4eaaf81987b79009}\index{main.cpp@{main.cpp}!SCALING\_TURN@{SCALING\_TURN}}
+\index{SCALING\_TURN@{SCALING\_TURN}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{SCALING\_TURN}{SCALING\_TURN}}
+{\footnotesize\ttfamily \label{main_8cpp_ab121b3f01339d10f4eaaf81987b79009} 
+\#define SCALING\+\_\+\+TURN~2.\+2f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a8d50223ebd8fcac39f5faa8524599676}\index{main.cpp@{main.cpp}!SQUARE\_CONTROL\_INTERVAL@{SQUARE\_CONTROL\_INTERVAL}}
+\index{SQUARE\_CONTROL\_INTERVAL@{SQUARE\_CONTROL\_INTERVAL}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{SQUARE\_CONTROL\_INTERVAL}{SQUARE\_CONTROL\_INTERVAL}}
+{\footnotesize\ttfamily \label{main_8cpp_a8d50223ebd8fcac39f5faa8524599676} 
+\#define SQUARE\+\_\+\+CONTROL\+\_\+\+INTERVAL~0.\+01}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_aaa2708101c6941b7f207ee73a7234350}\index{main.cpp@{main.cpp}!TRACK\_WIDTH@{TRACK\_WIDTH}}
+\index{TRACK\_WIDTH@{TRACK\_WIDTH}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{TRACK\_WIDTH}{TRACK\_WIDTH}}
+{\footnotesize\ttfamily \label{main_8cpp_aaa2708101c6941b7f207ee73a7234350} 
+\#define TRACK\+\_\+\+WIDTH~0.\+20f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00023}{23}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ae3b1aa95cdbbefa8c4e8ea04332b7332}\index{main.cpp@{main.cpp}!TURN\_DISTANCE@{TURN\_DISTANCE}}
+\index{TURN\_DISTANCE@{TURN\_DISTANCE}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{TURN\_DISTANCE}{TURN\_DISTANCE}}
+{\footnotesize\ttfamily \label{main_8cpp_ae3b1aa95cdbbefa8c4e8ea04332b7332} 
+\#define TURN\+\_\+\+DISTANCE~(3.\+1416f \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8cpp_aaa2708101c6941b7f207ee73a7234350}{TRACK\+\_\+\+WIDTH}} / 4)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}\index{main.cpp@{main.cpp}!WHEEL\_DIAMETER@{WHEEL\_DIAMETER}}
+\index{WHEEL\_DIAMETER@{WHEEL\_DIAMETER}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{WHEEL\_DIAMETER}{WHEEL\_DIAMETER}}
+{\footnotesize\ttfamily \label{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47} 
+\#define WHEEL\+\_\+\+DIAMETER~0.\+078f}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_aceb8e3882d3079fa6878f850ffd0b01e}\index{main.cpp@{main.cpp}!bluetooth@{bluetooth}}
+\index{bluetooth@{bluetooth}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{bluetooth()}{bluetooth()}}
+{\footnotesize\ttfamily \label{main_8cpp_aceb8e3882d3079fa6878f850ffd0b01e} 
+\mbox{\hyperlink{class_bluetooth}{Bluetooth}} bluetooth (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{main_8cpp_aa644cd6b55358b8c8a6a1faaa2f76d19}{bt\+Serial}}}]{}{, }\item[{\&}]{buggy\+Mode}{, }\item[{\&}]{square\+Params}{, }\item[{\&}]{straightline\+Params}{, }\item[{\&}]{turnangle\+Params}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_aa644cd6b55358b8c8a6a1faaa2f76d19}\index{main.cpp@{main.cpp}!btSerial@{btSerial}}
+\index{btSerial@{btSerial}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{btSerial()}{btSerial()}}
+{\footnotesize\ttfamily \label{main_8cpp_aa644cd6b55358b8c8a6a1faaa2f76d19} 
+Serial bt\+Serial (\begin{DoxyParamCaption}\item[{USBTX}]{}{, }\item[{USBRX}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a2a1c4db0c72aa97873dacc9c782bc140}\index{main.cpp@{main.cpp}!control@{control}}
+\index{control@{control}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{control()}{control()}}
+{\footnotesize\ttfamily \label{main_8cpp_a2a1c4db0c72aa97873dacc9c782bc140} 
+\mbox{\hyperlink{class_control_system}{Control\+System}} control (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{main_8cpp_a41c3c87e822f444f50240b0b164ad6ee}{left\+Wheel}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a46e5e555fa4986f2c927f6a6e1fb84c1}{right\+Wheel}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_aaa2708101c6941b7f207ee73a7234350}{TRACK\+\_\+\+WIDTH}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_aca76211c85ff749ac7a819ee62f689d6}{KP\+\_\+\+FORWARD}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a773dbc7a9ad2294042719b636bd5af49}{KI\+\_\+\+FORWARD}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a20dc319822b095dfe52c2c1cc12da876}{KD\+\_\+\+FORWARD}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a33ab0b85aa6cd4d0425afee9ceec304d}{SCALING\+\_\+\+FORWARD}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a3ac971824f8c0a1efd5a2dc553c52050}{KP\+\_\+\+TURN}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_ad06ae067146576251495956db37c2dc9}{KI\+\_\+\+TURN}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_ae278212ddd4dc0adab9acc44354563e7}{KD\+\_\+\+TURN}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_ab121b3f01339d10f4eaaf81987b79009}{SCALING\+\_\+\+TURN}}}]{}{, }\item[{\&}]{bluetooth}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ad6a3b89c24a10a0d42e0b039306531b2}\index{main.cpp@{main.cpp}!down@{down}}
+\index{down@{down}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{down()}{down()}}
+{\footnotesize\ttfamily \label{main_8cpp_ad6a3b89c24a10a0d42e0b039306531b2} 
+Interrupt\+In down (\begin{DoxyParamCaption}\item[{A3}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ab837ed372cb7e3ec96060febec96e2ee}\index{main.cpp@{main.cpp}!fire@{fire}}
+\index{fire@{fire}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{fire()}{fire()}}
+{\footnotesize\ttfamily \label{main_8cpp_ab837ed372cb7e3ec96060febec96e2ee} 
+Interrupt\+In fire (\begin{DoxyParamCaption}\item[{D4}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a5951f9e0a697de6d4610cb9016a4a47f}\index{main.cpp@{main.cpp}!lcd@{lcd}}
+\index{lcd@{lcd}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{lcd()}{lcd()}}
+{\footnotesize\ttfamily \label{main_8cpp_a5951f9e0a697de6d4610cb9016a4a47f} 
+C12832 lcd (\begin{DoxyParamCaption}\item[{D11}]{}{, }\item[{D13}]{}{, }\item[{D12}]{}{, }\item[{D7}]{}{, }\item[{D10}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_af507b2ac92337fdfb2fe16b522c2c897}\index{main.cpp@{main.cpp}!left@{left}}
+\index{left@{left}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{left()}{left()}}
+{\footnotesize\ttfamily \label{main_8cpp_af507b2ac92337fdfb2fe16b522c2c897} 
+Interrupt\+In left (\begin{DoxyParamCaption}\item[{A4}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00192}{192}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_aada2d75bc8a8c6eb845bd940eadfa3fd}\index{main.cpp@{main.cpp}!map@{map}}
+\index{map@{map}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{map()}{map()}}
+{\footnotesize\ttfamily \label{main_8cpp_aada2d75bc8a8c6eb845bd940eadfa3fd} 
+long map (\begin{DoxyParamCaption}\item[{long}]{x}{, }\item[{long}]{in\+\_\+min}{, }\item[{long}]{in\+\_\+max}{, }\item[{long}]{out\+\_\+min}{, }\item[{long}]{out\+\_\+max}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ad19e2ca6e83627c48011604ea8a83e3f}\index{main.cpp@{main.cpp}!right@{right}}
+\index{right@{right}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{right()}{right()}}
+{\footnotesize\ttfamily \label{main_8cpp_ad19e2ca6e83627c48011604ea8a83e3f} 
+Interrupt\+In right (\begin{DoxyParamCaption}\item[{A5}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a137ee9756783467527d043d724d2439e}\index{main.cpp@{main.cpp}!stopMotorAndSwitchToIdleMode@{stopMotorAndSwitchToIdleMode}}
+\index{stopMotorAndSwitchToIdleMode@{stopMotorAndSwitchToIdleMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{stopMotorAndSwitchToIdleMode()}{stopMotorAndSwitchToIdleMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_a137ee9756783467527d043d724d2439e} 
+void stop\+Motor\+And\+Switch\+To\+Idle\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00181}{181}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a2a23055776d110cb3714df89113f3029}\index{main.cpp@{main.cpp}!switchToLineMenuMode@{switchToLineMenuMode}}
+\index{switchToLineMenuMode@{switchToLineMenuMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToLineMenuMode()}{switchToLineMenuMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_a2a23055776d110cb3714df89113f3029} 
+void switch\+To\+Line\+Menu\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00138}{138}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_abc42e9aeea704d82b10d71815fb19900}\index{main.cpp@{main.cpp}!switchToLineMode@{switchToLineMode}}
+\index{switchToLineMode@{switchToLineMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToLineMode()}{switchToLineMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_abc42e9aeea704d82b10d71815fb19900} 
+void switch\+To\+Line\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00152}{152}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ad7e3b2ff66769cab6d2848c272ec12c6}\index{main.cpp@{main.cpp}!switchToSpeedControlMode@{switchToSpeedControlMode}}
+\index{switchToSpeedControlMode@{switchToSpeedControlMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToSpeedControlMode()}{switchToSpeedControlMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_ad7e3b2ff66769cab6d2848c272ec12c6} 
+void switch\+To\+Speed\+Control\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00097}{97}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_abd7d25210b5b4119cdfdb03274a693ec}\index{main.cpp@{main.cpp}!switchToSquareIdleMode@{switchToSquareIdleMode}}
+\index{switchToSquareIdleMode@{switchToSquareIdleMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToSquareIdleMode()}{switchToSquareIdleMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_abd7d25210b5b4119cdfdb03274a693ec} 
+void switch\+To\+Square\+Idle\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00104}{104}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a8d4d44d804779a744f6ada432deffe81}\index{main.cpp@{main.cpp}!switchToSquarePatternMode@{switchToSquarePatternMode}}
+\index{switchToSquarePatternMode@{switchToSquarePatternMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToSquarePatternMode()}{switchToSquarePatternMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_a8d4d44d804779a744f6ada432deffe81} 
+void switch\+To\+Square\+Pattern\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00109}{109}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ae5ae5141e36b24ff7d427a6c8588045a}\index{main.cpp@{main.cpp}!switchToTurnMenuMode@{switchToTurnMenuMode}}
+\index{switchToTurnMenuMode@{switchToTurnMenuMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToTurnMenuMode()}{switchToTurnMenuMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae5ae5141e36b24ff7d427a6c8588045a} 
+void switch\+To\+Turn\+Menu\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00145}{145}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a6e5020b3ab8fdaa84f31a85e4287be48}\index{main.cpp@{main.cpp}!switchToTurnMode@{switchToTurnMode}}
+\index{switchToTurnMode@{switchToTurnMode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{switchToTurnMode()}{switchToTurnMode()}}
+{\footnotesize\ttfamily \label{main_8cpp_a6e5020b3ab8fdaa84f31a85e4287be48} 
+void switch\+To\+Turn\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00166}{166}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ab72fccd0b81a1204351ec1f96a485ab8}\index{main.cpp@{main.cpp}!up@{up}}
+\index{up@{up}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{up()}{up()}}
+{\footnotesize\ttfamily \label{main_8cpp_ab72fccd0b81a1204351ec1f96a485ab8} 
+Interrupt\+In up (\begin{DoxyParamCaption}\item[{A2}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a78f221846593b1386a6ed0abb3d04aa4}\index{main.cpp@{main.cpp}!updateLCD@{updateLCD}}
+\index{updateLCD@{updateLCD}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{updateLCD()}{updateLCD()}}
+{\footnotesize\ttfamily \label{main_8cpp_a78f221846593b1386a6ed0abb3d04aa4} 
+void update\+LCD (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00089}{89}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a6390dbde84215d05f7121b518fc493ad}\index{main.cpp@{main.cpp}!updateSquareMovement@{updateSquareMovement}}
+\index{updateSquareMovement@{updateSquareMovement}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{updateSquareMovement()}{updateSquareMovement()}}
+{\footnotesize\ttfamily \label{main_8cpp_a6390dbde84215d05f7121b518fc493ad} 
+void update\+Square\+Movement (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{main_8cpp_a81d43f1dae6b8d3d2c276c0f97b3ffb0}\index{main.cpp@{main.cpp}!controlticker@{controlticker}}
+\index{controlticker@{controlticker}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{controlticker}{controlticker}}
+{\footnotesize\ttfamily \label{main_8cpp_a81d43f1dae6b8d3d2c276c0f97b3ffb0} 
+Ticker controlticker}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00094}{94}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ac2dbc794ee2c0f26aa007356b74500c8}\index{main.cpp@{main.cpp}!lcdUpdateRequired@{lcdUpdateRequired}}
+\index{lcdUpdateRequired@{lcdUpdateRequired}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{lcdUpdateRequired}{lcdUpdateRequired}}
+{\footnotesize\ttfamily \label{main_8cpp_ac2dbc794ee2c0f26aa007356b74500c8} 
+bool lcd\+Update\+Required = false}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00088}{88}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a2d371917bc6ca988925fe8f53d392b1d}\index{main.cpp@{main.cpp}!lcdUpdateTicker@{lcdUpdateTicker}}
+\index{lcdUpdateTicker@{lcdUpdateTicker}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{lcdUpdateTicker}{lcdUpdateTicker}}
+{\footnotesize\ttfamily \label{main_8cpp_a2d371917bc6ca988925fe8f53d392b1d} 
+Ticker lcd\+Update\+Ticker}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00087}{87}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a41c3c87e822f444f50240b0b164ad6ee}\index{main.cpp@{main.cpp}!leftWheel@{leftWheel}}
+\index{leftWheel@{leftWheel}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{leftWheel}{leftWheel}}
+{\footnotesize\ttfamily \label{main_8cpp_a41c3c87e822f444f50240b0b164ad6ee} 
+\mbox{\hyperlink{class_wheel}{Wheel}} left\+Wheel(PB\+\_\+7, 1.\+10, PB\+\_\+14, PA\+\_\+14, PA\+\_\+13, PB\+\_\+8, \mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}, \mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}, \mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}}) (\begin{DoxyParamCaption}\item[{PB\+\_\+7}]{}{, }\item[{1.}]{10}{, }\item[{PB\+\_\+14}]{}{, }\item[{PA\+\_\+14}]{}{, }\item[{PA\+\_\+13}]{}{, }\item[{PB\+\_\+8}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}}}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a060e83724d3e20535e7ccc6a7cb8ff06}\index{main.cpp@{main.cpp}!potentiometerLeft@{potentiometerLeft}}
+\index{potentiometerLeft@{potentiometerLeft}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{potentiometerLeft}{potentiometerLeft}}
+{\footnotesize\ttfamily \label{main_8cpp_a060e83724d3e20535e7ccc6a7cb8ff06} 
+\mbox{\hyperlink{class_potentiometer}{Potentiometer}} potentiometer\+Left(A0, 3.\+3) (\begin{DoxyParamCaption}\item[{A0}]{}{, }\item[{3.}]{3}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a96c42dda2182a4c94616dd22f6793f8c}\index{main.cpp@{main.cpp}!potentiometerRight@{potentiometerRight}}
+\index{potentiometerRight@{potentiometerRight}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{potentiometerRight}{potentiometerRight}}
+{\footnotesize\ttfamily \label{main_8cpp_a96c42dda2182a4c94616dd22f6793f8c} 
+\mbox{\hyperlink{class_potentiometer}{Potentiometer}} potentiometer\+Right(A1, 3.\+3) (\begin{DoxyParamCaption}\item[{A1}]{}{, }\item[{3.}]{3}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a46e5e555fa4986f2c927f6a6e1fb84c1}\index{main.cpp@{main.cpp}!rightWheel@{rightWheel}}
+\index{rightWheel@{rightWheel}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{rightWheel}{rightWheel}}
+{\footnotesize\ttfamily \label{main_8cpp_a46e5e555fa4986f2c927f6a6e1fb84c1} 
+\mbox{\hyperlink{class_wheel}{Wheel}} right\+Wheel(PB\+\_\+15, 1, PB\+\_\+13, PA\+\_\+14, PB\+\_\+2, PB\+\_\+8, \mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}, \mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}, \mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}}) (\begin{DoxyParamCaption}\item[{PB\+\_\+15}]{}{, }\item[{1}]{}{, }\item[{PB\+\_\+13}]{}{, }\item[{PA\+\_\+14}]{}{, }\item[{PB\+\_\+2}]{}{, }\item[{PB\+\_\+8}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a5419e057d3cc43cca2f87bff5b09cb47}{WHEEL\+\_\+\+DIAMETER}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a8cdc17f43c9f3850f60d04f98216fc13}{ENCODER\+\_\+\+RESOLUTION}}}]{}{, }\item[{\mbox{\hyperlink{main_8cpp_a0d0de63cb3b2b767719451b355cb94fa}{MAX\+\_\+\+RPM}}}]{}{}\end{DoxyParamCaption})}
+

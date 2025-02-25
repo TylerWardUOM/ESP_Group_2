@@ -1,0 +1,239 @@
+\doxysection{Bluetooth.\+cpp}
+\hypertarget{_bluetooth_8cpp_source}{}\label{_bluetooth_8cpp_source}\mbox{\hyperlink{_bluetooth_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_bluetooth_8h}{Bluetooth.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_buggy_modes_8h}{BuggyModes.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <cstdio>}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}mbed.h"{}}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00007}00007\ \textcolor{comment}{//\ Define\ the\ timer}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00008}\mbox{\hyperlink{_bluetooth_8cpp_a61790196d7140b274cfd730897745003}{00008}}\ Timer\ \mbox{\hyperlink{_bluetooth_8cpp_a61790196d7140b274cfd730897745003}{debugTimer}};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00010}00010\ \textcolor{comment}{//Add\ a\ message\ when\ movement\ starts\ so\ website\ knows\ to\ wait\ and\ then\ a\ movement\ complete\ message\ that\ could\ open\ debug\ mode}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00011}00011\ \textcolor{comment}{//Debug\ mode\ puts\ data\ in\ table\ and\ also\ displays\ parameters\ used\ somewhere}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00012}00012\ \textcolor{comment}{//maybe\ make\ website\ save\ parameters\ in\ cahce\ or\ something}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00013}00013\ \textcolor{comment}{//debug\ should\ be\ time\ followed\ by\ other\ variables}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00014}\mbox{\hyperlink{class_bluetooth_a03e7fc4abb96edf68a2d70d12648571e}{00014}}\ \mbox{\hyperlink{class_bluetooth_a03e7fc4abb96edf68a2d70d12648571e}{Bluetooth::Bluetooth}}(Serial\ \&serial,\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfa}{BuggyMode}}\ *mode,}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_square_pattern_params}{SquarePatternParams}}\ *sqParams,}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_straight_line_params}{StraightLineParams}}\ *slParams,}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_turn_angle_params}{TurnAngleParams}}\ *taParams)}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00018}00018\ \ \ \ \ :\ \_serial(serial),\ \_currentMode(mode),}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00019}00019\ \ \ \ \ \ \ \_sqParams(sqParams),\ \_slParams(slParams),\ \_taParams(taParams)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00020}00020\ \ \ \ \ \_serial.attach(callback(\textcolor{keyword}{this},\ \&Bluetooth::rx\_interrupt),\ Serial::RxIrq);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00021}00021\ \ \ \ \ \mbox{\hyperlink{_bluetooth_8cpp_a61790196d7140b274cfd730897745003}{debugTimer}}.start();}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00022}00022\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00024}00024\ \textcolor{comment}{//Process\ Recived\ Commands}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00025}\mbox{\hyperlink{class_bluetooth_aa35e697f8cc36360179e9b4b7cbd4790}{00025}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bluetooth_aa35e697f8cc36360179e9b4b7cbd4790}{Bluetooth::processCommand}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ Ignore\ commands\ if\ the\ buggy\ is\ in\ a\ movement\ state}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{keywordflow}{if}\ (*\_currentMode\ ==\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa47030e69182ce107dce9d1a6fb1e2c55}{waiting\_for\_movement}})\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Exit\ without\ processing\ commands}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00029}00029\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00031}00031\ \ \ \ \ \textcolor{comment}{//\ Process\ commands\ normally\ if\ not\ in\ a\ movement\ state}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{while}\ (tail\ !=\ head)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ c\ =\ rx\_buffer[tail];}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ tail\ =\ (tail\ +\ 1)\ \%\ BUFFER\_SIZE;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ parseCommand(c);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00036}00036\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00037}00037\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00040}00040\ \textcolor{comment}{//\ Send\ available\ parameters\ based\ on\ the\ current\ mode}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00041}\mbox{\hyperlink{class_bluetooth_aca48721c401299cf5b684ee9dc20fabc}{00041}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bluetooth_aca48721c401299cf5b684ee9dc20fabc}{Bluetooth::sendAvailableParameters}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00042}00042\ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}PARAMETERS:\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{switch}\ (*\_currentMode)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4}{square\_idle\_mode}}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}forward\_kp=\%.2f,\ forward\_ki=\%.2f,\ forward\_kd=\%.2f\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_sqParams-\/>forward\_pid\_kp,\ \_sqParams-\/>forward\_pid\_ki,\ \_sqParams-\/>forward\_pid\_kd);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}turn\_kp=\%.2f,\ turn\_ki=\%.2f,\ turn\_kd=\%.2f\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_sqParams-\/>turn\_pid\_kp,\ \_sqParams-\/>turn\_pid\_ki,\ \_sqParams-\/>turn\_pid\_kd);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}scaling\_forward=\%.2f,\ scaling\_turn=\%.2f\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_sqParams-\/>scaling\_forward,\ \_sqParams-\/>scaling\_turn);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}left\_turn\_multiplier=\%.2f,\ right\_turn\_multiplier=\%.2f\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_sqParams-\/>left\_turn\_multiplier,\ \_sqParams-\/>right\_turn\_multiplier);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}distance=\%.2f\(\backslash\)n"{}},\ \_sqParams-\/>distance);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa004f398c57fcb5265706c1165a4ab59e}{line\_menu\_mode}}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}forward\_kp=\%.2f,\ forward\_ki=\%.2f,\ forward\_kd=\%.2f\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_slParams-\/>forward\_pid\_kp,\ \_slParams-\/>forward\_pid\_ki,\ \_slParams-\/>forward\_pid\_kd);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}scaling\_forward=\%.2f\(\backslash\)n"{}},\ \_slParams-\/>scaling\_forward);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}speed=\%.2f\(\backslash\)n"{}},\ \_slParams-\/>speed);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}distance=\%.2f\(\backslash\)n"{}},\ \_slParams-\/>distance);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce}{turn\_menu\_mode}}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}turn\_kp=\%.2f,\ turn\_ki=\%.2f,\ turn\_kd=\%.2f\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_taParams-\/>turn\_pid\_kp,\ \_taParams-\/>turn\_pid\_ki,\ \_taParams-\/>turn\_pid\_kd);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}scaling\_turn=\%.2f\(\backslash\)n"{}},\ \_taParams-\/>scaling\_turn);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}speed=\%.2f\(\backslash\)n"{}},\ \_taParams-\/>speed);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}angle=\%.2f\(\backslash\)n"{}},\ \_taParams-\/>angle);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}No\ parameters\ available\ for\ this\ mode.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00078}00078\ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}PARAMETERS\_DONE\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00079}00079\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00081}00081\ \textcolor{comment}{//\ Send\ debug\ data\ after\ control\ mode\ ends}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00082}\mbox{\hyperlink{class_bluetooth_a342a01c4135cd7b0eebd0d747b5e50d9}{00082}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bluetooth_a342a01c4135cd7b0eebd0d747b5e50d9}{Bluetooth::sendDebugData}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00083}00083\ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}DEBUG\ DATA:\(\backslash\)n\%s\(\backslash\)n"{}},\ debug\_buffer);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00084}00084\ \ \ \ \ debug\_index\ =\ 0;\ \textcolor{comment}{//\ Reset\ buffer}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00085}00085\ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}DEBUG\_END\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00086}00086\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00088}00088\ \textcolor{comment}{//\ UART\ Interrupt\ Handler\ (store\ data\ in\ circular\ buffer)}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00089}00089\ \textcolor{keywordtype}{void}\ Bluetooth::rx\_interrupt()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{while}\ (\_serial.readable())\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ c\ =\ \_serial.getc();}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ rx\_buffer[head]\ =\ c;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ head\ =\ (head\ +\ 1)\ \%\ BUFFER\_SIZE;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00094}00094\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00095}00095\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00097}00097\ \textcolor{comment}{//\ Parse\ incoming\ command}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00098}00098\ \textcolor{keywordtype}{void}\ Bluetooth::parseCommand(\textcolor{keywordtype}{char}\ c)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ cmd\_buffer[32];}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ cmd\_index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00102}00102\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ cmd\_buffer[cmd\_index]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \textcolor{comment}{//\ Null-\/terminate}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ handleCommand(cmd\_buffer);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ cmd\_index\ =\ 0;\ \textcolor{comment}{//\ Reset}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00106}00106\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_index\ <\ \textcolor{keyword}{sizeof}(cmd\_buffer)\ -\/\ 1)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ cmd\_buffer[cmd\_index++]\ =\ c;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00108}00108\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00109}00109\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00111}00111\ \textcolor{comment}{//\ Handle\ full\ command}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00112}00112\ \textcolor{keywordtype}{void}\ Bluetooth::handleCommand(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *cmd)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}GO"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*\_currentMode\ !=\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa45383e6c115d44bbea2067b159a645e7}{idle\_mode}})\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}STARTING\ MOVEMENT\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ go\_flag\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00118}00118\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}SET\_MODE:SQUARE\_IDLE"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ *\_currentMode\ =\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4}{square\_idle\_mode}};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00120}00120\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}SET\_MODE:STRAIGHT\_LINE"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ *\_currentMode\ =\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa004f398c57fcb5265706c1165a4ab59e}{line\_menu\_mode}};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00122}00122\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}SET\_MODE:IDLE"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ *\_currentMode\ =\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa45383e6c115d44bbea2067b159a645e7}{idle\_mode}};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00124}00124\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}SET\_MODE:TURN\_ANGLE"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ *\_currentMode\ =\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce}{turn\_menu\_mode}};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00126}00126\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}PARAMETER"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_bluetooth_aca48721c401299cf5b684ee9dc20fabc}{sendAvailableParameters}}();\ \ \textcolor{comment}{//\ Return\ current\ mode\ parameters}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00128}00128\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(cmd,\ \textcolor{stringliteral}{"{}STATE"{}})\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ sendCurrentMode();}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00130}00130\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strncmp(cmd,\ \textcolor{stringliteral}{"{}PARAM:"{}},\ 6)\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ updateParameter(cmd\ +\ 6);\ \ \ \textcolor{comment}{//\ Update\ a\ parameter\ dynamically}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00132}00132\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00133}00133\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00136}00136\ \textcolor{comment}{//\ Update\ parameters\ dynamically\ based\ on\ mode}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00137}00137\ \textcolor{keywordtype}{void}\ Bluetooth::updateParameter(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *paramStr)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordtype}{char}\ key[32];}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordtype}{float}\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (sscanf(paramStr,\ \textcolor{stringliteral}{"{}\%[\string^=]=\%f"{}},\ key,\ \&value)\ ==\ 2)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (*\_currentMode)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4}{square\_idle\_mode}}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}forward\_kp"{}})\ ==\ 0)\ \_sqParams-\/>forward\_pid\_kp\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}forward\_ki"{}})\ ==\ 0)\ \_sqParams-\/>forward\_pid\_ki\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}forward\_kd"{}})\ ==\ 0)\ \_sqParams-\/>forward\_pid\_kd\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}turn\_kp"{}})\ ==\ 0)\ \_sqParams-\/>turn\_pid\_kp\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}turn\_ki"{}})\ ==\ 0)\ \_sqParams-\/>turn\_pid\_ki\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}turn\_kd"{}})\ ==\ 0)\ \_sqParams-\/>turn\_pid\_kd\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}scaling\_forward"{}})\ ==\ 0)\ \_sqParams-\/>scaling\_forward\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}scaling\_turn"{}})\ ==\ 0)\ \_sqParams-\/>scaling\_turn\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}left\_turn\_multiplier"{}})\ ==\ 0)\ \_sqParams-\/>left\_turn\_multiplier\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}right\_turn\_multiplier"{}})\ ==\ 0)\ \_sqParams-\/>right\_turn\_multiplier\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}distance"{}})\ ==\ 0)\ \_sqParams-\/>distance\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa004f398c57fcb5265706c1165a4ab59e}{line\_menu\_mode}}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}forward\_kp"{}})\ ==\ 0)\ \_slParams-\/>forward\_pid\_kp\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}forward\_ki"{}})\ ==\ 0)\ \_slParams-\/>forward\_pid\_ki\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}forward\_kd"{}})\ ==\ 0)\ \_slParams-\/>forward\_pid\_kd\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}scaling\_forward"{}})\ ==\ 0)\ \_slParams-\/>scaling\_forward\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}speed"{}})\ ==\ 0)\ \_slParams-\/>speed\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}distance"{}})\ ==\ 0)\ \_slParams-\/>distance\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_buggy_modes_8h_aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce}{turn\_menu\_mode}}:}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}turn\_kp"{}})\ ==\ 0)\ \_taParams-\/>turn\_pid\_kp\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}turn\_ki"{}})\ ==\ 0)\ \_taParams-\/>turn\_pid\_ki\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}turn\_kd"{}})\ ==\ 0)\ \_taParams-\/>turn\_pid\_kd\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}scaling\_turn"{}})\ ==\ 0)\ \_taParams-\/>scaling\_turn\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}speed"{}})\ ==\ 0)\ \_taParams-\/>speed\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strcmp(key,\ \textcolor{stringliteral}{"{}angle"{}})\ ==\ 0)\ \_taParams-\/>angle\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}Updated:\ \%s\ =\ \%.2f\(\backslash\)n"{}},\ key,\ value);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00176}00176\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00177}00177\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00179}\mbox{\hyperlink{class_bluetooth_a3affac304c592789f28831451a6a7a19}{00179}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_bluetooth_a3affac304c592789f28831451a6a7a19}{Bluetooth::shouldStart}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{if}\ (go\_flag)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ go\_flag\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Reset\ flag}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00183}00183\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00185}00185\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00187}\mbox{\hyperlink{class_bluetooth_ab64a346af093424448a3efb7cd258a90}{00187}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bluetooth_ab64a346af093424448a3efb7cd258a90}{Bluetooth::sendMovementFinished}}()\{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00188}00188\ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}MOVEMENT\ FINISHED\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00189}00189\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00191}00191\ \textcolor{keywordtype}{void}\ Bluetooth::sendCurrentMode()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00192}00192\ \ \ \ \ \textcolor{comment}{//\ Call\ the\ helper\ function\ to\ get\ the\ mode\ name}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ modeName\ =\ \mbox{\hyperlink{_buggy_modes_8cpp_aa280e72c367e5ca2af700cdf4f341ae4}{getModeName}}(*\_currentMode);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00194}00194\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00195}00195\ \ \ \ \ \textcolor{comment}{//\ Send\ the\ mode\ name\ over\ Bluetooth}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00196}00196\ \ \ \ \ \_serial.printf(\textcolor{stringliteral}{"{}MODE:\%s\(\backslash\)n"{}},\ modeName);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00197}00197\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00199}\mbox{\hyperlink{class_bluetooth_aef2ff064700da268b793e33d8b0a8da6}{00199}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bluetooth_aef2ff064700da268b793e33d8b0a8da6}{Bluetooth::logDebugData}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ format,\ ...)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00200}00200\ \ \ \ \ \textcolor{keywordflow}{if}\ (debug\_index\ >=\ DEBUG\_BUFFER\_SIZE\ -\/\ 128)\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \textcolor{comment}{//\ Avoid\ buffer\ overflow}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00202}00202\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00204}00204\ \ \ \ \ \textcolor{comment}{//\ Get\ elapsed\ time\ in\ milliseconds}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00205}00205\ \ \ \ \ uint32\_t\ timeElapsed\ =\ \mbox{\hyperlink{_bluetooth_8cpp_a61790196d7140b274cfd730897745003}{debugTimer}}.read\_ms();}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00207}00207\ \ \ \ \ \textcolor{comment}{//\ Start\ forming\ the\ debug\ string\ with\ timestamp}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00208}00208\ \ \ \ \ va\_list\ args;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00209}00209\ \ \ \ \ va\_start(args,\ format);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00210}00210\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{comment}{//\ Add\ timestamp\ with\ newline\ at\ the\ end}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00212}00212\ \ \ \ \ debug\_index\ +=\ snprintf(debug\_buffer\ +\ debug\_index,\ DEBUG\_BUFFER\_SIZE\ -\/\ debug\_index,}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%lu\ ms:\ "{}},\ timeElapsed);\ \ \textcolor{comment}{//\ Add\ timestamp}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00215}00215\ \ \ \ \ \textcolor{comment}{//\ Append\ other\ parameters\ (key-\/value\ pairs)\ and\ add\ newline}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00216}00216\ \ \ \ \ debug\_index\ +=\ vsnprintf(debug\_buffer\ +\ debug\_index,\ DEBUG\_BUFFER\_SIZE\ -\/\ debug\_index,\ format,\ args);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00217}00217\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00218}00218\ \ \ \ \ \textcolor{comment}{//\ Append\ newline\ after\ the\ log\ entry}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00219}00219\ \ \ \ \ debug\_index\ +=\ snprintf(debug\_buffer\ +\ debug\_index,\ DEBUG\_BUFFER\_SIZE\ -\/\ debug\_index,\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00221}00221\ \ \ \ \ va\_end(args);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00222}00222\ \}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00225}\mbox{\hyperlink{class_bluetooth_a3244e86cbce3519d7e34f2b20ad19d22}{00225}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bluetooth_a3244e86cbce3519d7e34f2b20ad19d22}{Bluetooth::resetDebugData}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00226}00226\ \ \ \ \ \textcolor{comment}{//\ Reset\ the\ debug\ timer}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00227}00227\ \ \ \ \ \mbox{\hyperlink{_bluetooth_8cpp_a61790196d7140b274cfd730897745003}{debugTimer}}.reset();}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00229}00229\ \ \ \ \ \textcolor{comment}{//\ Clear\ the\ debug\ buffer}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00230}00230\ \ \ \ \ memset(debug\_buffer,\ 0,\ DEBUG\_BUFFER\_SIZE);}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00232}00232\ \ \ \ \ \textcolor{comment}{//\ Reset\ the\ debug\ index}}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00233}00233\ \ \ \ \ debug\_index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_bluetooth_8cpp_source_l00234}00234\ \}}
+
+\end{DoxyCode}
