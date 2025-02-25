@@ -16,6 +16,8 @@ public:
     void sendDebugData();
     bool shouldStart();
     void sendMovementFinished();
+    void logDebugData(const char* format, ...);
+    void resetDebugData();
 
 private:
     Serial &_serial;
@@ -30,7 +32,7 @@ private:
     char rx_buffer[BUFFER_SIZE];
     volatile uint16_t head = 0, tail = 0;
 
-    static const int DEBUG_BUFFER_SIZE = 512;
+    static const int DEBUG_BUFFER_SIZE = 1024;
     char debug_buffer[DEBUG_BUFFER_SIZE];
     uint16_t debug_index = 0;
 

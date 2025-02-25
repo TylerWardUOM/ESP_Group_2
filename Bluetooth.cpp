@@ -2,6 +2,10 @@
 #include "BuggyModes.h"
 #include <cstring>
 #include <cstdio>
+#include "mbed.h"
+
+// Define the timer
+Timer debugTimer;
 
 //Add a message when movement starts so website knows to wait and then a movement complete message that could open debug mode
 //Debug mode puts data in table and also displays parameters used somewhere
@@ -14,6 +18,7 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode *mode,
     : _serial(serial), _currentMode(mode),
       _sqParams(sqParams), _slParams(slParams), _taParams(taParams) {
     _serial.attach(callback(this, &Bluetooth::rx_interrupt), Serial::RxIrq);
+    debugTimer.start();
 }
 
 //Process Recived Commands
@@ -77,6 +82,7 @@ void Bluetooth::sendAvailableParameters() {
 void Bluetooth::sendDebugData() {
     _serial.printf("DEBUG DATA:\n%s\n", debug_buffer);
     debug_index = 0; // Reset buffer
+    _serial.printf("DEBUG_END\n");
 }
 
 // UART Interrupt Handler (store data in circular buffer)
@@ -188,4 +194,41 @@ void Bluetooth::sendCurrentMode() {
     
     // Send the mode name over Bluetooth
     _serial.printf("MODE:%s\n", modeName);
+}
+
+void Bluetooth::logDebugData(const char* format, ...) {
+    if (debug_index >= DEBUG_BUFFER_SIZE - 128) {
+        return;  // Avoid buffer overflow
+    }
+
+    // Get elapsed time in milliseconds
+    uint32_t timeElapsed = debugTimer.read_ms();
+
+    // Start forming the debug string with timestamp
+    va_list args;
+    va_start(args, format);
+    
+    // Add timestamp with newline at the end
+    debug_index += snprintf(debug_buffer + debug_index, DEBUG_BUFFER_SIZE - debug_index,
+                            "%lu ms: ", timeElapsed);  // Add timestamp
+
+    // Append other parameters (key-value pairs) and add newline
+    debug_index += vsnprintf(debug_buffer + debug_index, DEBUG_BUFFER_SIZE - debug_index, format, args);
+    
+    // Append newline after the log entry
+    debug_index += snprintf(debug_buffer + debug_index, DEBUG_BUFFER_SIZE - debug_index, "\n");
+
+    va_end(args);
+}
+
+
+void Bluetooth::resetDebugData() {
+    // Reset the debug timer
+    debugTimer.reset();
+
+    // Clear the debug buffer
+    memset(debug_buffer, 0, DEBUG_BUFFER_SIZE);
+
+    // Reset the debug index
+    debug_index = 0;
 }

@@ -4,12 +4,16 @@
 //add square state to the header
 //add a process square movment function based of the current square function 
 //work out how to passparameters into update square worried that passing every run will memory issue
-ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, float kp_forward, float ki_forward, float kd_forward, float scaling_forward, float kp_turn, float ki_turn, float kd_turn, float scaling_turn)
+ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
+    float track_width, float kp_forward, float ki_forward, float kd_forward,
+    float scaling_forward, float kp_turn, float ki_turn, float kd_turn,
+    float scaling_turn, Bluetooth* bluetooth)
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(kp_forward, ki_forward, kd_forward, scaling_forward),
       pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
       state(IDLE), targetDistance(0.0f), turnDirection(0), 
-      movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE){}
+      movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
+      bluetooth(bluetooth){}
 
 void ControlSystem::moveForward(float distance, float speed) {
     targetDistance = distance;
@@ -18,6 +22,7 @@ void ControlSystem::moveForward(float distance, float speed) {
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
     basespeed = speed;
+    bluetooth->resetDebugData();
 }
 
 void ControlSystem::turn(float angle, float speed) {
@@ -28,6 +33,7 @@ void ControlSystem::turn(float angle, float speed) {
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
     basespeed = speed;
+    bluetooth->resetDebugData();
 }
 
 void ControlSystem::moveSquare() {
@@ -36,6 +42,7 @@ void ControlSystem::moveSquare() {
     sideCount = 0;
     retracing = false;
     moving = false;
+    bluetooth->resetDebugData();
 }
 
 
@@ -87,7 +94,9 @@ void ControlSystem::processForwardMovement(float dt) {
     } else if (multiplier > 1.4f) {
         multiplier = 1.4f;
     }
-
+    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f",leftDistance,rightDistance);
+    //log again for testing
+    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f",5.0f,rightDistance);
     leftWheel.setSpeed(basespeed);
     rightWheel.setSpeed(basespeed * multiplier);
 

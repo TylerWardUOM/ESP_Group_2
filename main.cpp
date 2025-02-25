@@ -40,11 +40,15 @@
 //Try get this to smallest value possible if code stops working properly go back to previous
 #define SQUARE_CONTROL_INTERVAL 0.01
 
+// Bluetooth Instance
+Serial btSerial(USBTX,USBRX); //temp to test functionality
+Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
+
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
 // Global instance of ControlSystem
-ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD, KD_FORWARD, SCALING_FORWARD, KP_TURN, KI_TURN, KD_TURN, SCALING_TURN);
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD, KD_FORWARD, SCALING_FORWARD, KP_TURN, KI_TURN, KD_TURN, SCALING_TURN,&bluetooth);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
@@ -89,9 +93,6 @@ void updateLCD() {
 
 Ticker controlticker;
 
-// Bluetooth Instance
-Serial btSerial(USBTX,USBRX); //temp to test functionality
-Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
 
 void switchToSpeedControlMode() {
     leftWheel.motor.enable();
