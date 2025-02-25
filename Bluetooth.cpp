@@ -3,6 +3,10 @@
 #include <cstring>
 #include <cstdio>
 
+//Add a message when movement starts so website knows to wait and then a movement complete message that could open debug mode
+//Debug mode puts data in table and also displays parameters used somewhere
+//maybe make website save parameters in cahce or something
+//debug should be time followed by other variables
 Bluetooth::Bluetooth(Serial &serial, BuggyMode *mode,
                      SquarePatternParams *sqParams,
                      StraightLineParams *slParams,
@@ -12,14 +16,22 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode *mode,
     _serial.attach(callback(this, &Bluetooth::rx_interrupt), Serial::RxIrq);
 }
 
-// Process received commands
+//Process Recived Commands
 void Bluetooth::processCommand() {
+    // Ignore commands if the buggy is in a movement state
+    if (*_currentMode == square_pattern_mode || 
+        *_currentMode == waiting_for_movement) {
+        return; // Exit without processing commands
+    }
+
+    // Process commands normally if not in a movement state
     while (tail != head) {
         char c = rx_buffer[tail];
         tail = (tail + 1) % BUFFER_SIZE;
         parseCommand(c);
     }
 }
+
 
 // Send available parameters based on the current mode
 void Bluetooth::sendAvailableParameters() {
@@ -104,6 +116,8 @@ void Bluetooth::handleCommand(const char *cmd) {
         *_currentMode = turn_menu_mode;
     } else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
+    } else if (strcmp(cmd, "STATE") == 0){
+        sendCurrentMode();
     } else if (strncmp(cmd, "PARAM:", 6) == 0) {
         updateParameter(cmd + 6);   // Update a parameter dynamically
     }
@@ -159,4 +173,8 @@ bool Bluetooth::shouldStart() {
         return true;
     }
     return false;
+}
+
+void Bluetooth::sendCurrentMode() {
+    _serial.printf("MODE:%d\n", *_currentMode);
 }

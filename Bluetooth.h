@@ -38,6 +38,7 @@ private:
     void handleCommand(const char *cmd);
     void updateParameter(const char *paramStr);
     void startControlMode();
+    void sendCurrentMode();
 };
 
 #endif // BLUETOOTH_H
