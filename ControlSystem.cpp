@@ -94,12 +94,9 @@ void ControlSystem::processForwardMovement(float dt) {
     } else if (multiplier > 1.4f) {
         multiplier = 1.4f;
     }
-    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f",leftDistance,rightDistance);
-    //log again for testing
-    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f",5.0f,rightDistance);
     leftWheel.setSpeed(basespeed);
     rightWheel.setSpeed(basespeed * multiplier);
-
+    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f, Error=%.2f, PID_out=%.2f,Multiplier=%.2f",leftDistance,rightDistance,error,pidOutput,multiplier);
     if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
         stopWheels();
         pidForward.reset();
@@ -127,7 +124,7 @@ void ControlSystem::processTurning(float dt) {
     float baseTurnSpeed = 0.2f;
     leftWheel.setSpeed(-turnDirection * basespeed * multiplier);
     rightWheel.setSpeed(turnDirection * basespeed);
-
+    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f, Error=%.2f, PID_out=%.2f,Multiplier=%.2f",leftDistance,rightDistance,error,pidOutput,multiplier);
     if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
         stopWheels();
         pidTurn.reset();
