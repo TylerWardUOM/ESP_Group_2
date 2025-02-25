@@ -5,12 +5,14 @@
 enum BuggyMode {
     idle_mode,
     speed_control_mode,
-    square_idle_mode,   // idle state for square pattern
-    square_pattern_mode,
+    square_idle_mode,   
     line_menu_mode,
     turn_menu_mode,
     waiting_for_movement
 };
+
+const char* getModeName(BuggyMode mode);
+
 
 // Structs for mode-specific parameters
 
@@ -51,5 +53,5 @@ struct TurnAngleParams {
 extern SquarePatternParams squareParams;
 extern StraightLineParams straightlineParams;
 extern TurnAngleParams turnangleParams;
-
+extern BuggyMode buggyMode;
 #endif // BUGGY_MODES_H

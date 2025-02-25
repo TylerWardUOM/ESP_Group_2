@@ -19,8 +19,7 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode *mode,
 //Process Recived Commands
 void Bluetooth::processCommand() {
     // Ignore commands if the buggy is in a movement state
-    if (*_currentMode == square_pattern_mode || 
-        *_currentMode == waiting_for_movement) {
+    if (*_currentMode == waiting_for_movement) {
         return; // Exit without processing commands
     }
 
@@ -39,19 +38,19 @@ void Bluetooth::sendAvailableParameters() {
 
     switch (*_currentMode) {
         case square_idle_mode:
-            _serial.printf("Forward PID: Kp=%.2f, Ki=%.2f, Kd=%.2f\n",
+            _serial.printf("forward_kp=%.2f, forward_ki=%.2f, forward_kd=%.2f\n",
                            _sqParams->forward_pid_kp, _sqParams->forward_pid_ki, _sqParams->forward_pid_kd);
-            _serial.printf("Turn PID: Kp=%.2f, Ki=%.2f, Kd=%.2f\n",
+            _serial.printf("turn_kp=%.2f, turn_ki=%.2f, turn_kd=%.2f\n",
                            _sqParams->turn_pid_kp, _sqParams->turn_pid_ki, _sqParams->turn_pid_kd);
-            _serial.printf("Scaling: Forward=%.2f, Turn=%.2f\n",
+            _serial.printf("scaling_forward=%.2f, scaling_turn=%.2f\n",
                            _sqParams->scaling_forward, _sqParams->scaling_turn);
-            _serial.printf("Turn Multipliers: Left=%.2f, Right=%.2f\n",
+            _serial.printf("left_turn_multiplier=%.2f, right_turn_multiplier=%.2f\n",
                            _sqParams->left_turn_multiplier, _sqParams->right_turn_multiplier);
-            _serial.printf("Distance=%.2f\n", _sqParams->distance);
+            _serial.printf("distance=%.2f\n", _sqParams->distance);
             break;
 
         case line_menu_mode:
-            _serial.printf("Forward PID: Kp=%.2f, Ki=%.2f, Kd=%.2f\n",
+            _serial.printf("forward_kp=%.2f, forward_ki=%.2f, forward_kd=%.2f\n",
                            _slParams->forward_pid_kp, _slParams->forward_pid_ki, _slParams->forward_pid_kd);
             _serial.printf("scaling_forward=%.2f\n", _slParams->scaling_forward);
             _serial.printf("speed=%.2f\n", _slParams->speed);
@@ -59,17 +58,19 @@ void Bluetooth::sendAvailableParameters() {
             break;
 
         case turn_menu_mode:
-            _serial.printf("Turn PID: Kp=%.2f, Ki=%.2f, Kd=%.2f\n",
+            _serial.printf("turn_kp=%.2f, turn_ki=%.2f, turn_kd=%.2f\n",
                            _taParams->turn_pid_kp, _taParams->turn_pid_ki, _taParams->turn_pid_kd);
-            _serial.printf("Scaling Turn=%.2f\n", _taParams->scaling_turn);
-            _serial.printf("Speed=%.2f\n", _taParams->speed);
-            _serial.printf("Angle=%.2f\n", _taParams->angle);
+            _serial.printf("scaling_turn=%.2f\n", _taParams->scaling_turn);
+            _serial.printf("speed=%.2f\n", _taParams->speed);
+            _serial.printf("angle=%.2f\n", _taParams->angle);
             break;
 
         default:
             _serial.printf("No parameters available for this mode.\n");
             break;
     }
+
+    _serial.printf("PARAMETERS_DONE\n");
 }
 
 // Send debug data after control mode ends
@@ -102,16 +103,18 @@ void Bluetooth::parseCommand(char c) {
 }
 
 // Handle full command
-// Handle full command
 void Bluetooth::handleCommand(const char *cmd) {
     if (strcmp(cmd, "GO") == 0) {
         if (*_currentMode != idle_mode) {
+            _serial.printf("STARTING MOVEMENT\n");
             go_flag = true;
         }
     } else if (strcmp(cmd, "SET_MODE:SQUARE_IDLE") == 0) {
         *_currentMode = square_idle_mode;
     } else if (strcmp(cmd, "SET_MODE:STRAIGHT_LINE") == 0) {
         *_currentMode = line_menu_mode;
+    } else if (strcmp(cmd, "SET_MODE:IDLE") == 0) {
+        *_currentMode = idle_mode;
     } else if (strcmp(cmd, "SET_MODE:TURN_ANGLE") == 0) {
         *_currentMode = turn_menu_mode;
     } else if (strcmp(cmd, "PARAMETER") == 0) {
@@ -175,6 +178,14 @@ bool Bluetooth::shouldStart() {
     return false;
 }
 
+void Bluetooth::sendMovementFinished(){
+    _serial.printf("MOVEMENT FINISHED\n");
+}
+
 void Bluetooth::sendCurrentMode() {
-    _serial.printf("MODE:%d\n", *_currentMode);
+    // Call the helper function to get the mode name
+    const char* modeName = getModeName(*_currentMode);
+    
+    // Send the mode name over Bluetooth
+    _serial.printf("MODE:%s\n", modeName);
 }

@@ -15,6 +15,7 @@ public:
     void sendAvailableParameters();
     void sendDebugData();
     bool shouldStart();
+    void sendMovementFinished();
 
 private:
     Serial &_serial;

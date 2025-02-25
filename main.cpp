@@ -89,9 +89,6 @@ void updateLCD() {
 
 Ticker controlticker;
 
-// Buggy Mode Variables
-BuggyMode buggyMode = idle_mode;
-
 // Bluetooth Instance
 Serial btSerial(USBTX,USBRX); //temp to test functionality
 Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
@@ -247,6 +244,8 @@ int main() {
                 lcd.printf("Waiting for Movement");
                 if (control.isMovementComplete()) {
                     controlticker.detach();
+                    bluetooth.sendMovementFinished();
+                    bluetooth.sendDebugData();
                     stopMotorAndSwitchToIdleMode();
                 }
                 break;
