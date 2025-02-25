@@ -11,10 +11,12 @@ public:
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
     void update();
+    void moveSquare();
     bool isMovementComplete();
 
 private:
-    enum State { IDLE, MOVE_FORWARD, TURNING };
+    enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE};
+    enum SquareMovementState {IDLE_SQUARE, MOVE_FORWARD_SQUARE, TURN_LEFT_SQUARE, TURN_RIGHT_SQUARE, TURN_AROUND_SQUARE, STOP_SQUARE};
     float basespeed;
     Wheel& leftWheel;
     Wheel& rightWheel;
@@ -23,13 +25,20 @@ private:
     Timer pidTimer;
 
     State state;
+    SquareMovementState squareState;
     float targetDistance;
     int turnDirection;
     bool movementCompleted;
     float _track_width;
 
+    int sideCount;
+    bool retracing;
+    bool moving;
+    float square_distance;
+
     void processForwardMovement(float dt);
     void processTurning(float dt);
+    void processSquare();
     void stopWheels();
     float constrain(float value, float minVal, float maxVal);
 };

@@ -4,7 +4,7 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_wi
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(kp_forward, ki_forward, kd_forward, scaling_forward),
       pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
-      state(IDLE), targetDistance(0.0f), turnDirection(0), movementCompleted(true), _track_width(track_width) {}
+      state(IDLE), targetDistance(0.0f), turnDirection(0), movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE) {}
 
 void ControlSystem::moveForward(float distance, float speed) {
     targetDistance = distance;
@@ -25,6 +25,17 @@ void ControlSystem::turn(float angle, float speed) {
     basespeed = speed;
 }
 
+void ControlSystem::moveSquare() {
+    state = MOVING_SQUARE;
+    squareState = MOVE_FORWARD_SQUARE;
+    sideCount = 0;
+    retracing = false;
+    moving = false;
+    basespeed = 90.0f;  
+    square_distance = 0.5f;
+}
+
+
 void ControlSystem::update() {
     static bool timerStarted = false;
     if (!timerStarted) {
@@ -44,6 +55,9 @@ void ControlSystem::update() {
             break;
         case TURNING:
             processTurning(dt);
+            break;
+        case MOVING_SQUARE:
+            processSquare();
             break;
         case IDLE:
             stopWheels();
@@ -109,6 +123,77 @@ void ControlSystem::processTurning(float dt) {
         state = IDLE;
     }
 }
+
+void ControlSystem::processSquare() {
+    switch (squareState) {
+        case MOVE_FORWARD_SQUARE:
+            // Handle square movement logic here
+            if (!moving) {
+                // Move forward one side of the square
+                moveForward(square_distance, basespeed);
+                moving = true;
+            }
+            if (isMovementComplete()) {  // Wait for the movement to complete
+                wait(1);
+                // Determine whether to turn left or right
+                squareState = retracing ? TURN_RIGHT_SQUARE : TURN_LEFT_SQUARE;
+                moving = false;
+            }
+            break;
+
+        case TURN_LEFT_SQUARE:
+            // Turn left after moving forward (square pattern)
+            if (!moving) {
+                turn(90, basespeed);  // Turn 90° left
+                moving = true;
+            }
+            if (isMovementComplete()) {
+                sideCount++;  // Increment side count after a turn
+                moving = false;
+                squareState = (sideCount < 4) ? MOVE_FORWARD_SQUARE : TURN_AROUND_SQUARE;
+            }
+            break;
+
+        case TURN_RIGHT_SQUARE:
+            // Turn right while retracing
+            if (!moving) {
+                turn(-90, basespeed);  // Turn 90° right (opposite direction for retracing)
+                moving = true;
+            }
+            if (isMovementComplete()) {
+                sideCount++;  // Increment side count after a turn
+                moving = false;
+                squareState = (sideCount < 4) ? MOVE_FORWARD_SQUARE : STOP_SQUARE;
+            }
+            break;
+
+        case TURN_AROUND_SQUARE:
+            // Turn around (180°) after completing the square
+            if (!moving) {
+                turn(180, basespeed);  // Turn 180° to prepare for retracing
+                moving = true;
+            }
+            if (isMovementComplete()) {
+                retracing = true;  // Start retracing
+                sideCount = 0;  // Reset side count for retracing
+                squareState = MOVE_FORWARD_SQUARE;  // Start moving forward again, but retracing
+                moving = false;
+            }
+            break;
+
+        case STOP_SQUARE:
+            // Stop after retracing all sides
+            retracing = false;
+            moving = false;
+            sideCount = 0;
+            movementCompleted = true;
+            state = IDLE;
+            squareState = IDLE_SQUARE;
+            stopWheels();
+            break;
+    }
+}
+
 
 void ControlSystem::stopWheels() {
     leftWheel.stop();
