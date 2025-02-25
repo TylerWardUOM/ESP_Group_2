@@ -13,6 +13,8 @@ public:
     void update();
     void moveSquare();
     bool isMovementComplete();
+    PIDController pidForward;
+    PIDController pidTurn;
 
 private:
     enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE};
@@ -20,8 +22,6 @@ private:
     float basespeed;
     Wheel& leftWheel;
     Wheel& rightWheel;
-    PIDController pidForward;
-    PIDController pidTurn;
     Timer pidTimer;
 
     State state;

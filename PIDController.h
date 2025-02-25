@@ -5,7 +5,7 @@
  * @class PIDController
  * @brief Implements a simple PID controller.
  *
- * This class provides a basic PID control algorithm
+ * This class provides a basic PID control algorithm.
  */
 class PIDController {
 public:
@@ -37,6 +37,18 @@ public:
      * which is useful when restarting the control loop.
      */
     void reset();
+
+    // Getters
+    float getKp() const { return kp; }
+    float getKi() const { return ki; }
+    float getKd() const { return kd; }
+    float getScalingMultiplier() const { return _scaling_multiplier; }
+
+    // Setters
+    void setKp(float newKp) { kp = newKp; }
+    void setKi(float newKi) { ki = newKi; }
+    void setKd(float newKd) { kd = newKd; }
+    void setScalingMultiplier(float newScalingMultiplier) { _scaling_multiplier = newScalingMultiplier; }
 
 private:
     float _scaling_multiplier; ///< Scaling factor for the output.

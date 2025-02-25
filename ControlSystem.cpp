@@ -1,5 +1,7 @@
 #include "ControlSystem.h"
-
+//add square state to the header
+//add a process square movment function based of the current square function 
+//work out how to passparameters into update square worried that passing every run will memory issue
 ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, float kp_forward, float ki_forward, float kd_forward, float scaling_forward, float kp_turn, float ki_turn, float kd_turn, float scaling_turn)
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(kp_forward, ki_forward, kd_forward, scaling_forward),
