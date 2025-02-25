@@ -4,6 +4,8 @@
 #include "Wheel.h"
 #include "PIDController.h"
 #include "Timer.h"
+#include "BuggyModes.h"  // Include to access the global variables
+
 
 class ControlSystem {
 public:

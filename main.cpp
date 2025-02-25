@@ -127,7 +127,6 @@ void switchToSquarePatternMode() {
     control.pidTurn.setKi(squareParams.turn_pid_ki);
     control.pidTurn.setKd(squareParams.turn_pid_kd);
     control.pidTurn.setScalingMultiplier(squareParams.scaling_turn);
-    SQUARE_DISTANCE = squareParams.distance;
     //Begin Control
     controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
     //Enable Motor
@@ -151,15 +150,13 @@ void switchToTurnMenuMode() {
 
 void switchToLineMode(){
     leftWheel.motor.enable();
-    //Set Relevant Parameters
+    //Set Relevant PID Parameters
     control.pidForward.setKp(straightlineParams.forward_pid_kp);
     control.pidForward.setKi(straightlineParams.forward_pid_ki);
     control.pidForward.setKd(straightlineParams.forward_pid_kd);
     control.pidForward.setScalingMultiplier(straightlineParams.scaling_forward);
-    float distance = straightlineParams.distance;
-    float speed = straightlineParams.speed;
     //Begin Control
-    control.moveForward(distance,speed);
+    control.moveForward(straightlineParams.distance,straightlineParams.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;
@@ -168,15 +165,13 @@ void switchToLineMode(){
 void switchToTurnMode(){
     //Enable Motor
     leftWheel.motor.enable();
-    //Set Relevant Parameters
+    //Set Relevant PID Parameters
     control.pidTurn.setKp(turnangleParams.turn_pid_kp);
     control.pidTurn.setKi(turnangleParams.turn_pid_ki);
     control.pidTurn.setKd(turnangleParams.turn_pid_kd);
     control.pidTurn.setScalingMultiplier(turnangleParams.scaling_turn);
-    float angle = turnangleParams.angle;
-    float speed = turnangleParams.speed;
     //Begin Control
-    control.turn(angle,speed);
+    control.turn(turnangleParams.angle,turnangleParams.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;

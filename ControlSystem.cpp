@@ -1,4 +1,6 @@
 #include "ControlSystem.h"
+#include "BuggyModes.h"  // Include to access the global variables
+
 //add square state to the header
 //add a process square movment function based of the current square function 
 //work out how to passparameters into update square worried that passing every run will memory issue
@@ -6,7 +8,8 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_wi
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(kp_forward, ki_forward, kd_forward, scaling_forward),
       pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
-      state(IDLE), targetDistance(0.0f), turnDirection(0), movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE) {}
+      state(IDLE), targetDistance(0.0f), turnDirection(0), 
+      movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE){}
 
 void ControlSystem::moveForward(float distance, float speed) {
     targetDistance = distance;
@@ -33,8 +36,6 @@ void ControlSystem::moveSquare() {
     sideCount = 0;
     retracing = false;
     moving = false;
-    basespeed = 90.0f;  
-    square_distance = 0.5f;
 }
 
 
@@ -132,7 +133,7 @@ void ControlSystem::processSquare() {
             // Handle square movement logic here
             if (!moving) {
                 // Move forward one side of the square
-                moveForward(square_distance, basespeed);
+                moveForward(squareParams.distance, squareParams.speed);
                 moving = true;
             }
             if (isMovementComplete()) {  // Wait for the movement to complete
@@ -146,7 +147,7 @@ void ControlSystem::processSquare() {
         case TURN_LEFT_SQUARE:
             // Turn left after moving forward (square pattern)
             if (!moving) {
-                turn(90, basespeed);  // Turn 90° left
+                turn(90*squareParams.left_turn_multiplier, squareParams.speed);  // Turn 90° left
                 moving = true;
             }
             if (isMovementComplete()) {
@@ -159,7 +160,7 @@ void ControlSystem::processSquare() {
         case TURN_RIGHT_SQUARE:
             // Turn right while retracing
             if (!moving) {
-                turn(-90, basespeed);  // Turn 90° right (opposite direction for retracing)
+                turn(-90*squareParams.right_turn_multiplier, squareParams.speed);  // Turn 90° right (opposite direction for retracing)
                 moving = true;
             }
             if (isMovementComplete()) {
@@ -170,9 +171,9 @@ void ControlSystem::processSquare() {
             break;
 
         case TURN_AROUND_SQUARE:
-            // Turn around (180°) after completing the square
+            // Turn around (90) after completing the square
             if (!moving) {
-                turn(180, basespeed);  // Turn 180° to prepare for retracing
+                turn(90*squareParams.left_turn_multiplier, squareParams.speed);  // Turn 180° to prepare for retracing
                 moving = true;
             }
             if (isMovementComplete()) {
