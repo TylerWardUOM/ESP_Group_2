@@ -100,95 +100,6 @@ void updateLCD() {
 Ticker controlticker;
 
 
-// Movement State Enum for square movement
-typedef enum {
-    MOVE_FORWARD,   // State for moving forward
-    TURN_RIGHT,
-    TURN_LEFT,
-    TURN_AROUND,     // State for turning right
-    STOP            // State for stopping
-} MovementState;
-
-
-
-const float SQUARE_DISTANCE = 0.5f;  // distance for each side in meters
-
-void updateSquareMovement() {
-    static MovementState state = MOVE_FORWARD;  // Start with moving forward
-    static bool retracing = false;  // Track whether we're retracing
-    static int sideCount = 0;  // Track the number of sides completed
-    static float basespeed = 0.30f * MAX_RPM;
-    static bool moving = false;  // Corrected variable name
-
-    switch (state) {
-        case MOVE_FORWARD:
-            // Move forward a fixed distance (one side of the square)
-            if (!moving) {
-                control.moveForward(SQUARE_DISTANCE, basespeed);  // Move forward one side
-                moving = true;
-            }
-            if (control.isMovementComplete()) {  // Wait for the movement to complete
-                wait(1);
-                state = retracing ? TURN_RIGHT : TURN_LEFT;  // Decide direction after moving forward
-                moving = false;
-            }
-            break;
-
-        case TURN_LEFT:  // Turn left after moving forward (square pattern)
-            if (!moving) {
-                control.turn(90*1.0f, basespeed);  // Turn 90° left
-                moving = true;
-            }
-            if (control.isMovementComplete()) {
-                wait(1);
-                sideCount++;  // Increment side count after a turn
-                moving = false;
-                state = (sideCount < 4) ? MOVE_FORWARD : TURN_AROUND;  // Move forward until all sides are completed, then turn around
-            }
-            break;
-
-        case TURN_RIGHT:  // Turn right while retracing
-            if (!moving) {
-                control.turn(-90*1.0f, basespeed);  // Turn 90° right (opposite direction for retracing)
-                moving = true;
-            }
-            if (control.isMovementComplete()) {
-                wait(1);
-                sideCount++;  // Increment side count after a turn
-                moving = false;
-                state = (sideCount < 4) ? MOVE_FORWARD : STOP;  // Move forward or stop if all sides are retraced
-            }
-            break;
-
-        case TURN_AROUND:  // Turn around (180°) after completing the square
-            if (!moving) {
-                control.turn(90*1.0f, basespeed);  // Turn 180° to prepare for retracing
-                moving = true;
-            }
-            if (control.isMovementComplete()) {
-                wait(1);
-                retracing = true;  // Start retracing
-                sideCount = 0;  // Reset side count for retracing
-                state = MOVE_FORWARD;  // Start moving forward again, but retracing
-                moving = false;
-            }
-            break;
-
-        case STOP:  // Stop after retracing all sides
-            retracing = false;
-            moving=false;
-            sideCount = 0;
-            state = MOVE_FORWARD;
-            lcd.cls();
-            lcd.locate(0, 0);
-            lcd.printf("Square Complete, Idle Mode");
-            stopMotorAndSwitchToIdleMode();  // Call to stop the motors and switch to idle mode
-            break;
-    }
-}
-
-
-
 
 //
 // Mode Switching Functions
@@ -230,7 +141,7 @@ void switchToSquareIdleMode() {
 }
 
 void switchToSquarePatternMode() {
-    motorState = square_pattern_mode;
+    motorState = waiting_for_movement;
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Square Pattern Mode");
@@ -247,6 +158,7 @@ void switchToSquarePatternMode() {
     rightWheel.encoder.reset();
     controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
     leftWheel.motor.enable();
+    control.moveSquare();
 }
 
 void switchToLineMenuMode(){
@@ -393,17 +305,6 @@ int main() {
                     lcd.printf("Square Idle Mode");
                     lcdUpdateRequired = false;
                 }
-                break;
-
-            case square_pattern_mode:
-                //LED.setWhite();
-                if (lcdUpdateRequired) {
-                    lcd.cls();
-                    lcd.locate(0, 0);
-                    lcd.printf("Square Pattern Mode");
-                    lcdUpdateRequired = false;
-                }
-                updateSquareMovement();  // perform square movement with PID control
                 break;
 
             case line_menu_mode:
