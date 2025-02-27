@@ -78,10 +78,17 @@ void Bluetooth::sendAvailableParameters() {
     _serial.printf("PARAMETERS_DONE\n");
 }
 
-// Send debug data after control mode ends
 void Bluetooth::sendDebugData() {
-    _serial.printf("DEBUG DATA:\n%s\n", debug_buffer);
-    debug_index = 0; // Reset buffer
+    _serial.printf("DEBUG DATA:\n");
+
+    for (int i = 0; i < debug_index; i++) {
+        DebugEntry entry = debug_data_buffer[i];
+        _serial.printf("%lu ms: Left_Distance=%f, Right_Distance=%f, Error=%f, PID_out=%f, Multiplier=%f\n",
+                       entry.timestamp, entry.left_distance, entry.right_distance, entry.error, entry.pid_output, entry.multiplier);
+    }
+
+    debug_index = 0; // Reset binary buffer after sending
+
     _serial.printf("DEBUG_END\n");
 }
 
@@ -201,29 +208,22 @@ void Bluetooth::sendCurrentMode() {
     _serial.printf("MODE:%s\n", modeName);
 }
 
-void Bluetooth::logDebugData(const char* format, ...) {
-    if (debug_index >= DEBUG_BUFFER_SIZE - 128) {
+
+
+void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier) {
+    if (debug_index >= MAX_ENTRIES) {
         return;  // Avoid buffer overflow
     }
 
-    // Get elapsed time in milliseconds
-    uint32_t timeElapsed = debugTimer.read_ms();
-
-    // Start forming the debug string with timestamp
-    va_list args;
-    va_start(args, format);
-    
-    // Add timestamp with newline at the end
-    debug_index += snprintf(debug_buffer + debug_index, DEBUG_BUFFER_SIZE - debug_index,
-                            "%lu ms: ", timeElapsed);  // Add timestamp
-
-    // Append other parameters (key-value pairs) and add newline
-    debug_index += vsnprintf(debug_buffer + debug_index, DEBUG_BUFFER_SIZE - debug_index, format, args);
-    
-    // Append newline after the log entry
-    debug_index += snprintf(debug_buffer + debug_index, DEBUG_BUFFER_SIZE - debug_index, "\n");
-
-    va_end(args);
+    // Store data in binary format
+    debug_data_buffer[debug_index++] = {
+        debugTimer.read_ms(),
+        leftDistance,
+        rightDistance,
+        error,
+        pidOutput,
+        multiplier
+    };
 }
 
 
@@ -231,9 +231,26 @@ void Bluetooth::resetDebugData() {
     // Reset the debug timer
     debugTimer.reset();
 
-    // Clear the debug buffer
-    memset(debug_buffer, 0, DEBUG_BUFFER_SIZE);
-
-    // Reset the debug index
+    // Clear the binary debug buffer by resetting the index
     debug_index = 0;
+
+    printDebugData("Resetting Debug Data");
+}
+
+
+void Bluetooth::printDebugData(const char* format, ...) {
+    // Get elapsed time in milliseconds
+    uint32_t timeElapsed = debugTimer.read_ms();
+
+    // Print timestamp
+    _serial.printf("%lu ms: ", timeElapsed);
+
+    // Handle formatted arguments
+    va_list args;
+    va_start(args, format);
+    _serial.vprintf(format, args);
+    va_end(args);
+
+    // Print newline for formatting
+    _serial.printf("\n");
 }

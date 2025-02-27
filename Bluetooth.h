@@ -16,8 +16,9 @@ public:
     void sendDebugData();
     bool shouldStart();
     void sendMovementFinished();
-    void logDebugData(const char* format, ...);
+    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier);
     void resetDebugData();
+    void printDebugData(const char* format, ...);
 
 private:
     Serial &_serial;
@@ -32,16 +33,27 @@ private:
     char rx_buffer[BUFFER_SIZE];
     volatile uint16_t head = 0, tail = 0;
 
-    static const int DEBUG_BUFFER_SIZE = 1024;
-    char debug_buffer[DEBUG_BUFFER_SIZE];
-    uint16_t debug_index = 0;
-
     void rx_interrupt();
     void parseCommand(char c);
     void handleCommand(const char *cmd);
     void updateParameter(const char *paramStr);
     void startControlMode();
     void sendCurrentMode();
+
+    struct DebugEntry {
+        uint32_t timestamp;
+        float left_distance;
+        float right_distance;
+        float error;
+        float pid_output;
+        float multiplier;
+    };
+
+    #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  // Half of available RAM
+    #define MAX_ENTRIES  (DEBUG_RAM_ALLOCATION / sizeof(DebugEntry))
+
+    DebugEntry debug_data_buffer[MAX_ENTRIES];
+    int debug_index = 0;
 };
 
 #endif // BLUETOOTH_H
