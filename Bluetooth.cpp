@@ -117,12 +117,16 @@ void Bluetooth::handleCommand(const char *cmd) {
         }
     } else if (strcmp(cmd, "SET_MODE:SQUARE_IDLE") == 0) {
         *_currentMode = square_idle_mode;
+        _serial.printf("MODE_CHANGED:SQUARE_IDLE\n");
     } else if (strcmp(cmd, "SET_MODE:STRAIGHT_LINE") == 0) {
         *_currentMode = line_menu_mode;
+        _serial.printf("MODE_CHANGED:STRAIGHT_LINE\n");
     } else if (strcmp(cmd, "SET_MODE:IDLE") == 0) {
         *_currentMode = idle_mode;
+        _serial.printf("MODE_CHANGED:IDLE\n");
     } else if (strcmp(cmd, "SET_MODE:TURN_ANGLE") == 0) {
         *_currentMode = turn_menu_mode;
+        _serial.printf("MODE_CHANGED:TURN_ANGLE\n");
     } else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -131,6 +135,7 @@ void Bluetooth::handleCommand(const char *cmd) {
         updateParameter(cmd + 6);   // Update a parameter dynamically
     }
 }
+
 
 
 // Update parameters dynamically based on mode
