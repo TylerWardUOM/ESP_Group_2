@@ -41,7 +41,8 @@
 #define SQUARE_CONTROL_INTERVAL 0.01
 
 // Bluetooth Instance
-Serial btSerial(USBTX,USBRX); //temp to test functionality
+//Serial btSerial(PA_11,PA_12);
+Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -93,6 +94,8 @@ void updateLCD() {
 
 Ticker controlticker;
 
+bool square_flag = false;
+
 
 void switchToSpeedControlMode() {
     leftWheel.motor.enable();
@@ -114,6 +117,7 @@ void switchToSquarePatternMode() {
     leftWheel.stop();
     rightWheel.stop();
     //Set Mode State
+    square_flag = true;
     buggyMode = waiting_for_movement;
     //Reset Encoders
     leftWheel.encoder.reset();
@@ -187,6 +191,7 @@ void stopMotorAndSwitchToIdleMode() {
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Idle Mode");
+    square_flag = false;
 }
 
 int main() {
@@ -238,13 +243,15 @@ int main() {
             case waiting_for_movement:
                 lcd.locate(0, 0);
                 lcd.printf("Waiting for Movement");
-                if (control.isMovementComplete()) {
+
+                if ((square_flag && control.isSquareComplete()) || (!square_flag && control.isMovementComplete())) {
                     controlticker.detach();
                     bluetooth.sendMovementFinished();
                     bluetooth.sendDebugData();
                     stopMotorAndSwitchToIdleMode();
                 }
-                break;
+            break;
+
         }
     }
 }

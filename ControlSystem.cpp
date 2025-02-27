@@ -13,7 +13,7 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
       pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
       state(IDLE), targetDistance(0.0f), turnDirection(0), 
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
-      bluetooth(bluetooth){}
+      bluetooth(bluetooth),squareCompleted(false){}
 
 void ControlSystem::moveForward(float distance, float speed) {
     targetDistance = distance;
@@ -22,7 +22,9 @@ void ControlSystem::moveForward(float distance, float speed) {
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
     basespeed = speed;
-    bluetooth->resetDebugData();
+    if (squareCompleted){
+        bluetooth->resetDebugData();
+    }
 }
 
 void ControlSystem::turn(float angle, float speed) {
@@ -33,12 +35,17 @@ void ControlSystem::turn(float angle, float speed) {
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
     basespeed = speed;
-    bluetooth->resetDebugData();
-}
+    if (squareCompleted){
+        bluetooth->resetDebugData();
+    }}
 
 void ControlSystem::moveSquare() {
+    if (squareCompleted) { 
+        bluetooth->resetDebugData();
+    }
     state = MOVING_SQUARE;
     squareState = MOVE_FORWARD_SQUARE;
+    squareCompleted = false;
     sideCount = 0;
     retracing = false;
     moving = false;
@@ -79,6 +86,10 @@ bool ControlSystem::isMovementComplete() {
     return movementCompleted;
 }
 
+bool ControlSystem::isSquareComplete(){
+    return squareCompleted;
+}
+
 void ControlSystem::processForwardMovement(float dt) {
     float leftDistance = leftWheel.encoder.getDistance();
     float rightDistance = rightWheel.encoder.getDistance();
@@ -96,12 +107,17 @@ void ControlSystem::processForwardMovement(float dt) {
     }
     leftWheel.setSpeed(basespeed);
     rightWheel.setSpeed(basespeed * multiplier);
-    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f, Error=%.2f, PID_out=%.2f,Multiplier=%.2f",leftDistance,rightDistance,error,pidOutput,multiplier);
+    bluetooth->logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
     if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
         stopWheels();
         pidForward.reset();
         movementCompleted = true;
-        state = IDLE;
+        if (squareCompleted){
+            state = IDLE;
+        }
+        else{
+            state = MOVING_SQUARE;
+        }
     }
 }
 
@@ -124,12 +140,17 @@ void ControlSystem::processTurning(float dt) {
     float baseTurnSpeed = 0.2f;
     leftWheel.setSpeed(-turnDirection * basespeed * multiplier);
     rightWheel.setSpeed(turnDirection * basespeed);
-    bluetooth->logDebugData("Left_Distance=%.2f, Right_Distance=%.2f, Error=%.2f, PID_out=%.2f,Multiplier=%.2f",leftDistance,rightDistance,error,pidOutput,multiplier);
+    bluetooth->logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
     if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
         stopWheels();
         pidTurn.reset();
         movementCompleted = true;
-        state = IDLE;
+        if (squareCompleted){
+            state = IDLE;
+        }
+        else{
+            state = MOVING_SQUARE;
+        }
     }
 }
 
@@ -192,13 +213,15 @@ void ControlSystem::processSquare() {
 
         case STOP_SQUARE:
             // Stop after retracing all sides
-            retracing = false;
-            moving = false;
-            sideCount = 0;
-            movementCompleted = true;
-            state = IDLE;
-            squareState = IDLE_SQUARE;
-            stopWheels();
+            if (isMovementComplete()){
+                retracing = false;
+                moving = false;
+                sideCount = 0;
+                squareCompleted = true;
+                state = IDLE;
+                squareState = IDLE_SQUARE;
+                stopWheels();
+            }
             break;
     }
 }

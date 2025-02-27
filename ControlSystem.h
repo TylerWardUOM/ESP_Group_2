@@ -17,6 +17,7 @@ public:
     void update();
     void moveSquare();
     bool isMovementComplete();
+    bool isSquareComplete();
     PIDController pidForward;
     PIDController pidTurn;
 
@@ -34,6 +35,7 @@ private:
     float targetDistance;
     int turnDirection;
     bool movementCompleted;
+    bool squareCompleted;
     float _track_width;
 
     int sideCount;
