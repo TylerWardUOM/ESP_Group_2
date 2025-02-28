@@ -1,0 +1,166 @@
+\doxysection{Motor Class Reference}
+\hypertarget{class_motor}{}\label{class_motor}\index{Motor@{Motor}}
+
+
+{\ttfamily \#include $<$Motor.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_motor_a2f6c06031217e836b22b5394b14100c2}{Motor}} (Pin\+Name bipolar, float multiplier, Pin\+Name pwm, Pin\+Name \mbox{\hyperlink{class_motor_acdf6ea64d3bc32cec89103ea23521303}{enable}})
+\item 
+void \mbox{\hyperlink{class_motor_a05558d30f775b3a62fe9b14d15ad2105}{set\+Speed}} (float speed)
+\item 
+void \mbox{\hyperlink{class_motor_a015fd5308d4d27e5dcf7f9ea3d5c03f6}{stop}} ()
+\item 
+void \mbox{\hyperlink{class_motor_adf84e8f39fb82027b3343f5fb1cdbf96}{disable}} ()
+\item 
+void \mbox{\hyperlink{class_motor_acdf6ea64d3bc32cec89103ea23521303}{enable}} ()
+\item 
+float \mbox{\hyperlink{class_motor_a16fd26b8314eb4d70fa1910deb482797}{get\+Speed}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Digital\+Out \mbox{\hyperlink{class_motor_a9dcbab3365c7d5d92eed712e10f4d88f}{\+\_\+bipolar}}
+\item 
+float \mbox{\hyperlink{class_motor_a0abe71a454a2e804bce1caa0a5918bee}{\+\_\+multiplier}}
+\item 
+Pwm\+Out \mbox{\hyperlink{class_motor_abf4bbdb73cfeab4fd5f67b38e679f377}{\+\_\+pwm}}
+\item 
+Digital\+Out \mbox{\hyperlink{class_motor_a0597ee0677622164e0a67614c1b3ea56}{\+\_\+enable}}
+\item 
+float \mbox{\hyperlink{class_motor_a52a05d575ceca4e2b1023b5ddd617380}{\+\_\+speed}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_motor_8h_source_l00006}{6}} of file \mbox{\hyperlink{_motor_8h_source}{Motor.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_motor_a2f6c06031217e836b22b5394b14100c2}\index{Motor@{Motor}!Motor@{Motor}}
+\index{Motor@{Motor}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{Motor()}{Motor()}}
+{\footnotesize\ttfamily \label{class_motor_a2f6c06031217e836b22b5394b14100c2} 
+Motor\+::\+Motor (\begin{DoxyParamCaption}\item[{Pin\+Name}]{bipolar}{, }\item[{float}]{multiplier}{, }\item[{Pin\+Name}]{pwm}{, }\item[{Pin\+Name}]{enable}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8cpp_source_l00003}{3}} of file \mbox{\hyperlink{_motor_8cpp_source}{Motor.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_motor_adf84e8f39fb82027b3343f5fb1cdbf96}\index{Motor@{Motor}!disable@{disable}}
+\index{disable@{disable}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{disable()}{disable()}}
+{\footnotesize\ttfamily \label{class_motor_adf84e8f39fb82027b3343f5fb1cdbf96} 
+void Motor\+::disable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8cpp_source_l00025}{25}} of file \mbox{\hyperlink{_motor_8cpp_source}{Motor.\+cpp}}.
+
+\Hypertarget{class_motor_acdf6ea64d3bc32cec89103ea23521303}\index{Motor@{Motor}!enable@{enable}}
+\index{enable@{enable}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily \label{class_motor_acdf6ea64d3bc32cec89103ea23521303} 
+void Motor\+::enable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{_motor_8cpp_source}{Motor.\+cpp}}.
+
+\Hypertarget{class_motor_a16fd26b8314eb4d70fa1910deb482797}\index{Motor@{Motor}!getSpeed@{getSpeed}}
+\index{getSpeed@{getSpeed}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{getSpeed()}{getSpeed()}}
+{\footnotesize\ttfamily \label{class_motor_a16fd26b8314eb4d70fa1910deb482797} 
+float Motor\+::get\+Speed (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8cpp_source_l00033}{33}} of file \mbox{\hyperlink{_motor_8cpp_source}{Motor.\+cpp}}.
+
+\Hypertarget{class_motor_a05558d30f775b3a62fe9b14d15ad2105}\index{Motor@{Motor}!setSpeed@{setSpeed}}
+\index{setSpeed@{setSpeed}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{setSpeed()}{setSpeed()}}
+{\footnotesize\ttfamily \label{class_motor_a05558d30f775b3a62fe9b14d15ad2105} 
+void Motor\+::set\+Speed (\begin{DoxyParamCaption}\item[{float}]{speed}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8cpp_source_l00011}{11}} of file \mbox{\hyperlink{_motor_8cpp_source}{Motor.\+cpp}}.
+
+\Hypertarget{class_motor_a015fd5308d4d27e5dcf7f9ea3d5c03f6}\index{Motor@{Motor}!stop@{stop}}
+\index{stop@{stop}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily \label{class_motor_a015fd5308d4d27e5dcf7f9ea3d5c03f6} 
+void Motor\+::stop (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8cpp_source_l00029}{29}} of file \mbox{\hyperlink{_motor_8cpp_source}{Motor.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_motor_a9dcbab3365c7d5d92eed712e10f4d88f}\index{Motor@{Motor}!\_bipolar@{\_bipolar}}
+\index{\_bipolar@{\_bipolar}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{\_bipolar}{\_bipolar}}
+{\footnotesize\ttfamily \label{class_motor_a9dcbab3365c7d5d92eed712e10f4d88f} 
+Digital\+Out Motor\+::\+\_\+bipolar\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8h_source_l00016}{16}} of file \mbox{\hyperlink{_motor_8h_source}{Motor.\+h}}.
+
+\Hypertarget{class_motor_a0597ee0677622164e0a67614c1b3ea56}\index{Motor@{Motor}!\_enable@{\_enable}}
+\index{\_enable@{\_enable}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{\_enable}{\_enable}}
+{\footnotesize\ttfamily \label{class_motor_a0597ee0677622164e0a67614c1b3ea56} 
+Digital\+Out Motor\+::\+\_\+enable\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8h_source_l00019}{19}} of file \mbox{\hyperlink{_motor_8h_source}{Motor.\+h}}.
+
+\Hypertarget{class_motor_a0abe71a454a2e804bce1caa0a5918bee}\index{Motor@{Motor}!\_multiplier@{\_multiplier}}
+\index{\_multiplier@{\_multiplier}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{\_multiplier}{\_multiplier}}
+{\footnotesize\ttfamily \label{class_motor_a0abe71a454a2e804bce1caa0a5918bee} 
+float Motor\+::\+\_\+multiplier\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8h_source_l00017}{17}} of file \mbox{\hyperlink{_motor_8h_source}{Motor.\+h}}.
+
+\Hypertarget{class_motor_abf4bbdb73cfeab4fd5f67b38e679f377}\index{Motor@{Motor}!\_pwm@{\_pwm}}
+\index{\_pwm@{\_pwm}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{\_pwm}{\_pwm}}
+{\footnotesize\ttfamily \label{class_motor_abf4bbdb73cfeab4fd5f67b38e679f377} 
+Pwm\+Out Motor\+::\+\_\+pwm\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8h_source_l00018}{18}} of file \mbox{\hyperlink{_motor_8h_source}{Motor.\+h}}.
+
+\Hypertarget{class_motor_a52a05d575ceca4e2b1023b5ddd617380}\index{Motor@{Motor}!\_speed@{\_speed}}
+\index{\_speed@{\_speed}!Motor@{Motor}}
+\doxysubsubsection{\texorpdfstring{\_speed}{\_speed}}
+{\footnotesize\ttfamily \label{class_motor_a52a05d575ceca4e2b1023b5ddd617380} 
+float Motor\+::\+\_\+speed\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_motor_8h_source_l00020}{20}} of file \mbox{\hyperlink{_motor_8h_source}{Motor.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_motor_8h}{Motor.\+h}}\item 
+src/\mbox{\hyperlink{_motor_8cpp}{Motor.\+cpp}}\end{DoxyCompactItemize}

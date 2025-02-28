@@ -1,0 +1,304 @@
+\doxysection{PIDController Class Reference}
+\hypertarget{class_p_i_d_controller}{}\label{class_p_i_d_controller}\index{PIDController@{PIDController}}
+
+
+Implements a simple PID controller.  
+
+
+
+
+{\ttfamily \#include $<$PIDController.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_p_i_d_controller_adfbfe2581ad8faf120ce433981d4bfa2}{PIDController}} (float \mbox{\hyperlink{class_p_i_d_controller_a6c54dac54de1b2aba575ea832b74ef91}{kp}}, float \mbox{\hyperlink{class_p_i_d_controller_a27faca2dcc08a7d1b064cff83a6c99ba}{ki}}, float \mbox{\hyperlink{class_p_i_d_controller_af090e5f05a06bb5168f7af2db07a68db}{kd}}, float scaling\+\_\+multiplier=1)
+\begin{DoxyCompactList}\small\item\em Constructs a PID controller with given gains. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a14f325bb152c0069f2d501b4b22b1601}{update}} (float error, float dt)
+\begin{DoxyCompactList}\small\item\em Computes the PID control output. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_i_d_controller_ab6adfbffa30414f0a83b95ba999a2fea}{reset}} ()
+\begin{DoxyCompactList}\small\item\em Resets the internal state of the PID controller. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a1828ef8b9ab00cf4a4e641dec3ece893}{get\+Kp}} () const
+\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a01f60dfbcd5ff4903de954d34fa3fd92}{get\+Ki}} () const
+\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a61d0ffee6a4af464cc30e79668693f85}{get\+Kd}} () const
+\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a1c55cc0ccb0b2d25023fc4a78e8bea23}{get\+Scaling\+Multiplier}} () const
+\item 
+void \mbox{\hyperlink{class_p_i_d_controller_a138c2957e72671ca34e67c9fccf6491e}{set\+Kp}} (float new\+Kp)
+\item 
+void \mbox{\hyperlink{class_p_i_d_controller_ab442bf567d1d1360578ce145765f4aa0}{set\+Ki}} (float new\+Ki)
+\item 
+void \mbox{\hyperlink{class_p_i_d_controller_a3b1d0f85cef60fe25424e88a6adbb51a}{set\+Kd}} (float new\+Kd)
+\item 
+void \mbox{\hyperlink{class_p_i_d_controller_adceac57f56f6deaa1167c49d1e2e9ae2}{set\+Scaling\+Multiplier}} (float new\+Scaling\+Multiplier)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a1ff8105d90afcfb3a0badf9d1e105e27}{\+\_\+scaling\+\_\+multiplier}}
+\begin{DoxyCompactList}\small\item\em Scaling factor for the output. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a6c54dac54de1b2aba575ea832b74ef91}{kp}}
+\begin{DoxyCompactList}\small\item\em Proportional gain. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a27faca2dcc08a7d1b064cff83a6c99ba}{ki}}
+\begin{DoxyCompactList}\small\item\em Integral gain. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_af090e5f05a06bb5168f7af2db07a68db}{kd}}
+\begin{DoxyCompactList}\small\item\em Derivative gain. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a9f1834a4933702b2de5076effea32f1f}{integral}}
+\begin{DoxyCompactList}\small\item\em Accumulated integral error. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_p_i_d_controller_a8af7db307a7659338ee5c8d78579f738}{prev\+Error}}
+\begin{DoxyCompactList}\small\item\em Previous error value for derivative calculation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements a simple PID controller. 
+
+This class provides a basic PID control algorithm. 
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00010}{10}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_p_i_d_controller_adfbfe2581ad8faf120ce433981d4bfa2}\index{PIDController@{PIDController}!PIDController@{PIDController}}
+\index{PIDController@{PIDController}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{PIDController()}{PIDController()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_adfbfe2581ad8faf120ce433981d4bfa2} 
+PIDController\+::\+PIDController (\begin{DoxyParamCaption}\item[{float}]{kp}{, }\item[{float}]{ki}{, }\item[{float}]{kd}{, }\item[{float}]{scaling\+\_\+multiplier}{ = {\ttfamily 1}}\end{DoxyParamCaption})}
+
+
+
+Constructs a PID controller with given gains. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kp} & Proportional gain. \\
+\hline
+{\em ki} & Integral gain. \\
+\hline
+{\em kd} & Derivative gain. \\
+\hline
+{\em scaling\+\_\+multiplier} & A scaling factor for the output (default is 1). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8cpp_source_l00003}{3}} of file \mbox{\hyperlink{_p_i_d_controller_8cpp_source}{PIDController.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_p_i_d_controller_a61d0ffee6a4af464cc30e79668693f85}\index{PIDController@{PIDController}!getKd@{getKd}}
+\index{getKd@{getKd}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{getKd()}{getKd()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a61d0ffee6a4af464cc30e79668693f85} 
+float PIDController\+::get\+Kd (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00044}{44}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a01f60dfbcd5ff4903de954d34fa3fd92}\index{PIDController@{PIDController}!getKi@{getKi}}
+\index{getKi@{getKi}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{getKi()}{getKi()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a01f60dfbcd5ff4903de954d34fa3fd92} 
+float PIDController\+::get\+Ki (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00043}{43}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a1828ef8b9ab00cf4a4e641dec3ece893}\index{PIDController@{PIDController}!getKp@{getKp}}
+\index{getKp@{getKp}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{getKp()}{getKp()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a1828ef8b9ab00cf4a4e641dec3ece893} 
+float PIDController\+::get\+Kp (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00042}{42}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a1c55cc0ccb0b2d25023fc4a78e8bea23}\index{PIDController@{PIDController}!getScalingMultiplier@{getScalingMultiplier}}
+\index{getScalingMultiplier@{getScalingMultiplier}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{getScalingMultiplier()}{getScalingMultiplier()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a1c55cc0ccb0b2d25023fc4a78e8bea23} 
+float PIDController\+::get\+Scaling\+Multiplier (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00045}{45}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_ab6adfbffa30414f0a83b95ba999a2fea}\index{PIDController@{PIDController}!reset@{reset}}
+\index{reset@{reset}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_ab6adfbffa30414f0a83b95ba999a2fea} 
+void PIDController\+::reset (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Resets the internal state of the PID controller. 
+
+This function clears the integral term and previous error, which is useful when restarting the control loop. 
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8cpp_source_l00013}{13}} of file \mbox{\hyperlink{_p_i_d_controller_8cpp_source}{PIDController.\+cpp}}.
+
+\Hypertarget{class_p_i_d_controller_a3b1d0f85cef60fe25424e88a6adbb51a}\index{PIDController@{PIDController}!setKd@{setKd}}
+\index{setKd@{setKd}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{setKd()}{setKd()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a3b1d0f85cef60fe25424e88a6adbb51a} 
+void PIDController\+::set\+Kd (\begin{DoxyParamCaption}\item[{float}]{new\+Kd}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00050}{50}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_ab442bf567d1d1360578ce145765f4aa0}\index{PIDController@{PIDController}!setKi@{setKi}}
+\index{setKi@{setKi}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{setKi()}{setKi()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_ab442bf567d1d1360578ce145765f4aa0} 
+void PIDController\+::set\+Ki (\begin{DoxyParamCaption}\item[{float}]{new\+Ki}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00049}{49}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a138c2957e72671ca34e67c9fccf6491e}\index{PIDController@{PIDController}!setKp@{setKp}}
+\index{setKp@{setKp}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{setKp()}{setKp()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a138c2957e72671ca34e67c9fccf6491e} 
+void PIDController\+::set\+Kp (\begin{DoxyParamCaption}\item[{float}]{new\+Kp}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00048}{48}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_adceac57f56f6deaa1167c49d1e2e9ae2}\index{PIDController@{PIDController}!setScalingMultiplier@{setScalingMultiplier}}
+\index{setScalingMultiplier@{setScalingMultiplier}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{setScalingMultiplier()}{setScalingMultiplier()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_adceac57f56f6deaa1167c49d1e2e9ae2} 
+void PIDController\+::set\+Scaling\+Multiplier (\begin{DoxyParamCaption}\item[{float}]{new\+Scaling\+Multiplier}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00051}{51}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a14f325bb152c0069f2d501b4b22b1601}\index{PIDController@{PIDController}!update@{update}}
+\index{update@{update}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a14f325bb152c0069f2d501b4b22b1601} 
+float PIDController\+::update (\begin{DoxyParamCaption}\item[{float}]{error}{, }\item[{float}]{dt}{}\end{DoxyParamCaption})}
+
+
+
+Computes the PID control output. 
+
+This function updates the PID control loop using the current error and time step.
+
+
+\begin{DoxyParams}{Parameters}
+{\em error} & The current error (setpoint -\/ measured value). \\
+\hline
+{\em dt} & Time step in seconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The computed control output. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8cpp_source_l00006}{6}} of file \mbox{\hyperlink{_p_i_d_controller_8cpp_source}{PIDController.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_p_i_d_controller_a1ff8105d90afcfb3a0badf9d1e105e27}\index{PIDController@{PIDController}!\_scaling\_multiplier@{\_scaling\_multiplier}}
+\index{\_scaling\_multiplier@{\_scaling\_multiplier}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{\_scaling\_multiplier}{\_scaling\_multiplier}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a1ff8105d90afcfb3a0badf9d1e105e27} 
+float PIDController\+::\+\_\+scaling\+\_\+multiplier\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Scaling factor for the output. 
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00054}{54}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a9f1834a4933702b2de5076effea32f1f}\index{PIDController@{PIDController}!integral@{integral}}
+\index{integral@{integral}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{integral}{integral}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a9f1834a4933702b2de5076effea32f1f} 
+float PIDController\+::integral\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated integral error. 
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00058}{58}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_af090e5f05a06bb5168f7af2db07a68db}\index{PIDController@{PIDController}!kd@{kd}}
+\index{kd@{kd}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{kd}{kd}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_af090e5f05a06bb5168f7af2db07a68db} 
+float PIDController\+::kd\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Derivative gain. 
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00057}{57}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a27faca2dcc08a7d1b064cff83a6c99ba}\index{PIDController@{PIDController}!ki@{ki}}
+\index{ki@{ki}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{ki}{ki}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a27faca2dcc08a7d1b064cff83a6c99ba} 
+float PIDController\+::ki\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Integral gain. 
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00056}{56}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a6c54dac54de1b2aba575ea832b74ef91}\index{PIDController@{PIDController}!kp@{kp}}
+\index{kp@{kp}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{kp}{kp}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a6c54dac54de1b2aba575ea832b74ef91} 
+float PIDController\+::kp\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Proportional gain. 
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00055}{55}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+\Hypertarget{class_p_i_d_controller_a8af7db307a7659338ee5c8d78579f738}\index{PIDController@{PIDController}!prevError@{prevError}}
+\index{prevError@{prevError}!PIDController@{PIDController}}
+\doxysubsubsection{\texorpdfstring{prevError}{prevError}}
+{\footnotesize\ttfamily \label{class_p_i_d_controller_a8af7db307a7659338ee5c8d78579f738} 
+float PIDController\+::prev\+Error\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Previous error value for derivative calculation. 
+
+
+
+Definition at line \mbox{\hyperlink{_p_i_d_controller_8h_source_l00059}{59}} of file \mbox{\hyperlink{_p_i_d_controller_8h_source}{PIDController.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_p_i_d_controller_8h}{PIDController.\+h}}\item 
+src/\mbox{\hyperlink{_p_i_d_controller_8cpp}{PIDController.\+cpp}}\end{DoxyCompactItemize}
