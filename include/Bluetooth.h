@@ -27,9 +27,10 @@ public:
               TurnAngleParams *taParams);
 
     /**
-     * @brief Processes incoming Bluetooth commands.
+     * @brief Processes received commands from the buffer.
      *
-     * Reads from the buffer each command and Sends to parseCommand to be parsed
+     * Reads each character from the circular buffer and forwards it to \ref parseCommand.
+     * Commands are only processed if the buggy is not in a movement state.
      */
     void processCommand();
 
@@ -95,14 +96,22 @@ private:
     void rx_interrupt();
 
     /**
-     * @brief Parses an incoming command character.
-     * @param c The received character.
+     * @brief Parses an incoming command character by character.
+     *
+     * This function accumulates characters in a buffer until it detects a newline (`\n`).
+     * Once a full command is formed, it is sent to \ref handleCommand for processing.
+     *
+     * @param c The received character to be processed.
      */
     void parseCommand(char c);
 
     /**
-     * @brief Handles complete received commands.
-     * @param cmd The received command string.
+     * @brief Handles a fully received command.
+     *
+     * Once a complete command string is received by \ref parseCommand, this function 
+     * processes it and executes the corresponding action.
+     *
+     * @param cmd The full command string to be handled.
      */
     void handleCommand(const char *cmd);
 

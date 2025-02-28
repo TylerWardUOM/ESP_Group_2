@@ -7,7 +7,6 @@
 #include "Wheel.h"
 #include "PIDController.h"
 #include "ControlSystem.h"
-#include "RGBled.h"
 #include "BuggyModes.h"
 #include "Bluetooth.h"
 
@@ -17,25 +16,10 @@
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
 #define MAX_RPM 300
 
-
 //Constants for Buggy
 //If not turning to set angle adjust track width
 #define TRACK_WIDTH 0.20f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
-
-//Constants for Control
-//If it doesnt go straight adjust these values
-#define KP_FORWARD 2.3f
-#define KI_FORWARD 0.6f
-#define KD_FORWARD 0
-#define SCALING_FORWARD 2.2f
-
-//If turns arent consistent adjust these values
-// If turns perfect one direction of square but not the other add a multipler to the turn angle in updatesquaremovement function
-#define KP_TURN 2.3f
-#define KI_TURN 0.6f
-#define KD_TURN 0
-#define SCALING_TURN 2.2f
 
 //Try get this to smallest value possible if code stops working properly go back to previous
 #define SQUARE_CONTROL_INTERVAL 0.01
@@ -55,12 +39,8 @@ ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
 Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
 
-// LCD and LED Pins
+// LCD Pins
 C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
-
-
-//RGBLed LED(D5,D9,D8);
-
 
 // Button Pins
 InterruptIn fire(D4);  // Interrupt for the center button on the joystick
