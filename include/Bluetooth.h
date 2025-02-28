@@ -4,56 +4,142 @@
 #include "mbed.h"
 #include "BuggyModes.h"
 
+/**
+ * @class Bluetooth
+ * @brief Handles Bluetooth communication for controlling the buggy.
+ *
+ * This class processes incoming Bluetooth commands, sends debug data, 
+ * and manages parameter updates for different buggy movement modes.
+ */
 class Bluetooth {
 public:
-    // Constructor declaration
+    /**
+     * @brief Constructs a Bluetooth object.
+     * @param serial Reference to a Serial object for Bluetooth communication.
+     * @param mode Pointer to the current Buggy mode.
+     * @param sqParams Pointer to Square Pattern movement parameters.
+     * @param slParams Pointer to Straight Line movement parameters.
+     * @param taParams Pointer to Turn Angle movement parameters.
+     */
     Bluetooth(Serial &serial, BuggyMode *mode, 
               SquarePatternParams *sqParams, 
               StraightLineParams *slParams, 
               TurnAngleParams *taParams);
+
+    /**
+     * @brief Processes incoming Bluetooth commands.
+     *
+     * Reads from the buffer each command and Sends to parseCommand to be parsed
+     */
     void processCommand();
+
+    /**
+     * @brief Sends the current set of available parameters over Bluetooth.
+     */
     void sendAvailableParameters();
+
+    /**
+     * @brief Sends debug data from debug buffer over Bluetooth.
+     */
     void sendDebugData();
+
+    /**
+     * @brief Check to see if the buggy should start movement.
+     * @return True if the start command has been received, false otherwise.
+     */
     bool shouldStart();
+
+    /**
+     * @brief Sends a notification that the movement has finished.
+     */
     void sendMovementFinished();
+
+    /**
+     * @brief Logs debug data for tracking buggy movement and control performance.
+     * @param leftDistance Distance measured by the left wheel encoder.
+     * @param rightDistance Distance measured by the right wheel encoder.
+     * @param error Current positional error.
+     * @param pidOutput PID controller output value.
+     * @param multiplier Control multiplier applied.
+     */
     void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier);
+
+    /**
+     * @brief Resets the debug data buffer.
+     */
     void resetDebugData();
+
+    /**
+     * @brief Prints debug data immediatly to ble in a formatted manner.
+     * @param format C-style format string.
+     * @param ... Variable arguments for formatted output.
+     */
     void printDebugData(const char* format, ...);
 
 private:
-    Serial &_serial;
-    BuggyMode *_currentMode;  // Pointer to external buggy state
-    SquarePatternParams *_sqParams; // Pointer to square pattern parameters
-    StraightLineParams *_slParams;  // Pointer to straight line parameters
-    TurnAngleParams *_taParams;     // Pointer to turn angle parameters
+    Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
+    BuggyMode *_currentMode;  ///< Pointer to the current buggy mode.
+    SquarePatternParams *_sqParams; ///< Pointer to square pattern movement parameters.
+    StraightLineParams *_slParams;  ///< Pointer to straight-line movement parameters.
+    TurnAngleParams *_taParams;     ///< Pointer to turn angle movement parameters.
 
-    bool go_flag = false; 
+    bool go_flag = false; ///< Flag indicating whether the buggy should start.
 
-    static const int BUFFER_SIZE = 128;
-    char rx_buffer[BUFFER_SIZE];
-    volatile uint16_t head = 0, tail = 0;
+    static const int BUFFER_SIZE = 128; ///< Size of the receive buffer.
+    char rx_buffer[BUFFER_SIZE]; ///< Buffer for storing received commands.
+    volatile uint16_t head = 0, tail = 0; ///< Circular buffer head and tail indices.
 
+    /**
+     * @brief Interrupt service routine for receiving Bluetooth data.
+     */
     void rx_interrupt();
+
+    /**
+     * @brief Parses an incoming command character.
+     * @param c The received character.
+     */
     void parseCommand(char c);
+
+    /**
+     * @brief Handles complete received commands.
+     * @param cmd The received command string.
+     */
     void handleCommand(const char *cmd);
+
+    /**
+     * @brief Updates parameters based on received command strings.
+     * @param paramStr The parameter string received from Bluetooth.
+     */
     void updateParameter(const char *paramStr);
+
+    /**
+     * @brief Starts the control mode for the buggy.
+     */
     void startControlMode();
+
+    /**
+     * @brief Sends the current buggy mode over Bluetooth.
+     */
     void sendCurrentMode();
 
+    /**
+     * @struct DebugEntry
+     * @brief Stores a single debug entry for movement logging.
+     */
     struct DebugEntry {
-        uint32_t timestamp;
-        float left_distance;
-        float right_distance;
-        float error;
-        float pid_output;
-        float multiplier;
+        uint32_t timestamp; ///< Timestamp of the recorded data entry.
+        float left_distance; ///< Distance recorded by the left wheel encoder.
+        float right_distance; ///< Distance recorded by the right wheel encoder.
+        float error; ///< Positional error value.
+        float pid_output; ///< PID controller output.
+        float multiplier; ///< Applied control multiplier.
     };
 
-    #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  // Half of available RAM
-    #define MAX_ENTRIES  (DEBUG_RAM_ALLOCATION / sizeof(DebugEntry))
+    #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  ///< Half of available RAM allocated for debugging.
+    #define MAX_ENTRIES  (DEBUG_RAM_ALLOCATION / sizeof(DebugEntry)) ///< Maximum number of debug entries.
 
-    DebugEntry debug_data_buffer[MAX_ENTRIES];
-    int debug_index = 0;
+    DebugEntry debug_data_buffer[MAX_ENTRIES]; ///< Buffer for storing debug data entries.
+    int debug_index = 0; ///< Current index in the debug data buffer.
 };
 
 #endif // BLUETOOTH_H
