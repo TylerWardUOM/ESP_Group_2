@@ -1,0 +1,72 @@
+name: Deploy Doxygen Docs
+
+on:
+  push:
+    branches:
+      - master  # Runs only when pushing to master
+
+permissions: 
+  contents: write  # Grants permission to push changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+
+    steps:
+      - name: Checkout the master branch
+        uses: actions/checkout@v4
+        with:
+          submodules: false  # Avoids issues with mbed-os
+          fetch-depth: 0  # Ensures full history for branch switching
+
+      - name: Install Doxygen
+        run: sudo apt-get install -y doxygen graphviz
+
+      - name: Generate Documentation
+        run: doxygen tools/Doxyfile  # Runs Doxygen to generate docs
+
+      - name: Move generated docs to temp location
+        run: |
+          if [ -d "docs" ]; then
+            mv docs temp_docs
+          else
+            echo "Error: docs directory not found!"
+            exit 1
+          fi
+
+      - name: Deploy to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        run: |
+          set -e  # Stop script on errors
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+          # Checkout or create gh-pages branch
+          git checkout gh-pages || git checkout --orphan gh-pages
+
+          # Remove old docs folder
+          git rm -rf docs || true
+          rm -rf docs || true
+
+          # Ensure temp_docs/html exists before renaming
+          if [ -d "temp_docs/html" ]; then
+            mv temp_docs/html docs  # Move HTML docs to correct location
+            rm -rf temp_docs  # Remove remaining temp_docs folder
+          else
+            echo "Error: temp_docs/html does not exist. Check folder structure."
+            exit 1
+          fi
+
+          # Add changes to git (if any)
+          git add docs
+
+          # Check if there are changes before committing
+          if git diff --staged --quiet; then
+            echo "No documentation changes detected. Skipping commit."
+            exit 0
+          fi
+
+          # Commit and push changes
+          git commit -m "Auto-update documentation"
+          git push origin gh-pages --force
