@@ -21,6 +21,20 @@
 #define TRACK_WIDTH 0.20f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
+//Constants for Control
+//If it doesnt go straight adjust these values
+#define KP_FORWARD 2.6f
+#define KI_FORWARD 0.8f
+#define KD_FORWARD 0
+#define SCALING_FORWARD 2.2f
+
+//If turns arent consistent adjust these values
+// If turns perfect one direction of square but not the other add a multipler to the turn angle in updatesquaremovement function
+#define KP_TURN 2.0f
+#define KI_TURN 0.45f
+#define KD_TURN 0
+#define SCALING_TURN 2.2f
+
 //Try get this to smallest value possible if code stops working properly go back to previous
 #define SQUARE_CONTROL_INTERVAL 0.01
 
