@@ -1,0 +1,69 @@
+BUILD
+.mbed
+compile_commands.json
+.clangd
+.cache
+mbed
+C12832
+/.vscode
+/BUILD
+/C12832
+/C12832.lib
+/GettingStarted.html
+/Makefile
+/mbed_app.json
+/mbed_config.h
+/mbed_settings.py
+/mbed_settings.pyc
+/mbed-os.lib
+/mbed.bld
+
+
+# Build artifacts
+BUILD/
+*.bin
+*.elf
+*.hex
+*.map
+*.sct
+*.lst
+*.o
+*.d
+
+# Mbed OS and compiled files
+mbed-os/
+mbed_config.h
+
+# Mbed CLI artifacts
+.mbed/
+mbed_settings.py
+
+# Doxygen-generated documentation
+#docs
+#/docs/html/
+#docs/latex/
+#docs/man/
+#docs/xml/
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.DS_Store
+*.pyc
+__pycache__/
+
+# CMake and Makefile build artifacts
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Git submodule lock files
+mbed-os.lib
+lib/C12832/C12832.lib
+/lib/C12832
