@@ -1,0 +1,30 @@
+\doxysection{Potentiometer.\+h}
+\hypertarget{_potentiometer_8h_source}{}\label{_potentiometer_8h_source}\mbox{\hyperlink{_potentiometer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ POTENTIOMETER\_H\ \ }\textcolor{comment}{//\ Prevents\ multiple\ inclusions\ of\ the\ header}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ POTENTIOMETER\_H}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}mbed.h"{}}\ \ \textcolor{comment}{//\ For\ AnalogIn\ class}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00006}\mbox{\hyperlink{class_potentiometer}{00006}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_potentiometer_aa15e31a19971b5ff9cf179805f4e388c}{Potentiometer}}\ \{}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00007}00007\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00008}00008\ \ \ \ \ AnalogIn\ inputSignal;\ \ \textcolor{comment}{//\ The\ analog\ input\ signal}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00009}00009\ \ \ \ \ \textcolor{keywordtype}{float}\ VDD;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Maximum\ measurable\ voltage\ (V)}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00010}00010\ \ \ \ \ \textcolor{keywordtype}{float}\ currentSampleNorm;\ \textcolor{comment}{//\ Most\ recent\ normalized\ sample\ (0.0\ to\ 1.0)}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00011}00011\ \ \ \ \ \textcolor{keywordtype}{float}\ currentSampleVolts;\ \textcolor{comment}{//\ Most\ recent\ sample\ in\ volts\ (0.0\ to\ VDD)}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00013}00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00014}00014\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00015}00015\ \ \ \ \ \mbox{\hyperlink{class_potentiometer_aa15e31a19971b5ff9cf179805f4e388c}{Potentiometer}}(PinName\ pin,\ \textcolor{keywordtype}{float}\ v);}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00017}00017\ \ \ \ \ \textcolor{comment}{//\ Member\ functions}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00018}00018\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_potentiometer_a966459d3cc16ee5cf1074eb23d95cce1}{amplitudeVolts}}(\textcolor{keywordtype}{void});\ \ \ \ \textcolor{comment}{//\ Measure\ the\ amplitude\ in\ volts}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00019}00019\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_potentiometer_a7a06a6375cdc5740713cc81659d423b0}{amplitudeNorm}}(\textcolor{keywordtype}{void});\ \ \ \ \ \textcolor{comment}{//\ Measure\ the\ normalized\ amplitude}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00020}00020\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_potentiometer_a43968d95d0b3834561c12c66cabdadb8}{sample}}(\textcolor{keywordtype}{void});\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sample\ the\ analog\ voltage}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00021}00021\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_potentiometer_a3bbad0d08ee0bfa42723b9b18fd8a335}{getCurrentSampleVolts}}(\textcolor{keywordtype}{void});\ \ \textcolor{comment}{//\ Get\ the\ most\ recent\ voltage\ sample}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00022}00022\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_potentiometer_a08272c7d8a85fd4acefba309d25d9004}{getCurrentSampleNorm}}(\textcolor{keywordtype}{void});\ \ \ \textcolor{comment}{//\ Get\ the\ most\ recent\ normalized\ sample}}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00023}00023\ \};}
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_potentiometer_8h_source_l00025}00025\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ POTENTIOMETER\_H}}
+
+\end{DoxyCode}

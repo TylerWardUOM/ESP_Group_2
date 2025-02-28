@@ -1,0 +1,216 @@
+\doxysection{Control\+System.\+cpp}
+\hypertarget{_control_system_8cpp_source}{}\label{_control_system_8cpp_source}\mbox{\hyperlink{_control_system_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_control_system_8h}{ControlSystem.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_buggy_modes_8h}{BuggyModes.h}}"{}}\ \ \textcolor{comment}{//\ Include\ to\ access\ the\ global\ variables}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00004}00004\ \textcolor{comment}{//add\ square\ state\ to\ the\ header}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00005}00005\ \textcolor{comment}{//add\ a\ process\ square\ movment\ function\ based\ of\ the\ current\ square\ function\ }}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00006}00006\ \textcolor{comment}{//work\ out\ how\ to\ passparameters\ into\ update\ square\ worried\ that\ passing\ every\ run\ will\ memory\ issue}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00007}\mbox{\hyperlink{class_control_system_a83c23a98338709c50b80730b65a3a38a}{00007}}\ \mbox{\hyperlink{class_control_system_a83c23a98338709c50b80730b65a3a38a}{ControlSystem::ControlSystem}}(\mbox{\hyperlink{class_wheel}{Wheel}}\&\ leftWheel,\ \mbox{\hyperlink{class_wheel}{Wheel}}\&\ rightWheel,}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00008}00008\ \ \ \ \ \textcolor{keywordtype}{float}\ track\_width,\ \textcolor{keywordtype}{float}\ kp\_forward,\ \textcolor{keywordtype}{float}\ ki\_forward,\ \textcolor{keywordtype}{float}\ kd\_forward,}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00009}00009\ \ \ \ \ \textcolor{keywordtype}{float}\ scaling\_forward,\ \textcolor{keywordtype}{float}\ kp\_turn,\ \textcolor{keywordtype}{float}\ ki\_turn,\ \textcolor{keywordtype}{float}\ kd\_turn,}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00010}00010\ \ \ \ \ \textcolor{keywordtype}{float}\ scaling\_turn,\ \mbox{\hyperlink{class_bluetooth}{Bluetooth}}*\ bluetooth)}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00011}00011\ \ \ \ \ :\ leftWheel(leftWheel),\ rightWheel(rightWheel),}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00012}00012\ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_afb672ccd3bc66ca8357630b1fd70c332}{pidForward}}(kp\_forward,\ ki\_forward,\ kd\_forward,\ scaling\_forward),}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00013}00013\ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_ab698b3d792ba9049c6e581346aa92183}{pidTurn}}(kp\_turn,\ ki\_turn,\ kd\_turn,\ scaling\_turn),}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00014}00014\ \ \ \ \ \ \ state(IDLE),\ targetDistance(0.0f),\ turnDirection(0),\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00015}00015\ \ \ \ \ \ \ movementCompleted(true),\ \_track\_width(track\_width),squareState(IDLE\_SQUARE),}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00016}00016\ \ \ \ \ \ \ bluetooth(bluetooth)\{\}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00018}\mbox{\hyperlink{class_control_system_a3eb5eef8c5c76f446807ce75ea08f4ac}{00018}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_control_system_a3eb5eef8c5c76f446807ce75ea08f4ac}{ControlSystem::moveForward}}(\textcolor{keywordtype}{float}\ distance,\ \textcolor{keywordtype}{float}\ speed)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00019}00019\ \ \ \ \ targetDistance\ =\ distance;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00020}00020\ \ \ \ \ state\ =\ MOVE\_FORWARD;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00021}00021\ \ \ \ \ movementCompleted\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00022}00022\ \ \ \ \ leftWheel.encoder.reset();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00023}00023\ \ \ \ \ rightWheel.encoder.reset();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00024}00024\ \ \ \ \ basespeed\ =\ speed;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00025}00025\ \ \ \ \ bluetooth-\/>resetDebugData();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00026}00026\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00028}\mbox{\hyperlink{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}{00028}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}{ControlSystem::turn}}(\textcolor{keywordtype}{float}\ angle,\ \textcolor{keywordtype}{float}\ speed)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00029}00029\ \ \ \ \ turnDirection\ =\ (angle\ >\ 0)\ ?\ 1\ :\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00030}00030\ \ \ \ \ targetDistance\ =\ (\_track\_width\ /\ 2.0f)\ *\ (fabs(angle)\ *\ 3.14159f\ /\ 180.0f);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00031}00031\ \ \ \ \ state\ =\ TURNING;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00032}00032\ \ \ \ \ movementCompleted\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00033}00033\ \ \ \ \ leftWheel.encoder.reset();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00034}00034\ \ \ \ \ rightWheel.encoder.reset();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00035}00035\ \ \ \ \ basespeed\ =\ speed;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00036}00036\ \ \ \ \ bluetooth-\/>resetDebugData();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00037}00037\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00039}\mbox{\hyperlink{class_control_system_aad3f0e6406a818c0719b7fbf2d77381d}{00039}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_control_system_aad3f0e6406a818c0719b7fbf2d77381d}{ControlSystem::moveSquare}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00040}00040\ \ \ \ \ state\ =\ MOVING\_SQUARE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00041}00041\ \ \ \ \ squareState\ =\ MOVE\_FORWARD\_SQUARE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00042}00042\ \ \ \ \ sideCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00043}00043\ \ \ \ \ retracing\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00044}00044\ \ \ \ \ moving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00045}00045\ \ \ \ \ bluetooth-\/>resetDebugData();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00049}\mbox{\hyperlink{class_control_system_a67acf8c6ff8f4de652bde98dae2555d4}{00049}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_control_system_a67acf8c6ff8f4de652bde98dae2555d4}{ControlSystem::update}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ timerStarted\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (!timerStarted)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ pidTimer.start();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ timerStarted\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00056}00056\ \ \ \ \ \textcolor{keywordtype}{float}\ currentTime\ =\ pidTimer.read();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ lastTime\ =\ currentTime;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{keywordtype}{float}\ dt\ =\ currentTime\ -\/\ lastTime;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{if}\ (dt\ <=\ 0.0f)\ dt\ =\ 0.01f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00060}00060\ \ \ \ \ lastTime\ =\ currentTime;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{switch}\ (state)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ MOVE\_FORWARD:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ processForwardMovement(dt);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TURNING:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ processTurning(dt);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ MOVING\_SQUARE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ processSquare();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ IDLE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ stopWheels();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00076}00076\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00078}\mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{00078}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{ControlSystem::isMovementComplete}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{return}\ movementCompleted;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00080}00080\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00082}00082\ \textcolor{keywordtype}{void}\ ControlSystem::processForwardMovement(\textcolor{keywordtype}{float}\ dt)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00083}00083\ \ \ \ \ \textcolor{keywordtype}{float}\ leftDistance\ =\ \mbox{\hyperlink{main_8cpp_a41c3c87e822f444f50240b0b164ad6ee}{leftWheel}}.encoder.getDistance();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{keywordtype}{float}\ rightDistance\ =\ \mbox{\hyperlink{main_8cpp_a46e5e555fa4986f2c927f6a6e1fb84c1}{rightWheel}}.encoder.getDistance();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//printf("{}Left\ Distance\ =\ \%f,Right\ Distance\ =\ \%f\(\backslash\)n"{},leftDistance,rightDistance);}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{keywordtype}{float}\ error\ =\ rightDistance\ -\/\ leftDistance;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{float}\ pidOutput\ =\ \mbox{\hyperlink{class_control_system_afb672ccd3bc66ca8357630b1fd70c332}{pidForward}}.\mbox{\hyperlink{class_p_i_d_controller_a14f325bb152c0069f2d501b4b22b1601}{update}}(error,\ dt);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{float}\ multiplier\ =\ 1.0f\ -\/\ (pidOutput);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ Replacing\ constrain\ with\ if-\/statements}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{if}\ (multiplier\ <\ 0.6f)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ multiplier\ =\ 0.6f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00094}00094\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (multiplier\ >\ 1.4f)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ multiplier\ =\ 1.4f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00096}00096\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00097}00097\ \ \ \ \ leftWheel.setSpeed(basespeed);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00098}00098\ \ \ \ \ rightWheel.setSpeed(basespeed\ *\ multiplier);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00099}00099\ \ \ \ \ bluetooth-\/>logDebugData(\textcolor{stringliteral}{"{}Left\_Distance=\%.2f,\ Right\_Distance=\%.2f,\ Error=\%.2f,\ PID\_out=\%.2f,Multiplier=\%.2f"{}},leftDistance,rightDistance,error,pidOutput,multiplier);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{if}\ (((leftDistance\ +\ rightDistance)\ /\ 2.0f)\ >=\ targetDistance)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ stopWheels();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_afb672ccd3bc66ca8357630b1fd70c332}{pidForward}}.reset();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ movementCompleted\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ state\ =\ IDLE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00106}00106\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00108}00108\ \textcolor{keywordtype}{void}\ ControlSystem::processTurning(\textcolor{keywordtype}{float}\ dt)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{keywordtype}{float}\ leftDistance\ =\ fabs(leftWheel.encoder.getDistance());}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordtype}{float}\ rightDistance\ =\ fabs(rightWheel.encoder.getDistance());}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordtype}{float}\ avgDistance\ =\ (leftDistance\ +\ rightDistance)\ /\ 2.0f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordtype}{float}\ error\ =\ targetDistance\ -\/\ avgDistance;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00114}00114\ \ \ \ \ \textcolor{keywordtype}{float}\ pidOutput\ =\ \mbox{\hyperlink{class_control_system_ab698b3d792ba9049c6e581346aa92183}{pidTurn}}.update(error,\ dt);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00115}00115\ \ \ \ \ \textcolor{keywordtype}{float}\ multiplier\ =\ 1.0f\ -\/\ (pidOutput);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ Replacing\ constrain\ with\ if-\/statements}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (multiplier\ <\ 0.7f)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ multiplier\ =\ 0.7f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00120}00120\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (multiplier\ >\ 1.3f)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ multiplier\ =\ 1.3f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00122}00122\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00124}00124\ \ \ \ \ \textcolor{keywordtype}{float}\ baseTurnSpeed\ =\ 0.2f;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00125}00125\ \ \ \ \ leftWheel.setSpeed(-\/turnDirection\ *\ basespeed\ *\ multiplier);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00126}00126\ \ \ \ \ rightWheel.setSpeed(turnDirection\ *\ basespeed);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00127}00127\ \ \ \ \ bluetooth-\/>logDebugData(\textcolor{stringliteral}{"{}Left\_Distance=\%.2f,\ Right\_Distance=\%.2f,\ Error=\%.2f,\ PID\_out=\%.2f,Multiplier=\%.2f"{}},leftDistance,rightDistance,error,pidOutput,multiplier);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00128}00128\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(error)\ <\ 0.02f\ ||\ avgDistance\ >=\ targetDistance)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ stopWheels();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_ab698b3d792ba9049c6e581346aa92183}{pidTurn}}.reset();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ movementCompleted\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ state\ =\ IDLE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00133}00133\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00134}00134\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00136}00136\ \textcolor{keywordtype}{void}\ ControlSystem::processSquare()\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00137}00137\ \ \ \ \ \textcolor{keywordflow}{switch}\ (squareState)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ MOVE\_FORWARD\_SQUARE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ square\ movement\ logic\ here}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!moving)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ forward\ one\ side\ of\ the\ square}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_a3eb5eef8c5c76f446807ce75ea08f4ac}{moveForward}}(\mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a156e24c23c29d08fb3a6f4649261fe56}{distance}},\ \mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a4c0d55dfa4eb57988e743032eb49fd09}{speed}});}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{isMovementComplete}}())\ \{\ \ \textcolor{comment}{//\ Wait\ for\ the\ movement\ to\ complete}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wait(1);}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determine\ whether\ to\ turn\ left\ or\ right}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ squareState\ =\ retracing\ ?\ TURN\_RIGHT\_SQUARE\ :\ TURN\_LEFT\_SQUARE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TURN\_LEFT\_SQUARE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ left\ after\ moving\ forward\ (square\ pattern)}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!moving)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}{turn}}(90*\mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a1a66e512822c3d7644c8234a1dea408f}{left\_turn\_multiplier}},\ \mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a4c0d55dfa4eb57988e743032eb49fd09}{speed}});\ \ \textcolor{comment}{//\ Turn\ 90°\ left}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{isMovementComplete}}())\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sideCount++;\ \ \textcolor{comment}{//\ Increment\ side\ count\ after\ a\ turn}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ squareState\ =\ (sideCount\ <\ 4)\ ?\ MOVE\_FORWARD\_SQUARE\ :\ TURN\_AROUND\_SQUARE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TURN\_RIGHT\_SQUARE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ right\ while\ retracing}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!moving)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}{turn}}(-\/90*\mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_ab2b0a673214c56e31c022097e284509e}{right\_turn\_multiplier}},\ \mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a4c0d55dfa4eb57988e743032eb49fd09}{speed}});\ \ \textcolor{comment}{//\ Turn\ 90°\ right\ (opposite\ direction\ for\ retracing)}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{isMovementComplete}}())\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sideCount++;\ \ \textcolor{comment}{//\ Increment\ side\ count\ after\ a\ turn}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ squareState\ =\ (sideCount\ <\ 4)\ ?\ MOVE\_FORWARD\_SQUARE\ :\ STOP\_SQUARE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TURN\_AROUND\_SQUARE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ around\ (90)\ after\ completing\ the\ square}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!moving)\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}{turn}}(90*\mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a1a66e512822c3d7644c8234a1dea408f}{left\_turn\_multiplier}},\ \mbox{\hyperlink{_buggy_modes_8cpp_a9389652741c6a76fb539c85562986158}{squareParams}}.\mbox{\hyperlink{struct_square_pattern_params_a4c0d55dfa4eb57988e743032eb49fd09}{speed}});\ \ \textcolor{comment}{//\ Turn\ 180°\ to\ prepare\ for\ retracing}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{isMovementComplete}}())\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ retracing\ =\ \textcolor{keyword}{true};\ \ \textcolor{comment}{//\ Start\ retracing}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sideCount\ =\ 0;\ \ \textcolor{comment}{//\ Reset\ side\ count\ for\ retracing}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ squareState\ =\ MOVE\_FORWARD\_SQUARE;\ \ \textcolor{comment}{//\ Start\ moving\ forward\ again,\ but\ retracing}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ STOP\_SQUARE:}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Stop\ after\ retracing\ all\ sides}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ retracing\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ moving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ sideCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ movementCompleted\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ state\ =\ IDLE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ squareState\ =\ IDLE\_SQUARE;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ stopWheels();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00203}00203\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00204}00204\ \}}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00207}00207\ \textcolor{keywordtype}{void}\ ControlSystem::stopWheels()\ \{}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00208}00208\ \ \ \ \ leftWheel.stop();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00209}00209\ \ \ \ \ rightWheel.stop();}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00210}00210\ \ \ \ \ basespeed\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_control_system_8cpp_source_l00211}00211\ \}}
+
+\end{DoxyCode}

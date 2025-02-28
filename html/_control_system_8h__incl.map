@@ -1,0 +1,24 @@
+<map id="ControlSystem.h" name="ControlSystem.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="174,5,293,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="80,229,144,256"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,31,81,51,42,65,18,82,10,99,9,117,14,135,23,154,53,189,85,218,81,222,49,193,19,157,9,137,3,117,5,97,14,78,40,60,80,46,173,26"/>
+<area shape="rect" id="Node000003" href="$_wheel_8h.html" title=" " alt="" coords="28,80,98,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,35,108,76,106,71,203,30"/>
+<area shape="rect" id="Node000006" href="$_p_i_d_controller_8h.html" title=" " alt="" coords="122,80,233,107"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="226,34,199,69,194,66,222,31"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="257,80,322,107"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="245,31,273,66,269,69,241,34"/>
+<area shape="rect" id="Node000008" href="$_buggy_modes_8h.html" title=" " alt="" coords="301,155,409,181"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="270,30,306,49,337,78,351,108,357,139,352,140,346,110,333,82,303,54,268,35"/>
+<area shape="rect" id="Node000009" href="$_bluetooth_8h.html" title=" " alt="" coords="398,80,485,107"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="271,30,392,72,390,77,269,35"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="64,107,64,141,71,180,92,216,88,219,66,182,58,141,59,107"/>
+<area shape="rect" id="Node000004" href="$_motor_8h.html" title=" " alt="" coords="80,155,145,181"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="74,106,97,140,93,143,69,109"/>
+<area shape="rect" id="Node000005" href="$_encoder_8h.html" title=" " alt="" coords="169,155,250,181"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="90,105,172,145,169,150,87,110"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="115,182,115,214,110,214,110,182"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="194,184,143,222,139,218,191,180"/>
+<area shape="poly" id="edge12_Node000009_Node000002" title=" " alt="" coords="445,108,443,145,436,165,423,183,404,196,377,207,307,224,229,235,160,241,160,236,228,229,306,218,375,202,402,191,420,179,431,163,437,144,440,107"/>
+<area shape="poly" id="edge13_Node000009_Node000008" title=" " alt="" coords="428,109,383,147,380,143,425,105"/>
+</map>

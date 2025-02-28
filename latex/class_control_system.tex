@@ -1,0 +1,139 @@
+\doxysection{Control\+System Class Reference}
+\hypertarget{class_control_system}{}\label{class_control_system}\index{ControlSystem@{ControlSystem}}
+
+
+{\ttfamily \#include $<$Control\+System.\+h$>$}
+
+
+
+Collaboration diagram for Control\+System\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{class_control_system__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_control_system_a83c23a98338709c50b80730b65a3a38a}{Control\+System}} (\mbox{\hyperlink{class_wheel}{Wheel}} \&left\+Wheel, \mbox{\hyperlink{class_wheel}{Wheel}} \&right\+Wheel, float track\+\_\+width, float kp\+\_\+forward, float ki\+\_\+forward, float kd\+\_\+forward, float scaling\+\_\+forward, float kp\+\_\+turn, float ki\+\_\+turn, float kd\+\_\+turn, float scaling\+\_\+turn, \mbox{\hyperlink{class_bluetooth}{Bluetooth}} \texorpdfstring{$\ast$}{*}bluetooth)
+\item 
+void \mbox{\hyperlink{class_control_system_a3eb5eef8c5c76f446807ce75ea08f4ac}{move\+Forward}} (float distance, float speed)
+\item 
+void \mbox{\hyperlink{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}{turn}} (float angle, float speed)
+\item 
+void \mbox{\hyperlink{class_control_system_a67acf8c6ff8f4de652bde98dae2555d4}{update}} ()
+\item 
+void \mbox{\hyperlink{class_control_system_aad3f0e6406a818c0719b7fbf2d77381d}{move\+Square}} ()
+\item 
+bool \mbox{\hyperlink{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}{is\+Movement\+Complete}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_p_i_d_controller}{PIDController}} \mbox{\hyperlink{class_control_system_afb672ccd3bc66ca8357630b1fd70c332}{pid\+Forward}}
+\item 
+\mbox{\hyperlink{class_p_i_d_controller}{PIDController}} \mbox{\hyperlink{class_control_system_ab698b3d792ba9049c6e581346aa92183}{pid\+Turn}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_control_system_8h_source_l00012}{12}} of file \mbox{\hyperlink{_control_system_8h_source}{Control\+System.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_control_system_a83c23a98338709c50b80730b65a3a38a}\index{ControlSystem@{ControlSystem}!ControlSystem@{ControlSystem}}
+\index{ControlSystem@{ControlSystem}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{ControlSystem()}{ControlSystem()}}
+{\footnotesize\ttfamily \label{class_control_system_a83c23a98338709c50b80730b65a3a38a} 
+Control\+System\+::\+Control\+System (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_wheel}{Wheel}} \&}]{left\+Wheel}{, }\item[{\mbox{\hyperlink{class_wheel}{Wheel}} \&}]{right\+Wheel}{, }\item[{float}]{track\+\_\+width}{, }\item[{float}]{kp\+\_\+forward}{, }\item[{float}]{ki\+\_\+forward}{, }\item[{float}]{kd\+\_\+forward}{, }\item[{float}]{scaling\+\_\+forward}{, }\item[{float}]{kp\+\_\+turn}{, }\item[{float}]{ki\+\_\+turn}{, }\item[{float}]{kd\+\_\+turn}{, }\item[{float}]{scaling\+\_\+turn}{, }\item[{\mbox{\hyperlink{class_bluetooth}{Bluetooth}} \texorpdfstring{$\ast$}{*}}]{bluetooth}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8cpp_source_l00007}{7}} of file \mbox{\hyperlink{_control_system_8cpp_source}{Control\+System.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f}\index{ControlSystem@{ControlSystem}!isMovementComplete@{isMovementComplete}}
+\index{isMovementComplete@{isMovementComplete}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{isMovementComplete()}{isMovementComplete()}}
+{\footnotesize\ttfamily \label{class_control_system_a6ddd6ccec7b0bf93e2d174db6a195e3f} 
+bool Control\+System\+::is\+Movement\+Complete (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8cpp_source_l00078}{78}} of file \mbox{\hyperlink{_control_system_8cpp_source}{Control\+System.\+cpp}}.
+
+\Hypertarget{class_control_system_a3eb5eef8c5c76f446807ce75ea08f4ac}\index{ControlSystem@{ControlSystem}!moveForward@{moveForward}}
+\index{moveForward@{moveForward}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{moveForward()}{moveForward()}}
+{\footnotesize\ttfamily \label{class_control_system_a3eb5eef8c5c76f446807ce75ea08f4ac} 
+void Control\+System\+::move\+Forward (\begin{DoxyParamCaption}\item[{float}]{distance}{, }\item[{float}]{speed}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8cpp_source_l00018}{18}} of file \mbox{\hyperlink{_control_system_8cpp_source}{Control\+System.\+cpp}}.
+
+\Hypertarget{class_control_system_aad3f0e6406a818c0719b7fbf2d77381d}\index{ControlSystem@{ControlSystem}!moveSquare@{moveSquare}}
+\index{moveSquare@{moveSquare}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{moveSquare()}{moveSquare()}}
+{\footnotesize\ttfamily \label{class_control_system_aad3f0e6406a818c0719b7fbf2d77381d} 
+void Control\+System\+::move\+Square (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8cpp_source_l00039}{39}} of file \mbox{\hyperlink{_control_system_8cpp_source}{Control\+System.\+cpp}}.
+
+\Hypertarget{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4}\index{ControlSystem@{ControlSystem}!turn@{turn}}
+\index{turn@{turn}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{turn()}{turn()}}
+{\footnotesize\ttfamily \label{class_control_system_ae4ce673489acf8e35af1a3cc57589fb4} 
+void Control\+System\+::turn (\begin{DoxyParamCaption}\item[{float}]{angle}{, }\item[{float}]{speed}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{_control_system_8cpp_source}{Control\+System.\+cpp}}.
+
+\Hypertarget{class_control_system_a67acf8c6ff8f4de652bde98dae2555d4}\index{ControlSystem@{ControlSystem}!update@{update}}
+\index{update@{update}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \label{class_control_system_a67acf8c6ff8f4de652bde98dae2555d4} 
+void Control\+System\+::update (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{_control_system_8cpp_source}{Control\+System.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_control_system_afb672ccd3bc66ca8357630b1fd70c332}\index{ControlSystem@{ControlSystem}!pidForward@{pidForward}}
+\index{pidForward@{pidForward}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{pidForward}{pidForward}}
+{\footnotesize\ttfamily \label{class_control_system_afb672ccd3bc66ca8357630b1fd70c332} 
+\mbox{\hyperlink{class_p_i_d_controller}{PIDController}} Control\+System\+::pid\+Forward}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8h_source_l00020}{20}} of file \mbox{\hyperlink{_control_system_8h_source}{Control\+System.\+h}}.
+
+\Hypertarget{class_control_system_ab698b3d792ba9049c6e581346aa92183}\index{ControlSystem@{ControlSystem}!pidTurn@{pidTurn}}
+\index{pidTurn@{pidTurn}!ControlSystem@{ControlSystem}}
+\doxysubsubsection{\texorpdfstring{pidTurn}{pidTurn}}
+{\footnotesize\ttfamily \label{class_control_system_ab698b3d792ba9049c6e581346aa92183} 
+\mbox{\hyperlink{class_p_i_d_controller}{PIDController}} Control\+System\+::pid\+Turn}
+
+
+
+Definition at line \mbox{\hyperlink{_control_system_8h_source_l00021}{21}} of file \mbox{\hyperlink{_control_system_8h_source}{Control\+System.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_control_system_8h}{Control\+System.\+h}}\item 
+\mbox{\hyperlink{_control_system_8cpp}{Control\+System.\+cpp}}\end{DoxyCompactItemize}
