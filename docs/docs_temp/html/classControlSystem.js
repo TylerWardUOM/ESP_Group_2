@@ -1,0 +1,47 @@
+var classControlSystem =
+[
+    [ "SquareMovementState", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9a", [
+      [ "IDLE_SQUARE", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa1cf7fd12499f4a05a00f0424fa3c8598", null ],
+      [ "MOVE_FORWARD_SQUARE", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa046309311310e50b621e5d64319fea8a", null ],
+      [ "TURN_LEFT_SQUARE", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aac7f06f622da754f9e8b4713e3e7645bf", null ],
+      [ "TURN_RIGHT_SQUARE", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa7a062c459bf6dbf87b6ebd1635a8d94d", null ],
+      [ "TURN_AROUND_SQUARE", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa1c9649369128e06a6b0f3259d7164752", null ],
+      [ "STOP_SQUARE", "classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa79c7ca05c541bb20cfb4578cd4ade9e2", null ]
+    ] ],
+    [ "State", "classControlSystem.html#a65cce478a68b55ad9616905535672d65", [
+      [ "IDLE", "classControlSystem.html#a65cce478a68b55ad9616905535672d65af73325e9420514e5843133737ecc1999", null ],
+      [ "MOVE_FORWARD", "classControlSystem.html#a65cce478a68b55ad9616905535672d65a7b2424c8a22ad218110d206e8bccbc15", null ],
+      [ "TURNING", "classControlSystem.html#a65cce478a68b55ad9616905535672d65a436f5cf925bee196e38b5f18037913db", null ],
+      [ "MOVING_SQUARE", "classControlSystem.html#a65cce478a68b55ad9616905535672d65ae05284674ff7ec9c938cf1b58bae194b", null ]
+    ] ],
+    [ "ControlSystem", "classControlSystem.html#a83c23a98338709c50b80730b65a3a38a", null ],
+    [ "constrain", "classControlSystem.html#aea450cb44ab5ff24c3598fae372205ba", null ],
+    [ "isMovementComplete", "classControlSystem.html#a6ddd6ccec7b0bf93e2d174db6a195e3f", null ],
+    [ "isSquareComplete", "classControlSystem.html#af94322afc98d884c660e9d0a701441dc", null ],
+    [ "moveForward", "classControlSystem.html#a3eb5eef8c5c76f446807ce75ea08f4ac", null ],
+    [ "moveSquare", "classControlSystem.html#aad3f0e6406a818c0719b7fbf2d77381d", null ],
+    [ "processForwardMovement", "classControlSystem.html#a08db5746c6013aa8107ecd45eeb48fbf", null ],
+    [ "processSquare", "classControlSystem.html#ae2b757f5fe0d84bc8fde88edfe3980c8", null ],
+    [ "processTurning", "classControlSystem.html#ac9ac5f7ed4409befd724c51b55210379", null ],
+    [ "stopWheels", "classControlSystem.html#a269089b3278b7b6918e998dc5d05393a", null ],
+    [ "turn", "classControlSystem.html#ae4ce673489acf8e35af1a3cc57589fb4", null ],
+    [ "update", "classControlSystem.html#a67acf8c6ff8f4de652bde98dae2555d4", null ],
+    [ "_track_width", "classControlSystem.html#a86edb25a01b555006d3b7492472faee0", null ],
+    [ "basespeed", "classControlSystem.html#a6fc575bb9cdd5f2ea19e44c086587464", null ],
+    [ "bluetooth", "classControlSystem.html#aee6f1850780bf16526f1f7f0119cb5dd", null ],
+    [ "leftWheel", "classControlSystem.html#a4e3f48eddb906433146aa2c539ae2134", null ],
+    [ "movementCompleted", "classControlSystem.html#af490a19de9d4b6f4a945503f33c45937", null ],
+    [ "moving", "classControlSystem.html#a3dd86b7dfa96faea5f89edffc5beae5c", null ],
+    [ "pidForward", "classControlSystem.html#afb672ccd3bc66ca8357630b1fd70c332", null ],
+    [ "pidTimer", "classControlSystem.html#a3dce331b24669a61f7efff8e49a0ac2e", null ],
+    [ "pidTurn", "classControlSystem.html#ab698b3d792ba9049c6e581346aa92183", null ],
+    [ "retracing", "classControlSystem.html#a0879848013737b783c5e4b2a59aaf7cb", null ],
+    [ "rightWheel", "classControlSystem.html#aea246f555d4fcc906dc57cd3c2e22867", null ],
+    [ "sideCount", "classControlSystem.html#a77635f75f035c28bdb8ee9ed8c708ba9", null ],
+    [ "square_distance", "classControlSystem.html#a06b8c93dc825374ab36bec7a47e3970b", null ],
+    [ "squareCompleted", "classControlSystem.html#a22bfe4636aa66097881ce2ece7883ab9", null ],
+    [ "squareState", "classControlSystem.html#a42c323e831b8eb89101790920288a763", null ],
+    [ "state", "classControlSystem.html#a2c3f7a78408728e89f7705fb66e3cf13", null ],
+    [ "targetDistance", "classControlSystem.html#a009b41fda9bc9601056ee9a3f5d5680a", null ],
+    [ "turnDirection", "classControlSystem.html#a5aa31e1678629c05c3a1ceed4c475c50", null ]
+];

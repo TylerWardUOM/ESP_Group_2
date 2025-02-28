@@ -1,0 +1,29 @@
+\doxysection{Motor.\+h}
+\hypertarget{Motor_8h_source}{}\label{Motor_8h_source}\index{include/Motor.h@{include/Motor.h}}
+\mbox{\hyperlink{Motor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ MOTOR\_H}}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ MOTOR\_H}}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}mbed.h"{}}}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00006}\mbox{\hyperlink{classMotor}{00006}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMotor}{Motor}}\ \{}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00007}00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00008}00008\ \ \ \ \ \mbox{\hyperlink{classMotor}{Motor}}(PinName\ bipolar,\ \textcolor{keywordtype}{float}\ multiplier\ ,\ PinName\ pwm,\ PinName\ \mbox{\hyperlink{classMotor_acdf6ea64d3bc32cec89103ea23521303}{enable}});}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00009}00009\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMotor_a05558d30f775b3a62fe9b14d15ad2105}{setSpeed}}(\textcolor{keywordtype}{float}\ speed);\ \ \textcolor{comment}{//\ Speed\ from\ -\/1.0\ to\ 1.0}}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00010}00010\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMotor_a015fd5308d4d27e5dcf7f9ea3d5c03f6}{stop}}();}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00011}00011\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMotor_adf84e8f39fb82027b3343f5fb1cdbf96}{disable}}();}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00012}00012\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMotor_acdf6ea64d3bc32cec89103ea23521303}{enable}}();}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00013}00013\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classMotor_a16fd26b8314eb4d70fa1910deb482797}{getSpeed}}();}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00015}00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00016}\mbox{\hyperlink{classMotor_a9dcbab3365c7d5d92eed712e10f4d88f}{00016}}\ \ \ \ \ DigitalOut\ \mbox{\hyperlink{classMotor_a9dcbab3365c7d5d92eed712e10f4d88f}{\_bipolar}};}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00017}\mbox{\hyperlink{classMotor_a0abe71a454a2e804bce1caa0a5918bee}{00017}}\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classMotor_a0abe71a454a2e804bce1caa0a5918bee}{\_multiplier}};}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00018}\mbox{\hyperlink{classMotor_abf4bbdb73cfeab4fd5f67b38e679f377}{00018}}\ \ \ \ \ PwmOut\ \mbox{\hyperlink{classMotor_abf4bbdb73cfeab4fd5f67b38e679f377}{\_pwm}};}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00019}\mbox{\hyperlink{classMotor_a0597ee0677622164e0a67614c1b3ea56}{00019}}\ \ \ \ \ DigitalOut\ \mbox{\hyperlink{classMotor_a0597ee0677622164e0a67614c1b3ea56}{\_enable}};}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00020}\mbox{\hyperlink{classMotor_a52a05d575ceca4e2b1023b5ddd617380}{00020}}\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classMotor_a52a05d575ceca4e2b1023b5ddd617380}{\_speed}};}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00021}00021\ \};}
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{Motor_8h_source_l00023}00023\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

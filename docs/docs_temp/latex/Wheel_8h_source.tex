@@ -1,0 +1,33 @@
+\doxysection{Wheel.\+h}
+\hypertarget{Wheel_8h_source}{}\label{Wheel_8h_source}\index{include/Wheel.h@{include/Wheel.h}}
+\mbox{\hyperlink{Wheel_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ WHEEL\_H}}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ WHEEL\_H}}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}mbed.h"{}}}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Motor_8h}{Motor.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Encoder_8h}{Encoder.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00008}\mbox{\hyperlink{classWheel}{00008}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classWheel}{Wheel}}\ \{}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00009}00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00010}00010\ \ \ \ \ \mbox{\hyperlink{classWheel}{Wheel}}(PinName\ motorBipolar,\ \textcolor{keywordtype}{float}\ motorMultiplier,\ PinName\ motorPwm,\ PinName\ motorEnable,\ }
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ PinName\ encoderA,\ PinName\ encoderB,\ \textcolor{keywordtype}{float}\ wheelDiameter,\ \textcolor{keywordtype}{int}\ encoderResolution,\ \textcolor{keywordtype}{int}\ maxRpm);}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00013}00013\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWheel_a30061642c5be4e770686a2e72359f5fb}{setSpeed}}(\textcolor{keywordtype}{int}\ rpm);}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00014}00014\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWheel_ab6171ccd45c79741fb8b558000e7f15d}{regulateSpeed}}();}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00015}00015\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWheel_ae05abdfe6198e5c254e3a4b6b042ca4c}{startRegulation}}(\textcolor{keywordtype}{float}\ interval);}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00016}00016\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWheel_af7a4936988399b73ab58ac1b7ac9a2ca}{stopRegulation}}();}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00017}00017\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWheel_a793fb7cac828febc52962755afd478fe}{stop}}();}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00018}\mbox{\hyperlink{classWheel_a122cb59b715d1335c14a18d61483ce94}{00018}}\ \ \ \ \ \mbox{\hyperlink{classMotor}{Motor}}\ \mbox{\hyperlink{classWheel_a122cb59b715d1335c14a18d61483ce94}{motor}};}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00019}\mbox{\hyperlink{classWheel_a9b1067e22a294c68bbf518372fd7548f}{00019}}\ \ \ \ \ \mbox{\hyperlink{classEncoder}{Encoder}}\ \mbox{\hyperlink{classWheel_a9b1067e22a294c68bbf518372fd7548f}{encoder}};}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00021}00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00022}\mbox{\hyperlink{classWheel_a79268f89ebe9d6a91c37374162fbb5bd}{00022}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classWheel_a79268f89ebe9d6a91c37374162fbb5bd}{target\_rpm}};}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00023}\mbox{\hyperlink{classWheel_a2e86d843b6a3aa038ca9f9d7cebf469f}{00023}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classWheel_a2e86d843b6a3aa038ca9f9d7cebf469f}{max\_rpm}};}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00024}\mbox{\hyperlink{classWheel_aa0cba5c340d4aa5fc668c91d0dc1628f}{00024}}\ \ \ \ \ Ticker\ \mbox{\hyperlink{classWheel_aa0cba5c340d4aa5fc668c91d0dc1628f}{ticker}};}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00025}00025\ \};}
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{Wheel_8h_source_l00027}00027\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WHEEL\_H}}
+
+\end{DoxyCode}

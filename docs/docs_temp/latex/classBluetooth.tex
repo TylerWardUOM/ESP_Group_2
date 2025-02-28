@@ -1,0 +1,541 @@
+\doxysection{Bluetooth Class Reference}
+\hypertarget{classBluetooth}{}\label{classBluetooth}\index{Bluetooth@{Bluetooth}}
+
+
+Handles \doxylink{classBluetooth}{Bluetooth} communication for controlling the buggy.  
+
+
+
+
+{\ttfamily \#include $<$Bluetooth.\+h$>$}
+
+
+
+Collaboration diagram for Bluetooth\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classBluetooth__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structBluetooth_1_1DebugEntry}{Debug\+Entry}}
+\begin{DoxyCompactList}\small\item\em Stores a single debug entry for movement logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBluetooth_a03e7fc4abb96edf68a2d70d12648571e}{Bluetooth}} (Serial \&serial, \mbox{\hyperlink{BuggyModes_8h_aa200729ecfb3bc499fcd2d1306fc7cfa}{Buggy\+Mode}} \texorpdfstring{$\ast$}{*}mode, \mbox{\hyperlink{structSquarePatternParams}{Square\+Pattern\+Params}} \texorpdfstring{$\ast$}{*}sq\+Params, \mbox{\hyperlink{structStraightLineParams}{Straight\+Line\+Params}} \texorpdfstring{$\ast$}{*}sl\+Params, \mbox{\hyperlink{structTurnAngleParams}{Turn\+Angle\+Params}} \texorpdfstring{$\ast$}{*}ta\+Params)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classBluetooth}{Bluetooth} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_aa35e697f8cc36360179e9b4b7cbd4790}{process\+Command}} ()
+\begin{DoxyCompactList}\small\item\em Processes received commands from the buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_aca48721c401299cf5b684ee9dc20fabc}{send\+Available\+Parameters}} ()
+\begin{DoxyCompactList}\small\item\em Sends the current set of available parameters over \doxylink{classBluetooth}{Bluetooth}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a342a01c4135cd7b0eebd0d747b5e50d9}{send\+Debug\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Sends debug data from debug buffer over \doxylink{classBluetooth}{Bluetooth}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classBluetooth_a3affac304c592789f28831451a6a7a19}{should\+Start}} ()
+\begin{DoxyCompactList}\small\item\em Check to see if the buggy should start movement. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_ab64a346af093424448a3efb7cd258a90}{send\+Movement\+Finished}} ()
+\begin{DoxyCompactList}\small\item\em Sends a notification that the movement has finished. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a34fa5fdd079c171a4c22f31d506d66d7}{log\+Debug\+Data}} (float left\+Distance, float right\+Distance, float error, float pid\+Output, float multiplier)
+\begin{DoxyCompactList}\small\item\em Logs debug data for tracking buggy movement and control performance. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a3244e86cbce3519d7e34f2b20ad19d22}{reset\+Debug\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Resets the debug data buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a37cad8b425ef88bc88565b0bc5a65c9c}{print\+Debug\+Data}} (const char \texorpdfstring{$\ast$}{*}format,...)
+\begin{DoxyCompactList}\small\item\em Prints debug data immediatly to ble in a formatted manner. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classBluetooth_ac379370b2044f0cf98430af8f56f806c}{rx\+\_\+interrupt}} ()
+\begin{DoxyCompactList}\small\item\em Interrupt service routine for receiving \doxylink{classBluetooth}{Bluetooth} data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a6fb89dcbcbee5e18232660025d9b8de5}{parse\+Command}} (char c)
+\begin{DoxyCompactList}\small\item\em Parses an incoming command character by character. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a8d677488d2c6e415012d1253c75c2d29}{handle\+Command}} (const char \texorpdfstring{$\ast$}{*}cmd)
+\begin{DoxyCompactList}\small\item\em Handles a fully received command. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_ace90f95de3cdb0fbdd7c9cc0cc7d5769}{update\+Parameter}} (const char \texorpdfstring{$\ast$}{*}param\+Str)
+\begin{DoxyCompactList}\small\item\em Updates parameters based on received command strings. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_aeb115fb8c3c0f7bcf938e378cc00f989}{start\+Control\+Mode}} ()
+\begin{DoxyCompactList}\small\item\em Starts the control mode for the buggy. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBluetooth_a80acbe21d978747f8a3ae089ccfac9c5}{send\+Current\+Mode}} ()
+\begin{DoxyCompactList}\small\item\em Sends the current buggy mode over \doxylink{classBluetooth}{Bluetooth}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Serial \& \mbox{\hyperlink{classBluetooth_ac9ec1a0429ebc8fc65d7ff8a92f527d6}{\+\_\+serial}}
+\begin{DoxyCompactList}\small\item\em Reference to the Serial interface for \doxylink{classBluetooth}{Bluetooth} communication. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{BuggyModes_8h_aa200729ecfb3bc499fcd2d1306fc7cfa}{Buggy\+Mode}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classBluetooth_ab40200dc2c753622ff87e68f28770440}{\+\_\+current\+Mode}}
+\begin{DoxyCompactList}\small\item\em Pointer to the current buggy mode. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSquarePatternParams}{Square\+Pattern\+Params}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classBluetooth_a7309518c2f7d13ea89fbd8e6dc744d64}{\+\_\+sq\+Params}}
+\begin{DoxyCompactList}\small\item\em Pointer to square pattern movement parameters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structStraightLineParams}{Straight\+Line\+Params}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classBluetooth_a7e3b43998e271619b02ace2bf265fdf6}{\+\_\+sl\+Params}}
+\begin{DoxyCompactList}\small\item\em Pointer to straight-\/line movement parameters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structTurnAngleParams}{Turn\+Angle\+Params}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classBluetooth_a22a6a1c01d781beabc41da35d4429d6d}{\+\_\+ta\+Params}}
+\begin{DoxyCompactList}\small\item\em Pointer to turn angle movement parameters. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classBluetooth_ac21ce9e574051e199d686a83033957b7}{go\+\_\+flag}} = false
+\begin{DoxyCompactList}\small\item\em Flag indicating whether the buggy should start. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{classBluetooth_a51f517dd228135ec66fe2dede6e03a7c}{rx\+\_\+buffer}} \mbox{[}\mbox{\hyperlink{classBluetooth_a84352338e08e3a7307d2a36c800718fe}{BUFFER\+\_\+\+SIZE}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Buffer for storing received commands. \end{DoxyCompactList}\item 
+volatile uint16\+\_\+t \mbox{\hyperlink{classBluetooth_a8e3122b1496f00b58510f568a6fa912f}{head}} = 0
+\item 
+volatile uint16\+\_\+t \mbox{\hyperlink{classBluetooth_aa1a3fb8c4cfb3ba957094201f1dabede}{tail}} = 0
+\begin{DoxyCompactList}\small\item\em Circular buffer head and tail indices. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structBluetooth_1_1DebugEntry}{Debug\+Entry}} \mbox{\hyperlink{classBluetooth_a9db959a7c2223b98d68c64b7ab705c1b}{debug\+\_\+data\+\_\+buffer}} \mbox{[}\mbox{\hyperlink{Bluetooth_8h_ad30c77daca10f0c2b941969c01beedee}{MAX\+\_\+\+ENTRIES}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Buffer for storing debug data entries. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classBluetooth_a3533a40b91c2f821f04cf58f050abf3f}{debug\+\_\+index}} = 0
+\begin{DoxyCompactList}\small\item\em Current index in the debug data buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \mbox{\hyperlink{classBluetooth_a84352338e08e3a7307d2a36c800718fe}{BUFFER\+\_\+\+SIZE}} = 128
+\begin{DoxyCompactList}\small\item\em Size of the receive buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles \doxylink{classBluetooth}{Bluetooth} communication for controlling the buggy. 
+
+This class processes incoming \doxylink{classBluetooth}{Bluetooth} commands, sends debug data, and manages parameter updates for different buggy movement modes. 
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00014}{14}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classBluetooth_a03e7fc4abb96edf68a2d70d12648571e}\label{classBluetooth_a03e7fc4abb96edf68a2d70d12648571e} 
+\index{Bluetooth@{Bluetooth}!Bluetooth@{Bluetooth}}
+\index{Bluetooth@{Bluetooth}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{Bluetooth()}{Bluetooth()}}
+{\footnotesize\ttfamily Bluetooth\+::\+Bluetooth (\begin{DoxyParamCaption}\item[{Serial \&}]{serial,  }\item[{\mbox{\hyperlink{BuggyModes_8h_aa200729ecfb3bc499fcd2d1306fc7cfa}{Buggy\+Mode}} \texorpdfstring{$\ast$}{*}}]{mode,  }\item[{\mbox{\hyperlink{structSquarePatternParams}{Square\+Pattern\+Params}} \texorpdfstring{$\ast$}{*}}]{sq\+Params,  }\item[{\mbox{\hyperlink{structStraightLineParams}{Straight\+Line\+Params}} \texorpdfstring{$\ast$}{*}}]{sl\+Params,  }\item[{\mbox{\hyperlink{structTurnAngleParams}{Turn\+Angle\+Params}} \texorpdfstring{$\ast$}{*}}]{ta\+Params }\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{classBluetooth}{Bluetooth} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em serial} & Reference to a Serial object for \doxylink{classBluetooth}{Bluetooth} communication. \\
+\hline
+{\em mode} & Pointer to the current Buggy mode. \\
+\hline
+{\em sq\+Params} & Pointer to Square Pattern movement parameters. \\
+\hline
+{\em sl\+Params} & Pointer to Straight Line movement parameters. \\
+\hline
+{\em ta\+Params} & Pointer to Turn Angle movement parameters. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00014}{14}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classBluetooth_a8d677488d2c6e415012d1253c75c2d29}\label{classBluetooth_a8d677488d2c6e415012d1253c75c2d29} 
+\index{Bluetooth@{Bluetooth}!handleCommand@{handleCommand}}
+\index{handleCommand@{handleCommand}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{handleCommand()}{handleCommand()}}
+{\footnotesize\ttfamily void Bluetooth\+::handle\+Command (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{cmd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handles a fully received command. 
+
+Once a complete command string is received by \doxylink{classBluetooth_a6fb89dcbcbee5e18232660025d9b8de5}{parse\+Command}, this function processes it and executes the corresponding action.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmd} & The full command string to be handled. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00119}{119}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a34fa5fdd079c171a4c22f31d506d66d7}\label{classBluetooth_a34fa5fdd079c171a4c22f31d506d66d7} 
+\index{Bluetooth@{Bluetooth}!logDebugData@{logDebugData}}
+\index{logDebugData@{logDebugData}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{logDebugData()}{logDebugData()}}
+{\footnotesize\ttfamily void Bluetooth\+::log\+Debug\+Data (\begin{DoxyParamCaption}\item[{float}]{left\+Distance,  }\item[{float}]{right\+Distance,  }\item[{float}]{error,  }\item[{float}]{pid\+Output,  }\item[{float}]{multiplier }\end{DoxyParamCaption})}
+
+
+
+Logs debug data for tracking buggy movement and control performance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em left\+Distance} & Distance measured by the left wheel encoder. \\
+\hline
+{\em right\+Distance} & Distance measured by the right wheel encoder. \\
+\hline
+{\em error} & Current positional error. \\
+\hline
+{\em pid\+Output} & PID controller output value. \\
+\hline
+{\em multiplier} & Control multiplier applied. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00213}{213}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a6fb89dcbcbee5e18232660025d9b8de5}\label{classBluetooth_a6fb89dcbcbee5e18232660025d9b8de5} 
+\index{Bluetooth@{Bluetooth}!parseCommand@{parseCommand}}
+\index{parseCommand@{parseCommand}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{parseCommand()}{parseCommand()}}
+{\footnotesize\ttfamily void Bluetooth\+::parse\+Command (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Parses an incoming command character by character. 
+
+This function accumulates characters in a buffer until it detects a newline ({\ttfamily \textbackslash{}n}). Once a full command is formed, it is sent to \doxylink{classBluetooth_a8d677488d2c6e415012d1253c75c2d29}{handle\+Command} for processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & The received character to be processed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00105}{105}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a37cad8b425ef88bc88565b0bc5a65c9c}\label{classBluetooth_a37cad8b425ef88bc88565b0bc5a65c9c} 
+\index{Bluetooth@{Bluetooth}!printDebugData@{printDebugData}}
+\index{printDebugData@{printDebugData}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{printDebugData()}{printDebugData()}}
+{\footnotesize\ttfamily void Bluetooth\+::print\+Debug\+Data (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Prints debug data immediatly to ble in a formatted manner. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & C-\/style format string. \\
+\hline
+{\em ...} & Variable arguments for formatted output. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00241}{241}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_aa35e697f8cc36360179e9b4b7cbd4790}\label{classBluetooth_aa35e697f8cc36360179e9b4b7cbd4790} 
+\index{Bluetooth@{Bluetooth}!processCommand@{processCommand}}
+\index{processCommand@{processCommand}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{processCommand()}{processCommand()}}
+{\footnotesize\ttfamily void Bluetooth\+::process\+Command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Processes received commands from the buffer. 
+
+Reads each character from the circular buffer and forwards it to \doxylink{classBluetooth_a6fb89dcbcbee5e18232660025d9b8de5}{parse\+Command}. Commands are only processed if the buggy is not in a movement state. 
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00025}{25}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a3244e86cbce3519d7e34f2b20ad19d22}\label{classBluetooth_a3244e86cbce3519d7e34f2b20ad19d22} 
+\index{Bluetooth@{Bluetooth}!resetDebugData@{resetDebugData}}
+\index{resetDebugData@{resetDebugData}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{resetDebugData()}{resetDebugData()}}
+{\footnotesize\ttfamily void Bluetooth\+::reset\+Debug\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Resets the debug data buffer. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00230}{230}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_ac379370b2044f0cf98430af8f56f806c}\label{classBluetooth_ac379370b2044f0cf98430af8f56f806c} 
+\index{Bluetooth@{Bluetooth}!rx\_interrupt@{rx\_interrupt}}
+\index{rx\_interrupt@{rx\_interrupt}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{rx\_interrupt()}{rx\_interrupt()}}
+{\footnotesize\ttfamily void Bluetooth\+::rx\+\_\+interrupt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Interrupt service routine for receiving \doxylink{classBluetooth}{Bluetooth} data. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00096}{96}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_aca48721c401299cf5b684ee9dc20fabc}\label{classBluetooth_aca48721c401299cf5b684ee9dc20fabc} 
+\index{Bluetooth@{Bluetooth}!sendAvailableParameters@{sendAvailableParameters}}
+\index{sendAvailableParameters@{sendAvailableParameters}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{sendAvailableParameters()}{sendAvailableParameters()}}
+{\footnotesize\ttfamily void Bluetooth\+::send\+Available\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends the current set of available parameters over \doxylink{classBluetooth}{Bluetooth}. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a80acbe21d978747f8a3ae089ccfac9c5}\label{classBluetooth_a80acbe21d978747f8a3ae089ccfac9c5} 
+\index{Bluetooth@{Bluetooth}!sendCurrentMode@{sendCurrentMode}}
+\index{sendCurrentMode@{sendCurrentMode}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{sendCurrentMode()}{sendCurrentMode()}}
+{\footnotesize\ttfamily void Bluetooth\+::send\+Current\+Mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Sends the current buggy mode over \doxylink{classBluetooth}{Bluetooth}. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00203}{203}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a342a01c4135cd7b0eebd0d747b5e50d9}\label{classBluetooth_a342a01c4135cd7b0eebd0d747b5e50d9} 
+\index{Bluetooth@{Bluetooth}!sendDebugData@{sendDebugData}}
+\index{sendDebugData@{sendDebugData}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{sendDebugData()}{sendDebugData()}}
+{\footnotesize\ttfamily void Bluetooth\+::send\+Debug\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends debug data from debug buffer over \doxylink{classBluetooth}{Bluetooth}. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00081}{81}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_ab64a346af093424448a3efb7cd258a90}\label{classBluetooth_ab64a346af093424448a3efb7cd258a90} 
+\index{Bluetooth@{Bluetooth}!sendMovementFinished@{sendMovementFinished}}
+\index{sendMovementFinished@{sendMovementFinished}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{sendMovementFinished()}{sendMovementFinished()}}
+{\footnotesize\ttfamily void Bluetooth\+::send\+Movement\+Finished (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends a notification that the movement has finished. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00199}{199}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_a3affac304c592789f28831451a6a7a19}\label{classBluetooth_a3affac304c592789f28831451a6a7a19} 
+\index{Bluetooth@{Bluetooth}!shouldStart@{shouldStart}}
+\index{shouldStart@{shouldStart}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{shouldStart()}{shouldStart()}}
+{\footnotesize\ttfamily bool Bluetooth\+::should\+Start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Check to see if the buggy should start movement. 
+
+\begin{DoxyReturn}{Returns}
+True if the start command has been received, false otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00191}{191}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+\Hypertarget{classBluetooth_aeb115fb8c3c0f7bcf938e378cc00f989}\label{classBluetooth_aeb115fb8c3c0f7bcf938e378cc00f989} 
+\index{Bluetooth@{Bluetooth}!startControlMode@{startControlMode}}
+\index{startControlMode@{startControlMode}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{startControlMode()}{startControlMode()}}
+{\footnotesize\ttfamily void Bluetooth\+::start\+Control\+Mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Starts the control mode for the buggy. 
+
+\Hypertarget{classBluetooth_ace90f95de3cdb0fbdd7c9cc0cc7d5769}\label{classBluetooth_ace90f95de3cdb0fbdd7c9cc0cc7d5769} 
+\index{Bluetooth@{Bluetooth}!updateParameter@{updateParameter}}
+\index{updateParameter@{updateParameter}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{updateParameter()}{updateParameter()}}
+{\footnotesize\ttfamily void Bluetooth\+::update\+Parameter (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{param\+Str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates parameters based on received command strings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em param\+Str} & The parameter string received from \doxylink{classBluetooth}{Bluetooth}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8cpp_source_l00149}{149}} of file \mbox{\hyperlink{Bluetooth_8cpp_source}{Bluetooth.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classBluetooth_ab40200dc2c753622ff87e68f28770440}\label{classBluetooth_ab40200dc2c753622ff87e68f28770440} 
+\index{Bluetooth@{Bluetooth}!\_currentMode@{\_currentMode}}
+\index{\_currentMode@{\_currentMode}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{\_currentMode}{\_currentMode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{BuggyModes_8h_aa200729ecfb3bc499fcd2d1306fc7cfa}{Buggy\+Mode}}\texorpdfstring{$\ast$}{*} Bluetooth\+::\+\_\+current\+Mode\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Pointer to the current buggy mode. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00082}{82}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_ac9ec1a0429ebc8fc65d7ff8a92f527d6}\label{classBluetooth_ac9ec1a0429ebc8fc65d7ff8a92f527d6} 
+\index{Bluetooth@{Bluetooth}!\_serial@{\_serial}}
+\index{\_serial@{\_serial}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{\_serial}{\_serial}}
+{\footnotesize\ttfamily Serial\& Bluetooth\+::\+\_\+serial\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Reference to the Serial interface for \doxylink{classBluetooth}{Bluetooth} communication. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00081}{81}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a7e3b43998e271619b02ace2bf265fdf6}\label{classBluetooth_a7e3b43998e271619b02ace2bf265fdf6} 
+\index{Bluetooth@{Bluetooth}!\_slParams@{\_slParams}}
+\index{\_slParams@{\_slParams}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{\_slParams}{\_slParams}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structStraightLineParams}{Straight\+Line\+Params}}\texorpdfstring{$\ast$}{*} Bluetooth\+::\+\_\+sl\+Params\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Pointer to straight-\/line movement parameters. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00084}{84}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a7309518c2f7d13ea89fbd8e6dc744d64}\label{classBluetooth_a7309518c2f7d13ea89fbd8e6dc744d64} 
+\index{Bluetooth@{Bluetooth}!\_sqParams@{\_sqParams}}
+\index{\_sqParams@{\_sqParams}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{\_sqParams}{\_sqParams}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structSquarePatternParams}{Square\+Pattern\+Params}}\texorpdfstring{$\ast$}{*} Bluetooth\+::\+\_\+sq\+Params\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Pointer to square pattern movement parameters. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00083}{83}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a22a6a1c01d781beabc41da35d4429d6d}\label{classBluetooth_a22a6a1c01d781beabc41da35d4429d6d} 
+\index{Bluetooth@{Bluetooth}!\_taParams@{\_taParams}}
+\index{\_taParams@{\_taParams}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{\_taParams}{\_taParams}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structTurnAngleParams}{Turn\+Angle\+Params}}\texorpdfstring{$\ast$}{*} Bluetooth\+::\+\_\+ta\+Params\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Pointer to turn angle movement parameters. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00085}{85}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a84352338e08e3a7307d2a36c800718fe}\label{classBluetooth_a84352338e08e3a7307d2a36c800718fe} 
+\index{Bluetooth@{Bluetooth}!BUFFER\_SIZE@{BUFFER\_SIZE}}
+\index{BUFFER\_SIZE@{BUFFER\_SIZE}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{BUFFER\_SIZE}{BUFFER\_SIZE}}
+{\footnotesize\ttfamily const int Bluetooth\+::\+BUFFER\+\_\+\+SIZE = 128\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Size of the receive buffer. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00089}{89}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a9db959a7c2223b98d68c64b7ab705c1b}\label{classBluetooth_a9db959a7c2223b98d68c64b7ab705c1b} 
+\index{Bluetooth@{Bluetooth}!debug\_data\_buffer@{debug\_data\_buffer}}
+\index{debug\_data\_buffer@{debug\_data\_buffer}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{debug\_data\_buffer}{debug\_data\_buffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBluetooth_1_1DebugEntry}{Debug\+Entry}} Bluetooth\+::debug\+\_\+data\+\_\+buffer\mbox{[}\mbox{\hyperlink{Bluetooth_8h_ad30c77daca10f0c2b941969c01beedee}{MAX\+\_\+\+ENTRIES}}\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Buffer for storing debug data entries. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00150}{150}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a3533a40b91c2f821f04cf58f050abf3f}\label{classBluetooth_a3533a40b91c2f821f04cf58f050abf3f} 
+\index{Bluetooth@{Bluetooth}!debug\_index@{debug\_index}}
+\index{debug\_index@{debug\_index}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{debug\_index}{debug\_index}}
+{\footnotesize\ttfamily int Bluetooth\+::debug\+\_\+index = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Current index in the debug data buffer. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00151}{151}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_ac21ce9e574051e199d686a83033957b7}\label{classBluetooth_ac21ce9e574051e199d686a83033957b7} 
+\index{Bluetooth@{Bluetooth}!go\_flag@{go\_flag}}
+\index{go\_flag@{go\_flag}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{go\_flag}{go\_flag}}
+{\footnotesize\ttfamily bool Bluetooth\+::go\+\_\+flag = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Flag indicating whether the buggy should start. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00087}{87}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a8e3122b1496f00b58510f568a6fa912f}\label{classBluetooth_a8e3122b1496f00b58510f568a6fa912f} 
+\index{Bluetooth@{Bluetooth}!head@{head}}
+\index{head@{head}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{head}{head}}
+{\footnotesize\ttfamily volatile uint16\+\_\+t Bluetooth\+::head = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00091}{91}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_a51f517dd228135ec66fe2dede6e03a7c}\label{classBluetooth_a51f517dd228135ec66fe2dede6e03a7c} 
+\index{Bluetooth@{Bluetooth}!rx\_buffer@{rx\_buffer}}
+\index{rx\_buffer@{rx\_buffer}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{rx\_buffer}{rx\_buffer}}
+{\footnotesize\ttfamily char Bluetooth\+::rx\+\_\+buffer\mbox{[}\mbox{\hyperlink{classBluetooth_a84352338e08e3a7307d2a36c800718fe}{BUFFER\+\_\+\+SIZE}}\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Buffer for storing received commands. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00090}{90}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+\Hypertarget{classBluetooth_aa1a3fb8c4cfb3ba957094201f1dabede}\label{classBluetooth_aa1a3fb8c4cfb3ba957094201f1dabede} 
+\index{Bluetooth@{Bluetooth}!tail@{tail}}
+\index{tail@{tail}!Bluetooth@{Bluetooth}}
+\doxysubsubsection{\texorpdfstring{tail}{tail}}
+{\footnotesize\ttfamily volatile uint16\+\_\+t Bluetooth\+::tail = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Circular buffer head and tail indices. 
+
+
+
+Definition at line \mbox{\hyperlink{Bluetooth_8h_source_l00091}{91}} of file \mbox{\hyperlink{Bluetooth_8h_source}{Bluetooth.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{Bluetooth_8h}{Bluetooth.\+h}}\item 
+src/\mbox{\hyperlink{Bluetooth_8cpp}{Bluetooth.\+cpp}}\end{DoxyCompactItemize}
