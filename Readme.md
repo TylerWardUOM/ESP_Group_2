@@ -1,8 +1,51 @@
-Group 2 ESP buggy Project :)
+# **Group 2 ESP Buggy Project** 🚗  
 
-Web app to interact with the buggy: https://esp-group-2.netlify.app/
-Web app source code: https://github.com/TylerWardUOM/ESP_Web_App
+### **🔗 Web App to Control the Buggy**  
+- **Web App:** [esp-group-2.netlify.app](https://esp-group-2.netlify.app/)  
+- **Web App Source Code:** [GitHub Repository](https://github.com/TylerWardUOM/ESP_Web_App)  
 
+---
 
-Uses this version of mbed https://github.com/ARMmbed/mbed-os/tree/e592c8a8b2a7faf24fecdb2decccfde426523b99
-why does keil use this we will never know cba to change my code so thats what i am using 
+## **📦 Required Dependencies**  
+
+This project requires a specific version of **Mbed OS** and the **C12832 display library**.  
+
+### **🛠 Mbed OS Version:**  
+- **Mbed OS:** [Commit e592c8a](https://github.com/ARMmbed/mbed-os/tree/e592c8a8b2a7faf24fecdb2decccfde426523b99)  
+
+### **📚 Additional Library:**  
+- **C12832 Library:** [Commit 03069e3](https://os.mbed.com/teams/components/code/C12832/#03069e3deaa4b9054ee5ef6db455fd9c09ea6b71)  
+
+---
+
+## **📥 How to Install Dependencies**  
+
+1. Clone this repository:  
+   ```bash
+   git clone https://github.com/TylerWardUOM/ESP_Group_2
+   cd ESP_Group_2
+   ```
+
+2. Fetch Mbed OS (it will be placed in the project root):  
+   ```bash
+   mbed deploy
+   ```
+
+3. Fetch the C12832 library into the `lib/` folder:  
+   ```bash
+   cd lib
+   mbed deploy
+   cd ..
+   ```
+
+4. Compile and flash the project:  
+   ```bash
+   mbed compile -m YOUR_TARGET -t YOUR_TOOLCHAIN
+   ```
+
+---
+
+### **⚠️ Notes:**  
+- Ensure you have [Mbed CLI](https://os.mbed.com/docs/mbed-os/latest/tools/mbed-cli.html) installed.  
+- This setup automatically pulls the correct **Mbed OS** and **C12832** library versions.  
+
