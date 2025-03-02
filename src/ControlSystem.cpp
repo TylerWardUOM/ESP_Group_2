@@ -90,6 +90,40 @@ bool ControlSystem::isSquareComplete(){
     return squareCompleted;
 }
 
+void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams, 
+                                      const StraightLineParams* straightlineParams, 
+                                      const TurnAngleParams* turnangleParams) {
+    // Apply Square Pattern parameters if provided
+    if (squareParams) {
+        pidForward.setKp(squareParams->forward_pid_kp);
+        pidForward.setKi(squareParams->forward_pid_ki);
+        pidForward.setKd(squareParams->forward_pid_kd);
+        pidForward.setScalingMultiplier(squareParams->scaling_forward);
+        
+        pidTurn.setKp(squareParams->turn_pid_kp);
+        pidTurn.setKi(squareParams->turn_pid_ki);
+        pidTurn.setKd(squareParams->turn_pid_kd);
+        pidTurn.setScalingMultiplier(squareParams->scaling_turn);
+    }
+
+    // Apply Straight Line parameters if provided
+    if (straightlineParams) {
+        pidForward.setKp(straightlineParams->forward_pid_kp);
+        pidForward.setKi(straightlineParams->forward_pid_ki);
+        pidForward.setKd(straightlineParams->forward_pid_kd);
+        pidForward.setScalingMultiplier(straightlineParams->scaling_forward);
+    }
+
+    // Apply Turn Angle parameters if provided
+    if (turnangleParams) {
+        pidTurn.setKp(turnangleParams->turn_pid_kp);
+        pidTurn.setKi(turnangleParams->turn_pid_ki);
+        pidTurn.setKd(turnangleParams->turn_pid_kd);
+        pidTurn.setScalingMultiplier(turnangleParams->scaling_turn);
+    }
+}
+
+
 void ControlSystem::processForwardMovement(float dt) {
     float leftDistance = leftWheel.encoder.getDistance();
     float rightDistance = rightWheel.encoder.getDistance();

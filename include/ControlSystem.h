@@ -18,6 +18,7 @@ public:
     void moveSquare();
     bool isMovementComplete();
     bool isSquareComplete();
+    void setModePIDParameters(const SquarePatternParams* squareParams, const StraightLineParams* straightlineParams, const TurnAngleParams* turnangleParams);
     PIDController pidForward;
     PIDController pidTurn;
 
