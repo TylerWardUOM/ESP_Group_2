@@ -43,6 +43,14 @@ void Wheel::stopRegulation() {
     ticker.detach();
 }
 
+void Wheel::enableMotor(){
+     motor.enable();
+}
+
+void Wheel::disableMotor(){
+    motor.disable();
+}
+
 void Wheel::stop() {
     target_rpm = 0;  // Ensure target speed is reset
     motor.setSpeed(0.0f);  // Stop the motor
