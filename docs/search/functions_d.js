@@ -1,27 +1,4 @@
 var searchData=
 [
-  ['sample_0',['sample',['../classPotentiometer.html#a43968d95d0b3834561c12c66cabdadb8',1,'Potentiometer']]],
-  ['sendavailableparameters_1',['sendAvailableParameters',['../classBluetooth.html#aca48721c401299cf5b684ee9dc20fabc',1,'Bluetooth']]],
-  ['sendcurrentmode_2',['sendCurrentMode',['../classBluetooth.html#a80acbe21d978747f8a3ae089ccfac9c5',1,'Bluetooth']]],
-  ['senddebugdata_3',['sendDebugData',['../classBluetooth.html#a342a01c4135cd7b0eebd0d747b5e50d9',1,'Bluetooth']]],
-  ['sendmovementfinished_4',['sendMovementFinished',['../classBluetooth.html#ab64a346af093424448a3efb7cd258a90',1,'Bluetooth']]],
-  ['setkd_5',['setKd',['../classPIDController.html#a3b1d0f85cef60fe25424e88a6adbb51a',1,'PIDController']]],
-  ['setki_6',['setKi',['../classPIDController.html#ab442bf567d1d1360578ce145765f4aa0',1,'PIDController']]],
-  ['setkp_7',['setKp',['../classPIDController.html#a138c2957e72671ca34e67c9fccf6491e',1,'PIDController']]],
-  ['setscalingmultiplier_8',['setScalingMultiplier',['../classPIDController.html#adceac57f56f6deaa1167c49d1e2e9ae2',1,'PIDController']]],
-  ['setspeed_9',['setspeed',['../classMotor.html#a05558d30f775b3a62fe9b14d15ad2105',1,'Motor::setSpeed()'],['../classWheel.html#a30061642c5be4e770686a2e72359f5fb',1,'Wheel::setSpeed()']]],
-  ['shouldstart_10',['shouldStart',['../classBluetooth.html#a3affac304c592789f28831451a6a7a19',1,'Bluetooth']]],
-  ['startcontrolmode_11',['startControlMode',['../classBluetooth.html#aeb115fb8c3c0f7bcf938e378cc00f989',1,'Bluetooth']]],
-  ['startregulation_12',['startRegulation',['../classWheel.html#ae05abdfe6198e5c254e3a4b6b042ca4c',1,'Wheel']]],
-  ['stop_13',['stop',['../classMotor.html#a015fd5308d4d27e5dcf7f9ea3d5c03f6',1,'Motor::stop()'],['../classWheel.html#a793fb7cac828febc52962755afd478fe',1,'Wheel::stop()']]],
-  ['stopmotorandswitchtoidlemode_14',['stopMotorAndSwitchToIdleMode',['../main_8cpp.html#a137ee9756783467527d043d724d2439e',1,'main.cpp']]],
-  ['stopregulation_15',['stopRegulation',['../classWheel.html#af7a4936988399b73ab58ac1b7ac9a2ca',1,'Wheel']]],
-  ['stopwheels_16',['stopWheels',['../classControlSystem.html#a269089b3278b7b6918e998dc5d05393a',1,'ControlSystem']]],
-  ['switchtolinemenumode_17',['switchToLineMenuMode',['../main_8cpp.html#a2a23055776d110cb3714df89113f3029',1,'main.cpp']]],
-  ['switchtolinemode_18',['switchToLineMode',['../main_8cpp.html#abc42e9aeea704d82b10d71815fb19900',1,'main.cpp']]],
-  ['switchtospeedcontrolmode_19',['switchToSpeedControlMode',['../main_8cpp.html#ad7e3b2ff66769cab6d2848c272ec12c6',1,'main.cpp']]],
-  ['switchtosquareidlemode_20',['switchToSquareIdleMode',['../main_8cpp.html#abd7d25210b5b4119cdfdb03274a693ec',1,'main.cpp']]],
-  ['switchtosquarepatternmode_21',['switchToSquarePatternMode',['../main_8cpp.html#a8d4d44d804779a744f6ada432deffe81',1,'main.cpp']]],
-  ['switchtoturnmenumode_22',['switchToTurnMenuMode',['../main_8cpp.html#ae5ae5141e36b24ff7d427a6c8588045a',1,'main.cpp']]],
-  ['switchtoturnmode_23',['switchToTurnMode',['../main_8cpp.html#a6e5020b3ab8fdaa84f31a85e4287be48',1,'main.cpp']]]
+  ['turn_0',['turn',['../classControlSystem.html#ae4ce673489acf8e35af1a3cc57589fb4',1,'ControlSystem']]]
 ];

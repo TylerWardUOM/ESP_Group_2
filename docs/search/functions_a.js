@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['main_0',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
-  ['map_1',['map',['../main_8cpp.html#aada2d75bc8a8c6eb845bd940eadfa3fd',1,'main.cpp']]],
-  ['motor_2',['Motor',['../classMotor.html#a2f6c06031217e836b22b5394b14100c2',1,'Motor']]],
-  ['moveforward_3',['moveForward',['../classControlSystem.html#a3eb5eef8c5c76f446807ce75ea08f4ac',1,'ControlSystem']]],
-  ['movesquare_4',['moveSquare',['../classControlSystem.html#aad3f0e6406a818c0719b7fbf2d77381d',1,'ControlSystem']]]
+  ['parsecommand_0',['parseCommand',['../classBluetooth.html#a6fb89dcbcbee5e18232660025d9b8de5',1,'Bluetooth']]],
+  ['pidcontroller_1',['PIDController',['../classPIDController.html#adfbfe2581ad8faf120ce433981d4bfa2',1,'PIDController']]],
+  ['potentiometer_2',['Potentiometer',['../classPotentiometer.html#aa15e31a19971b5ff9cf179805f4e388c',1,'Potentiometer']]],
+  ['printdebugdata_3',['printDebugData',['../classBluetooth.html#a37cad8b425ef88bc88565b0bc5a65c9c',1,'Bluetooth']]],
+  ['processcommand_4',['processCommand',['../classBluetooth.html#aa35e697f8cc36360179e9b4b7cbd4790',1,'Bluetooth']]],
+  ['processforwardmovement_5',['processForwardMovement',['../classControlSystem.html#a08db5746c6013aa8107ecd45eeb48fbf',1,'ControlSystem']]],
+  ['processsquare_6',['processSquare',['../classControlSystem.html#ae2b757f5fe0d84bc8fde88edfe3980c8',1,'ControlSystem']]],
+  ['processturning_7',['processTurning',['../classControlSystem.html#ac9ac5f7ed4409befd724c51b55210379',1,'ControlSystem']]]
 ];

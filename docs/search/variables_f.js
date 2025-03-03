@@ -6,9 +6,12 @@ var searchData=
   ['speed_3',['speed',['../structSquarePatternParams.html#a4c0d55dfa4eb57988e743032eb49fd09',1,'SquarePatternParams::speed'],['../structStraightLineParams.html#a32986ba6bb7fd127f06dca26797f9b2f',1,'StraightLineParams::speed'],['../structTurnAngleParams.html#af36a77bdc096fb1ae7f649bfbf003d8d',1,'TurnAngleParams::speed']]],
   ['square_5fdistance_4',['square_distance',['../classControlSystem.html#a06b8c93dc825374ab36bec7a47e3970b',1,'ControlSystem']]],
   ['square_5fflag_5',['square_flag',['../main_8cpp.html#a01526be9a5ac2f4daa34966ece882e99',1,'main.cpp']]],
-  ['squarecompleted_6',['squareCompleted',['../classControlSystem.html#a22bfe4636aa66097881ce2ece7883ab9',1,'ControlSystem']]],
-  ['squareparams_7',['squareparams',['../BuggyModes_8cpp.html#a9389652741c6a76fb539c85562986158',1,'squareParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a9389652741c6a76fb539c85562986158',1,'squareParams:&#160;BuggyModes.cpp']]],
-  ['squarestate_8',['squareState',['../classControlSystem.html#a42c323e831b8eb89101790920288a763',1,'ControlSystem']]],
-  ['state_9',['state',['../classControlSystem.html#a2c3f7a78408728e89f7705fb66e3cf13',1,'ControlSystem']]],
-  ['straightlineparams_10',['straightlineparams',['../BuggyModes_8cpp.html#a56fd617617b9dd4de828e4c176c83bc5',1,'straightlineParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a56fd617617b9dd4de828e4c176c83bc5',1,'straightlineParams:&#160;BuggyModes.cpp']]]
+  ['square_5fleft_5fturn_5fmultiplier_6',['square_left_turn_multiplier',['../classControlSystem.html#a22b7429e7c607b00133c911e5768c4b2',1,'ControlSystem']]],
+  ['square_5fright_5fturn_5fmultiplier_7',['square_right_turn_multiplier',['../classControlSystem.html#a3e54266d1e7a992dde1bad1aec6bcb1e',1,'ControlSystem']]],
+  ['square_5fspeed_8',['square_speed',['../classControlSystem.html#ac4ba5035312acf82bdab940166b3d1b0',1,'ControlSystem']]],
+  ['squarecompleted_9',['squareCompleted',['../classControlSystem.html#a22bfe4636aa66097881ce2ece7883ab9',1,'ControlSystem']]],
+  ['squareparams_10',['squareparams',['../BuggyModes_8cpp.html#a9389652741c6a76fb539c85562986158',1,'squareParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a9389652741c6a76fb539c85562986158',1,'squareParams:&#160;BuggyModes.cpp']]],
+  ['squarestate_11',['squareState',['../classControlSystem.html#a42c323e831b8eb89101790920288a763',1,'ControlSystem']]],
+  ['state_12',['state',['../classControlSystem.html#a2c3f7a78408728e89f7705fb66e3cf13',1,'ControlSystem']]],
+  ['straightlineparams_13',['straightlineparams',['../BuggyModes_8cpp.html#a56fd617617b9dd4de828e4c176c83bc5',1,'straightlineParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a56fd617617b9dd4de828e4c176c83bc5',1,'straightlineParams:&#160;BuggyModes.cpp']]]
 ];

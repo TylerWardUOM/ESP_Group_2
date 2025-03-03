@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>constrain()&#160;:&#160;<a class="el" href="classControlSystem.html#aea450cb44ab5ff24c3598fae372205ba">ControlSystem</a></li>
-<li>ControlSystem()&#160;:&#160;<a class="el" href="classControlSystem.html#a83c23a98338709c50b80730b65a3a38a">ControlSystem</a></li>
+<li>ControlSystem()&#160;:&#160;<a class="el" href="classControlSystem.html#a7c2f211f2806a6fcaf5acd3517356e0c">ControlSystem</a></li>
 <li>currentSampleNorm&#160;:&#160;<a class="el" href="classPotentiometer.html#a3121f3e3eddc8d935abd58a7e90a3efc">Potentiometer</a></li>
 <li>currentSampleVolts&#160;:&#160;<a class="el" href="classPotentiometer.html#a1cae72c49d7112284a1a009a0b6b0249">Potentiometer</a></li>
 </ul>
@@ -148,6 +148,7 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>debug_data_buffer&#160;:&#160;<a class="el" href="classBluetooth.html#a9db959a7c2223b98d68c64b7ab705c1b">Bluetooth</a></li>
 <li>debug_index&#160;:&#160;<a class="el" href="classBluetooth.html#a3533a40b91c2f821f04cf58f050abf3f">Bluetooth</a></li>
 <li>disable()&#160;:&#160;<a class="el" href="classMotor.html#adf84e8f39fb82027b3343f5fb1cdbf96">Motor</a></li>
+<li>disableWheels()&#160;:&#160;<a class="el" href="classControlSystem.html#a58077e0d32c5dd6afbb06aa5c5d0f5b1">ControlSystem</a></li>
 <li>distance&#160;:&#160;<a class="el" href="structSquarePatternParams.html#a156e24c23c29d08fb3a6f4649261fe56">SquarePatternParams</a>, <a class="el" href="structStraightLineParams.html#aa6d5ec9f333ba68d30d4d685f5c09b5e">StraightLineParams</a></li>
 </ul>
 
@@ -221,7 +222,7 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>MOVE_FORWARD_SQUARE&#160;:&#160;<a class="el" href="classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa046309311310e50b621e5d64319fea8a">ControlSystem</a></li>
 <li>moveForward()&#160;:&#160;<a class="el" href="classControlSystem.html#a3eb5eef8c5c76f446807ce75ea08f4ac">ControlSystem</a></li>
 <li>movementCompleted&#160;:&#160;<a class="el" href="classControlSystem.html#af490a19de9d4b6f4a945503f33c45937">ControlSystem</a></li>
-<li>moveSquare()&#160;:&#160;<a class="el" href="classControlSystem.html#aad3f0e6406a818c0719b7fbf2d77381d">ControlSystem</a></li>
+<li>moveSquare()&#160;:&#160;<a class="el" href="classControlSystem.html#a3a7efa70318b8808010241e8b989a59e">ControlSystem</a></li>
 <li>moving&#160;:&#160;<a class="el" href="classControlSystem.html#a3dd86b7dfa96faea5f89edffc5beae5c">ControlSystem</a></li>
 <li>MOVING_SQUARE&#160;:&#160;<a class="el" href="classControlSystem.html#a65cce478a68b55ad9616905535672d65ae05284674ff7ec9c938cf1b58bae194b">ControlSystem</a></li>
 <li>multiplier&#160;:&#160;<a class="el" href="structBluetooth_1_1DebugEntry.html#aae8e939bbb47110303afc8d835f1175c">Bluetooth::DebugEntry</a></li>
@@ -249,6 +250,7 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>regulateSpeed()&#160;:&#160;<a class="el" href="classWheel.html#ab6171ccd45c79741fb8b558000e7f15d">Wheel</a></li>
 <li>reset()&#160;:&#160;<a class="el" href="classEncoder.html#a8ad34a60288f78310ee465da3832b405">Encoder</a>, <a class="el" href="classPIDController.html#ab6adfbffa30414f0a83b95ba999a2fea">PIDController</a></li>
 <li>resetDebugData()&#160;:&#160;<a class="el" href="classBluetooth.html#a3244e86cbce3519d7e34f2b20ad19d22">Bluetooth</a></li>
+<li>resetEncoders()&#160;:&#160;<a class="el" href="classControlSystem.html#ae857cb219c5f7c5f3b9b4314a8a98461">ControlSystem</a></li>
 <li>retracing&#160;:&#160;<a class="el" href="classControlSystem.html#a0879848013737b783c5e4b2a59aaf7cb">ControlSystem</a></li>
 <li>right_distance&#160;:&#160;<a class="el" href="structBluetooth_1_1DebugEntry.html#a75cd672b420a01d0c43d87876c30f297">Bluetooth::DebugEntry</a></li>
 <li>right_turn_multiplier&#160;:&#160;<a class="el" href="structSquarePatternParams.html#ab2b0a673214c56e31c022097e284509e">SquarePatternParams</a></li>
@@ -269,12 +271,16 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>setKd()&#160;:&#160;<a class="el" href="classPIDController.html#a3b1d0f85cef60fe25424e88a6adbb51a">PIDController</a></li>
 <li>setKi()&#160;:&#160;<a class="el" href="classPIDController.html#ab442bf567d1d1360578ce145765f4aa0">PIDController</a></li>
 <li>setKp()&#160;:&#160;<a class="el" href="classPIDController.html#a138c2957e72671ca34e67c9fccf6491e">PIDController</a></li>
+<li>setModePIDParameters()&#160;:&#160;<a class="el" href="classControlSystem.html#af7e300dcd5a5ff0a3881387081791678">ControlSystem</a></li>
 <li>setScalingMultiplier()&#160;:&#160;<a class="el" href="classPIDController.html#adceac57f56f6deaa1167c49d1e2e9ae2">PIDController</a></li>
 <li>setSpeed()&#160;:&#160;<a class="el" href="classMotor.html#a05558d30f775b3a62fe9b14d15ad2105">Motor</a>, <a class="el" href="classWheel.html#a30061642c5be4e770686a2e72359f5fb">Wheel</a></li>
 <li>shouldStart()&#160;:&#160;<a class="el" href="classBluetooth.html#a3affac304c592789f28831451a6a7a19">Bluetooth</a></li>
 <li>sideCount&#160;:&#160;<a class="el" href="classControlSystem.html#a77635f75f035c28bdb8ee9ed8c708ba9">ControlSystem</a></li>
 <li>speed&#160;:&#160;<a class="el" href="structSquarePatternParams.html#a4c0d55dfa4eb57988e743032eb49fd09">SquarePatternParams</a>, <a class="el" href="structStraightLineParams.html#a32986ba6bb7fd127f06dca26797f9b2f">StraightLineParams</a>, <a class="el" href="structTurnAngleParams.html#af36a77bdc096fb1ae7f649bfbf003d8d">TurnAngleParams</a></li>
 <li>square_distance&#160;:&#160;<a class="el" href="classControlSystem.html#a06b8c93dc825374ab36bec7a47e3970b">ControlSystem</a></li>
+<li>square_left_turn_multiplier&#160;:&#160;<a class="el" href="classControlSystem.html#a22b7429e7c607b00133c911e5768c4b2">ControlSystem</a></li>
+<li>square_right_turn_multiplier&#160;:&#160;<a class="el" href="classControlSystem.html#a3e54266d1e7a992dde1bad1aec6bcb1e">ControlSystem</a></li>
+<li>square_speed&#160;:&#160;<a class="el" href="classControlSystem.html#ac4ba5035312acf82bdab940166b3d1b0">ControlSystem</a></li>
 <li>squareCompleted&#160;:&#160;<a class="el" href="classControlSystem.html#a22bfe4636aa66097881ce2ece7883ab9">ControlSystem</a></li>
 <li>SquareMovementState&#160;:&#160;<a class="el" href="classControlSystem.html#a3b830aff4b92916aec06eef45a432b9a">ControlSystem</a></li>
 <li>squareState&#160;:&#160;<a class="el" href="classControlSystem.html#a42c323e831b8eb89101790920288a763">ControlSystem</a></li>

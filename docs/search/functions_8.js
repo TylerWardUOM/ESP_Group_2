@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ismovementcomplete_0',['isMovementComplete',['../classControlSystem.html#a6ddd6ccec7b0bf93e2d174db6a195e3f',1,'ControlSystem']]],
-  ['issquarecomplete_1',['isSquareComplete',['../classControlSystem.html#af94322afc98d884c660e9d0a701441dc',1,'ControlSystem']]]
+  ['lcd_0',['lcd',['../main_8cpp.html#a5951f9e0a697de6d4610cb9016a4a47f',1,'main.cpp']]],
+  ['logdebugdata_1',['logDebugData',['../classBluetooth.html#a34fa5fdd079c171a4c22f31d506d66d7',1,'Bluetooth']]]
 ];
