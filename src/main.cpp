@@ -85,6 +85,7 @@ bool square_flag = false;
 
 
 void switchToSpeedControlMode() {
+    //Needs to be adjusted to use controlSystem
     leftWheel.motor.enable();
     buggyMode = speed_control_mode;
     leftWheel.encoder.reset();
@@ -107,8 +108,6 @@ void switchToSquarePatternMode() {
     control.setModePIDParameters(&squareParams,NULL,NULL);
     //Begin Control
     controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
-    //Enable Motor
-    leftWheel.motor.enable();
     //Begin Movement
     control.moveSquare(squareParams.distance,squareParams.speed,squareParams.left_turn_multiplier,squareParams.right_turn_multiplier);
 }
@@ -129,7 +128,6 @@ void switchToTurnMenuMode() {
 
 //Function to switch the buggy to line mode
 void switchToLineMode(){
-    leftWheel.motor.enable();
     //Set Relevant PID Parameters
     control.setModePIDParameters(NULL,&straightlineParams,NULL); //I want nullptr but outdated c++
     //Begin Control
@@ -141,8 +139,6 @@ void switchToLineMode(){
 
 //Function to switch the buggy to turn mode
 void switchToTurnMode(){
-    //Enable Motor
-    leftWheel.motor.enable();
     //Set Relevant PID Parameters
     control.setModePIDParameters(NULL,NULL,&turnangleParams);
     //Begin Control
@@ -153,14 +149,10 @@ void switchToTurnMode(){
 }
 
 void stopMotorAndSwitchToIdleMode() {
-    //Stop Wheels
-    control.stopWheels();
-    //disable Motors
-    control.disableWheels();
-    //Detach control ticker
-    controlticker.detach();
     //Set buggy mode
     buggyMode = idle_mode;
+    //Detach control ticker
+    controlticker.detach();
     //LCD functionality
     lcd.cls();
     lcd.locate(0, 0);
@@ -171,8 +163,7 @@ void stopMotorAndSwitchToIdleMode() {
 
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);
-    leftWheel.stop();
-    rightWheel.stop();
+    control.stopWheels();
     
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands

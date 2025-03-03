@@ -15,6 +15,8 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
       squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1){}
 
 void ControlSystem::moveForward(float distance, float speed) {
+    //Ensure Motors Enabled
+    enableWheels();
     //Set Distance
     targetDistance = distance;
     //Set buggy state and flag
@@ -31,6 +33,8 @@ void ControlSystem::moveForward(float distance, float speed) {
 }
 
 void ControlSystem::turn(float angle, float speed) {
+    //Ensure Wheels Enabled
+    enableWheels();
     //Set turn distance
     turnDirection = (angle > 0) ? 1 : -1;
     targetDistance = (_track_width / 2.0f) * (fabs(angle) * 3.14159f / 180.0f);
@@ -62,6 +66,8 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
     moving = false;
     //Ensure Wheels stopped
     stopWheels();
+    //Ensure Wheels Enabled
+    enableWheels();
     //Reset Encoders
     resetEncoders();
     //Set speed distance and turn multiplers
@@ -288,9 +294,16 @@ void ControlSystem::stopWheels() {
     leftWheel.stop();
     rightWheel.stop();
     basespeed = 0;
+    disableWheels(); //Disable for safety if causes issues remove untested
+}
+
+void ControlSystem::enableWheels(){
+    leftWheel.enableMotor();
+    rightWheel.enableMotor();
 }
 void ControlSystem::disableWheels(){
-    leftWheel.motor.disable();
+    leftWheel.disableMotor();
+    rightWheel.disableMotor();
 }
 
 void ControlSystem::resetEncoders(){

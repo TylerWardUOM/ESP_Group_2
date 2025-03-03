@@ -55,6 +55,7 @@ private:
     void processTurning(float dt);
     void processSquare();
     float constrain(float value, float minVal, float maxVal);
+    void enableWheels();
 };
 
 #endif // CONTROL_SYSTEM_H
