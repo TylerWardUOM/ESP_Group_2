@@ -47,7 +47,7 @@ Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &t
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
 // Global instance of ControlSystem
-ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, KP_FORWARD, KI_FORWARD, KD_FORWARD, SCALING_FORWARD, KP_TURN, KI_TURN, KD_TURN, SCALING_TURN,&bluetooth);
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, &bluetooth);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
@@ -55,13 +55,6 @@ Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
 
 // LCD Pins
 C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
-
-// Button Pins
-InterruptIn fire(D4);  // Interrupt for the center button on the joystick
-InterruptIn up(A2);    // Interrupt for the up button
-InterruptIn down(A3);  // Interrupt for the down button
-InterruptIn right(A5); 
-InterruptIn left(A4);
 
 //
 // Function Prototypes
@@ -103,34 +96,21 @@ void switchToSquareIdleMode() {
     buggyMode = square_idle_mode;
 }
 
+//Function to start the square movement
 void switchToSquarePatternMode() {
-    lcd.cls();
-    lcd.locate(0, 0);
-    lcd.printf("Square Pattern Mode");
-    wait(1);
-    leftWheel.stop();
-    rightWheel.stop();
-    //Set Mode State
+    //Wait
+    wait(1);//could maybe remove this
+    //Set Mode and square flag
     square_flag = true;
     buggyMode = waiting_for_movement;
-    //Reset Encoders
-    leftWheel.encoder.reset();
-    rightWheel.encoder.reset();
     //Set Relevant Parameters
-    //Still need to set the left and right turn multipliers
-    control.pidForward.setKp(squareParams.forward_pid_kp);
-    control.pidForward.setKi(squareParams.forward_pid_ki);
-    control.pidForward.setKd(squareParams.forward_pid_kd);
-    control.pidForward.setScalingMultiplier(squareParams.scaling_forward);
-    control.pidTurn.setKp(squareParams.turn_pid_kp);
-    control.pidTurn.setKi(squareParams.turn_pid_ki);
-    control.pidTurn.setKd(squareParams.turn_pid_kd);
-    control.pidTurn.setScalingMultiplier(squareParams.scaling_turn);
+    control.setModePIDParameters(&squareParams,NULL,NULL);
     //Begin Control
     controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
     //Enable Motor
     leftWheel.motor.enable();
-    control.moveSquare();
+    //Begin Movement
+    control.moveSquare(squareParams.distance,squareParams.speed,squareParams.left_turn_multiplier,squareParams.right_turn_multiplier);
 }
 
 void switchToLineMenuMode() {
@@ -147,13 +127,11 @@ void switchToTurnMenuMode() {
     lcd.printf("Turn Mode");
 }
 
+//Function to switch the buggy to line mode
 void switchToLineMode(){
     leftWheel.motor.enable();
     //Set Relevant PID Parameters
-    control.pidForward.setKp(straightlineParams.forward_pid_kp);
-    control.pidForward.setKi(straightlineParams.forward_pid_ki);
-    control.pidForward.setKd(straightlineParams.forward_pid_kd);
-    control.pidForward.setScalingMultiplier(straightlineParams.scaling_forward);
+    control.setModePIDParameters(NULL,&straightlineParams,NULL); //I want nullptr but outdated c++
     //Begin Control
     control.moveForward(straightlineParams.distance,straightlineParams.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
@@ -161,14 +139,12 @@ void switchToLineMode(){
     buggyMode = waiting_for_movement;
 }
 
+//Function to switch the buggy to turn mode
 void switchToTurnMode(){
     //Enable Motor
     leftWheel.motor.enable();
     //Set Relevant PID Parameters
-    control.pidTurn.setKp(turnangleParams.turn_pid_kp);
-    control.pidTurn.setKi(turnangleParams.turn_pid_ki);
-    control.pidTurn.setKd(turnangleParams.turn_pid_kd);
-    control.pidTurn.setScalingMultiplier(turnangleParams.scaling_turn);
+    control.setModePIDParameters(NULL,NULL,&turnangleParams);
     //Begin Control
     control.turn(turnangleParams.angle,turnangleParams.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
@@ -177,14 +153,19 @@ void switchToTurnMode(){
 }
 
 void stopMotorAndSwitchToIdleMode() {
-    leftWheel.motor.disable();
+    //Stop Wheels
+    control.stopWheels();
+    //disable Motors
+    control.disableWheels();
+    //Detach control ticker
     controlticker.detach();
-    leftWheel.stop();
-    rightWheel.stop();
+    //Set buggy mode
     buggyMode = idle_mode;
+    //LCD functionality
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Idle Mode");
+    //Reset square_flag
     square_flag = false;
 }
 
