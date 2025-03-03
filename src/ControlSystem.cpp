@@ -5,50 +5,71 @@
 //add a process square movment function based of the current square function 
 //work out how to passparameters into update square worried that passing every run will memory issue
 ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
-    float track_width, float kp_forward, float ki_forward, float kd_forward,
-    float scaling_forward, float kp_turn, float ki_turn, float kd_turn,
-    float scaling_turn, Bluetooth* bluetooth)
+    float track_width, Bluetooth* bluetooth)
     : leftWheel(leftWheel), rightWheel(rightWheel),
-      pidForward(kp_forward, ki_forward, kd_forward, scaling_forward),
-      pidTurn(kp_turn, ki_turn, kd_turn, scaling_turn),
+      pidForward(0, 0, 0, 1),
+      pidTurn(0, 0, 0, 1),
       state(IDLE), targetDistance(0.0f), turnDirection(0), 
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
-      bluetooth(bluetooth),squareCompleted(false){}
+      bluetooth(bluetooth),
+      squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1){}
 
 void ControlSystem::moveForward(float distance, float speed) {
+    //Set Distance
     targetDistance = distance;
+    //Set buggy state and flag
     state = MOVE_FORWARD;
     movementCompleted = false;
-    leftWheel.encoder.reset();
-    rightWheel.encoder.reset();
+    //Reset Encoders
+    resetEncoders();
+    //Set Speed
     basespeed = speed;
+    //Reset Debug if needed
     if (squareCompleted){
         bluetooth->resetDebugData();
     }
 }
 
 void ControlSystem::turn(float angle, float speed) {
+    //Set turn distance
     turnDirection = (angle > 0) ? 1 : -1;
     targetDistance = (_track_width / 2.0f) * (fabs(angle) * 3.14159f / 180.0f);
+    //Set buggy state and flag
     state = TURNING;
     movementCompleted = false;
-    leftWheel.encoder.reset();
-    rightWheel.encoder.reset();
+    //Stop wheels
+    //stopWheels(); //might be needed
+    //reset encoder values
+    resetEncoders();
+    //Set speed
     basespeed = speed;
+    //Reset Debug if needed
     if (squareCompleted){
         bluetooth->resetDebugData();
     }}
 
-void ControlSystem::moveSquare() {
+void ControlSystem::moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier) {
+    //reset debug data
     if (squareCompleted) { 
         bluetooth->resetDebugData();
     }
+    //Set States & flags
     state = MOVING_SQUARE;
     squareState = MOVE_FORWARD_SQUARE;
     squareCompleted = false;
     sideCount = 0;
     retracing = false;
     moving = false;
+    //Ensure Wheels stopped
+    stopWheels();
+    //Reset Encoders
+    resetEncoders();
+    //Set speed distance and turn multiplers
+    square_distance = distance;
+    square_speed = speed;
+    square_left_turn_multiplier = left_turn_multiplier;
+    square_right_turn_multiplier = right_turn_multiplier;
+    //Reset Debug
     bluetooth->resetDebugData();
 }
 
@@ -89,6 +110,42 @@ bool ControlSystem::isMovementComplete() {
 bool ControlSystem::isSquareComplete(){
     return squareCompleted;
 }
+
+void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams, 
+                                      const StraightLineParams* straightlineParams, 
+                                      const TurnAngleParams* turnangleParams) {
+    // Apply Square Pattern parameters if provided
+    if (squareParams) {
+        //Forward PID constants
+        pidForward.setKp(squareParams->forward_pid_kp);
+        pidForward.setKi(squareParams->forward_pid_ki);
+        pidForward.setKd(squareParams->forward_pid_kd);
+        pidForward.setScalingMultiplier(squareParams->scaling_forward);
+        
+        //Turn Pid Constants
+        pidTurn.setKp(squareParams->turn_pid_kp);
+        pidTurn.setKi(squareParams->turn_pid_ki);
+        pidTurn.setKd(squareParams->turn_pid_kd);
+        pidTurn.setScalingMultiplier(squareParams->scaling_turn);
+    }
+
+    // Apply Straight Line parameters if provided
+    if (straightlineParams) {
+        pidForward.setKp(straightlineParams->forward_pid_kp);
+        pidForward.setKi(straightlineParams->forward_pid_ki);
+        pidForward.setKd(straightlineParams->forward_pid_kd);
+        pidForward.setScalingMultiplier(straightlineParams->scaling_forward);
+    }
+
+    // Apply Turn Angle parameters if provided
+    if (turnangleParams) {
+        pidTurn.setKp(turnangleParams->turn_pid_kp);
+        pidTurn.setKi(turnangleParams->turn_pid_ki);
+        pidTurn.setKd(turnangleParams->turn_pid_kd);
+        pidTurn.setScalingMultiplier(turnangleParams->scaling_turn);
+    }
+}
+
 
 void ControlSystem::processForwardMovement(float dt) {
     float leftDistance = leftWheel.encoder.getDistance();
@@ -160,7 +217,7 @@ void ControlSystem::processSquare() {
             // Handle square movement logic here
             if (!moving) {
                 // Move forward one side of the square
-                moveForward(squareParams.distance, squareParams.speed);
+                moveForward(square_distance, square_speed);
                 moving = true;
             }
             if (isMovementComplete()) {  // Wait for the movement to complete
@@ -174,7 +231,7 @@ void ControlSystem::processSquare() {
         case TURN_LEFT_SQUARE:
             // Turn left after moving forward (square pattern)
             if (!moving) {
-                turn(90*squareParams.left_turn_multiplier, squareParams.speed);  // Turn 90° left
+                turn(90*square_left_turn_multiplier, square_speed);  // Turn 90° left
                 moving = true;
             }
             if (isMovementComplete()) {
@@ -187,7 +244,7 @@ void ControlSystem::processSquare() {
         case TURN_RIGHT_SQUARE:
             // Turn right while retracing
             if (!moving) {
-                turn(-90*squareParams.right_turn_multiplier, squareParams.speed);  // Turn 90° right (opposite direction for retracing)
+                turn(-90*square_right_turn_multiplier, square_speed);  // Turn 90° right (opposite direction for retracing)
                 moving = true;
             }
             if (isMovementComplete()) {
@@ -200,7 +257,7 @@ void ControlSystem::processSquare() {
         case TURN_AROUND_SQUARE:
             // Turn around (90) after completing the square
             if (!moving) {
-                turn(90*squareParams.left_turn_multiplier, squareParams.speed);  // Turn 180° to prepare for retracing
+                turn(90*square_left_turn_multiplier, square_speed);  // Turn 180° to prepare for retracing
                 moving = true;
             }
             if (isMovementComplete()) {
@@ -231,4 +288,12 @@ void ControlSystem::stopWheels() {
     leftWheel.stop();
     rightWheel.stop();
     basespeed = 0;
+}
+void ControlSystem::disableWheels(){
+    leftWheel.motor.disable();
+}
+
+void ControlSystem::resetEncoders(){
+    leftWheel.encoder.reset();
+    rightWheel.encoder.reset();
 }

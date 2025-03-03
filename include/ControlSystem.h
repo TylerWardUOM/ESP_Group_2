@@ -11,13 +11,16 @@
 
 class ControlSystem {
 public:
-    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, float kp_forward, float ki_forward, float kd_forward, float scaling_forward, float kp_turn, float ki_turn, float kd_turn, float scaling_turn,Bluetooth* bluetooth);
+    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth* bluetooth);
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
     void update();
-    void moveSquare();
+    void moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier);
     bool isMovementComplete();
     bool isSquareComplete();
+    void disableWheels();
+    void stopWheels();
+    void setModePIDParameters(const SquarePatternParams* squareParams, const StraightLineParams* straightlineParams, const TurnAngleParams* turnangleParams);
     PIDController pidForward;
     PIDController pidTurn;
 
@@ -41,12 +44,16 @@ private:
     int sideCount;
     bool retracing;
     bool moving;
+    //Square Parrameters     
     float square_distance;
+    float square_speed;
+    float square_left_turn_multiplier;
+    float square_right_turn_multiplier;
 
+    void resetEncoders();
     void processForwardMovement(float dt);
     void processTurning(float dt);
     void processSquare();
-    void stopWheels();
     float constrain(float value, float minVal, float maxVal);
 };
 
