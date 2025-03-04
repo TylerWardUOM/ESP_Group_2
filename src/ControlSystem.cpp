@@ -283,6 +283,26 @@ void ControlSystem::processSquare() {
     }
 }
 
+////////////////////////
+void ControlSystem::follow_line() {
+    // Implement line following algorithm here
+    Err = sensorArray.getError();
+    PIDController PID_line(0,0,0);
+    float output = PID_line.update(Err, dt);  //kp,ki,kd need test after td2
+    float multiplier = 1.0f - (output);
+    if Err < 0:
+        leftWheel.setSpeed(basespeed * multiplier);
+        rightWheel.setSpeed(basespeed);
+    else:
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed * multiplier);
+}
+
+
+//////calvin
+
+/////////////////////////
+
 
 void ControlSystem::stopWheels() {
     leftWheel.stop();

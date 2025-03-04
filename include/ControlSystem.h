@@ -23,6 +23,8 @@ public:
     void setModePIDParameters(const SquarePatternParams* squareParams, const StraightLineParams* straightlineParams, const TurnAngleParams* turnangleParams);
     PIDController pidForward;
     PIDController pidTurn;
+    /////////////
+    SensorArray sensorArray;  ///calvin
 
 private:
     enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE};
@@ -55,6 +57,8 @@ private:
     void processTurning(float dt);
     void processSquare();
     float constrain(float value, float minVal, float maxVal);
+    //////////////
+    void follow_line(); //calvin 
 };
 
 #endif // CONTROL_SYSTEM_H
