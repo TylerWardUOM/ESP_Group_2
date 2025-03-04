@@ -11,7 +11,7 @@
 
 class ControlSystem {
 public:
-    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth* bluetooth);
+    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth& bluetooth);
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
     void update();
@@ -20,7 +20,7 @@ public:
     bool isSquareComplete();
     void disableWheels();
     void stopWheels();
-    void setModePIDParameters(const SquarePatternParams* squareParams, const StraightLineParams* straightlineParams, const TurnAngleParams* turnangleParams);
+    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams);
     PIDController pidForward;
     PIDController pidTurn;
 
@@ -31,7 +31,7 @@ private:
     Wheel& leftWheel;
     Wheel& rightWheel;
     Timer pidTimer;
-    Bluetooth* bluetooth;
+    Bluetooth& bluetooth;
 
     State state;
     SquareMovementState squareState;

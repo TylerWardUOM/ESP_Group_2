@@ -8,6 +8,8 @@
 #include "PIDController.h"
 #include "ControlSystem.h"
 #include "BuggyModes.h"
+#include "BuggyModeEnum.h"
+#include "BuggyModeParameters.h"
 #include "Bluetooth.h"
 
 //Constants for Wheel
@@ -21,33 +23,25 @@
 #define TRACK_WIDTH 0.20f          // distance between wheels (meters)
 #define TURN_DISTANCE (3.1416f * TRACK_WIDTH / 4)  // 90-degree turn distance
 
-//Constants for Control
-//If it doesnt go straight adjust these values
-#define KP_FORWARD 2.6f
-#define KI_FORWARD 0.8f
-#define KD_FORWARD 0
-#define SCALING_FORWARD 2.2f
-
-//If turns arent consistent adjust these values
-// If turns perfect one direction of square but not the other add a multipler to the turn angle in updatesquaremovement function
-#define KP_TURN 2.0f
-#define KI_TURN 0.45f
-#define KD_TURN 0
-#define SCALING_TURN 2.2f
-
 //Try get this to smallest value possible if code stops working properly go back to previous
 #define SQUARE_CONTROL_INTERVAL 0.01
+
+SquarePatternParams squareParams;
+StraightLineParams straightlineParams;
+TurnAngleParams turnangleParams;
+BuggyMode buggyMode = idle_mode;
+
 
 // Bluetooth Instance
 //Serial btSerial(PA_11,PA_12);
 Serial btSerial(USBTX,USBRX);
-Bluetooth bluetooth(btSerial, &buggyMode, &squareParams, &straightlineParams, &turnangleParams);
+Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
 // Global instance of ControlSystem
-ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, &bluetooth);
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
@@ -98,7 +92,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Square Idle Mode");
                 if (bluetooth.shouldStart()){
-                    switchToSquarePatternMode(control, buggyMode,controlticker,square_flag);
+                    switchToSquarePatternMode(control, buggyMode,controlticker,square_flag,squareParams);
                     break;
                 }
                 break;
@@ -107,7 +101,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Line Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToLineMode(control,buggyMode,controlticker);
+                    switchToLineMode(control,buggyMode,controlticker,straightlineParams);
                     break;
                 }
                 break;
@@ -116,7 +110,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Turn Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToTurnMode(control,buggyMode,controlticker);
+                    switchToTurnMode(control,buggyMode,controlticker, turnangleParams);
                     break;
                 }
                 break;

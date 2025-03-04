@@ -2,45 +2,6 @@
 #include "ControlSystem.h"
 #include "Bluetooth.h"
 
-// Initialize default parameters
-SquarePatternParams squareParams = {
-    2.3, 0.6, 0.00,   // pid_kp1, pid_ki1, pid_kd1
-    2.3, 0.6, 0.00,   // pid_kp2, pid_ki2, pid_kd2
-    2.2,              // scaling_forward
-    2.2,              // scaling_turn
-    1.1, 1.0,         // left_turn_multiplier, right_turn_multiplier
-    0.5,              // distance
-    90.0                // speed
-};
-
-StraightLineParams straightlineParams = {
-    2.3, 0.6, 0.00,   // pid_kp, pid_ki, pid_kd
-    2.2,              // scaling_forward
-    0.0,              // speed
-    0.0             // distance
-};
-
-TurnAngleParams turnangleParams = {
-    2.3, 0.6, 0.00,   // pid_kp, pid_ki, pid_kd
-    2.2,              // scaling_turn
-    0.0,              // speed
-    0.0              // angle
-};
-
-// Function to get mode name as a string
-const char* getModeName(BuggyMode mode) {
-    switch (mode) {
-        case idle_mode: return "IDLE";
-        case speed_control_mode: return "SPEED_CONTROL";
-        case square_idle_mode: return "SQUARE_IDLE";
-        case line_menu_mode: return "LINE_MENU";
-        case turn_menu_mode: return "TURN_MENU";
-        case waiting_for_movement: return "WAITING_FOR_MOVEMENT";
-        default: return "UNKNOWN_MODE";
-    }
-}
-
-BuggyMode buggyMode = idle_mode;
 
 void switchToSpeedControlMode(ControlSystem& control, BuggyMode& buggyMode) {
     //Needs to be adjusted to use controlSystem
@@ -56,18 +17,18 @@ void switchToSquareIdleMode(BuggyMode& buggyMode) {
 }
 
 //Function to start the square movement
-void switchToSquarePatternMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, bool& square_flag) {
+void switchToSquarePatternMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, bool& square_flag, SquarePatternParams& params) {
     //Wait
     wait(1);//could maybe remove this
     //Set Mode and square flag
     square_flag = true;
     buggyMode = waiting_for_movement;
     //Set Relevant Parameters
-    control.setModePIDParameters(&squareParams,NULL,NULL);
+    control.setModePIDParameters(&params,NULL,NULL);
     //Begin Control
     controlticker.attach(callback(&control, &ControlSystem::update), 0.1);//add interval to square params
     //Begin Movement
-    control.moveSquare(squareParams.distance,squareParams.speed,squareParams.left_turn_multiplier,squareParams.right_turn_multiplier);
+    control.moveSquare(params.distance,params.speed,params.left_turn_multiplier,params.right_turn_multiplier);
 }
 
 void switchToLineMenuMode(BuggyMode& buggyMode) {
@@ -79,22 +40,22 @@ void switchToTurnMenuMode(BuggyMode& buggyMode) {
 }
 
 //Function to switch the buggy to line mode
-void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker){
+void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params){
     //Set Relevant PID Parameters
-    control.setModePIDParameters(NULL,&straightlineParams,NULL); //I want nullptr but outdated c++
+    control.setModePIDParameters(NULL,&params,NULL); //I want nullptr but outdated c++
     //Begin Control
-    control.moveForward(straightlineParams.distance,straightlineParams.speed);
+    control.moveForward(params.distance,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;
 }
 
 //Function to switch the buggy to turn mode
-void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker){
+void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, TurnAngleParams& params){
     //Set Relevant PID Parameters
-    control.setModePIDParameters(NULL,NULL,&turnangleParams);
+    control.setModePIDParameters(NULL,NULL,&params);
     //Begin Control
-    control.turn(turnangleParams.angle,turnangleParams.speed);
+    control.turn(params.angle,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;
