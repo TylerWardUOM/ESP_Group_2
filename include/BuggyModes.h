@@ -1,6 +1,11 @@
 #ifndef BUGGY_MODES_H
 #define BUGGY_MODES_H
 
+
+#include "mbed.h"
+class Bluetooth;
+class ControlSystem;
+
 // Enum for buggy states
 enum BuggyMode {
     idle_mode,
@@ -54,4 +59,16 @@ extern SquarePatternParams squareParams;
 extern StraightLineParams straightlineParams;
 extern TurnAngleParams turnangleParams;
 extern BuggyMode buggyMode;
+
+
+// Function declarations for mode switching
+void switchToSpeedControlMode(ControlSystem& control, BuggyMode& buggyMode);
+void switchToSquareIdleMode(BuggyMode& buggyMode);
+void switchToSquarePatternMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, bool& square_flag);
+void switchToLineMenuMode(BuggyMode& buggyMode);
+void switchToTurnMenuMode(BuggyMode& buggyMode);
+void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker);
+void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker);
+void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, bool& square_flag);
+
 #endif // BUGGY_MODES_H

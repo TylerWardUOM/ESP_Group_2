@@ -59,14 +59,6 @@ C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
 //
 // Function Prototypes
 //
-void stopMotorAndSwitchToIdleMode();
-void switchToSpeedControlMode();
-void switchToSquareIdleMode();
-void switchToSquarePatternMode();
-void switchToLineMenuMode();
-void switchToTurnMenuMode();
-void switchToLineMode();
-void switchToTurnMode();
 void updateSquareMovement();
 void updateLCD();
 long map(long x, long in_min, long in_max, long out_min, long out_max);
@@ -84,87 +76,10 @@ Ticker controlticker;
 bool square_flag = false;
 
 
-void switchToSpeedControlMode() {
-    //Needs to be adjusted to use controlSystem
-    leftWheel.motor.enable();
-    buggyMode = speed_control_mode;
-    leftWheel.encoder.reset();
-    rightWheel.encoder.reset();
-}
-
-void switchToSquareIdleMode() {
-    leftWheel.motor.disable();
-    buggyMode = square_idle_mode;
-}
-
-//Function to start the square movement
-void switchToSquarePatternMode() {
-    //Wait
-    wait(1);//could maybe remove this
-    //Set Mode and square flag
-    square_flag = true;
-    buggyMode = waiting_for_movement;
-    //Set Relevant Parameters
-    control.setModePIDParameters(&squareParams,NULL,NULL);
-    //Begin Control
-    controlticker.attach(callback(&control, &ControlSystem::update), SQUARE_CONTROL_INTERVAL);
-    //Begin Movement
-    control.moveSquare(squareParams.distance,squareParams.speed,squareParams.left_turn_multiplier,squareParams.right_turn_multiplier);
-}
-
-void switchToLineMenuMode() {
-    buggyMode = line_menu_mode;
-    lcd.cls();
-    lcd.locate(0,0);
-    lcd.printf("Line Mode");
-}
-
-void switchToTurnMenuMode() {
-    buggyMode = turn_menu_mode;
-    lcd.cls();
-    lcd.locate(0,0);
-    lcd.printf("Turn Mode");
-}
-
-//Function to switch the buggy to line mode
-void switchToLineMode(){
-    //Set Relevant PID Parameters
-    control.setModePIDParameters(NULL,&straightlineParams,NULL); //I want nullptr but outdated c++
-    //Begin Control
-    control.moveForward(straightlineParams.distance,straightlineParams.speed);
-    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
-    //Update Mode state
-    buggyMode = waiting_for_movement;
-}
-
-//Function to switch the buggy to turn mode
-void switchToTurnMode(){
-    //Set Relevant PID Parameters
-    control.setModePIDParameters(NULL,NULL,&turnangleParams);
-    //Begin Control
-    control.turn(turnangleParams.angle,turnangleParams.speed);
-    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
-    //Update Mode state
-    buggyMode = waiting_for_movement;
-}
-
-void stopMotorAndSwitchToIdleMode() {
-    //Set buggy mode
-    buggyMode = idle_mode;
-    //Detach control ticker
-    controlticker.detach();
-    //LCD functionality
-    lcd.cls();
-    lcd.locate(0, 0);
-    lcd.printf("Idle Mode");
-    //Reset square_flag
-    square_flag = false;
-}
-
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);
     control.stopWheels();
-    
+
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
@@ -183,7 +98,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Square Idle Mode");
                 if (bluetooth.shouldStart()){
-                    switchToSquarePatternMode();
+                    switchToSquarePatternMode(control, buggyMode,controlticker,square_flag);
                     break;
                 }
                 break;
@@ -192,7 +107,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Line Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToLineMode();
+                    switchToLineMode(control,buggyMode,controlticker);
                     break;
                 }
                 break;
@@ -201,7 +116,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Turn Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToTurnMode();
+                    switchToTurnMode(control,buggyMode,controlticker);
                     break;
                 }
                 break;
@@ -214,7 +129,7 @@ int main() {
                     controlticker.detach();
                     bluetooth.sendMovementFinished();
                     bluetooth.sendDebugData();
-                    stopMotorAndSwitchToIdleMode();
+                    stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,square_flag);
                 }
             break;
 
