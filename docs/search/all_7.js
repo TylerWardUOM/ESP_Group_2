@@ -7,8 +7,10 @@ var searchData=
   ['getki_4',['getKi',['../classPIDController.html#a01f60dfbcd5ff4903de954d34fa3fd92',1,'PIDController']]],
   ['getkp_5',['getKp',['../classPIDController.html#a1828ef8b9ab00cf4a4e641dec3ece893',1,'PIDController']]],
   ['getmodename_6',['getmodename',['../BuggyModeEnum_8cpp.html#aa280e72c367e5ca2af700cdf4f341ae4',1,'getModeName(BuggyMode mode):&#160;BuggyModeEnum.cpp'],['../BuggyModeEnum_8h.html#aa280e72c367e5ca2af700cdf4f341ae4',1,'getModeName(BuggyMode mode):&#160;BuggyModeEnum.cpp']]],
-  ['getrevolutions_7',['getRevolutions',['../classEncoder.html#a2b926c72c16d49766c86e34a8ecdb309',1,'Encoder']]],
-  ['getscalingmultiplier_8',['getScalingMultiplier',['../classPIDController.html#a1c55cc0ccb0b2d25023fc4a78e8bea23',1,'PIDController']]],
-  ['getspeed_9',['getspeed',['../classEncoder.html#a9893c437b7764af322ec73b58d2274f2',1,'Encoder::getSpeed()'],['../classMotor.html#a16fd26b8314eb4d70fa1910deb482797',1,'Motor::getSpeed()']]],
-  ['go_5fflag_10',['go_flag',['../classBluetooth.html#ac21ce9e574051e199d686a83033957b7',1,'Bluetooth']]]
+  ['getnormalizedvalue_7',['GetNormalizedValue',['../classSensor.html#af4f96f1e9d736e255b1b00a3eddaadce',1,'Sensor']]],
+  ['getrevolutions_8',['getRevolutions',['../classEncoder.html#a2b926c72c16d49766c86e34a8ecdb309',1,'Encoder']]],
+  ['getscalingmultiplier_9',['getScalingMultiplier',['../classPIDController.html#a1c55cc0ccb0b2d25023fc4a78e8bea23',1,'PIDController']]],
+  ['getspeed_10',['getspeed',['../classEncoder.html#a9893c437b7764af322ec73b58d2274f2',1,'Encoder::getSpeed()'],['../classMotor.html#a16fd26b8314eb4d70fa1910deb482797',1,'Motor::getSpeed()']]],
+  ['getvalue_11',['GetValue',['../classSensor.html#aa97ecacda5c962842ae3c74888952117',1,'Sensor']]],
+  ['go_5fflag_12',['go_flag',['../classBluetooth.html#ac21ce9e574051e199d686a83033957b7',1,'Bluetooth']]]
 ];

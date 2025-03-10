@@ -1,13 +1,22 @@
 var searchData=
 [
-  ['regulatespeed_0',['regulateSpeed',['../classWheel.html#ab6171ccd45c79741fb8b558000e7f15d',1,'Wheel']]],
-  ['reset_1',['reset',['../classEncoder.html#a8ad34a60288f78310ee465da3832b405',1,'Encoder::reset()'],['../classPIDController.html#ab6adfbffa30414f0a83b95ba999a2fea',1,'PIDController::reset()']]],
-  ['resetdebugdata_2',['resetDebugData',['../classBluetooth.html#a3244e86cbce3519d7e34f2b20ad19d22',1,'Bluetooth']]],
-  ['resetencoders_3',['resetEncoders',['../classControlSystem.html#ae857cb219c5f7c5f3b9b4314a8a98461',1,'ControlSystem']]],
-  ['retracing_4',['retracing',['../classControlSystem.html#a0879848013737b783c5e4b2a59aaf7cb',1,'ControlSystem']]],
-  ['right_5fdistance_5',['right_distance',['../structBluetooth_1_1DebugEntry.html#a75cd672b420a01d0c43d87876c30f297',1,'Bluetooth::DebugEntry']]],
-  ['right_5fturn_5fmultiplier_6',['right_turn_multiplier',['../structSquarePatternParams.html#ab2b0a673214c56e31c022097e284509e',1,'SquarePatternParams']]],
-  ['rightwheel_7',['rightwheel',['../classControlSystem.html#aea246f555d4fcc906dc57cd3c2e22867',1,'ControlSystem::rightWheel'],['../main_8cpp.html#a46e5e555fa4986f2c927f6a6e1fb84c1',1,'rightWheel:&#160;main.cpp']]],
-  ['rx_5fbuffer_8',['rx_buffer',['../classBluetooth.html#a51f517dd228135ec66fe2dede6e03a7c',1,'Bluetooth']]],
-  ['rx_5finterrupt_9',['rx_interrupt',['../classBluetooth.html#ac379370b2044f0cf98430af8f56f806c',1,'Bluetooth']]]
+  ['parsecommand_0',['parseCommand',['../classBluetooth.html#a6fb89dcbcbee5e18232660025d9b8de5',1,'Bluetooth']]],
+  ['pid_5foutput_1',['pid_output',['../structBluetooth_1_1DebugEntry.html#a5b9ce628a711a6dd73278a55d72f20e6',1,'Bluetooth::DebugEntry']]],
+  ['pidcontroller_2',['pidcontroller',['../classPIDController.html',1,'PIDController'],['../classPIDController.html#adfbfe2581ad8faf120ce433981d4bfa2',1,'PIDController::PIDController()']]],
+  ['pidcontroller_2ecpp_3',['PIDController.cpp',['../PIDController_8cpp.html',1,'']]],
+  ['pidcontroller_2eh_4',['PIDController.h',['../PIDController_8h.html',1,'']]],
+  ['pidforward_5',['pidForward',['../classControlSystem.html#afb672ccd3bc66ca8357630b1fd70c332',1,'ControlSystem']]],
+  ['pidtimer_6',['pidTimer',['../classControlSystem.html#a3dce331b24669a61f7efff8e49a0ac2e',1,'ControlSystem']]],
+  ['pidturn_7',['pidTurn',['../classControlSystem.html#ab698b3d792ba9049c6e581346aa92183',1,'ControlSystem']]],
+  ['potentiometer_8',['potentiometer',['../classPotentiometer.html',1,'Potentiometer'],['../classPotentiometer.html#aa15e31a19971b5ff9cf179805f4e388c',1,'Potentiometer::Potentiometer()']]],
+  ['potentiometer_2ecpp_9',['Potentiometer.cpp',['../Potentiometer_8cpp.html',1,'']]],
+  ['potentiometer_2eh_10',['Potentiometer.h',['../Potentiometer_8h.html',1,'']]],
+  ['potentiometerleft_11',['potentiometerLeft',['../main_8cpp.html#a060e83724d3e20535e7ccc6a7cb8ff06',1,'main.cpp']]],
+  ['potentiometerright_12',['potentiometerRight',['../main_8cpp.html#a96c42dda2182a4c94616dd22f6793f8c',1,'main.cpp']]],
+  ['preverror_13',['prevError',['../classPIDController.html#a8af7db307a7659338ee5c8d78579f738',1,'PIDController']]],
+  ['printdebugdata_14',['printDebugData',['../classBluetooth.html#a37cad8b425ef88bc88565b0bc5a65c9c',1,'Bluetooth']]],
+  ['processcommand_15',['processCommand',['../classBluetooth.html#aa35e697f8cc36360179e9b4b7cbd4790',1,'Bluetooth']]],
+  ['processforwardmovement_16',['processForwardMovement',['../classControlSystem.html#a08db5746c6013aa8107ecd45eeb48fbf',1,'ControlSystem']]],
+  ['processsquare_17',['processSquare',['../classControlSystem.html#ae2b757f5fe0d84bc8fde88edfe3980c8',1,'ControlSystem']]],
+  ['processturning_18',['processTurning',['../classControlSystem.html#ac9ac5f7ed4409befd724c51b55210379',1,'ControlSystem']]]
 ];

@@ -9,5 +9,6 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "Motor.h", "Motor_8h.html", "Motor_8h" ],
     [ "PIDController.h", "PIDController_8h.html", "PIDController_8h" ],
     [ "Potentiometer.h", "Potentiometer_8h.html", "Potentiometer_8h" ],
+    [ "sensors.h", "sensors_8h.html", "sensors_8h" ],
     [ "Wheel.h", "Wheel_8h.html", "Wheel_8h" ]
 ];
