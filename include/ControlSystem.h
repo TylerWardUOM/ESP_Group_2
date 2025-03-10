@@ -11,7 +11,7 @@
 
 class ControlSystem {
 public:
-    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth* bluetooth);
+    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth& bluetooth);
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
     void update();
@@ -20,12 +20,12 @@ public:
     bool isSquareComplete();
     void disableWheels();
     void stopWheels();
-    void setModePIDParameters(const SquarePatternParams* squareParams, const StraightLineParams* straightlineParams, const TurnAngleParams* turnangleParams);
+    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams, const FollowParams *followParams);
     PIDController pidForward;
     PIDController pidTurn;
     PIDController pidLine;
-    /////////////
-    SensorArray sensorArray;  ///calvin
+  
+    SensorArray sensorArray;
 
 private:
     enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE, FOLLOW_LINE};
@@ -34,7 +34,7 @@ private:
     Wheel& leftWheel;
     Wheel& rightWheel;
     Timer pidTimer;
-    Bluetooth* bluetooth;
+    Bluetooth& bluetooth;
 
     State state;
     SquareMovementState squareState;
@@ -58,9 +58,9 @@ private:
     void processTurning(float dt);
     void processSquare();
     float constrain(float value, float minVal, float maxVal);
-    //////////////
+    void enableWheels();
     void startFollowLine(float speed);
-    void processFollowLine(float dt); //calvin 
+    void processFollowLine(float dt);
 };
 
 #endif // CONTROL_SYSTEM_H

@@ -3,6 +3,8 @@
 
 #include "mbed.h"
 #include "BuggyModes.h"
+#include "BuggyModeEnum.h"
+#include "BuggyModeParameters.h"
 
 /**
  * @class Bluetooth
@@ -21,10 +23,11 @@ public:
      * @param slParams Pointer to Straight Line movement parameters.
      * @param taParams Pointer to Turn Angle movement parameters.
      */
-    Bluetooth(Serial &serial, BuggyMode *mode, 
-              SquarePatternParams *sqParams, 
-              StraightLineParams *slParams, 
-              TurnAngleParams *taParams);
+    Bluetooth(Serial &serial, BuggyMode &mode, 
+              SquarePatternParams &sqParams, 
+              StraightLineParams &slParams, 
+              TurnAngleParams &taParams,
+              FollowParams &flParams);
 
     /**
      * @brief Processes received commands from the buffer.
@@ -79,10 +82,11 @@ public:
 
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
-    BuggyMode *_currentMode;  ///< Pointer to the current buggy mode.
-    SquarePatternParams *_sqParams; ///< Pointer to square pattern movement parameters.
-    StraightLineParams *_slParams;  ///< Pointer to straight-line movement parameters.
-    TurnAngleParams *_taParams;     ///< Pointer to turn angle movement parameters.
+    BuggyMode &_currentMode;  ///< Pointer to the current buggy mode.
+    SquarePatternParams &_sqParams; ///< Pointer to square pattern movement parameters.
+    StraightLineParams &_slParams;  ///< Pointer to straight-line movement parameters.
+    TurnAngleParams &_taParams;     ///< Pointer to turn angle movement parameters.
+    FollowParams &_flParams;
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
 
