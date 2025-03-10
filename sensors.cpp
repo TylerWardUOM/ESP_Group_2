@@ -1,67 +1,58 @@
-#include "mbed.h"
+#include "sensors.h"
 
-class Sensor {
-private:
-    AnalogIn sensor_pin;  // Analog input pin for sensor output
-    DigitalOut control; // Digital pin to control sensor behavior
-    float value;         // Latest reading from sensor
+// Constructor: Initializes sensor and control pins, then clears the initial reading.
+Sensor::Sensor(PinName inputPin, PinName controlPin)
+    : sensor_pin(inputPin), control(controlPin), value(0.0f)
+{
+    clearReading();
+}
 
+// Samples the sensor by reading the analog value and converting it to a voltage.
+void Sensor::Sample() {
+    value = sensor_pin.read() * 3.3;
+}
 
-public:
-    int Logic;  // Logic value after digitalizing the sensor reading
-    
-    // Constructor to initialize sensor pin and darlington transistor pin
-    Sensor(PinName inputPin, PinName controlPin) : sensor_pin(inputPin), control(controlPin), value(0.0f) {
-        clearReading();  // Clear initial reading
-    }
+// Returns the raw sensor reading (voltage value).
+float Sensor::GetValue() {
+    return value;
+}
 
-    void Sample() {
-        value = sensor_pin.read()*3.3;  // Read the analog value from the sensor
-    }
-    
-    //Return the raw reading from the sensor
-    float GetValue() {
-        return value;
-    }
-    
-    //Return normalized sensor value
-    float GetNormalizedValue() {
-        return sensor_pin.read();
-    }
+// Returns the normalized sensor reading (0.0 - 1.0).
+float Sensor::GetNormalizedValue() {
+    return sensor_pin.read();
+}
 
-    // Clear the sensor reading
-    void clearReading() {
-        value = 0;
-        Logic = 0;
-    }
-    
-    // Turn the sensor on
-    void on() {
-        control = 1;
-    }
+// Clears the sensor reading and resets the logic value.
+void Sensor::clearReading() {
+    value = 0;
+    Logic = 0;
+}
 
-    // Turn the sensor off
-    void off() {
-        control = 0;
-    }
+// Turns the sensor on by setting the control pin high.
+void Sensor::on() {
+    control = 1;
+}
 
-    void toggle(){
-        if (control == 1){
-            off();
-        }
-        else if (control == 0){
-            on();
-        }
-    }
+// Turns the sensor off by setting the control pin low.
+void Sensor::off() {
+    control = 0;
+}
 
-  
-    // Digitalize the sensor value (converts analog reading to 1 for white, 0 for black)
-    int digitalize() {
-        if (GetValue() > 0.4) {
-            Logic = 1;  // 1 means the sensor detects white
-        } else {
-            Logic = 0;  // 0 means the sensor detects black
-        }
-        return Logic;
+// Toggles the sensor control pin between on and off.
+void Sensor::toggle() {
+    if (control == 1) {
+        off();
+    } else {
+        on();
     }
-};
+}
+
+// Digitalizes the sensor reading: returns 1 if the raw value is greater than 0.4, else returns 0.
+int Sensor::digitalize() {
+    if (GetValue() > 0.4) {
+        Logic = 1;  // Sensor detects white
+    } else {
+        Logic = 0;  // Sensor detects black
+    }
+    return Logic;
+}
