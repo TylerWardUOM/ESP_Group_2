@@ -8,6 +8,7 @@ enum BuggyMode {
     square_idle_mode,   
     line_menu_mode,
     turn_menu_mode,
+    follow_menu_mode,
     waiting_for_movement
 };
 

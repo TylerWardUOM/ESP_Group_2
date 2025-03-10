@@ -67,6 +67,15 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("angle=%.2f\n", _taParams.angle);
             break;
 
+        
+        case follow_menu_mode:
+            _serial.printf("kp=%.2f, ki=%.2f, kd=%.2f\n",
+                           _flParams.pid_kp, _flParams.pid_ki, _flParams.pid_kd);
+            _serial.printf("pid_scaling=%.2f\n", _flParams.pid_scaling);
+            _serial.printf("speed=%.2f\n", _taParams.speed);
+            break;
+
+
         default:
             _serial.printf("No parameters available for this mode.\n");
             break;
@@ -134,6 +143,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:SPEED_CONTROL") == 0) {
         _currentMode = speed_control_mode;
         _serial.printf("MODE_CHANGED:SPEED_CONTROL\n");
+    }else if (strcmp(cmd, "SET_MODE:FOLLOW_LINE") == 0) {
+        _currentMode = follow_menu_mode;
+        _serial.printf("MODE_CHANGED:FOLLOW_LINE\n");
     } else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -181,6 +193,14 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "scaling_turn") == 0) _taParams.scaling_turn = value;
                 else if (strcmp(key, "speed") == 0) _taParams.speed = value;
                 else if (strcmp(key, "angle") == 0) _taParams.angle = value;
+                break;
+
+            case follow_menu_mode:
+                if (strcmp(key, "kp") == 0) _flParams.pid_kp = value;
+                else if (strcmp(key, "ki") == 0) _flParams.pid_ki = value;
+                else if (strcmp(key, "kd") == 0) _flParams.pid_kd = value;
+                else if (strcmp(key, "pid_scaling") == 0) _flParams.pid_scaling = value;
+                else if (strcmp(key, "speed") == 0) _flParams.speed = value;
                 break;
         }
 

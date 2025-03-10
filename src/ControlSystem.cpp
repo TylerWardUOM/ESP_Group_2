@@ -119,7 +119,8 @@ bool ControlSystem::isSquareComplete(){
 
 void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams, 
                                       const StraightLineParams* straightlineParams, 
-                                      const TurnAngleParams* turnangleParams) {
+                                      const TurnAngleParams* turnangleParams,
+                                      const FollowParams* followParams) {
     // Apply Square Pattern parameters if provided
     if (squareParams) {
         //Forward PID constants
@@ -149,6 +150,13 @@ void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams
         pidTurn.setKi(turnangleParams->turn_pid_ki);
         pidTurn.setKd(turnangleParams->turn_pid_kd);
         pidTurn.setScalingMultiplier(turnangleParams->scaling_turn);
+    }
+
+    if (followParams) {
+        pidTurn.setKp(followParams->pid_kp);
+        pidTurn.setKi(followParams->pid_ki);
+        pidTurn.setKd(followParams->pid_kd);
+        pidTurn.setScalingMultiplier(followParams->pid_scaling);
     }
 }
 

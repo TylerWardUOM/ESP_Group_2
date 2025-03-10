@@ -20,7 +20,7 @@ public:
     bool isSquareComplete();
     void disableWheels();
     void stopWheels();
-    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams);
+    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams, const FollowParams *followParams);
     PIDController pidForward;
     PIDController pidTurn;
 

@@ -43,4 +43,15 @@ struct TurnAngleParams {
     TurnAngleParams();
 };
 
+struct FollowParams {
+    float pid_kp;
+    float pid_ki;
+    float pid_kd;
+    float pid_scaling;
+    float speed;
+
+    // Constructor
+    FollowParams();
+};
+
 #endif // BUGGY_MODE_PARAMS_H

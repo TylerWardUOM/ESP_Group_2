@@ -38,6 +38,9 @@ void switchToLineMenuMode(BuggyMode& buggyMode) {
 void switchToTurnMenuMode(BuggyMode& buggyMode) {
     buggyMode = turn_menu_mode;
 }
+void switchToFollowMenuMode(BuggyMode& buggyMode) {
+    buggyMode = follow_menu_mode;
+}
 
 //Function to switch the buggy to line mode
 void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params){
@@ -56,6 +59,17 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
     control.setModePIDParameters(NULL,NULL,&params);
     //Begin Control
     control.turn(params.angle,params.speed);
+    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
+    //Update Mode state
+    buggyMode = waiting_for_movement;
+}
+
+//Function to switch the buggy to turn mode
+void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, TurnAngleParams& params){
+    //Set Relevant PID Parameters
+    control.setModePIDParameters(NULL,NULL,NULL,&params);
+    //Begin Control
+    control.follow(params.angle,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;

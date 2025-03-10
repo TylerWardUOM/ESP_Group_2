@@ -17,5 +17,7 @@ void switchToTurnMenuMode(BuggyMode& buggyMode);
 void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params);
 void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, TurnAngleParams& params);
 void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, bool& square_flag);
-
+//Switch To Follow Mode Menu
+void switchToFollowMenuMode(BuggyMode& buggyMode);
+void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, FollowParams& params);
 #endif // BUGGY_MODES_H
