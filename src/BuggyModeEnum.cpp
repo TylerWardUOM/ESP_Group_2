@@ -8,7 +8,7 @@ const char* getModeName(BuggyMode mode) {
         case square_idle_mode: return "SQUARE_IDLE";
         case line_menu_mode: return "LINE_MENU";
         case turn_menu_mode: return "TURN_MENU";
-        case follow_menu_mode: return "FOLLOW_MENU"
+        case follow_menu_mode: return "FOLLOW_MENU";
         case waiting_for_movement: return "WAITING_FOR_MOVEMENT";
         default: return "UNKNOWN_MODE";
     }

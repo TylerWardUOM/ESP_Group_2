@@ -14,9 +14,11 @@ Timer debugTimer;
 Bluetooth::Bluetooth(Serial &serial, BuggyMode &mode,
                      SquarePatternParams &sqParams,
                      StraightLineParams &slParams,
-                     TurnAngleParams &taParams)
+                     TurnAngleParams &taParams,
+                     FollowParams &flParams)
     : _serial(serial), _currentMode(mode),
-      _sqParams(sqParams), _slParams(slParams), _taParams(taParams) {
+      _sqParams(sqParams), _slParams(slParams), _taParams(taParams),
+      _flParams(flParams) {
     _serial.attach(callback(this, &Bluetooth::rx_interrupt), Serial::RxIrq);
     debugTimer.start();
 }

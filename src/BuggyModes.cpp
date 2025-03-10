@@ -24,7 +24,7 @@ void switchToSquarePatternMode(ControlSystem& control, BuggyMode& buggyMode, Tic
     square_flag = true;
     buggyMode = waiting_for_movement;
     //Set Relevant Parameters
-    control.setModePIDParameters(&params,NULL,NULL);
+    control.setModePIDParameters(&params,NULL,NULL,NULL);
     //Begin Control
     controlticker.attach(callback(&control, &ControlSystem::update), 0.1);//add interval to square params
     //Begin Movement
@@ -45,7 +45,7 @@ void switchToFollowMenuMode(BuggyMode& buggyMode) {
 //Function to switch the buggy to line mode
 void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params){
     //Set Relevant PID Parameters
-    control.setModePIDParameters(NULL,&params,NULL); //I want nullptr but outdated c++
+    control.setModePIDParameters(NULL,&params,NULL,NULL); //I want nullptr but outdated c++
     //Begin Control
     control.moveForward(params.distance,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
@@ -56,7 +56,7 @@ void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
 //Function to switch the buggy to turn mode
 void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, TurnAngleParams& params){
     //Set Relevant PID Parameters
-    control.setModePIDParameters(NULL,NULL,&params);
+    control.setModePIDParameters(NULL,NULL,&params,NULL);
     //Begin Control
     control.turn(params.angle,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
@@ -65,11 +65,11 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
 }
 
 //Function to switch the buggy to turn mode
-void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, TurnAngleParams& params){
+void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, FollowParams& params){
     //Set Relevant PID Parameters
     control.setModePIDParameters(NULL,NULL,NULL,&params);
     //Begin Control
-    control.follow(params.angle,params.speed);
+    control.follow(params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;
