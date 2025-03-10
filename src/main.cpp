@@ -1,11 +1,7 @@
-#include "Wheel.h"
 #include "mbed.h"
 #include "C12832.h"
-#include "Motor.h"
-#include "Encoder.h"
 #include "Potentiometer.h"
 #include "Wheel.h"
-#include "PIDController.h"
 #include "ControlSystem.h"
 #include "BuggyModes.h"
 #include "BuggyModeEnum.h"
@@ -33,8 +29,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-//Serial btSerial(PA_11,PA_12);
-Serial btSerial(USBTX,USBRX);
+Serial btSerial(PA_11,PA_12);
+//Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -55,14 +51,16 @@ C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
 //
 void updateSquareMovement();
 void updateLCD();
-long map(long x, long in_min, long in_max, long out_min, long out_max);
-
+long map(long x, long in_min, long in_max, long out_min, long out_max){
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 // Update LCD periodically using a Ticker
 Ticker lcdUpdateTicker; 
 bool lcdUpdateRequired = false;
 void updateLCD() {
     lcdUpdateRequired = true;
 }
+
 
 
 Ticker controlticker;
@@ -73,6 +71,8 @@ bool square_flag = false;
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);
     control.stopWheels();
+    float speedRawL;
+    float speedRawR;
 
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
@@ -81,11 +81,29 @@ int main() {
             case idle_mode:
                 lcd.locate(0, 0);
                 lcd.printf("Idle Mode");
+                control.stopWheels();
                 break;
 
             case speed_control_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Speed Control Mode");
+                //LED.setGreen();
+                if (lcdUpdateRequired) {
+                    leftWheel.enableMotor();
+                    lcd.cls();
+                    lcd.locate(25,8);
+                    lcd.printf("Speed Control Mode");
+                    lcd.locate(3, 17);
+                    lcd.printf("L=%.2frpm R=%.2frpm", leftWheel.encoder.getSpeed(), rightWheel.encoder.getSpeed());
+                    lcdUpdateRequired = false;
+                }
+                potentiometerLeft.sample();
+                potentiometerRight.sample();
+                speedRawL = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM);
+                speedRawR = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+                //Debug Prints
+                //printf("Lraw = %.2f Rraw = %.2f\n",speedRawL,speedRawR);
+                //printf("LCount = %f, Rcount = %f\n",leftWheel.encoder.getRevolutions(),rightWheel.encoder.getRevolutions());
+                leftWheel.setSpeed(speedRawL);
+                rightWheel.setSpeed(speedRawR);
                 break;
 
             case square_idle_mode:

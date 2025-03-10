@@ -131,6 +131,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     } else if (strcmp(cmd, "SET_MODE:TURN_ANGLE") == 0) {
         _currentMode = turn_menu_mode;
         _serial.printf("MODE_CHANGED:TURN_ANGLE\n");
+    }else if (strcmp(cmd, "SET_MODE:SPEED_CONTROL") == 0) {
+        _currentMode = speed_control_mode;
+        _serial.printf("MODE_CHANGED:SPEED_CONTROL\n");
     } else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
