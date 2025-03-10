@@ -9,6 +9,7 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(0, 0, 0, 1),
       pidTurn(0, 0, 0, 1),
+      pidLine(0, 0, 0, 1),
       state(IDLE), targetDistance(0.0f), turnDirection(0), 
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
       bluetooth(bluetooth),
@@ -106,6 +107,9 @@ void ControlSystem::update() {
         case IDLE:
             stopWheels();
             break;
+        case FOLLOW_LINE:
+             processFollowLine(dt);
+             break;
     }
 }
 
@@ -296,6 +300,30 @@ void ControlSystem::processSquare() {
             break;
     }
 }
+
+////////////////////////
+void ControlSystem::startFollowLine(float speed) {
+    basespeed = speed;
+    state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
+    movementCompleted = false;
+}
+
+
+void ControlSystem::processFollowLine(float dt) {
+    // Implement line following algorithm here
+    float error = sensorArray.getError();
+    float output = pidLine.update(error, dt);  //kp,ki,kd need test after td2
+    float multiplier = 1.0f - (output);
+    
+    leftWheel.setSpeed(basespeed * multiplier);
+    rightWheel.setSpeed(basespeed);
+
+}
+
+
+//////calvin
+
+/////////////////////////
 
 
 void ControlSystem::stopWheels() {
