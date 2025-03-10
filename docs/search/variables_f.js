@@ -10,8 +10,8 @@ var searchData=
   ['square_5fright_5fturn_5fmultiplier_7',['square_right_turn_multiplier',['../classControlSystem.html#a3e54266d1e7a992dde1bad1aec6bcb1e',1,'ControlSystem']]],
   ['square_5fspeed_8',['square_speed',['../classControlSystem.html#ac4ba5035312acf82bdab940166b3d1b0',1,'ControlSystem']]],
   ['squarecompleted_9',['squareCompleted',['../classControlSystem.html#a22bfe4636aa66097881ce2ece7883ab9',1,'ControlSystem']]],
-  ['squareparams_10',['squareparams',['../BuggyModes_8cpp.html#a9389652741c6a76fb539c85562986158',1,'squareParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a9389652741c6a76fb539c85562986158',1,'squareParams:&#160;BuggyModes.cpp']]],
+  ['squareparams_10',['squareParams',['../main_8cpp.html#a9389652741c6a76fb539c85562986158',1,'main.cpp']]],
   ['squarestate_11',['squareState',['../classControlSystem.html#a42c323e831b8eb89101790920288a763',1,'ControlSystem']]],
   ['state_12',['state',['../classControlSystem.html#a2c3f7a78408728e89f7705fb66e3cf13',1,'ControlSystem']]],
-  ['straightlineparams_13',['straightlineparams',['../BuggyModes_8cpp.html#a56fd617617b9dd4de828e4c176c83bc5',1,'straightlineParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a56fd617617b9dd4de828e4c176c83bc5',1,'straightlineParams:&#160;BuggyModes.cpp']]]
+  ['straightlineparams_13',['straightlineParams',['../main_8cpp.html#a56fd617617b9dd4de828e4c176c83bc5',1,'main.cpp']]]
 ];

@@ -1,6 +1,8 @@
 var classWheel =
 [
     [ "Wheel", "classWheel.html#a665310a495aba58b8e2caebcb1926bab", null ],
+    [ "disableMotor", "classWheel.html#a1ab07d11bd59b93223eb423228e83594", null ],
+    [ "enableMotor", "classWheel.html#af3c8a229ddb2d2e751a551848da85641", null ],
     [ "regulateSpeed", "classWheel.html#ab6171ccd45c79741fb8b558000e7f15d", null ],
     [ "setSpeed", "classWheel.html#a30061642c5be4e770686a2e72359f5fb", null ],
     [ "startRegulation", "classWheel.html#ae05abdfe6198e5c254e3a4b6b042ca4c", null ],

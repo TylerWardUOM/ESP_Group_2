@@ -96,220 +96,338 @@ $(document).ready(function(){initNavTree('BuggyModes_8h.html',''); initResizable
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">BuggyModes.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="dynheader">
+<div class="textblock"><code>#include &quot;mbed.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="BuggyModeEnum_8h_source.html">BuggyModeEnum.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="BuggyModeParameters_8h_source.html">BuggyModeParameters.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for BuggyModes.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="BuggyModes_8h__incl.png" border="0" usemap="#ainclude_2BuggyModes_8h" alt=""/></div>
+<map name="ainclude_2BuggyModes_8h" id="ainclude_2BuggyModes_8h">
+<area shape="rect" title=" " alt="" coords="89,5,259,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,76,104"/>
+<area shape="poly" title=" " alt="" coords="154,33,76,74,73,70,151,28"/>
+<area shape="rect" href="BuggyModeEnum_8h.html" title=" " alt="" coords="100,79,248,104"/>
+<area shape="poly" title=" " alt="" coords="177,31,177,65,171,65,171,31"/>
+<area shape="rect" href="BuggyModeParameters_8h.html" title=" " alt="" coords="272,79,457,104"/>
+<area shape="poly" title=" " alt="" coords="206,28,322,71,320,76,204,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="BuggyModes_8h__dep__incl.png" border="0" usemap="#ainclude_2BuggyModes_8hdep" alt=""/></div>
 <map name="ainclude_2BuggyModes_8hdep" id="ainclude_2BuggyModes_8hdep">
-<area shape="rect" title=" " alt="" coords="265,5,434,31"/>
-<area shape="rect" href="Bluetooth_8h.html" title=" " alt="" coords="219,79,367,104"/>
-<area shape="poly" title=" " alt="" coords="334,43,304,80,300,77,329,40"/>
-<area shape="rect" href="ControlSystem_8h.html" title=" " alt="" coords="79,152,260,177"/>
-<area shape="poly" title=" " alt="" coords="287,37,246,55,210,81,196,98,186,117,174,153,169,151,181,115,192,95,206,77,244,50,285,32"/>
+<area shape="rect" title=" " alt="" coords="255,5,425,31"/>
+<area shape="rect" href="Bluetooth_8h.html" title=" " alt="" coords="322,79,470,104"/>
+<area shape="poly" title=" " alt="" coords="360,40,389,77,385,80,356,43"/>
+<area shape="rect" href="ControlSystem_8h.html" title=" " alt="" coords="177,152,359,177"/>
+<area shape="poly" title=" " alt="" coords="330,45,276,153,271,151,326,42"/>
+<area shape="rect" href="BuggyModes_8cpp.html" title=" " alt="" coords="198,225,354,251"/>
+<area shape="poly" title=" " alt="" coords="301,39,266,58,229,83,194,115,168,153,164,165,166,175,181,195,207,211,237,223,235,228,205,216,178,199,161,178,159,165,163,151,190,111,225,79,263,53,298,34"/>
 <area shape="rect" href="ControlSystem_8cpp.html" title=" " alt="" coords="5,225,173,251"/>
-<area shape="poly" title=" " alt="" coords="259,36,206,52,153,75,105,109,85,129,69,153,64,171,67,190,83,224,79,226,62,192,59,171,64,151,81,126,101,105,150,71,204,47,257,31"/>
-<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="245,225,350,251"/>
-<area shape="poly" title=" " alt="" coords="386,35,429,62,469,96,485,116,494,136,494,158,485,179,457,205,422,223,385,233,350,238,350,233,384,228,420,218,454,201,480,176,489,157,488,138,480,119,466,100,426,66,383,40"/>
-<area shape="rect" href="Bluetooth_8cpp.html" title=" " alt="" coords="335,152,470,177"/>
-<area shape="poly" title=" " alt="" coords="365,41,382,78,403,151,398,152,378,80,360,44"/>
-<area shape="rect" href="BuggyModes_8cpp.html" title=" " alt="" coords="546,79,702,104"/>
-<area shape="poly" title=" " alt="" coords="407,32,580,76,579,81,406,37"/>
-<area shape="poly" title=" " alt="" coords="263,113,191,154,188,149,260,108"/>
-<area shape="poly" title=" " alt="" coords="297,118,300,225,294,225,291,118"/>
-<area shape="poly" title=" " alt="" coords="324,109,386,150,383,154,321,114"/>
-<area shape="poly" title=" " alt="" coords="148,188,104,227,101,223,145,184"/>
-<area shape="poly" title=" " alt="" coords="203,182,278,223,275,227,201,186"/>
+<area shape="poly" title=" " alt="" coords="284,38,241,55,200,81,164,117,134,159,97,226,92,224,129,156,160,114,197,77,238,51,282,33"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="394,225,499,251"/>
+<area shape="poly" title=" " alt="" coords="439,31,493,46,548,70,597,104,617,126,634,151,640,171,635,188,622,202,602,213,552,227,500,235,499,230,551,222,600,208,619,197,631,185,635,171,630,153,613,129,593,108,545,75,491,51,437,36"/>
+<area shape="rect" href="Bluetooth_8cpp.html" title=" " alt="" coords="485,152,619,177"/>
+<area shape="poly" title=" " alt="" coords="396,33,441,51,484,77,522,115,547,150,543,153,518,118,481,81,438,56,394,38"/>
+<area shape="poly" title=" " alt="" coords="365,113,290,154,288,149,362,108"/>
+<area shape="poly" title=" " alt="" coords="396,118,388,149,373,179,341,208,306,228,303,223,338,204,369,176,383,147,391,117"/>
+<area shape="poly" title=" " alt="" coords="407,116,445,224,440,226,402,118"/>
+<area shape="poly" title=" " alt="" coords="435,107,528,149,525,154,432,112"/>
+<area shape="poly" title=" " alt="" coords="273,191,277,225,272,226,268,191"/>
+<area shape="poly" title=" " alt="" coords="228,185,120,228,118,223,226,180"/>
+<area shape="poly" title=" " alt="" coords="310,180,418,223,416,228,308,185"/>
 </map>
 </div>
 </div>
 <p><a href="BuggyModes_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSquarePatternParams.html">SquarePatternParams</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStraightLineParams.html">StraightLineParams</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTurnAngleParams.html">TurnAngleParams</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:aa200729ecfb3bc499fcd2d1306fc7cfa" id="r_aa200729ecfb3bc499fcd2d1306fc7cfa"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> { <br />
-&#160;&#160;<a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa45383e6c115d44bbea2067b159a645e7">idle_mode</a>
-, <a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaac4435497dc78172de794ae3fe7d3d970">speed_control_mode</a>
-, <a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4">square_idle_mode</a>
-, <a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa004f398c57fcb5265706c1165a4ab59e">line_menu_mode</a>
-, <br />
-&#160;&#160;<a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce">turn_menu_mode</a>
-, <a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa47030e69182ce107dce9d1a6fb1e2c55">waiting_for_movement</a>
-<br />
- }</td></tr>
-<tr class="separator:aa200729ecfb3bc499fcd2d1306fc7cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa280e72c367e5ca2af700cdf4f341ae4" id="r_aa280e72c367e5ca2af700cdf4f341ae4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#aa280e72c367e5ca2af700cdf4f341ae4">getModeName</a> (<a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> mode)</td></tr>
-<tr class="separator:aa280e72c367e5ca2af700cdf4f341ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a9389652741c6a76fb539c85562986158" id="r_a9389652741c6a76fb539c85562986158"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSquarePatternParams.html">SquarePatternParams</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a9389652741c6a76fb539c85562986158">squareParams</a></td></tr>
-<tr class="separator:a9389652741c6a76fb539c85562986158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56fd617617b9dd4de828e4c176c83bc5" id="r_a56fd617617b9dd4de828e4c176c83bc5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structStraightLineParams.html">StraightLineParams</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a56fd617617b9dd4de828e4c176c83bc5">straightlineParams</a></td></tr>
-<tr class="separator:a56fd617617b9dd4de828e4c176c83bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8de6358e37d1da063746d747aeefa7c5" id="r_a8de6358e37d1da063746d747aeefa7c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structTurnAngleParams.html">TurnAngleParams</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a8de6358e37d1da063746d747aeefa7c5">turnangleParams</a></td></tr>
-<tr class="separator:a8de6358e37d1da063746d747aeefa7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3468252f4a26d70228fa50f79fbd9f45" id="r_a3468252f4a26d70228fa50f79fbd9f45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a></td></tr>
-<tr class="separator:a3468252f4a26d70228fa50f79fbd9f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc8fcb709b57271cc7fa1d9f898dc724" id="r_afc8fcb709b57271cc7fa1d9f898dc724"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#afc8fcb709b57271cc7fa1d9f898dc724">switchToSpeedControlMode</a> (<a class="el" href="classControlSystem.html">ControlSystem</a> &amp;<a class="el" href="main_8cpp.html#a3a834eb38dc9a8f68e90ea9fc687619a">control</a>, <a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>)</td></tr>
+<tr class="separator:afc8fcb709b57271cc7fa1d9f898dc724"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09265f68f84ff6a703b4f9725ef698a0" id="r_a09265f68f84ff6a703b4f9725ef698a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a09265f68f84ff6a703b4f9725ef698a0">switchToSquareIdleMode</a> (<a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>)</td></tr>
+<tr class="separator:a09265f68f84ff6a703b4f9725ef698a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28d44fde3321c06076c3510f01d88ed2" id="r_a28d44fde3321c06076c3510f01d88ed2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a28d44fde3321c06076c3510f01d88ed2">switchToSquarePatternMode</a> (<a class="el" href="classControlSystem.html">ControlSystem</a> &amp;<a class="el" href="main_8cpp.html#a3a834eb38dc9a8f68e90ea9fc687619a">control</a>, <a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>, Ticker &amp;<a class="el" href="main_8cpp.html#a81d43f1dae6b8d3d2c276c0f97b3ffb0">controlticker</a>, bool &amp;<a class="el" href="main_8cpp.html#a01526be9a5ac2f4daa34966ece882e99">square_flag</a>, <a class="el" href="structSquarePatternParams.html">SquarePatternParams</a> &amp;params)</td></tr>
+<tr class="separator:a28d44fde3321c06076c3510f01d88ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e62ed26c2492162c4a06288668df063" id="r_a1e62ed26c2492162c4a06288668df063"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a1e62ed26c2492162c4a06288668df063">switchToLineMenuMode</a> (<a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>)</td></tr>
+<tr class="separator:a1e62ed26c2492162c4a06288668df063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c28dc1e81bfead8e2e2b74c4809aed8" id="r_a6c28dc1e81bfead8e2e2b74c4809aed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a6c28dc1e81bfead8e2e2b74c4809aed8">switchToTurnMenuMode</a> (<a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>)</td></tr>
+<tr class="separator:a6c28dc1e81bfead8e2e2b74c4809aed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf12168be3937066569eaf389d80e2df" id="r_adf12168be3937066569eaf389d80e2df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#adf12168be3937066569eaf389d80e2df">switchToLineMode</a> (<a class="el" href="classControlSystem.html">ControlSystem</a> &amp;<a class="el" href="main_8cpp.html#a3a834eb38dc9a8f68e90ea9fc687619a">control</a>, <a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>, Ticker &amp;<a class="el" href="main_8cpp.html#a81d43f1dae6b8d3d2c276c0f97b3ffb0">controlticker</a>, <a class="el" href="structStraightLineParams.html">StraightLineParams</a> &amp;params)</td></tr>
+<tr class="separator:adf12168be3937066569eaf389d80e2df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe48c810794742c9c08aa829e426c63d" id="r_abe48c810794742c9c08aa829e426c63d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#abe48c810794742c9c08aa829e426c63d">switchToTurnMode</a> (<a class="el" href="classControlSystem.html">ControlSystem</a> &amp;<a class="el" href="main_8cpp.html#a3a834eb38dc9a8f68e90ea9fc687619a">control</a>, <a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>, Ticker &amp;<a class="el" href="main_8cpp.html#a81d43f1dae6b8d3d2c276c0f97b3ffb0">controlticker</a>, <a class="el" href="structTurnAngleParams.html">TurnAngleParams</a> &amp;params)</td></tr>
+<tr class="separator:abe48c810794742c9c08aa829e426c63d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e932e05c8996c0abec2b9735442c7b5" id="r_a8e932e05c8996c0abec2b9735442c7b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BuggyModes_8h.html#a8e932e05c8996c0abec2b9735442c7b5">stopMotorAndSwitchToIdleMode</a> (<a class="el" href="classControlSystem.html">ControlSystem</a> &amp;<a class="el" href="main_8cpp.html#a3a834eb38dc9a8f68e90ea9fc687619a">control</a>, <a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;<a class="el" href="main_8cpp.html#a3468252f4a26d70228fa50f79fbd9f45">buggyMode</a>, Ticker &amp;<a class="el" href="main_8cpp.html#a81d43f1dae6b8d3d2c276c0f97b3ffb0">controlticker</a>, bool &amp;<a class="el" href="main_8cpp.html#a01526be9a5ac2f4daa34966ece882e99">square_flag</a>)</td></tr>
+<tr class="separator:a8e932e05c8996c0abec2b9735442c7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="aa200729ecfb3bc499fcd2d1306fc7cfa" name="aa200729ecfb3bc499fcd2d1306fc7cfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa200729ecfb3bc499fcd2d1306fc7cfa">&#9670;&#160;</a></span>BuggyMode</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a8e932e05c8996c0abec2b9735442c7b5" name="a8e932e05c8996c0abec2b9735442c7b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e932e05c8996c0abec2b9735442c7b5">&#9670;&#160;</a></span>stopMotorAndSwitchToIdleMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a></td>
+          <td class="memname">void stopMotorAndSwitchToIdleMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classControlSystem.html">ControlSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ticker &amp;&#160;</td>
+          <td class="paramname"><em>controlticker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;&#160;</td>
+          <td class="paramname"><em>square_flag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa200729ecfb3bc499fcd2d1306fc7cfaa45383e6c115d44bbea2067b159a645e7" name="aa200729ecfb3bc499fcd2d1306fc7cfaa45383e6c115d44bbea2067b159a645e7"></a>idle_mode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa200729ecfb3bc499fcd2d1306fc7cfaac4435497dc78172de794ae3fe7d3d970" name="aa200729ecfb3bc499fcd2d1306fc7cfaac4435497dc78172de794ae3fe7d3d970"></a>speed_control_mode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4" name="aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4"></a>square_idle_mode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa200729ecfb3bc499fcd2d1306fc7cfaa004f398c57fcb5265706c1165a4ab59e" name="aa200729ecfb3bc499fcd2d1306fc7cfaa004f398c57fcb5265706c1165a4ab59e"></a>line_menu_mode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce" name="aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce"></a>turn_menu_mode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa200729ecfb3bc499fcd2d1306fc7cfaa47030e69182ce107dce9d1a6fb1e2c55" name="aa200729ecfb3bc499fcd2d1306fc7cfaa47030e69182ce107dce9d1a6fb1e2c55"></a>waiting_for_movement&#160;</td><td class="fielddoc"></td></tr>
-</table>
 
-<p class="definition">Definition at line <a class="el" href="BuggyModes_8h_source.html#l00005">5</a> of file <a class="el" href="BuggyModes_8h_source.html">BuggyModes.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00064">64</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aa280e72c367e5ca2af700cdf4f341ae4" name="aa280e72c367e5ca2af700cdf4f341ae4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa280e72c367e5ca2af700cdf4f341ae4">&#9670;&#160;</a></span>getModeName()</h2>
+<a id="a1e62ed26c2492162c4a06288668df063" name="a1e62ed26c2492162c4a06288668df063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e62ed26c2492162c4a06288668df063">&#9670;&#160;</a></span>switchToLineMenuMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * getModeName </td>
+          <td class="memname">void switchToLineMenuMode </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a>&#160;</td>
-          <td class="paramname"><em>mode</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00029">29</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00034">34</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a3468252f4a26d70228fa50f79fbd9f45" name="a3468252f4a26d70228fa50f79fbd9f45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3468252f4a26d70228fa50f79fbd9f45">&#9670;&#160;</a></span>buggyMode</h2>
+<a id="adf12168be3937066569eaf389d80e2df" name="adf12168be3937066569eaf389d80e2df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf12168be3937066569eaf389d80e2df">&#9670;&#160;</a></span>switchToLineMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> buggyMode</td>
+          <td class="memname">void switchToLineMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classControlSystem.html">ControlSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ticker &amp;&#160;</td>
+          <td class="paramname"><em>controlticker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structStraightLineParams.html">StraightLineParams</a> &amp;&#160;</td>
+          <td class="paramname"><em>params</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00041">41</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00043">43</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a9389652741c6a76fb539c85562986158" name="a9389652741c6a76fb539c85562986158"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9389652741c6a76fb539c85562986158">&#9670;&#160;</a></span>squareParams</h2>
+<a id="afc8fcb709b57271cc7fa1d9f898dc724" name="afc8fcb709b57271cc7fa1d9f898dc724"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc8fcb709b57271cc7fa1d9f898dc724">&#9670;&#160;</a></span>switchToSpeedControlMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structSquarePatternParams.html">SquarePatternParams</a> squareParams</td>
+          <td class="memname">void switchToSpeedControlMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classControlSystem.html">ControlSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00004">4</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00006">6</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a56fd617617b9dd4de828e4c176c83bc5" name="a56fd617617b9dd4de828e4c176c83bc5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56fd617617b9dd4de828e4c176c83bc5">&#9670;&#160;</a></span>straightlineParams</h2>
+<a id="a09265f68f84ff6a703b4f9725ef698a0" name="a09265f68f84ff6a703b4f9725ef698a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09265f68f84ff6a703b4f9725ef698a0">&#9670;&#160;</a></span>switchToSquareIdleMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structStraightLineParams.html">StraightLineParams</a> straightlineParams</td>
+          <td class="memname">void switchToSquareIdleMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00014">14</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a8de6358e37d1da063746d747aeefa7c5" name="a8de6358e37d1da063746d747aeefa7c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8de6358e37d1da063746d747aeefa7c5">&#9670;&#160;</a></span>turnangleParams</h2>
+<a id="a28d44fde3321c06076c3510f01d88ed2" name="a28d44fde3321c06076c3510f01d88ed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28d44fde3321c06076c3510f01d88ed2">&#9670;&#160;</a></span>switchToSquarePatternMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structTurnAngleParams.html">TurnAngleParams</a> turnangleParams</td>
+          <td class="memname">void switchToSquarePatternMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classControlSystem.html">ControlSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ticker &amp;&#160;</td>
+          <td class="paramname"><em>controlticker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;&#160;</td>
+          <td class="paramname"><em>square_flag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structSquarePatternParams.html">SquarePatternParams</a> &amp;&#160;</td>
+          <td class="paramname"><em>params</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00021">21</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00020">20</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6c28dc1e81bfead8e2e2b74c4809aed8" name="a6c28dc1e81bfead8e2e2b74c4809aed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c28dc1e81bfead8e2e2b74c4809aed8">&#9670;&#160;</a></span>switchToTurnMenuMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void switchToTurnMenuMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00038">38</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
+
+</div>
+</div>
+<a id="abe48c810794742c9c08aa829e426c63d" name="abe48c810794742c9c08aa829e426c63d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe48c810794742c9c08aa829e426c63d">&#9670;&#160;</a></span>switchToTurnMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void switchToTurnMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classControlSystem.html">ControlSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfa">BuggyMode</a> &amp;&#160;</td>
+          <td class="paramname"><em>buggyMode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ticker &amp;&#160;</td>
+          <td class="paramname"><em>controlticker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTurnAngleParams.html">TurnAngleParams</a> &amp;&#160;</td>
+          <td class="paramname"><em>params</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="BuggyModes_8cpp_source.html#l00054">54</a> of file <a class="el" href="BuggyModes_8cpp_source.html">BuggyModes.cpp</a>.</p>
 
 </div>
 </div>

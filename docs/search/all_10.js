@@ -10,12 +10,12 @@ var searchData=
   ['turn_5faround_5fsquare_7',['TURN_AROUND_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa1c9649369128e06a6b0f3259d7164752',1,'ControlSystem']]],
   ['turn_5fdistance_8',['TURN_DISTANCE',['../main_8cpp.html#ae3b1aa95cdbbefa8c4e8ea04332b7332',1,'main.cpp']]],
   ['turn_5fleft_5fsquare_9',['TURN_LEFT_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aac7f06f622da754f9e8b4713e3e7645bf',1,'ControlSystem']]],
-  ['turn_5fmenu_5fmode_10',['turn_menu_mode',['../BuggyModes_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce',1,'BuggyModes.h']]],
+  ['turn_5fmenu_5fmode_10',['turn_menu_mode',['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce',1,'BuggyModeEnum.h']]],
   ['turn_5fpid_5fkd_11',['turn_pid_kd',['../structSquarePatternParams.html#a0515a4ea389cb6480588fc49e18f89e1',1,'SquarePatternParams::turn_pid_kd'],['../structTurnAngleParams.html#a3e7cabdab0f64596a84840fc536d07ad',1,'TurnAngleParams::turn_pid_kd']]],
   ['turn_5fpid_5fki_12',['turn_pid_ki',['../structSquarePatternParams.html#a0d97a5fa2e54059af7cc732c573aaf99',1,'SquarePatternParams::turn_pid_ki'],['../structTurnAngleParams.html#a373e32ce2d31aa3b0363b01b9394037f',1,'TurnAngleParams::turn_pid_ki']]],
   ['turn_5fpid_5fkp_13',['turn_pid_kp',['../structTurnAngleParams.html#a19b624a1385ca8c319efa4d413672907',1,'TurnAngleParams::turn_pid_kp'],['../structSquarePatternParams.html#ac301deb84ef4237fd1c0a67acdd0a6a9',1,'SquarePatternParams::turn_pid_kp']]],
   ['turn_5fright_5fsquare_14',['TURN_RIGHT_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa7a062c459bf6dbf87b6ebd1635a8d94d',1,'ControlSystem']]],
-  ['turnangleparams_15',['turnangleparams',['../structTurnAngleParams.html',1,'TurnAngleParams'],['../BuggyModes_8cpp.html#a8de6358e37d1da063746d747aeefa7c5',1,'turnangleParams:&#160;BuggyModes.cpp'],['../BuggyModes_8h.html#a8de6358e37d1da063746d747aeefa7c5',1,'turnangleParams:&#160;BuggyModes.cpp']]],
+  ['turnangleparams_15',['turnangleparams',['../structTurnAngleParams.html#ad508f39b3cb24bf4ecff8e0810578b26',1,'TurnAngleParams::TurnAngleParams()'],['../structTurnAngleParams.html',1,'TurnAngleParams'],['../main_8cpp.html#a8de6358e37d1da063746d747aeefa7c5',1,'turnangleParams:&#160;main.cpp']]],
   ['turndirection_16',['turnDirection',['../classControlSystem.html#a5aa31e1678629c05c3a1ceed4c475c50',1,'ControlSystem']]],
   ['turning_17',['TURNING',['../classControlSystem.html#a65cce478a68b55ad9616905535672d65a436f5cf925bee196e38b5f18037913db',1,'ControlSystem']]]
 ];

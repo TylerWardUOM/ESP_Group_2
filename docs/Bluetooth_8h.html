@@ -103,16 +103,25 @@ $(document).ready(function(){initNavTree('Bluetooth_8h.html',''); initResizable(
 <div class="contents">
 <div class="textblock"><code>#include &quot;mbed.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="BuggyModes_8h_source.html">BuggyModes.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="BuggyModeEnum_8h_source.html">BuggyModeEnum.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="BuggyModeParameters_8h_source.html">BuggyModeParameters.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Bluetooth.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="Bluetooth_8h__incl.png" border="0" usemap="#ainclude_2Bluetooth_8h" alt=""/></div>
 <map name="ainclude_2Bluetooth_8h" id="ainclude_2Bluetooth_8h">
-<area shape="rect" title=" " alt="" coords="25,5,173,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,76,104"/>
-<area shape="poly" title=" " alt="" coords="92,33,61,70,57,67,88,29"/>
-<area shape="rect" href="BuggyModes_8h.html" title=" " alt="" coords="100,79,219,104"/>
-<area shape="poly" title=" " alt="" coords="111,29,143,66,139,70,107,33"/>
+<area shape="rect" title=" " alt="" coords="139,5,287,31"/>
+<area shape="rect" title=" " alt="" coords="5,152,76,177"/>
+<area shape="poly" title=" " alt="" coords="179,33,136,52,94,81,70,110,53,140,49,138,66,107,91,77,133,48,176,28"/>
+<area shape="rect" href="BuggyModes_8h.html" title=" " alt="" coords="105,79,224,104"/>
+<area shape="poly" title=" " alt="" coords="207,33,182,69,178,66,203,30"/>
+<area shape="rect" href="BuggyModeEnum_8h.html" title=" " alt="" coords="100,152,248,177"/>
+<area shape="poly" title=" " alt="" coords="223,30,238,64,242,84,238,105,224,127,205,145,201,141,219,124,233,103,236,84,233,65,218,32"/>
+<area shape="rect" href="BuggyModeParameters_8h.html" title=" " alt="" coords="272,152,457,177"/>
+<area shape="poly" title=" " alt="" coords="227,29,344,141,341,144,223,33"/>
+<area shape="poly" title=" " alt="" coords="146,106,74,147,71,143,143,102"/>
+<area shape="poly" title=" " alt="" coords="169,104,173,138,168,139,164,105"/>
+<area shape="poly" title=" " alt="" coords="198,102,320,145,318,150,196,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -120,16 +129,19 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="Bluetooth_8h__dep__incl.png" border="0" usemap="#ainclude_2Bluetooth_8hdep" alt=""/></div>
 <map name="ainclude_2Bluetooth_8hdep" id="ainclude_2Bluetooth_8hdep">
-<area shape="rect" title=" " alt="" coords="177,5,325,31"/>
-<area shape="rect" href="ControlSystem_8h.html" title=" " alt="" coords="32,79,213,104"/>
-<area shape="poly" title=" " alt="" coords="219,40,145,81,142,76,217,35"/>
-<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="198,152,303,177"/>
-<area shape="poly" title=" " alt="" coords="253,45,253,152,248,152,248,45"/>
-<area shape="rect" href="Bluetooth_8cpp.html" title=" " alt="" coords="289,79,423,104"/>
-<area shape="poly" title=" " alt="" coords="281,36,340,76,337,81,278,41"/>
-<area shape="rect" href="ControlSystem_8cpp.html" title=" " alt="" coords="5,152,173,177"/>
-<area shape="poly" title=" " alt="" coords="114,118,97,153,92,151,109,115"/>
-<area shape="poly" title=" " alt="" coords="157,108,231,149,228,154,154,113"/>
+<area shape="rect" title=" " alt="" coords="260,5,408,31"/>
+<area shape="rect" href="ControlSystem_8h.html" title=" " alt="" coords="179,79,361,104"/>
+<area shape="poly" title=" " alt="" coords="316,43,282,80,278,77,312,39"/>
+<area shape="rect" href="BuggyModes_8cpp.html" title=" " alt="" coords="5,152,161,177"/>
+<area shape="poly" title=" " alt="" coords="272,37,220,55,169,81,125,118,94,154,90,150,121,114,166,76,218,50,270,32"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="379,152,484,177"/>
+<area shape="poly" title=" " alt="" coords="352,41,426,150,421,153,347,44"/>
+<area shape="rect" href="Bluetooth_8cpp.html" title=" " alt="" coords="436,79,571,104"/>
+<area shape="poly" title=" " alt="" coords="375,34,477,76,475,81,373,38"/>
+<area shape="poly" title=" " alt="" coords="228,111,115,154,113,149,227,106"/>
+<area shape="rect" href="ControlSystem_8cpp.html" title=" " alt="" coords="186,152,354,177"/>
+<area shape="poly" title=" " alt="" coords="273,118,273,152,267,152,267,118"/>
+<area shape="poly" title=" " alt="" coords="309,107,406,149,404,154,307,112"/>
 </map>
 </div>
 </div>
@@ -168,7 +180,7 @@ Macros</h2></td></tr>
 
 <p>Half of available RAM allocated for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00147">147</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00149">149</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -186,7 +198,7 @@ Macros</h2></td></tr>
 
 <p>Maximum number of debug entries. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00148">148</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00150">150</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>

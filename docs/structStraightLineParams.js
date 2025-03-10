@@ -1,5 +1,6 @@
 var structStraightLineParams =
 [
+    [ "StraightLineParams", "structStraightLineParams.html#aaf4cefa0a17621a20791425db6783533", null ],
     [ "distance", "structStraightLineParams.html#aa6d5ec9f333ba68d30d4d685f5c09b5e", null ],
     [ "forward_pid_kd", "structStraightLineParams.html#ab1417c3094534be8dfd19a6ff13c311b", null ],
     [ "forward_pid_ki", "structStraightLineParams.html#a95121dd480d45725e9f86a15811d12ff", null ],

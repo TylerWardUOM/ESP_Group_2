@@ -1,5 +1,6 @@
 var structSquarePatternParams =
 [
+    [ "SquarePatternParams", "structSquarePatternParams.html#a1799344537a0abef13cc114594338dbb", null ],
     [ "distance", "structSquarePatternParams.html#a156e24c23c29d08fb3a6f4649261fe56", null ],
     [ "forward_pid_kd", "structSquarePatternParams.html#ad2ad9dfe41f5853b4e62425c43e6b6cf", null ],
     [ "forward_pid_ki", "structSquarePatternParams.html#a53475022628beea3a2e7587cb5559cca", null ],

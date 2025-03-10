@@ -1,5 +1,6 @@
 var structTurnAngleParams =
 [
+    [ "TurnAngleParams", "structTurnAngleParams.html#ad508f39b3cb24bf4ecff8e0810578b26", null ],
     [ "angle", "structTurnAngleParams.html#a480b963a264ff1e7e9d104e4f152f3e6", null ],
     [ "scaling_turn", "structTurnAngleParams.html#a85e275a95e596c0c3787c0e401ed930d", null ],
     [ "speed", "structTurnAngleParams.html#af36a77bdc096fb1ae7f649bfbf003d8d", null ],

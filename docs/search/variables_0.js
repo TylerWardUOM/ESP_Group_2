@@ -3,7 +3,7 @@ var searchData=
   ['_5fbipolar_0',['_bipolar',['../classMotor.html#a9dcbab3365c7d5d92eed712e10f4d88f',1,'Motor']]],
   ['_5fchannela_1',['_channelA',['../classEncoder.html#ab1d6db9c8e57af9b900f8b81a333211d',1,'Encoder']]],
   ['_5fchannelb_2',['_channelB',['../classEncoder.html#af89ad4852f07034b9c92e378b7582f05',1,'Encoder']]],
-  ['_5fcurrentmode_3',['_currentMode',['../classBluetooth.html#ab40200dc2c753622ff87e68f28770440',1,'Bluetooth']]],
+  ['_5fcurrentmode_3',['_currentMode',['../classBluetooth.html#ad7f60412f4c1758062371bbf13ca6ccf',1,'Bluetooth']]],
   ['_5fenable_4',['_enable',['../classMotor.html#a0597ee0677622164e0a67614c1b3ea56',1,'Motor']]],
   ['_5flastpulses_5',['_lastPulses',['../classEncoder.html#a39efc0e28a3e06bf31842c059ad900ab',1,'Encoder']]],
   ['_5fmultiplier_6',['_multiplier',['../classMotor.html#a0abe71a454a2e804bce1caa0a5918bee',1,'Motor']]],
@@ -13,11 +13,11 @@ var searchData=
   ['_5fresolution_10',['_resolution',['../classEncoder.html#a6c1cf7c9fee4ff24c1886b0dcd6aba5c',1,'Encoder']]],
   ['_5fscaling_5fmultiplier_11',['_scaling_multiplier',['../classPIDController.html#a1ff8105d90afcfb3a0badf9d1e105e27',1,'PIDController']]],
   ['_5fserial_12',['_serial',['../classBluetooth.html#ac9ec1a0429ebc8fc65d7ff8a92f527d6',1,'Bluetooth']]],
-  ['_5fslparams_13',['_slParams',['../classBluetooth.html#a7e3b43998e271619b02ace2bf265fdf6',1,'Bluetooth']]],
+  ['_5fslparams_13',['_slParams',['../classBluetooth.html#a2afb8f99598617e71cfb79e15144efc8',1,'Bluetooth']]],
   ['_5fspeed_14',['_speed',['../classEncoder.html#ac58bc345f44ef0600567aeb1647f0c46',1,'Encoder::_speed'],['../classMotor.html#a52a05d575ceca4e2b1023b5ddd617380',1,'Motor::_speed']]],
   ['_5fspeedticker_15',['_speedTicker',['../classEncoder.html#a804ea5b4127bc3771f0d6c8b5b46399c',1,'Encoder']]],
-  ['_5fsqparams_16',['_sqParams',['../classBluetooth.html#a7309518c2f7d13ea89fbd8e6dc744d64',1,'Bluetooth']]],
-  ['_5ftaparams_17',['_taParams',['../classBluetooth.html#a22a6a1c01d781beabc41da35d4429d6d',1,'Bluetooth']]],
+  ['_5fsqparams_16',['_sqParams',['../classBluetooth.html#a0dd145b44aa6e3b089d3f0d4878101a1',1,'Bluetooth']]],
+  ['_5ftaparams_17',['_taParams',['../classBluetooth.html#abd20a647b2391973c1a739755ea0fb39',1,'Bluetooth']]],
   ['_5ftrack_5fwidth_18',['_track_width',['../classControlSystem.html#a86edb25a01b555006d3b7492472faee0',1,'ControlSystem']]],
   ['_5fwheelcircumference_19',['_wheelCircumference',['../classEncoder.html#a941159068617797865ca31624e939df4',1,'Encoder']]]
 ];
