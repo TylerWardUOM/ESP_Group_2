@@ -5,7 +5,7 @@
 //add a process square movment function based of the current square function 
 //work out how to passparameters into update square worried that passing every run will memory issue
 ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
-    float track_width, Bluetooth* bluetooth)
+    float track_width, Bluetooth& bluetooth)
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(0, 0, 0, 1),
       pidTurn(0, 0, 0, 1),
@@ -15,6 +15,8 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
       squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1){}
 
 void ControlSystem::moveForward(float distance, float speed) {
+    //Ensure Motors Enabled
+    enableWheels();
     //Set Distance
     targetDistance = distance;
     //Set buggy state and flag
@@ -26,11 +28,13 @@ void ControlSystem::moveForward(float distance, float speed) {
     basespeed = speed;
     //Reset Debug if needed
     if (squareCompleted){
-        bluetooth->resetDebugData();
+        bluetooth.resetDebugData();
     }
 }
 
 void ControlSystem::turn(float angle, float speed) {
+    //Ensure Wheels Enabled
+    enableWheels();
     //Set turn distance
     turnDirection = (angle > 0) ? 1 : -1;
     targetDistance = (_track_width / 2.0f) * (fabs(angle) * 3.14159f / 180.0f);
@@ -45,13 +49,13 @@ void ControlSystem::turn(float angle, float speed) {
     basespeed = speed;
     //Reset Debug if needed
     if (squareCompleted){
-        bluetooth->resetDebugData();
+        bluetooth.resetDebugData();
     }}
 
 void ControlSystem::moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier) {
     //reset debug data
     if (squareCompleted) { 
-        bluetooth->resetDebugData();
+        bluetooth.resetDebugData();
     }
     //Set States & flags
     state = MOVING_SQUARE;
@@ -62,6 +66,8 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
     moving = false;
     //Ensure Wheels stopped
     stopWheels();
+    //Ensure Wheels Enabled
+    enableWheels();
     //Reset Encoders
     resetEncoders();
     //Set speed distance and turn multiplers
@@ -70,7 +76,7 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
     square_left_turn_multiplier = left_turn_multiplier;
     square_right_turn_multiplier = right_turn_multiplier;
     //Reset Debug
-    bluetooth->resetDebugData();
+    bluetooth.resetDebugData();
 }
 
 
@@ -164,7 +170,7 @@ void ControlSystem::processForwardMovement(float dt) {
     }
     leftWheel.setSpeed(basespeed);
     rightWheel.setSpeed(basespeed * multiplier);
-    bluetooth->logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
+    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
     if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
         stopWheels();
         pidForward.reset();
@@ -197,7 +203,7 @@ void ControlSystem::processTurning(float dt) {
     float baseTurnSpeed = 0.2f;
     leftWheel.setSpeed(-turnDirection * basespeed * multiplier);
     rightWheel.setSpeed(turnDirection * basespeed);
-    bluetooth->logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
+    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
     if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
         stopWheels();
         pidTurn.reset();
@@ -288,9 +294,16 @@ void ControlSystem::stopWheels() {
     leftWheel.stop();
     rightWheel.stop();
     basespeed = 0;
+    disableWheels(); //Disable for safety if causes issues remove untested
+}
+
+void ControlSystem::enableWheels(){
+    leftWheel.enableMotor();
+    rightWheel.enableMotor();
 }
 void ControlSystem::disableWheels(){
-    leftWheel.motor.disable();
+    leftWheel.disableMotor();
+    rightWheel.disableMotor();
 }
 
 void ControlSystem::resetEncoders(){

@@ -14,6 +14,8 @@ public:
     void regulateSpeed();
     void startRegulation(float interval);
     void stopRegulation();
+    void enableMotor();
+    void disableMotor();
     void stop();
     Motor motor;
     Encoder encoder;
