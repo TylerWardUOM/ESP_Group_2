@@ -7,11 +7,12 @@
 #include "Timer.h"
 #include "BuggyModes.h"  // Include to access the global variables
 #include "Bluetooth.h"
+#include "SensoryArray.h"
 
 
 class ControlSystem {
 public:
-    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, float kp_forward, float ki_forward, float kd_forward, float scaling_forward, float kp_turn, float ki_turn, float kd_turn, float scaling_turn,Bluetooth* bluetooth);
+    ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth& bluetooth, SensorArray& sensorArray);
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
     void update();
@@ -20,6 +21,8 @@ public:
     bool isSquareComplete();
     PIDController pidForward;
     PIDController pidTurn;
+    PIDController pidLine;
+  
 
 private:
     enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE};
@@ -28,7 +31,8 @@ private:
     Wheel& leftWheel;
     Wheel& rightWheel;
     Timer pidTimer;
-    Bluetooth* bluetooth;
+    Bluetooth& bluetooth;
+    SensorArray& sensorArray;
 
     State state;
     SquareMovementState squareState;
