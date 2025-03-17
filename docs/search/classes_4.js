@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['motor_0',['Motor',['../classMotor.html',1,'']]]
+  ['followparams_0',['FollowParams',['../structFollowParams.html',1,'']]]
 ];

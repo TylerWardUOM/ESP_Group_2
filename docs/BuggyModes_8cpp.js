@@ -1,6 +1,8 @@
 var BuggyModes_8cpp =
 [
     [ "stopMotorAndSwitchToIdleMode", "BuggyModes_8cpp.html#a8e932e05c8996c0abec2b9735442c7b5", null ],
+    [ "switchToFollowMenuMode", "BuggyModes_8cpp.html#ac3eb67ed22ec029af358b9485f90b80f", null ],
+    [ "switchToFollowMode", "BuggyModes_8cpp.html#a3ccd371d928633f5d2a3bf5ba86dbb9f", null ],
     [ "switchToLineMenuMode", "BuggyModes_8cpp.html#a1e62ed26c2492162c4a06288668df063", null ],
     [ "switchToLineMode", "BuggyModes_8cpp.html#adf12168be3937066569eaf389d80e2df", null ],
     [ "switchToSpeedControlMode", "BuggyModes_8cpp.html#afc8fcb709b57271cc7fa1d9f898dc724", null ],

@@ -3,6 +3,7 @@ var annotated_dup =
     [ "Bluetooth", "classBluetooth.html", "classBluetooth" ],
     [ "ControlSystem", "classControlSystem.html", "classControlSystem" ],
     [ "Encoder", "classEncoder.html", "classEncoder" ],
+    [ "FollowParams", "structFollowParams.html", "structFollowParams" ],
     [ "Motor", "classMotor.html", "classMotor" ],
     [ "PIDController", "classPIDController.html", "classPIDController" ],
     [ "Potentiometer", "classPotentiometer.html", "classPotentiometer" ],

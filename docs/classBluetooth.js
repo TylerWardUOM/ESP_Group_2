@@ -1,7 +1,7 @@
 var classBluetooth =
 [
     [ "DebugEntry", "structBluetooth_1_1DebugEntry.html", "structBluetooth_1_1DebugEntry" ],
-    [ "Bluetooth", "classBluetooth.html#a3f23e2d2a6f02f2e55e8ac1a692141be", null ],
+    [ "Bluetooth", "classBluetooth.html#a84914adfb5e35bdcf375915ed29c6b16", null ],
     [ "handleCommand", "classBluetooth.html#a8d677488d2c6e415012d1253c75c2d29", null ],
     [ "logDebugData", "classBluetooth.html#a34fa5fdd079c171a4c22f31d506d66d7", null ],
     [ "parseCommand", "classBluetooth.html#a6fb89dcbcbee5e18232660025d9b8de5", null ],
@@ -17,6 +17,7 @@ var classBluetooth =
     [ "startControlMode", "classBluetooth.html#aeb115fb8c3c0f7bcf938e378cc00f989", null ],
     [ "updateParameter", "classBluetooth.html#ace90f95de3cdb0fbdd7c9cc0cc7d5769", null ],
     [ "_currentMode", "classBluetooth.html#ad7f60412f4c1758062371bbf13ca6ccf", null ],
+    [ "_flParams", "classBluetooth.html#aa47a13a97f683f3fdbda57b7594e4eb8", null ],
     [ "_serial", "classBluetooth.html#ac9ec1a0429ebc8fc65d7ff8a92f527d6", null ],
     [ "_slParams", "classBluetooth.html#a2afb8f99598617e71cfb79e15144efc8", null ],
     [ "_sqParams", "classBluetooth.html#a0dd145b44aa6e3b089d3f0d4878101a1", null ],
