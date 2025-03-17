@@ -16,9 +16,12 @@ public:
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
     void update();
-    void moveSquare();
+    void moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier);
     bool isMovementComplete();
     bool isSquareComplete();
+    void disableWheels();
+    void stopWheels();
+    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams);
     PIDController pidForward;
     PIDController pidTurn;
     PIDController pidLine;
@@ -45,13 +48,18 @@ private:
     int sideCount;
     bool retracing;
     bool moving;
+    //Square Parrameters     
     float square_distance;
+    float square_speed;
+    float square_left_turn_multiplier;
+    float square_right_turn_multiplier;
 
+    void resetEncoders();
     void processForwardMovement(float dt);
     void processTurning(float dt);
     void processSquare();
-    void stopWheels();
     float constrain(float value, float minVal, float maxVal);
+    void enableWheels();
 };
 
 #endif // CONTROL_SYSTEM_H
