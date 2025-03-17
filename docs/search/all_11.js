@@ -6,7 +6,7 @@ var searchData=
   ['thresholdvalue_3',['thresholdvalue',['../classSensorArray.html#a853900eeb5787045e0e06d89e254077d',1,'SensorArray']]],
   ['ticker_4',['ticker',['../classWheel.html#aa0cba5c340d4aa5fc668c91d0dc1628f',1,'Wheel']]],
   ['timestamp_5',['timestamp',['../structBluetooth_1_1DebugEntry.html#a19fa39d1151bd8c1989408131b23b9b8',1,'Bluetooth::DebugEntry']]],
-  ['toggle_6',['toggle',['../classSensor.html#a880e5bef60491a8bc6e47c40219b1225',1,'Sensor::toggle()'],['../classSensor.html#a880e5bef60491a8bc6e47c40219b1225',1,'Sensor::toggle()']]],
+  ['toggle_6',['toggle',['../classSensor.html#a880e5bef60491a8bc6e47c40219b1225',1,'Sensor']]],
   ['track_5fwidth_7',['TRACK_WIDTH',['../main_8cpp.html#aaa2708101c6941b7f207ee73a7234350',1,'main.cpp']]],
   ['turn_8',['turn',['../classControlSystem.html#ae4ce673489acf8e35af1a3cc57589fb4',1,'ControlSystem']]],
   ['turn_5faround_5fsquare_9',['TURN_AROUND_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa1c9649369128e06a6b0f3259d7164752',1,'ControlSystem']]],
