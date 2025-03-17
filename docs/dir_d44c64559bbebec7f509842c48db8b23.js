@@ -10,6 +10,6 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "PIDController.h", "PIDController_8h.html", "PIDController_8h" ],
     [ "Potentiometer.h", "Potentiometer_8h.html", "Potentiometer_8h" ],
     [ "Sensor.h", "Sensor_8h.html", "Sensor_8h" ],
-    [ "SensoryArray.h", "SensoryArray_8h.html", "SensoryArray_8h" ],
+    [ "SensorArray.h", "SensorArray_8h.html", "SensorArray_8h" ],
     [ "Wheel.h", "Wheel_8h.html", "Wheel_8h" ]
 ];

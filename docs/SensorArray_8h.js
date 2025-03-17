@@ -1,4 +1,4 @@
-var SensoryArray_8h =
+var SensorArray_8h =
 [
     [ "SensorArray", "classSensorArray.html", "classSensorArray" ]
 ];
