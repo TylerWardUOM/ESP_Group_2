@@ -5,7 +5,7 @@
 //add a process square movment function based of the current square function 
 //work out how to passparameters into update square worried that passing every run will memory issue
 ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
-    float track_width, Bluetooth& bluetooth)
+    float track_width, Bluetooth& bluetooth, SensorArray& sensorArray)
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(0, 0, 0, 1),
       pidTurn(0, 0, 0, 1),
@@ -13,7 +13,8 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
       state(IDLE), targetDistance(0.0f), turnDirection(0), 
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
       bluetooth(bluetooth),
-      squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1){}
+      squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1),
+      sensorArray(sensorArray){}
 
 void ControlSystem::moveForward(float distance, float speed) {
     //Ensure Motors Enabled
@@ -52,6 +53,12 @@ void ControlSystem::turn(float angle, float speed) {
     if (squareCompleted){
         bluetooth.resetDebugData();
     }}
+
+void ControlSystem::follow(float speed) {
+    basespeed = speed;
+    state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
+    movementCompleted = false;
+}
 
 void ControlSystem::moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier) {
     //reset debug data
@@ -301,12 +308,7 @@ void ControlSystem::processSquare() {
     }
 }
 
-////////////////////////
-void ControlSystem::startFollowLine(float speed) {
-    basespeed = speed;
-    state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
-    movementCompleted = false;
-}
+
 
 
 void ControlSystem::processFollowLine(float dt) {

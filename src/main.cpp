@@ -7,6 +7,8 @@
 #include "BuggyModeEnum.h"
 #include "BuggyModeParameters.h"
 #include "Bluetooth.h"
+#include "Sensor.h"
+#include "SensorArray.h"
 
 //Constants for Wheel
 //if not going correct distance adjust wheel_diameter
@@ -37,8 +39,21 @@ Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turna
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
 Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
+
+Sensor sensor1(A0, NC);
+Sensor sensor2(A1, NC);
+Sensor sensor3(A2, NC);
+Sensor sensor4(A3, NC);
+Sensor sensor5(A4, NC);
+Sensor sensor6(A5, NC);
+
+Sensor* sensors[6] = {&sensor1, &sensor2, &sensor3, &sensor4, &sensor5, &sensor6};
+
+// Pass the array of pointers to SensorArray
+SensorArray sensorArray(sensors);
+
 // Global instance of ControlSystem
-ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth);
+ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth, sensorArray);
 
 // Potentiometer Pins
 Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
