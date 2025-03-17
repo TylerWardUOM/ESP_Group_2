@@ -26,7 +26,8 @@ public:
     Bluetooth(Serial &serial, BuggyMode &mode, 
               SquarePatternParams &sqParams, 
               StraightLineParams &slParams, 
-              TurnAngleParams &taParams);
+              TurnAngleParams &taParams,
+              FollowParams &flParams);
 
     /**
      * @brief Processes received commands from the buffer.
@@ -85,6 +86,7 @@ private:
     SquarePatternParams &_sqParams; ///< Pointer to square pattern movement parameters.
     StraightLineParams &_slParams;  ///< Pointer to straight-line movement parameters.
     TurnAngleParams &_taParams;     ///< Pointer to turn angle movement parameters.
+    FollowParams &_flParams;
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
 

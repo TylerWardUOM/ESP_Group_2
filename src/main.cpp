@@ -25,13 +25,14 @@
 SquarePatternParams squareParams;
 StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
+FollowParams followParams;
 BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
 Serial btSerial(PA_11,PA_12);
 //Serial btSerial(USBTX,USBRX);
-Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams);
+Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
@@ -129,6 +130,16 @@ int main() {
                 lcd.printf("Turn Menu Mode");
                 if (bluetooth.shouldStart()){
                     switchToTurnMode(control,buggyMode,controlticker, turnangleParams);
+                    break;
+                }
+                break;
+
+            
+            case follow_menu_mode:
+                lcd.locate(0, 0);
+                lcd.printf("Follow Menu Mode");
+                if (bluetooth.shouldStart()){
+                    switchToFollowMode(control,buggyMode,controlticker, followParams);
                     break;
                 }
                 break;

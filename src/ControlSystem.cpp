@@ -9,6 +9,7 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
     : leftWheel(leftWheel), rightWheel(rightWheel),
       pidForward(0, 0, 0, 1),
       pidTurn(0, 0, 0, 1),
+      pidLine(0, 0, 0, 1),
       state(IDLE), targetDistance(0.0f), turnDirection(0), 
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
       bluetooth(bluetooth),
@@ -106,6 +107,9 @@ void ControlSystem::update() {
         case IDLE:
             stopWheels();
             break;
+        case FOLLOW_LINE:
+             processFollowLine(dt);
+             break;
     }
 }
 
@@ -119,7 +123,8 @@ bool ControlSystem::isSquareComplete(){
 
 void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams, 
                                       const StraightLineParams* straightlineParams, 
-                                      const TurnAngleParams* turnangleParams) {
+                                      const TurnAngleParams* turnangleParams,
+                                      const FollowParams* followParams) {
     // Apply Square Pattern parameters if provided
     if (squareParams) {
         //Forward PID constants
@@ -149,6 +154,13 @@ void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams
         pidTurn.setKi(turnangleParams->turn_pid_ki);
         pidTurn.setKd(turnangleParams->turn_pid_kd);
         pidTurn.setScalingMultiplier(turnangleParams->scaling_turn);
+    }
+
+    if (followParams) {
+        pidTurn.setKp(followParams->pid_kp);
+        pidTurn.setKi(followParams->pid_ki);
+        pidTurn.setKd(followParams->pid_kd);
+        pidTurn.setScalingMultiplier(followParams->pid_scaling);
     }
 }
 
@@ -288,6 +300,30 @@ void ControlSystem::processSquare() {
             break;
     }
 }
+
+////////////////////////
+void ControlSystem::startFollowLine(float speed) {
+    basespeed = speed;
+    state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
+    movementCompleted = false;
+}
+
+
+void ControlSystem::processFollowLine(float dt) {
+    // Implement line following algorithm here
+    float error = sensorArray.getError();
+    float output = pidLine.update(error, dt);  //kp,ki,kd need test after td2
+    float multiplier = 1.0f - (output);
+    
+    leftWheel.setSpeed(basespeed * multiplier);
+    rightWheel.setSpeed(basespeed);
+
+}
+
+
+//////calvin
+
+/////////////////////////
 
 
 void ControlSystem::stopWheels() {

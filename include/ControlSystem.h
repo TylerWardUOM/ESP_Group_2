@@ -21,14 +21,15 @@ public:
     bool isSquareComplete();
     void disableWheels();
     void stopWheels();
-    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams);
+    void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams, const FollowParams *followParams);
     PIDController pidForward;
     PIDController pidTurn;
     PIDController pidLine;
   
+    SensorArray sensorArray;
 
 private:
-    enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE};
+    enum State { IDLE, MOVE_FORWARD, TURNING, MOVING_SQUARE, FOLLOW_LINE};
     enum SquareMovementState {IDLE_SQUARE, MOVE_FORWARD_SQUARE, TURN_LEFT_SQUARE, TURN_RIGHT_SQUARE, TURN_AROUND_SQUARE, STOP_SQUARE};
     float basespeed;
     Wheel& leftWheel;
@@ -60,6 +61,8 @@ private:
     void processSquare();
     float constrain(float value, float minVal, float maxVal);
     void enableWheels();
+    void startFollowLine(float speed);
+    void processFollowLine(float dt);
 };
 
 #endif // CONTROL_SYSTEM_H
