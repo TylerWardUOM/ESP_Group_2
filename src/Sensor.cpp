@@ -1,4 +1,4 @@
-#include "sensors.h"
+#include "Sensor.h"
 
 // Constructor: Initializes sensor and control pins, then clears the initial reading.
 Sensor::Sensor(PinName inputPin, PinName controlPin)

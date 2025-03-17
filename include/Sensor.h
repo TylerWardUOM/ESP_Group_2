@@ -1,5 +1,5 @@
-#ifndef SENSORS_H
-#define SENSORS_H
+#ifndef SENSOR_H
+#define SENSOR_H
 
 #include "mbed.h"
 
@@ -40,4 +40,4 @@ private:
     float value;          // Latest sensor reading
 };
 
-#endif // SENSORS_H
+#endif // SENSOR_H
