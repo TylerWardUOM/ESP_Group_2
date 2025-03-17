@@ -5,9 +5,10 @@ var searchData=
   ['debug_5fram_5fallocation_2',['DEBUG_RAM_ALLOCATION',['../Bluetooth_8h.html#a1789a7a9c5023c3ce2b8575bb181aca9',1,'Bluetooth.h']]],
   ['debugentry_3',['DebugEntry',['../structBluetooth_1_1DebugEntry.html',1,'Bluetooth']]],
   ['debugtimer_4',['debugTimer',['../Bluetooth_8cpp.html#a61790196d7140b274cfd730897745003',1,'Bluetooth.cpp']]],
-  ['digitalize_5',['digitalize',['../classSensor.html#a3d40a695c6431d600bb6286e38ab2356',1,'Sensor']]],
-  ['disable_6',['disable',['../classMotor.html#adf84e8f39fb82027b3343f5fb1cdbf96',1,'Motor']]],
-  ['disablemotor_7',['disableMotor',['../classWheel.html#a1ab07d11bd59b93223eb423228e83594',1,'Wheel']]],
-  ['disablewheels_8',['disableWheels',['../classControlSystem.html#a58077e0d32c5dd6afbb06aa5c5d0f5b1',1,'ControlSystem']]],
-  ['distance_9',['distance',['../structSquarePatternParams.html#a156e24c23c29d08fb3a6f4649261fe56',1,'SquarePatternParams::distance'],['../structStraightLineParams.html#aa6d5ec9f333ba68d30d4d685f5c09b5e',1,'StraightLineParams::distance']]]
+  ['digitalize_5',['digitalize',['../classSensor.html#a3d40a695c6431d600bb6286e38ab2356',1,'Sensor::digitalize()'],['../classSensor.html#a3d40a695c6431d600bb6286e38ab2356',1,'Sensor::digitalize()']]],
+  ['digitalstates_6',['digitalStates',['../classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16',1,'SensorArray']]],
+  ['disable_7',['disable',['../classMotor.html#adf84e8f39fb82027b3343f5fb1cdbf96',1,'Motor']]],
+  ['disablemotor_8',['disableMotor',['../classWheel.html#a1ab07d11bd59b93223eb423228e83594',1,'Wheel']]],
+  ['disablewheels_9',['disableWheels',['../classControlSystem.html#a58077e0d32c5dd6afbb06aa5c5d0f5b1',1,'ControlSystem']]],
+  ['distance_10',['distance',['../structSquarePatternParams.html#a156e24c23c29d08fb3a6f4649261fe56',1,'SquarePatternParams::distance'],['../structStraightLineParams.html#aa6d5ec9f333ba68d30d4d685f5c09b5e',1,'StraightLineParams::distance']]]
 ];

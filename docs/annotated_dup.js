@@ -7,6 +7,7 @@ var annotated_dup =
     [ "PIDController", "classPIDController.html", "classPIDController" ],
     [ "Potentiometer", "classPotentiometer.html", "classPotentiometer" ],
     [ "Sensor", "classSensor.html", "classSensor" ],
+    [ "SensorArray", "classSensorArray.html", "classSensorArray" ],
     [ "SquarePatternParams", "structSquarePatternParams.html", "structSquarePatternParams" ],
     [ "StraightLineParams", "structStraightLineParams.html", "structStraightLineParams" ],
     [ "TurnAngleParams", "structTurnAngleParams.html", "structTurnAngleParams" ],

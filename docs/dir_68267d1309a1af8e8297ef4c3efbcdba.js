@@ -10,6 +10,8 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "Motor.cpp", "Motor_8cpp.html", null ],
     [ "PIDController.cpp", "PIDController_8cpp.html", null ],
     [ "Potentiometer.cpp", "Potentiometer_8cpp.html", null ],
+    [ "Sensor.cpp", "Sensor_8cpp.html", null ],
+    [ "SensorArray.cpp", "SensorArray_8cpp.html", null ],
     [ "sensors.cpp", "sensors_8cpp.html", null ],
     [ "Wheel.cpp", "Wheel_8cpp.html", null ]
 ];

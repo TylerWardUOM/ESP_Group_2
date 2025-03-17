@@ -29,7 +29,7 @@ var NAVTREE =
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
+        [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
@@ -53,7 +53,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Bluetooth_8cpp.html",
-"main_8cpp.html#a01526be9a5ac2f4daa34966ece882e99"
+"classSensorArray.html#ae59c38464db013210b0af180df48275f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
