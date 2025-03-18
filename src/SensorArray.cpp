@@ -3,7 +3,7 @@
 #include "Sensor.h"
 
 // Constructor
-SensorArray::SensorArray(Sensor** _sensors) {
+SensorArray::SensorArray(Sensor** _sensors, Bluetooth &bt): _bt(bt) {
     memcpy(sensors, _sensors, 6 * sizeof(Sensor*));  // Faster than loop assignment
 }
 
@@ -43,4 +43,11 @@ void SensorArray::startTicker(float period) {
 // Stop the ticker
 void SensorArray::stopTicker() {
     sampleTicker.detach();
+}
+
+void SensorArray::debugSensorData() {
+    sample();  // Sample the sensor values
+    float error = getError();  // Compute error value
+
+    _bt.printLiveSensorData(sensorvalues, 6, error);  // Send data via Bluetooth
 }

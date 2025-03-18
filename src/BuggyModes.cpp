@@ -50,6 +50,10 @@ void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode) {
     buggyMode = bang_bang_proportional_menu_mode;
 }
 
+void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray& sensorArray){
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.5);
+    buggyMode = sensor_debug;
+}
 
 //Function to switch the buggy to line mode
 void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params){
@@ -97,11 +101,12 @@ void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& senso
     buggyMode = waiting_for_movement;
 }
 
-void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker,bool& square_flag) {
+void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker,Ticker& sensorTicker,bool& square_flag) {
     //Set buggy mode
     buggyMode = idle_mode;
     //Detach control ticker
     controlticker.detach();
+    sensorTicker.detach();
     //Reset square_flag
     square_flag = false;
 }

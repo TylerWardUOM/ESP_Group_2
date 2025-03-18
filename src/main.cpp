@@ -34,8 +34,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-Serial btSerial(PA_11,PA_12);
-//Serial btSerial(USBTX,USBRX);
+//Serial btSerial(PA_11,PA_12);
+Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -52,7 +52,7 @@ Sensor sensor6(A5, NC);
 Sensor* sensors[6] = {&sensor1, &sensor2, &sensor3, &sensor4, &sensor5, &sensor6};
 
 // Pass the array of pointers to SensorArray
-SensorArray sensorArray(sensors);
+SensorArray sensorArray(sensors, bluetooth);
 
 // Global instance of ControlSystem
 ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth, sensorArray);
@@ -124,6 +124,17 @@ int main() {
                 leftWheel.setSpeed(speedRawL);
                 rightWheel.setSpeed(speedRawR);
                 break;
+            
+            case sensor_debug_menu:
+                wait(1);
+                bluetooth.resetDebugData();
+                switchToSensorDebug(buggyMode,sensorTicker,sensorArray);
+                break;
+
+            case sensor_debug:
+                lcd.locate(0, 0);
+                lcd.printf("Sensor Debug Mode");
+                break;
 
             case square_idle_mode:
                 lcd.locate(0, 0);
@@ -189,10 +200,15 @@ int main() {
                     sensorTicker.detach();
                     bluetooth.sendMovementFinished();
                     bluetooth.sendDebugData();
-                    stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,square_flag);
+                    stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,square_flag);
                 }
             break;
 
+            case reset:
+                controlticker.detach();
+                sensorTicker.detach();
+                stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,square_flag);
+                break;
         }
     }
 }

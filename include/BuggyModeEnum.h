@@ -4,6 +4,7 @@
 // Enum for buggy states
 enum BuggyMode {
     idle_mode,
+    reset,
     speed_control_mode,
     square_idle_mode,   
     line_menu_mode,
@@ -11,6 +12,8 @@ enum BuggyMode {
     follow_menu_mode,
     bang_bang_menu_mode,
     bang_bang_proportional_menu_mode,
+    sensor_debug,
+    sensor_debug_menu,
     waiting_for_movement,
 };
 

@@ -85,6 +85,18 @@ public:
      */
     void printDebugData(const char* format, ...);
 
+    /**
+     * @brief Prints live sensor data immediately to Bluetooth in a formatted manner.
+     * 
+     * This function sends real-time sensor values and the computed error over Bluetooth.
+     * It helps in debugging by providing immediate feedback on sensor readings.
+     * 
+     * @param sensorValues Array of sensor readings.
+     * @param numSensors Number of sensors in the array.
+     * @param error The computed error value representing the line position.
+     */
+    void printLiveSensorData(float sensorValues[], int numSensors, float error);
+
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
     BuggyMode &_currentMode;  ///< Pointer to the current buggy mode.

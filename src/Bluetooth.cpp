@@ -156,7 +156,7 @@ void Bluetooth::handleCommand(const char *cmd) {
         _currentMode = line_menu_mode;
         _serial.printf("MODE_CHANGED:STRAIGHT_LINE\n");
     } else if (strcmp(cmd, "SET_MODE:IDLE") == 0) {
-        _currentMode = idle_mode;
+        _currentMode = reset;
         _serial.printf("MODE_CHANGED:IDLE\n");
     } else if (strcmp(cmd, "SET_MODE:TURN_ANGLE") == 0) {
         _currentMode = turn_menu_mode;
@@ -173,6 +173,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:BANG_BANG_PROPORTIONAL") == 0) {
         _currentMode = bang_bang_proportional_menu_mode;
         _serial.printf("MODE_CHANGED:BANG_BANG_PROPORTIONAL\n");
+    }else if (strcmp(cmd, "SET_MODE:SENSOR_DEBUG") == 0) {
+        _currentMode = sensor_debug_menu;
+        _serial.printf("MODE_CHANGED:SENSOR_DEBUG\n");
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -316,4 +319,20 @@ void Bluetooth::printDebugData(const char* format, ...) {
 
     // Print newline for formatting
     _serial.printf("\n");
-}
+};
+
+void Bluetooth::printLiveSensorData(float sensorValues[], int numSensors, float error) {
+    // Get elapsed time in milliseconds
+    uint32_t timeElapsed = debugTimer.read_ms();
+
+    // Print timestamp
+    _serial.printf("SENSOR DATA: ");
+    _serial.printf("%lu ", timeElapsed);
+    // Print sensor values
+    for (int i = 0; i < numSensors; i++) {
+        _serial.printf("%.2f ", sensorValues[i]);
+    }
+
+    // Print error value
+    _serial.printf("| ERROR: %.2f\n", error);
+};
