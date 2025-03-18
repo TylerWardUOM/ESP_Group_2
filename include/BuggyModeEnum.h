@@ -9,7 +9,9 @@ enum BuggyMode {
     line_menu_mode,
     turn_menu_mode,
     follow_menu_mode,
-    waiting_for_movement
+    bang_bang_menu_mode,
+    bang_bang_proportional_menu_mode,
+    waiting_for_movement,
 };
 
 // Function to get mode name

@@ -28,13 +28,15 @@ SquarePatternParams squareParams;
 StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
 FollowParams followParams;
+BangBangParams bangbangParams;
+BangBangProportionalParams bangbangproportionalParams;
 BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
 Serial btSerial(PA_11,PA_12);
 //Serial btSerial(USBTX,USBRX);
-Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams);
+Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
@@ -80,6 +82,7 @@ void updateLCD() {
 
 
 Ticker controlticker;
+Ticker sensorTicker;
 
 bool square_flag = false;
 
@@ -159,12 +162,31 @@ int main() {
                 }
                 break;
 
+            case bang_bang_menu_mode:
+                lcd.locate(0, 0);
+                lcd.printf("Bang Bang Menu Mode");
+                if (bluetooth.shouldStart()){
+                    switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,bangbangParams);
+                    break;
+                }
+                break;
+
+            case bang_bang_proportional_menu_mode:
+                lcd.locate(0, 0);
+                lcd.printf("Bang Bang KP Menu Mode");
+                if (bluetooth.shouldStart()){
+                    switchToBangBangProportionalMode(control,sensorArray,buggyMode,controlticker,sensorTicker,bangbangproportionalParams);
+                    break;
+                }
+                break;
+
             case waiting_for_movement:
                 lcd.locate(0, 0);
                 lcd.printf("Waiting for Movement");
 
                 if ((square_flag && control.isSquareComplete()) || (!square_flag && control.isMovementComplete())) {
                     controlticker.detach();
+                    sensorTicker.detach();
                     bluetooth.sendMovementFinished();
                     bluetooth.sendDebugData();
                     stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,square_flag);

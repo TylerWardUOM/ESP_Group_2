@@ -42,6 +42,15 @@ void switchToFollowMenuMode(BuggyMode& buggyMode) {
     buggyMode = follow_menu_mode;
 }
 
+void switchToBangBangMenuMode(BuggyMode& buggyMode) {
+    buggyMode = bang_bang_menu_mode;
+}
+
+void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode) {
+    buggyMode = bang_bang_proportional_menu_mode;
+}
+
+
 //Function to switch the buggy to line mode
 void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params){
     //Set Relevant PID Parameters
@@ -72,6 +81,19 @@ void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& co
     control.follow(params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
+    buggyMode = waiting_for_movement;
+}
+
+void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangParams& params){
+    control.setBangBangMode(params);
+    controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
+    buggyMode = waiting_for_movement;
+}
+void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangProportionalParams& params){
+    control.setBangBangProportionalMode(params);
+    controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
     buggyMode = waiting_for_movement;
 }
 

@@ -7,6 +7,7 @@
 #include "BuggyModeParameters.h"
 class Bluetooth;
 class ControlSystem;
+class SensorArray;
 
 // Function declarations for mode switching
 void switchToSpeedControlMode(ControlSystem& control, BuggyMode& buggyMode);
@@ -20,4 +21,11 @@ void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, 
 //Switch To Follow Mode Menu
 void switchToFollowMenuMode(BuggyMode& buggyMode);
 void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, FollowParams& params);
+
+void switchToBangBangMenuMode(BuggyMode& buggyMode);
+void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangParams& params);
+
+void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode);
+void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangProportionalParams& params);
+
 #endif // BUGGY_MODES_H

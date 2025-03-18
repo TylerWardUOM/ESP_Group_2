@@ -14,7 +14,7 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
       bluetooth(bluetooth),
       squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1),
-      sensorArray(sensorArray){}
+      sensorArray(sensorArray),turnSpeedMultiplier(0.0f){}
 
 void ControlSystem::moveForward(float distance, float speed) {
     //Ensure Motors Enabled
@@ -88,6 +88,42 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
 }
 
 
+
+void ControlSystem::setBangBangMode(const BangBangParams& params) {
+    // Ensure wheels are enabled before setting control mode
+    enableWheels();
+    // Store the given parameters
+    basespeed = params.baseSpeed;
+    turnSpeedMultiplier = params.turnSpeedMultiplier;
+
+    // Set control state
+    state = BANG_BANG;
+
+    // Reset encoders (if needed for tracking)
+    resetEncoders();
+    bluetooth.resetDebugData();
+}
+
+void ControlSystem::setBangBangProportionalMode(const BangBangProportionalParams& params) {
+    // Ensure wheels are enabled before setting control mode
+    enableWheels();
+
+    // Store the given parameters
+    basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
+    kP = params.kP;
+    maxMultiplier = params.maxMultiplier;
+
+    // Set control state
+    state = BANG_BANG_PROPORTIONAL;
+
+    // Reset encoders (if needed for tracking)
+    resetEncoders();
+}
+
+
+
+
 void ControlSystem::update() {
     static bool timerStarted = false;
     if (!timerStarted) {
@@ -117,6 +153,12 @@ void ControlSystem::update() {
         case FOLLOW_LINE:
              processFollowLine(dt);
              break;
+        case BANG_BANG_PROPORTIONAL:
+            processBangBangProportional();
+            break;
+        case BANG_BANG:
+            processBangBang();
+            break;
     }
 }
 
@@ -164,10 +206,10 @@ void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams
     }
 
     if (followParams) {
-        pidTurn.setKp(followParams->pid_kp);
-        pidTurn.setKi(followParams->pid_ki);
-        pidTurn.setKd(followParams->pid_kd);
-        pidTurn.setScalingMultiplier(followParams->pid_scaling);
+        pidLine.setKp(followParams->pid_kp);
+        pidLine.setKi(followParams->pid_ki);
+        pidLine.setKd(followParams->pid_kd);
+        pidLine.setScalingMultiplier(followParams->pid_scaling);
     }
 }
 
@@ -323,9 +365,61 @@ void ControlSystem::processFollowLine(float dt) {
 }
 
 
-//////calvin
+void ControlSystem::processBangBang() {
+    float error = sensorArray.getError();  // Get error from sensor array
+    if (error>=900){
+        stopWheels();
+        movementCompleted = true;
+        state = IDLE;
+    }
 
-/////////////////////////
+    if (error > 0) {
+        // Turn right sharply
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed * 0.5);  // Slow down right wheel
+    } 
+    else if (error < 0) {
+        // Turn left sharply
+        leftWheel.setSpeed(basespeed * 0.5);  // Slow down left wheel
+        rightWheel.setSpeed(basespeed);
+    } 
+    else {
+        // Drive straight
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed);
+    }
+}
+
+void ControlSystem::processBangBangProportional() {
+    float error = sensorArray.getError();  // Get error from sensor array
+
+    if (error>=900){
+        stopWheels();
+        movementCompleted = true;
+        state = IDLE;
+    }
+
+    if (fabs(error) > bangBangThreshold) {
+        // Use bang-bang for large errors
+        if (error > 0) {
+            leftWheel.setSpeed(basespeed);
+            rightWheel.setSpeed(basespeed * 0.5);
+        } else {
+            leftWheel.setSpeed(basespeed * 0.5);
+            rightWheel.setSpeed(basespeed);
+        }
+    } else {
+        // Use proportional control for small errors
+        float multiplier = 1.0f + kP * error;
+
+        // Clamp the multiplier
+        if (multiplier > maxMultiplier) multiplier = maxMultiplier;
+        if (multiplier < 1.0f / maxMultiplier) multiplier = 1.0f / maxMultiplier;
+
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed * multiplier);
+    }
+}
 
 
 void ControlSystem::stopWheels() {

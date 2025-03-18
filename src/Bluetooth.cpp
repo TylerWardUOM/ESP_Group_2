@@ -15,10 +15,12 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode &mode,
                      SquarePatternParams &sqParams,
                      StraightLineParams &slParams,
                      TurnAngleParams &taParams,
-                     FollowParams &flParams)
+                     FollowParams &flParams,
+                     BangBangParams &bbParams,
+                     BangBangProportionalParams &bbpParams)
     : _serial(serial), _currentMode(mode),
       _sqParams(sqParams), _slParams(slParams), _taParams(taParams),
-      _flParams(flParams) {
+      _flParams(flParams), _bbParams(bbParams),_bbpParams(bbpParams) {
     _serial.attach(callback(this, &Bluetooth::rx_interrupt), Serial::RxIrq);
     debugTimer.start();
 }
@@ -76,6 +78,23 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("pid_scaling=%.2f\n", _flParams.pid_scaling);
             _serial.printf("speed=%.2f\n", _taParams.speed);
             break;
+
+        case bang_bang_menu_mode:
+            _serial.printf("baseSpeed=%.2f\n", _bbParams.baseSpeed);
+            _serial.printf("turnSpeedMultiplier=%.2f\n", _bbParams.turnSpeedMultiplier);
+            _serial.printf("sensorSamplePeriod=%.2f\n", _bbParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.2f\n", _bbParams.controlPeriod);
+            break;
+
+        case bang_bang_proportional_menu_mode:
+            _serial.printf("baseSpeed=%.2f\n", _bbpParams.baseSpeed);
+            _serial.printf("kP=%.2f\n", _bbpParams.kP);
+            _serial.printf("maxMultiplier=%.2f\n", _bbpParams.maxMultiplier);
+            _serial.printf("bangBangThreshold=%.2f\n", _bbpParams.bangBangThreshold);
+            _serial.printf("sensorSamplePeriod=%.2f\n", _bbpParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.2f\n", _bbpParams.controlPeriod);
+            break;
+
 
 
         default:
@@ -148,7 +167,13 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:FOLLOW_LINE") == 0) {
         _currentMode = follow_menu_mode;
         _serial.printf("MODE_CHANGED:FOLLOW_LINE\n");
-    } else if (strcmp(cmd, "PARAMETER") == 0) {
+    } else if (strcmp(cmd, "SET_MODE:BANG_BANG") == 0) {
+        _currentMode = bang_bang_menu_mode;
+        _serial.printf("MODE_CHANGED:BANG_BANG\n");
+    }else if (strcmp(cmd, "SET_MODE:BANG_BANG_PROPORTIONAL") == 0) {
+        _currentMode = bang_bang_proportional_menu_mode;
+        _serial.printf("MODE_CHANGED:BANG_BANG_PROPORTIONAL\n");
+    }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
         sendCurrentMode();
@@ -204,8 +229,24 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "pid_scaling") == 0) _flParams.pid_scaling = value;
                 else if (strcmp(key, "speed") == 0) _flParams.speed = value;
                 break;
-        }
 
+            case bang_bang_menu_mode:
+                if (strcmp(key, "baseSpeed") == 0) _bbParams.baseSpeed = value;
+                else if (strcmp(key, "turnSpeedMultiplier") == 0) _bbParams.turnSpeedMultiplier = value;
+                else if (strcmp(key, "sensorSamplePeriod") == 0) _bbParams.sensorSamplePeriod = value;
+                else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
+                break;
+
+            case bang_bang_proportional_menu_mode:
+                if (strcmp(key, "baseSpeed") == 0) _bbpParams.baseSpeed = value;
+                else if (strcmp(key, "kP") == 0) _bbpParams.kP = value;
+                else if (strcmp(key, "maxMultiplier") == 0) _bbpParams.maxMultiplier = value;
+                else if (strcmp(key, "bangBangThreshold") == 0) _bbpParams.bangBangThreshold = value;
+                else if (strcmp(key, "sensorSamplePeriod") == 0) _bbpParams.sensorSamplePeriod = value;
+                else if (strcmp(key, "controlPeriod") == 0) _bbpParams.controlPeriod = value;
+                break;
+
+        }
         _serial.printf("Updated: %s = %.2f\n", key, value);
     }
 }
