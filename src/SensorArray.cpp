@@ -18,7 +18,7 @@ void SensorArray::sample() {
 
 // Compute error value (relative position of line)
 float SensorArray::getError() {
-    static const int weightings[6] = {-3, -2, -1, 1, 2, 3}; // Integers for speed
+    static const int weightings[6] = {-3, -2, -1, 1, 2, 3}; 
     int error = 0, activeCount = 0;
 
     for (int i = 0; i < 6; i++) {
