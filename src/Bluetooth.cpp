@@ -15,10 +15,12 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode &mode,
                      SquarePatternParams &sqParams,
                      StraightLineParams &slParams,
                      TurnAngleParams &taParams,
-                     FollowParams &flParams)
+                     FollowParams &flParams,
+                     BangBangParams &bbParams,
+                     BangBangProportionalParams &bbpParams)
     : _serial(serial), _currentMode(mode),
       _sqParams(sqParams), _slParams(slParams), _taParams(taParams),
-      _flParams(flParams) {
+      _flParams(flParams), _bbParams(bbParams),_bbpParams(bbpParams) {
     _serial.attach(callback(this, &Bluetooth::rx_interrupt), Serial::RxIrq);
     debugTimer.start();
 }
@@ -77,6 +79,23 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("speed=%.2f\n", _taParams.speed);
             break;
 
+        case bang_bang_menu_mode:
+            _serial.printf("baseSpeed=%.2f\n", _bbParams.baseSpeed);
+            _serial.printf("turnSpeedMultiplier=%.2f\n", _bbParams.turnSpeedMultiplier);
+            _serial.printf("sensorSamplePeriod=%.2f\n", _bbParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.2f\n", _bbParams.controlPeriod);
+            break;
+
+        case bang_bang_proportional_menu_mode:
+            _serial.printf("baseSpeed=%.2f\n", _bbpParams.baseSpeed);
+            _serial.printf("kP=%.2f\n", _bbpParams.kP);
+            _serial.printf("maxMultiplier=%.2f\n", _bbpParams.maxMultiplier);
+            _serial.printf("bangBangThreshold=%.2f\n", _bbpParams.bangBangThreshold);
+            _serial.printf("sensorSamplePeriod=%.2f\n", _bbpParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.2f\n", _bbpParams.controlPeriod);
+            break;
+
+
 
         default:
             _serial.printf("No parameters available for this mode.\n");
@@ -91,14 +110,27 @@ void Bluetooth::sendDebugData() {
 
     for (int i = 0; i < debug_index; i++) {
         DebugEntry entry = debug_data_buffer[i];
+
+        // Print main debug info
         _serial.printf("%lu ms: Left_Distance=%f, Right_Distance=%f, Error=%f, PID_out=%f, Multiplier=%f\n",
                        entry.timestamp, entry.left_distance, entry.right_distance, entry.error, entry.pid_output, entry.multiplier);
+
+        // Print sensor values (formatted inline)
+        _serial.printf("Sensors: [");
+        for (int j = 0; j < 6; j++) {
+            _serial.printf("%f", entry.sensor_values[j]);
+            if (j < 5) {
+                _serial.printf(", "); // Add commas between values
+            }
+        }
+        _serial.printf("]\n"); // Close sensor array output
     }
 
     debug_index = 0; // Reset binary buffer after sending
 
     _serial.printf("DEBUG_END\n");
 }
+
 
 // UART Interrupt Handler (store data in circular buffer)
 void Bluetooth::rx_interrupt() {
@@ -137,7 +169,7 @@ void Bluetooth::handleCommand(const char *cmd) {
         _currentMode = line_menu_mode;
         _serial.printf("MODE_CHANGED:STRAIGHT_LINE\n");
     } else if (strcmp(cmd, "SET_MODE:IDLE") == 0) {
-        _currentMode = idle_mode;
+        _currentMode = reset;
         _serial.printf("MODE_CHANGED:IDLE\n");
     } else if (strcmp(cmd, "SET_MODE:TURN_ANGLE") == 0) {
         _currentMode = turn_menu_mode;
@@ -148,7 +180,16 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:FOLLOW_LINE") == 0) {
         _currentMode = follow_menu_mode;
         _serial.printf("MODE_CHANGED:FOLLOW_LINE\n");
-    } else if (strcmp(cmd, "PARAMETER") == 0) {
+    } else if (strcmp(cmd, "SET_MODE:BANG_BANG") == 0) {
+        _currentMode = bang_bang_menu_mode;
+        _serial.printf("MODE_CHANGED:BANG_BANG\n");
+    }else if (strcmp(cmd, "SET_MODE:BANG_BANG_PROPORTIONAL") == 0) {
+        _currentMode = bang_bang_proportional_menu_mode;
+        _serial.printf("MODE_CHANGED:BANG_BANG_PROPORTIONAL\n");
+    }else if (strcmp(cmd, "SET_MODE:SENSOR_DEBUG") == 0) {
+        _currentMode = sensor_debug_menu;
+        _serial.printf("MODE_CHANGED:SENSOR_DEBUG\n");
+    }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
         sendCurrentMode();
@@ -204,8 +245,24 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "pid_scaling") == 0) _flParams.pid_scaling = value;
                 else if (strcmp(key, "speed") == 0) _flParams.speed = value;
                 break;
-        }
 
+            case bang_bang_menu_mode:
+                if (strcmp(key, "baseSpeed") == 0) _bbParams.baseSpeed = value;
+                else if (strcmp(key, "turnSpeedMultiplier") == 0) _bbParams.turnSpeedMultiplier = value;
+                else if (strcmp(key, "sensorSamplePeriod") == 0) _bbParams.sensorSamplePeriod = value;
+                else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
+                break;
+
+            case bang_bang_proportional_menu_mode:
+                if (strcmp(key, "baseSpeed") == 0) _bbpParams.baseSpeed = value;
+                else if (strcmp(key, "kP") == 0) _bbpParams.kP = value;
+                else if (strcmp(key, "maxMultiplier") == 0) _bbpParams.maxMultiplier = value;
+                else if (strcmp(key, "bangBangThreshold") == 0) _bbpParams.bangBangThreshold = value;
+                else if (strcmp(key, "sensorSamplePeriod") == 0) _bbpParams.sensorSamplePeriod = value;
+                else if (strcmp(key, "controlPeriod") == 0) _bbpParams.controlPeriod = value;
+                break;
+
+        }
         _serial.printf("Updated: %s = %.2f\n", key, value);
     }
 }
@@ -232,21 +289,31 @@ void Bluetooth::sendCurrentMode() {
 
 
 
-void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier) {
+void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier, float* sensorValues) {
     if (debug_index >= MAX_ENTRIES) {
         return;  // Avoid buffer overflow
     }
 
-    // Store data in binary format
-    debug_data_buffer[debug_index++] = {
-        debugTimer.read_ms(),
-        leftDistance,
-        rightDistance,
-        error,
-        pidOutput,
-        multiplier
-    };
+    // Get reference to the next available entry (avoids redundant indexing)
+    DebugEntry& entry = debug_data_buffer[debug_index++];
+
+    // Assign basic data
+    entry.timestamp = debugTimer.read_ms();
+    entry.left_distance = leftDistance;
+    entry.right_distance = rightDistance;
+    entry.error = error;
+    entry.pid_output = pidOutput;
+    entry.multiplier = multiplier;
+
+    // Only copy sensor values if provided
+    if (sensorValues) {
+        memcpy(entry.sensor_values, sensorValues, 6 * sizeof(float));
+    } else {
+        memset(entry.sensor_values, 0, 6 * sizeof(float)); // Default to 0 if no values provided
+    }
 }
+
+
 
 
 void Bluetooth::resetDebugData() {
@@ -275,4 +342,20 @@ void Bluetooth::printDebugData(const char* format, ...) {
 
     // Print newline for formatting
     _serial.printf("\n");
-}
+};
+
+void Bluetooth::printLiveSensorData(float sensorValues[], int numSensors, float error) {
+    // Get elapsed time in milliseconds
+    uint32_t timeElapsed = debugTimer.read_ms();
+
+    // Print timestamp
+    _serial.printf("SENSOR DATA: ");
+    _serial.printf("%lu ", timeElapsed);
+    // Print sensor values
+    for (int i = 0; i < numSensors; i++) {
+        _serial.printf("%.2f ", sensorValues[i]);
+    }
+
+    // Print error value
+    _serial.printf("| ERROR: %.2f\n", error);
+};

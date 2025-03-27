@@ -22,12 +22,17 @@ public:
      * @param sqParams Pointer to Square Pattern movement parameters.
      * @param slParams Pointer to Straight Line movement parameters.
      * @param taParams Pointer to Turn Angle movement parameters.
+     * @param flParams Pointer to Follow Line movement parameters.
+     * @param bbParams Pointer to Bang Bang movement parameters.
+     * @param bbpParams Pointer to Bang Bang Proportional movement parameters.
      */
     Bluetooth(Serial &serial, BuggyMode &mode, 
               SquarePatternParams &sqParams, 
               StraightLineParams &slParams, 
               TurnAngleParams &taParams,
-              FollowParams &flParams);
+              FollowParams &flParams,
+              BangBangParams &bbParams,
+              BangBangProportionalParams &bbpParams);
 
     /**
      * @brief Processes received commands from the buffer.
@@ -66,7 +71,7 @@ public:
      * @param pidOutput PID controller output value.
      * @param multiplier Control multiplier applied.
      */
-    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier);
+    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier,float* sensorValues = NULL);
 
     /**
      * @brief Resets the debug data buffer.
@@ -80,13 +85,27 @@ public:
      */
     void printDebugData(const char* format, ...);
 
+    /**
+     * @brief Prints live sensor data immediately to Bluetooth in a formatted manner.
+     * 
+     * This function sends real-time sensor values and the computed error over Bluetooth.
+     * It helps in debugging by providing immediate feedback on sensor readings.
+     * 
+     * @param sensorValues Array of sensor readings.
+     * @param numSensors Number of sensors in the array.
+     * @param error The computed error value representing the line position.
+     */
+    void printLiveSensorData(float sensorValues[], int numSensors, float error);
+
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
     BuggyMode &_currentMode;  ///< Pointer to the current buggy mode.
     SquarePatternParams &_sqParams; ///< Pointer to square pattern movement parameters.
     StraightLineParams &_slParams;  ///< Pointer to straight-line movement parameters.
     TurnAngleParams &_taParams;     ///< Pointer to turn angle movement parameters.
-    FollowParams &_flParams;
+    FollowParams &_flParams;    ///< Pointer to follow line  movement parameters.
+    BangBangParams &_bbParams;  ///< Pointer to bang bang movement parameters.
+    BangBangProportionalParams &_bbpParams; ///< Pointer to bang bang proportional movement parameters.
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
 
@@ -146,6 +165,7 @@ private:
         float error; ///< Positional error value.
         float pid_output; ///< PID controller output.
         float multiplier; ///< Applied control multiplier.
+        float sensor_values[6]; ///< Array to store sensor values.
     };
 
     #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  ///< Half of available RAM allocated for debugging.

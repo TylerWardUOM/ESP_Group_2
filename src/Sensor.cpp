@@ -14,6 +14,7 @@ void Sensor::Sample() {
 
 // Returns the raw sensor reading (voltage value).
 float Sensor::GetValue() {
+    Sample();
     return value;
 }
 
