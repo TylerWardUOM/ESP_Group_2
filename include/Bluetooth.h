@@ -97,6 +97,25 @@ public:
      */
     void printLiveSensorData(float sensorValues[], int numSensors, float error);
 
+    /**
+     * @brief Prints live motor debug data immediately to Bluetooth in a formatted manner.
+     * 
+     * This function sends real-time motor speed values over Bluetooth, allowing for 
+     * debugging of motor behavior and performance in real-time.
+     * It helps in analyzing how motor speeds change during operation.
+     * 
+     * @param leftSpeed The speed of the left motor.
+     * @param rightSpeed The speed of the right motor.
+     */
+    void printMotorDebugData(float leftSpeed, float rightSpeed);
+
+    /**
+     * @brief Returns desired motor speeds
+     * 
+     */
+    int SpeedRequestLeft();
+    int SpeedRequestRight();
+
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
     BuggyMode &_currentMode;  ///< Pointer to the current buggy mode.
@@ -145,6 +164,12 @@ private:
     void updateParameter(const char *paramStr);
 
     /**
+     * @brief Updates desired speeds based on received command strings.
+     * @param speedStr The speed string received from Bluetooth.
+     */
+    void updateSpeed(const char *speedStr);
+
+    /**
      * @brief Starts the control mode for the buggy.
      */
     void startControlMode();
@@ -173,6 +198,9 @@ private:
 
     DebugEntry debug_data_buffer[MAX_ENTRIES]; ///< Buffer for storing debug data entries.
     int debug_index = 0; ///< Current index in the debug data buffer.
+
+    float desiredSpeedL = 0.0;
+    float desiredSpeedR = 0.0;
 };
 
 #endif // BLUETOOTH_H

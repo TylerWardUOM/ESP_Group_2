@@ -14,6 +14,8 @@ enum BuggyMode {
     bang_bang_proportional_menu_mode,
     sensor_debug,
     sensor_debug_menu,
+    motor_debug,
+    motor_debug_menu,
     waiting_for_movement,
 };
 

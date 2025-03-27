@@ -455,3 +455,19 @@ void ControlSystem::resetEncoders(){
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
 }
+
+void ControlSystem::regulateWheelSpeed(){
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeed();
+}
+
+void ControlSystem::debugRegulateWheelSpeed(){
+    static int counter = 0;
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeed();
+    if (counter==9){
+        bluetooth.printMotorDebugData(leftWheel.encoder.getSpeed(),rightWheel.encoder.getSpeed());
+        counter=0;
+    }
+    counter++;
+}

@@ -189,12 +189,17 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:SENSOR_DEBUG") == 0) {
         _currentMode = sensor_debug_menu;
         _serial.printf("MODE_CHANGED:SENSOR_DEBUG\n");
+    }else if (strcmp(cmd, "SET_MODE:MOTOR_DEBUG") == 0) {
+        _currentMode = motor_debug_menu;
+        _serial.printf("MODE_CHANGED:MOTOR_DEBUG\n");
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
         sendCurrentMode();
     } else if (strncmp(cmd, "PARAM:", 6) == 0) {
         updateParameter(cmd + 6);   // Update a parameter dynamically
+    }else if (strncmp(cmd, "SET_SPEED:", 10) == 0) {
+        updateSpeed(cmd + 10);   // Update a parameter dynamically
     }
 }
 
@@ -359,3 +364,54 @@ void Bluetooth::printLiveSensorData(float sensorValues[], int numSensors, float 
     // Print error value
     _serial.printf("| ERROR: %.2f\n", error);
 };
+
+void Bluetooth::printMotorDebugData(float leftSpeed, float rightSpeed) {
+    // Get elapsed time in milliseconds
+    uint32_t timeElapsed = debugTimer.read_ms();
+
+    // Print motor debug data
+    _serial.printf("MOTOR DATA: ");
+    _serial.printf("%lu ", timeElapsed);
+    _serial.printf("| Left Speed: %.2f ", leftSpeed);
+    _serial.printf("| Right Speed: %.2f\n", rightSpeed);
+}
+
+
+int Bluetooth::SpeedRequestLeft(){
+    int output = 5000;
+    if (desiredSpeedR!=5000){
+        output = desiredSpeedL;
+        desiredSpeedR = 5000; //5000 acting as null value
+    }
+    return output;
+}
+
+int Bluetooth::SpeedRequestRight(){
+    int output = 5000;
+    if (desiredSpeedR!=5000){
+        output = desiredSpeedR;
+        desiredSpeedR = 5000; //5000 acting as null value
+    }
+    return output;
+}
+
+// Update speed based on SET_SPEED:left=x or SET_SPEED:right=x
+void Bluetooth::updateSpeed(const char* speedStr) {
+    char key[32];
+    float value;
+    // Parse the input to extract key (e.g., "left" or "right") and value (e.g., 50)
+    if (sscanf(speedStr, "%[^=]=%f", key, &value) == 2) {
+        // Check if the key is "left" or "right" and set the corresponding desired speed
+        if (strcmp(key, "left") == 0) {
+            desiredSpeedL = value;  // Set desired left speed
+           _serial.printf("Desired left Speed set to: %.2f\n", desiredSpeedL);
+        } else if (strcmp(key, "right") == 0) {
+            desiredSpeedR = value;  // Set desired right speed
+            _serial.printf("Desired right Speed set to: %.2f\n", desiredSpeedR);
+        } else {
+            _serial.printf("Invalid speed parameter: %s\n", key);
+        }
+    } else {
+        printf("Invalid SET_SPEED command format\n");
+    }
+}

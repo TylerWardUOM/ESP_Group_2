@@ -55,6 +55,12 @@ void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray
     buggyMode = sensor_debug;
 }
 
+void switchToMotorDebug(BuggyMode& buggyMode, Ticker& motorTicker, ControlSystem& control){
+    motorTicker.attach(callback(&control, &ControlSystem::debugRegulateWheelSpeed), 0.1);
+    buggyMode = motor_debug;
+}
+
+
 //Function to switch the buggy to line mode
 void switchToLineMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, StraightLineParams& params){
     //Set Relevant PID Parameters
@@ -101,12 +107,13 @@ void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& senso
     buggyMode = waiting_for_movement;
 }
 
-void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker,Ticker& sensorTicker,bool& square_flag) {
+void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker,Ticker& sensorTicker,Ticker& motorTicker,bool& square_flag) {
     //Set buggy mode
     buggyMode = idle_mode;
     //Detach control ticker
     controlticker.detach();
     sensorTicker.detach();
+    motorTicker.detach();
     //Reset square_flag
     square_flag = false;
 }
