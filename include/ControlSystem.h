@@ -25,6 +25,7 @@ public:
     void disableWheels();
     void stopWheels();
     void regulateWheelSpeed();
+    void debugRegulateWheelSpeed();
     void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams, const FollowParams *followParams);
     PIDController pidForward;
     PIDController pidTurn;

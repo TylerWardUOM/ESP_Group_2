@@ -93,7 +93,8 @@ int main() {
     control.stopWheels();
     float speedRawL;
     float speedRawR;
-
+    float desiredSpeedL;
+    float desiredSpeedR;
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
@@ -145,6 +146,14 @@ int main() {
 
             case motor_debug:
                 lcd.locate(0, 0);
+                desiredSpeedL=bluetooth.SpeedRequestLeft();
+                desiredSpeedR=bluetooth.SpeedRequestRight();
+                if (desiredSpeedL!=5000){
+                    leftWheel.setSpeed(desiredSpeedL);
+                }
+                if (desiredSpeedR!=5000){
+                    rightWheel.setSpeed(desiredSpeedR);
+                }
                 lcd.printf("Motor Debug Mode");
                 break;
 

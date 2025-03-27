@@ -56,7 +56,7 @@ void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray
 }
 
 void switchToMotorDebug(BuggyMode& buggyMode, Ticker& motorTicker, ControlSystem& control){
-    motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), 0.1);
+    motorTicker.attach(callback(&control, &ControlSystem::debugRegulateWheelSpeed), 0.1);
     buggyMode = motor_debug;
 }
 
