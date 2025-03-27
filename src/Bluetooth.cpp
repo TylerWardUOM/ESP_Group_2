@@ -110,14 +110,27 @@ void Bluetooth::sendDebugData() {
 
     for (int i = 0; i < debug_index; i++) {
         DebugEntry entry = debug_data_buffer[i];
+
+        // Print main debug info
         _serial.printf("%lu ms: Left_Distance=%f, Right_Distance=%f, Error=%f, PID_out=%f, Multiplier=%f\n",
                        entry.timestamp, entry.left_distance, entry.right_distance, entry.error, entry.pid_output, entry.multiplier);
+
+        // Print sensor values (formatted inline)
+        _serial.printf("Sensors: [");
+        for (int j = 0; j < 6; j++) {
+            _serial.printf("%f", entry.sensor_values[j]);
+            if (j < 5) {
+                _serial.printf(", "); // Add commas between values
+            }
+        }
+        _serial.printf("]\n"); // Close sensor array output
     }
 
     debug_index = 0; // Reset binary buffer after sending
 
     _serial.printf("DEBUG_END\n");
 }
+
 
 // UART Interrupt Handler (store data in circular buffer)
 void Bluetooth::rx_interrupt() {
@@ -276,21 +289,31 @@ void Bluetooth::sendCurrentMode() {
 
 
 
-void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier) {
+void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier, float* sensorValues) {
     if (debug_index >= MAX_ENTRIES) {
         return;  // Avoid buffer overflow
     }
 
-    // Store data in binary format
-    debug_data_buffer[debug_index++] = {
-        debugTimer.read_ms(),
-        leftDistance,
-        rightDistance,
-        error,
-        pidOutput,
-        multiplier
-    };
+    // Get reference to the next available entry (avoids redundant indexing)
+    DebugEntry& entry = debug_data_buffer[debug_index++];
+
+    // Assign basic data
+    entry.timestamp = debugTimer.read_ms();
+    entry.left_distance = leftDistance;
+    entry.right_distance = rightDistance;
+    entry.error = error;
+    entry.pid_output = pidOutput;
+    entry.multiplier = multiplier;
+
+    // Only copy sensor values if provided
+    if (sensorValues) {
+        memcpy(entry.sensor_values, sensorValues, 6 * sizeof(float));
+    } else {
+        memset(entry.sensor_values, 0, 6 * sizeof(float)); // Default to 0 if no values provided
+    }
 }
+
+
 
 
 void Bluetooth::resetDebugData() {

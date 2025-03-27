@@ -13,6 +13,7 @@ public:
     void startTicker(float period); // Start periodic sampling
     void stopTicker();             // Stop periodic sampling
     void debugSensorData();
+    float* getValues();
 private:
     Sensor* sensors[6];  // Store pointers instead of objects
     float sensorvalues[6];

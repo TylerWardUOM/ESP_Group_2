@@ -355,13 +355,20 @@ void ControlSystem::processSquare() {
 
 void ControlSystem::processFollowLine(float dt) {
     // Implement line following algorithm here
+    //for debugging
+    float* sensorValues = sensorArray.getValues();  // Get pointer to array
+    float leftDistance = fabs(leftWheel.encoder.getDistance());
+    float rightDistance = fabs(rightWheel.encoder.getDistance());
+
+
     float error = sensorArray.getError();
-    float output = pidLine.update(error, dt);  //kp,ki,kd need test after td2
-    float multiplier = 1.0f - (output);
+    float pidOutput = pidLine.update(error, dt);  //kp,ki,kd need test after td2
+    float multiplier = 1.0f - (pidOutput);
     
     leftWheel.setSpeed(basespeed * multiplier);
     rightWheel.setSpeed(basespeed);
-
+    //For Debugging
+    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier,sensorValues);
 }
 
 

@@ -35,6 +35,10 @@ float SensorArray::getError() {
     }
 }
 
+float* SensorArray::getValues() {
+    return sensorvalues; 
+}
+
 // Start the ticker to sample at a fixed interval
 void SensorArray::startTicker(float period) {
     sampleTicker.attach(callback(this, &SensorArray::sample), period);

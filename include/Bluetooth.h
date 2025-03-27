@@ -71,7 +71,7 @@ public:
      * @param pidOutput PID controller output value.
      * @param multiplier Control multiplier applied.
      */
-    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier);
+    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier,float* sensorValues = NULL);
 
     /**
      * @brief Resets the debug data buffer.
@@ -165,6 +165,7 @@ private:
         float error; ///< Positional error value.
         float pid_output; ///< PID controller output.
         float multiplier; ///< Applied control multiplier.
+        float sensor_values[6]; ///< Array to store sensor values.
     };
 
     #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  ///< Half of available RAM allocated for debugging.
