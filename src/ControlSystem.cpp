@@ -362,6 +362,12 @@ void ControlSystem::processFollowLine(float dt) {
 
 
     float error = sensorArray.getError();
+
+    if (error>=900){
+        stopWheels();
+        movementCompleted = true;
+        state = IDLE;
+    };
     float pidOutput = pidLine.update(error, dt);  //kp,ki,kd need test after td2
     float multiplier = 1.0f - (pidOutput);
     
