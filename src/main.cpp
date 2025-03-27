@@ -83,6 +83,7 @@ void updateLCD() {
 
 Ticker controlticker;
 Ticker sensorTicker;
+Ticker motorTicker;
 
 bool square_flag = false;
 
@@ -134,6 +135,17 @@ int main() {
             case sensor_debug:
                 lcd.locate(0, 0);
                 lcd.printf("Sensor Debug Mode");
+                break;
+
+            case motor_debug_menu:
+                wait(1);
+                bluetooth.resetDebugData();
+                switchToMotorDebug(buggyMode,motorTicker,control);
+                break;
+
+            case motor_debug:
+                lcd.locate(0, 0);
+                lcd.printf("Motor Debug Mode");
                 break;
 
             case square_idle_mode:
@@ -198,16 +210,18 @@ int main() {
                 if ((square_flag && control.isSquareComplete()) || (!square_flag && control.isMovementComplete())) {
                     controlticker.detach();
                     sensorTicker.detach();
+                    motorTicker.detach();
                     bluetooth.sendMovementFinished();
                     bluetooth.sendDebugData();
-                    stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,square_flag);
+                    stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
                 }
             break;
 
             case reset:
                 controlticker.detach();
                 sensorTicker.detach();
-                stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,square_flag);
+                motorTicker.detach();
+                stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
                 break;
         }
     }

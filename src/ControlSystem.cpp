@@ -455,3 +455,8 @@ void ControlSystem::resetEncoders(){
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
 }
+
+void ControlSystem::regulateWheelSpeed(){
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeed();
+}

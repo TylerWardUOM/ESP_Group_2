@@ -13,6 +13,8 @@ const char* getModeName(BuggyMode mode) {
         case bang_bang_proportional_menu_mode: return "BANG_PROPORTIONAL_MENU";
         case sensor_debug: return "SENSOR_DEBUG";
         case sensor_debug_menu: return "SENSOR_DEBUG";
+        case motor_debug: return "MOTOR_DEBUG";
+        case motor_debug_menu: return "MOTOR_DEBUG";
         case waiting_for_movement: return "WAITING_FOR_MOVEMENT";
         case reset: return "IDLE";
         default: return "UNKNOWN_MODE";
