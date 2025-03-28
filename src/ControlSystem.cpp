@@ -412,6 +412,8 @@ void ControlSystem::processBangBang() {
     } 
     else {
         // Drive straight
+        //Could Add A multiplier for long straights to increase speed
+        //Use a Straight count to trigger it eg if straightCount>1000 
         leftWheel.setSpeed(basespeed);
         rightWheel.setSpeed(basespeed);
     }
