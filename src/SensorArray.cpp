@@ -9,40 +9,49 @@ SensorArray::SensorArray(Sensor** _sensors, Bluetooth &bt): _bt(bt) {
 }
 
 
-// Calibrate sensor array by reading values over black surface
+// Calibrate sensor array by reading values over the white surface
 void SensorArray::calibrate() {
     float sum[6] = {0};
+    float maxReading[6] = {0};  // To store the maximum value for each sensor
     int samples = 100;  // Number of samples for calibration
 
+    // Take multiple samples and determine the max reading for each sensor
     for (int j = 0; j < samples; j++) {
         for (int i = 0; i < 6; i++) {
-            sum[i] += sensors[i]->GetValue();
+            float val = sensors[i]->GetValue();
+            sum[i] += val;
+            if (val > maxReading[i]) {
+                maxReading[i] = val;  // Track the maximum value
+            }
         }
         wait(0.01);  // Small delay to allow readings to stabilize
     }
 
+    // Normalize the sensor values based on the maximum readings (calibrate over the white line)
     for (int i = 0; i < 6; i++) {
-        calibratedValues[i] = sum[i] / samples;  // Store average as calibration value
+        calibratedValues[i] = maxReading[i];  // Store max value as calibration value
     }
 }
 
-// Sample analog values from sensors
+// Sample analog values from sensors (after calibration)
 void SensorArray::sample() {
     for (int i = 0; i < 6; i++) {
-        float val = sensors[i]->GetValue();  
-        sensorvalues[i] = val - calibratedValues[i];
-        digitalStates[i] = val > 0.4; // Inline digitalization
+        float val = sensors[i]->GetValue();
+        sensorvalues[i] = (val / calibratedValues[i]);  // Normalize each sensor's value
+        digitalStates[i] = sensorvalues[i] > 0.4; // Inline digitalization (thresholding)
     }
 }
+
 
 // Compute error value (relative position of line)
 float SensorArray::getError() {
-    static const int weightings[6] = {-3, -2, -1, 1, 2, 3}; 
-    int error = 0, activeCount = 0;
+    static const float weightings[6] = {-3.0, -2.0, -1.0, 1.0, 2.0, 3.0}; 
+    float error = 0;
+    int activeCount = 0;
 
     for (int i = 0; i < 6; i++) {
+        error += (weightings[i]*sensorvalues[i]);
         if (digitalStates[i]) {
-            error += weightings[i];
             activeCount++;
         }
     }
@@ -50,7 +59,7 @@ float SensorArray::getError() {
     if (activeCount == 0) {
         return 999.0f; // Special value indicating no line detected
     } else {
-        return (float)error / activeCount;
+        return error;
     }
 }
 
