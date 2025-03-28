@@ -83,6 +83,17 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
     buggyMode = waiting_for_movement;
 }
 
+//Function to switch the buggy to turn around 180
+void switchToTurnAround(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, TurnAngleParams& params){
+    //Set Relevant PID Parameters
+    control.setModePIDParameters(NULL,NULL,&params,NULL);
+    //Begin Control
+    control.turn(180,params.speed);
+    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
+    //Update Mode state
+    buggyMode = waiting_for_movement;
+}
+
 //Function to switch the buggy to turn mode
 void switchToFollowMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, FollowParams& params){
     //Set Relevant PID Parameters
@@ -118,6 +129,7 @@ void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, 
     //Set buggy mode
     buggyMode = idle_mode;
     //Detach control ticker
+    control.stopWheels();
     controlticker.detach();
     sensorTicker.detach();
     motorTicker.detach();

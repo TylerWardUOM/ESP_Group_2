@@ -27,9 +27,6 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode &mode,
 
 //Process Recived Commands
 void Bluetooth::processCommand() {
-    if (_currentMode == waiting_for_movement) {
-        return;
-    }
 
     while (tail != head) {
         char c = rx_buffer[tail];
@@ -208,6 +205,12 @@ void Bluetooth::handleCommand(const char *cmd) {
         updateParameter(cmd + 6);   // Update a parameter dynamically
     }else if (strncmp(cmd, "SET_SPEED:", 10) == 0) {
         updateSpeed(cmd + 10);   // Update a parameter dynamically
+    }else if (strcmp(cmd, "STOP") == 0) {
+        _currentMode = reset;
+        _serial.printf("MODE_CHANGED:IDLE\n");
+    }else if (strcmp(cmd, "TURN_AROUND") == 0) {
+        _currentMode = turn_around;
+        _serial.printf("TURNING_AROUND\n");
     }
 }
 

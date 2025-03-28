@@ -86,7 +86,7 @@ Ticker sensorTicker;
 Ticker motorTicker;
 
 bool square_flag = false;
-
+bool turn_around_flag = false;
 
 int main() {
     lcdUpdateTicker.attach(&updateLCD, 0.7);
@@ -95,6 +95,7 @@ int main() {
     float speedRawR;
     float desiredSpeedL;
     float desiredSpeedR;
+    mode_t previousMode = buggyMode;  // Store previous mode
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
@@ -189,6 +190,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Follow Menu Mode");
                 if (bluetooth.shouldStart()){
+                    previousMode=buggyMode;
                     switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,followParams);
                     break;
                 }
@@ -198,6 +200,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Bang Bang Menu Mode");
                 if (bluetooth.shouldStart()){
+                    previousMode=buggyMode;
                     switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
                     break;
                 }
@@ -207,22 +210,38 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Bang Bang KP Menu Mode");
                 if (bluetooth.shouldStart()){
+                    previousMode=buggyMode;
                     switchToBangBangProportionalMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangproportionalParams);
                     break;
                 }
                 break;
+
+            case turn_around:
+                controlticker.detach();
+                sensorTicker.detach();
+                motorTicker.detach();
+                control.stopWheels();
+                turn_around_flag=true;
+                switchToTurnAround(control,buggyMode,controlticker,turnangleParams);
 
             case waiting_for_movement:
                 lcd.locate(0, 0);
                 lcd.printf("Waiting for Movement");
 
                 if ((square_flag && control.isSquareComplete()) || (!square_flag && control.isMovementComplete())) {
-                    controlticker.detach();
-                    sensorTicker.detach();
-                    motorTicker.detach();
-                    bluetooth.sendMovementFinished();
-                    bluetooth.sendDebugData();
-                    stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
+                    if (turn_around_flag){
+                        if (previousMode==follow_menu_mode){
+                            switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,followParams);
+                        }
+                    }else{
+                        controlticker.detach();
+                        sensorTicker.detach();
+                        motorTicker.detach();
+                        bluetooth.sendMovementFinished();
+                        bluetooth.sendDebugData();
+                        stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
+                    }
+                    turn_around_flag=false;
                 }
             break;
 
