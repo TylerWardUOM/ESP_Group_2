@@ -189,7 +189,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Follow Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToFollowMode(control,buggyMode,controlticker, followParams);
+                    switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,followParams);
                     break;
                 }
                 break;

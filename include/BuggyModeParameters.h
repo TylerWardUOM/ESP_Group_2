@@ -49,6 +49,8 @@ struct FollowParams {
     float pid_kd;
     float pid_scaling;
     float speed;
+    float sensorSamplePeriod;   // Sampling period for sensors
+    float controlPeriod;        // Control loop execution period
 
     // Constructor
     FollowParams();

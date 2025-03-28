@@ -77,6 +77,8 @@ void Bluetooth::sendAvailableParameters() {
                            _flParams.pid_kp, _flParams.pid_ki, _flParams.pid_kd);
             _serial.printf("pid_scaling=%.2f\n", _flParams.pid_scaling);
             _serial.printf("speed=%.2f\n", _taParams.speed);
+            _serial.printf("sensorSamplePeriod=%.2f\n", _flParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.2f\n", _flParams.controlPeriod);
             break;
 
         case bang_bang_menu_mode:
@@ -249,6 +251,8 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "kd") == 0) _flParams.pid_kd = value;
                 else if (strcmp(key, "pid_scaling") == 0) _flParams.pid_scaling = value;
                 else if (strcmp(key, "speed") == 0) _flParams.speed = value;
+                else if (strcmp(key, "sensorSamplePeriod") == 0) _flParams.sensorSamplePeriod = value;
+                else if (strcmp(key, "controlPeriod") == 0) _flParams.controlPeriod = value;
                 break;
 
             case bang_bang_menu_mode:
