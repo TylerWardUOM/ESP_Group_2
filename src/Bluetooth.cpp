@@ -41,63 +41,63 @@ void Bluetooth::sendAvailableParameters() {
 
     switch (_currentMode) {
         case square_idle_mode:
-            _serial.printf("forward_kp=%.2f, forward_ki=%.2f, forward_kd=%.2f\n",
+            _serial.printf("forward_kp=%.4f, forward_ki=%.4f, forward_kd=%.4f\n",
                            _sqParams.forward_pid_kp, _sqParams.forward_pid_ki, _sqParams.forward_pid_kd);
-            _serial.printf("turn_kp=%.2f, turn_ki=%.2f, turn_kd=%.2f\n",
+            _serial.printf("turn_kp=%.4f, turn_ki=%.4f, turn_kd=%.4f\n",
                            _sqParams.turn_pid_kp, _sqParams.turn_pid_ki, _sqParams.turn_pid_kd);
-            _serial.printf("scaling_forward=%.2f, scaling_turn=%.2f\n",
+            _serial.printf("scaling_forward=%.4f, scaling_turn=%.4f\n",
                            _sqParams.scaling_forward, _sqParams.scaling_turn);
-            _serial.printf("left_turn_multiplier=%.2f, right_turn_multiplier=%.2f\n",
+            _serial.printf("left_turn_multiplier=%.4f, right_turn_multiplier=%.4f\n",
                            _sqParams.left_turn_multiplier, _sqParams.right_turn_multiplier);
-            _serial.printf("distance=%.2f\n", _sqParams.distance);
+            _serial.printf("distance=%.4f\n", _sqParams.distance);
             break;
 
         case line_menu_mode:
-            _serial.printf("forward_kp=%.2f, forward_ki=%.2f, forward_kd=%.2f\n",
+            _serial.printf("forward_kp=%.4f, forward_ki=%.4f, forward_kd=%.4f\n",
                            _slParams.forward_pid_kp, _slParams.forward_pid_ki, _slParams.forward_pid_kd);
-            _serial.printf("scaling_forward=%.2f\n", _slParams.scaling_forward);
-            _serial.printf("speed=%.2f\n", _slParams.speed);
-            _serial.printf("distance=%.2f\n", _slParams.distance);
+            _serial.printf("scaling_forward=%.4f\n", _slParams.scaling_forward);
+            _serial.printf("speed=%.4f\n", _slParams.speed);
+            _serial.printf("distance=%.4f\n", _slParams.distance);
             break;
 
         case turn_menu_mode:
-            _serial.printf("turn_kp=%.2f, turn_ki=%.2f, turn_kd=%.2f\n",
+            _serial.printf("turn_kp=%.4f, turn_ki=%.4f, turn_kd=%.4f\n",
                            _taParams.turn_pid_kp, _taParams.turn_pid_ki, _taParams.turn_pid_kd);
-            _serial.printf("scaling_turn=%.2f\n", _taParams.scaling_turn);
-            _serial.printf("speed=%.2f\n", _taParams.speed);
-            _serial.printf("angle=%.2f\n", _taParams.angle);
+            _serial.printf("scaling_turn=%.4f\n", _taParams.scaling_turn);
+            _serial.printf("speed=%.4f\n", _taParams.speed);
+            _serial.printf("angle=%.4f\n", _taParams.angle);
             break;
 
         
         case follow_menu_mode:
-            _serial.printf("kp=%.2f, ki=%.2f, kd=%.2f\n",
+            _serial.printf("kp=%.4f, ki=%.4f, kd=%.4f\n",
                            _flParams.pid_kp, _flParams.pid_ki, _flParams.pid_kd);
-            _serial.printf("pid_scaling=%.2f\n", _flParams.pid_scaling);
-            _serial.printf("speed=%.2f\n", _flParams.speed);
-            _serial.printf("sensorSamplePeriod=%.2f\n", _flParams.sensorSamplePeriod);
-            _serial.printf("controlPeriod=%.2f\n", _flParams.controlPeriod);
-            _serial.printf("motorRegulatePeriod=%.2f\n", _flParams.motorRegulatePeriod);
-            _serial.printf("motorKp=%.2f\n", _flParams.motor_Kp);
+            _serial.printf("pid_scaling=%.4f\n", _flParams.pid_scaling);
+            _serial.printf("speed=%.4f\n", _flParams.speed);
+            _serial.printf("sensorSamplePeriod=%.4f\n", _flParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.4f\n", _flParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.4f\n", _flParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.4f\n", _flParams.motor_Kp);
             break;
 
         case bang_bang_menu_mode:
-            _serial.printf("baseSpeed=%.2f\n", _bbParams.baseSpeed);
-            _serial.printf("turnSpeedMultiplier=%.2f\n", _bbParams.turnSpeedMultiplier);
-            _serial.printf("sensorSamplePeriod=%.2f\n", _bbParams.sensorSamplePeriod);
-            _serial.printf("controlPeriod=%.2f\n", _bbParams.controlPeriod);
-            _serial.printf("motorRegulatePeriod=%.2f\n", _bbParams.motorRegulatePeriod);
-            _serial.printf("motorKp=%.2f\n", _bbParams.motor_Kp);
+            _serial.printf("baseSpeed=%.4f\n", _bbParams.baseSpeed);
+            _serial.printf("turnSpeedMultiplier=%.4f\n", _bbParams.turnSpeedMultiplier);
+            _serial.printf("sensorSamplePeriod=%.4f\n", _bbParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.4f\n", _bbParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.4f\n", _bbParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.4f\n", _bbParams.motor_Kp);
             break;
 
         case bang_bang_proportional_menu_mode:
-            _serial.printf("baseSpeed=%.2f\n", _bbpParams.baseSpeed);
-            _serial.printf("kP=%.2f\n", _bbpParams.kP);
-            _serial.printf("maxMultiplier=%.2f\n", _bbpParams.maxMultiplier);
-            _serial.printf("bangBangThreshold=%.2f\n", _bbpParams.bangBangThreshold);
-            _serial.printf("sensorSamplePeriod=%.2f\n", _bbpParams.sensorSamplePeriod);
-            _serial.printf("controlPeriod=%.2f\n", _bbpParams.controlPeriod);
-            _serial.printf("motorRegulatePeriod=%.2f\n", _bbpParams.motorRegulatePeriod);
-            _serial.printf("motorKp=%.2f\n", _bbpParams.motor_Kp);
+            _serial.printf("baseSpeed=%.4f\n", _bbpParams.baseSpeed);
+            _serial.printf("kP=%.4f\n", _bbpParams.kP);
+            _serial.printf("maxMultiplier=%.4f\n", _bbpParams.maxMultiplier);
+            _serial.printf("bangBangThreshold=%.4f\n", _bbpParams.bangBangThreshold);
+            _serial.printf("sensorSamplePeriod=%.4f\n", _bbpParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.4f\n", _bbpParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.4f\n", _bbpParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.4f\n", _bbpParams.motor_Kp);
             break;
 
 
@@ -287,7 +287,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 break;
 
         }
-        _serial.printf("Updated: %s = %.2f\n", key, value);
+        _serial.printf("Updated: %s = %.4f\n", key, value);
     }
 }
 
@@ -377,11 +377,11 @@ void Bluetooth::printLiveSensorData(float sensorValues[], int numSensors, float 
     _serial.printf("%lu ", timeElapsed);
     // Print sensor values
     for (int i = 0; i < numSensors; i++) {
-        _serial.printf("%.2f ", sensorValues[i]);
+        _serial.printf("%.4f ", sensorValues[i]);
     }
 
     // Print error value
-    _serial.printf("| ERROR: %.2f\n", error);
+    _serial.printf("| ERROR: %.4f\n", error);
 };
 
 void Bluetooth::printMotorDebugData(float leftSpeed, float rightSpeed) {
@@ -391,8 +391,8 @@ void Bluetooth::printMotorDebugData(float leftSpeed, float rightSpeed) {
     // Print motor debug data
     _serial.printf("MOTOR DATA: ");
     _serial.printf("%lu ", timeElapsed);
-    _serial.printf("| Left Speed: %.2f ", leftSpeed);
-    _serial.printf("| Right Speed: %.2f\n", rightSpeed);
+    _serial.printf("| Left Speed: %.4f ", leftSpeed);
+    _serial.printf("| Right Speed: %.4f\n", rightSpeed);
 }
 
 
@@ -423,10 +423,10 @@ void Bluetooth::updateSpeed(const char* speedStr) {
         // Check if the key is "left" or "right" and set the corresponding desired speed
         if (strcmp(key, "left") == 0) {
             desiredSpeedL = value;  // Set desired left speed
-           _serial.printf("Desired left Speed set to: %.2f\n", desiredSpeedL);
+           _serial.printf("Desired left Speed set to: %.4f\n", desiredSpeedL);
         } else if (strcmp(key, "right") == 0) {
             desiredSpeedR = value;  // Set desired right speed
-            _serial.printf("Desired right Speed set to: %.2f\n", desiredSpeedR);
+            _serial.printf("Desired right Speed set to: %.4f\n", desiredSpeedR);
         } else {
             _serial.printf("Invalid speed parameter: %s\n", key);
         }
