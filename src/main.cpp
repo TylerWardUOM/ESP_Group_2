@@ -189,7 +189,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Follow Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,followParams);
+                    switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,followParams);
                     break;
                 }
                 break;
@@ -198,7 +198,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Bang Bang Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,bangbangParams);
+                    switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
                     break;
                 }
                 break;
@@ -207,7 +207,7 @@ int main() {
                 lcd.locate(0, 0);
                 lcd.printf("Bang Bang KP Menu Mode");
                 if (bluetooth.shouldStart()){
-                    switchToBangBangProportionalMode(control,sensorArray,buggyMode,controlticker,sensorTicker,bangbangproportionalParams);
+                    switchToBangBangProportionalMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangproportionalParams);
                     break;
                 }
                 break;

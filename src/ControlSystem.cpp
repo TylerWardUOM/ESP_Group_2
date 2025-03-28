@@ -476,3 +476,8 @@ void ControlSystem::debugRegulateWheelSpeed(){
     }
     counter++;
 }
+
+void ControlSystem::setWheelKp(float wheelKp){
+    leftWheel.setKp(wheelKp);
+    rightWheel.setKp(wheelKp);
+}

@@ -84,27 +84,33 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
 }
 
 //Function to switch the buggy to turn mode
-void switchToFollowMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, FollowParams& params){
+void switchToFollowMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, FollowParams& params){
     //Set Relevant PID Parameters
+    control.setWheelKp(params.motor_Kp);
     control.setModePIDParameters(NULL,NULL,NULL,&params);
     //Begin Control
     control.follow(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
+    motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), params.motorRegulatePeriod);
     //Update Mode state
     buggyMode = waiting_for_movement;
 }
 
-void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangParams& params){
+void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangParams& params){
+    control.setWheelKp(params.motor_Kp);    
     control.setBangBangMode(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
+    motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), params.motorRegulatePeriod);
     buggyMode = waiting_for_movement;
 }
-void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangProportionalParams& params){
+void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangProportionalParams& params){
+    control.setWheelKp(params.motor_Kp);
     control.setBangBangProportionalMode(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
+    motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), params.motorRegulatePeriod);
     buggyMode = waiting_for_movement;
 }
 

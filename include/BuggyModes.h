@@ -25,12 +25,12 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
 void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker,Ticker& sensorTicker,Ticker& motorTicker, bool& square_flag);
 //Switch To Follow Mode Menu
 void switchToFollowMenuMode(BuggyMode& buggyMode);
-void switchToFollowMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, FollowParams& params);
+void switchToFollowMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, FollowParams& params);
 
 void switchToBangBangMenuMode(BuggyMode& buggyMode);
-void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangParams& params);
+void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangParams& params);
 
 void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode);
-void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangProportionalParams& params);
+void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangProportionalParams& params);
 
 #endif // BUGGY_MODES_H

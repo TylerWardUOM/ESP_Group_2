@@ -16,6 +16,7 @@ public:
     void stopRegulation();
     void enableMotor();
     void disableMotor();
+    void setKp(float kp);
     void stop();
     Motor motor;
     Encoder encoder;
@@ -23,6 +24,7 @@ public:
 private:
     int target_rpm;
     int max_rpm;
+    float Kp;
     Ticker ticker;
 };
 

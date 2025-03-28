@@ -76,9 +76,11 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("kp=%.2f, ki=%.2f, kd=%.2f\n",
                            _flParams.pid_kp, _flParams.pid_ki, _flParams.pid_kd);
             _serial.printf("pid_scaling=%.2f\n", _flParams.pid_scaling);
-            _serial.printf("speed=%.2f\n", _taParams.speed);
+            _serial.printf("speed=%.2f\n", _flParams.speed);
             _serial.printf("sensorSamplePeriod=%.2f\n", _flParams.sensorSamplePeriod);
             _serial.printf("controlPeriod=%.2f\n", _flParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.2f\n", _flParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.2f\n", _flParams.motor_Kp);
             break;
 
         case bang_bang_menu_mode:
@@ -86,6 +88,8 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("turnSpeedMultiplier=%.2f\n", _bbParams.turnSpeedMultiplier);
             _serial.printf("sensorSamplePeriod=%.2f\n", _bbParams.sensorSamplePeriod);
             _serial.printf("controlPeriod=%.2f\n", _bbParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.2f\n", _bbParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.2f\n", _bbParams.motor_Kp);
             break;
 
         case bang_bang_proportional_menu_mode:
@@ -95,6 +99,8 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("bangBangThreshold=%.2f\n", _bbpParams.bangBangThreshold);
             _serial.printf("sensorSamplePeriod=%.2f\n", _bbpParams.sensorSamplePeriod);
             _serial.printf("controlPeriod=%.2f\n", _bbpParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.2f\n", _bbpParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.2f\n", _bbpParams.motor_Kp);
             break;
 
 
@@ -253,6 +259,8 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "speed") == 0) _flParams.speed = value;
                 else if (strcmp(key, "sensorSamplePeriod") == 0) _flParams.sensorSamplePeriod = value;
                 else if (strcmp(key, "controlPeriod") == 0) _flParams.controlPeriod = value;
+                else if (strcmp(key, "motorRegulatePeriod") == 0) _flParams.motorRegulatePeriod = value;
+                else if (strcmp(key, "motorKp") == 0) _flParams.motor_Kp = value;
                 break;
 
             case bang_bang_menu_mode:
@@ -260,6 +268,8 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "turnSpeedMultiplier") == 0) _bbParams.turnSpeedMultiplier = value;
                 else if (strcmp(key, "sensorSamplePeriod") == 0) _bbParams.sensorSamplePeriod = value;
                 else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
+                else if (strcmp(key, "motorRegulatePeriod") == 0) _bbParams.motorRegulatePeriod = value;
+                else if (strcmp(key, "motorKp") == 0) _bbParams.motor_Kp = value;
                 break;
 
             case bang_bang_proportional_menu_mode:
@@ -269,6 +279,8 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "bangBangThreshold") == 0) _bbpParams.bangBangThreshold = value;
                 else if (strcmp(key, "sensorSamplePeriod") == 0) _bbpParams.sensorSamplePeriod = value;
                 else if (strcmp(key, "controlPeriod") == 0) _bbpParams.controlPeriod = value;
+                else if (strcmp(key, "motorRegulatePeriod") == 0) _bbpParams.motorRegulatePeriod = value;
+                else if (strcmp(key, "motorKp") == 0) _bbpParams.motor_Kp = value;
                 break;
 
         }
