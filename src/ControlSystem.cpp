@@ -398,11 +398,11 @@ void ControlSystem::processBangBang() {
     if (error > 0) {
         // Turn right sharply
         leftWheel.setSpeed(basespeed);
-        rightWheel.setSpeed(basespeed * 0.5);  // Slow down right wheel
+        rightWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down right wheel
     } 
     else if (error < 0) {
         // Turn left sharply
-        leftWheel.setSpeed(basespeed * 0.5);  // Slow down left wheel
+        leftWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down left wheel
         rightWheel.setSpeed(basespeed);
     } 
     else {
