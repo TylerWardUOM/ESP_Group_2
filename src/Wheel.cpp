@@ -28,7 +28,7 @@ void Wheel::regulateSpeed() {
     float actual_rpm = encoder.getSpeed();
     float error = target_rpm - actual_rpm;
 
-    float adjustment = error * 0.1f;  // Tuning factor
+    float adjustment = error * Kp;  // Tuning factor
     float newSpeed = (motor.getSpeed() + adjustment);
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;

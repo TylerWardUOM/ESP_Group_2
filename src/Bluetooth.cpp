@@ -27,9 +27,6 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode &mode,
 
 //Process Recived Commands
 void Bluetooth::processCommand() {
-    if (_currentMode == waiting_for_movement) {
-        return;
-    }
 
     while (tail != head) {
         char c = rx_buffer[tail];
@@ -208,6 +205,12 @@ void Bluetooth::handleCommand(const char *cmd) {
         updateParameter(cmd + 6);   // Update a parameter dynamically
     }else if (strncmp(cmd, "SET_SPEED:", 10) == 0) {
         updateSpeed(cmd + 10);   // Update a parameter dynamically
+    }else if (strcmp(cmd, "STOP") == 0) {
+        _currentMode = reset;
+        _serial.printf("MODE_CHANGED:IDLE\n");
+    }else if (strcmp(cmd, "TURN_AROUND") == 0) {
+        _currentMode = turn_around;
+        _serial.printf("TURNING_AROUND\n");
     }
 }
 
@@ -393,20 +396,20 @@ void Bluetooth::printMotorDebugData(float leftSpeed, float rightSpeed) {
 }
 
 
-int Bluetooth::SpeedRequestLeft(){
-    int output = 5000;
-    if (desiredSpeedR!=5000){
+float Bluetooth::SpeedRequestLeft(){
+    float output = 5000.00;
+    if (desiredSpeedL!=5000.00){
         output = desiredSpeedL;
-        desiredSpeedR = 5000; //5000 acting as null value
+        desiredSpeedL = 5000.00; //5000 acting as null value
     }
     return output;
 }
 
-int Bluetooth::SpeedRequestRight(){
-    int output = 5000;
-    if (desiredSpeedR!=5000){
+float Bluetooth::SpeedRequestRight(){
+    float output = 5000.00;
+    if (desiredSpeedR!=5000.00){
         output = desiredSpeedR;
-        desiredSpeedR = 5000; //5000 acting as null value
+        desiredSpeedR = 5000.00; //5000 acting as null value
     }
     return output;
 }

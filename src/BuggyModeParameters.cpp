@@ -14,7 +14,7 @@ StraightLineParams::StraightLineParams()
 
 TurnAngleParams::TurnAngleParams()
     : turn_pid_kp(2.3), turn_pid_ki(0.6), turn_pid_kd(0.00),
-      scaling_turn(2.2), speed(0.0), angle(0.0) {}
+      scaling_turn(2.2), speed(150), angle(0.0) {}
 
 FollowParams::FollowParams()
     : pid_kp(2.3), pid_ki(0.6), pid_kd(0.00),

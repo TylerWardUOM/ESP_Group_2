@@ -23,6 +23,7 @@ public:
     bool isMovementComplete();
     bool isSquareComplete();
     void disableWheels();
+    void enableWheels();
     void stopWheels();
     void setWheelKp(float wheelKp);
     void regulateWheelSpeed();
@@ -69,7 +70,6 @@ private:
     void processTurning(float dt);
     void processSquare();
     float constrain(float value, float minVal, float maxVal);
-    void enableWheels();
     void processFollowLine(float dt);
     void processBangBangProportional();
     void processBangBang();
