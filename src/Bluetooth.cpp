@@ -396,20 +396,20 @@ void Bluetooth::printMotorDebugData(float leftSpeed, float rightSpeed) {
 }
 
 
-int Bluetooth::SpeedRequestLeft(){
-    int output = 5000;
-    if (desiredSpeedR!=5000){
+float Bluetooth::SpeedRequestLeft(){
+    float output = 5000.00;
+    if (desiredSpeedL!=5000.00){
         output = desiredSpeedL;
-        desiredSpeedR = 5000; //5000 acting as null value
+        desiredSpeedL = 5000.00; //5000 acting as null value
     }
     return output;
 }
 
-int Bluetooth::SpeedRequestRight(){
-    int output = 5000;
-    if (desiredSpeedR!=5000){
+float Bluetooth::SpeedRequestRight(){
+    float output = 5000.00;
+    if (desiredSpeedR!=5000.00){
         output = desiredSpeedR;
-        desiredSpeedR = 5000; //5000 acting as null value
+        desiredSpeedR = 5000.00; //5000 acting as null value
     }
     return output;
 }

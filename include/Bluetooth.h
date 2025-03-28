@@ -113,8 +113,8 @@ public:
      * @brief Returns desired motor speeds
      * 
      */
-    int SpeedRequestLeft();
-    int SpeedRequestRight();
+    float SpeedRequestLeft();
+    float SpeedRequestRight();
 
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.

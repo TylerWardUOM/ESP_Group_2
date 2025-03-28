@@ -14,7 +14,7 @@
 //if not going correct distance adjust wheel_diameter
 #define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
-#define MAX_RPM 300
+#define MAX_RPM 500
 
 //Constants for Buggy
 //If not turning to set angle adjust track width
@@ -34,8 +34,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-//Serial btSerial(PA_11,PA_12);
-Serial btSerial(USBTX,USBRX);
+Serial btSerial(PA_11,PA_12);
+//Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -142,6 +142,7 @@ int main() {
             case motor_debug_menu:
                 wait(1);
                 bluetooth.resetDebugData();
+                control.enableWheels();
                 switchToMotorDebug(buggyMode,motorTicker,control);
                 break;
 
@@ -149,10 +150,11 @@ int main() {
                 lcd.locate(0, 0);
                 desiredSpeedL=bluetooth.SpeedRequestLeft();
                 desiredSpeedR=bluetooth.SpeedRequestRight();
-                if (desiredSpeedL!=5000){
+                if (desiredSpeedL!=5000.00){
                     leftWheel.setSpeed(desiredSpeedL);
+                    bluetooth.printDebugData("%f\n",(desiredSpeedL));
                 }
-                if (desiredSpeedR!=5000){
+                if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
                 }
                 lcd.printf("Motor Debug Mode");
@@ -232,6 +234,10 @@ int main() {
                     if (turn_around_flag){
                         if (previousMode==follow_menu_mode){
                             switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,followParams);
+                        }else if(previousMode==bang_bang_menu_mode){
+                            switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
+                        }else if(previousMode==bang_bang_proportional_menu_mode){
+                            switchToBangBangProportionalMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangproportionalParams);
                         }
                     }else{
                         controlticker.detach();

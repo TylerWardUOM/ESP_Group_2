@@ -55,6 +55,8 @@ void ControlSystem::turn(float angle, float speed) {
     }}
 
 void ControlSystem::follow(const FollowParams& params) {
+    enableWheels();
+    resetEncoders();
     basespeed = params.speed;
     state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
     movementCompleted = false;
@@ -99,6 +101,7 @@ void ControlSystem::setBangBangMode(const BangBangParams& params) {
 
     // Set control state
     state = BANG_BANG;
+    movementCompleted = false;
 
     // Reset encoders (if needed for tracking)
     resetEncoders();
@@ -117,6 +120,7 @@ void ControlSystem::setBangBangProportionalMode(const BangBangProportionalParams
 
     // Set control state
     state = BANG_BANG_PROPORTIONAL;
+    movementCompleted = false;
 
     // Reset encoders (if needed for tracking)
     resetEncoders();
@@ -449,7 +453,6 @@ void ControlSystem::stopWheels() {
 
 void ControlSystem::enableWheels(){
     leftWheel.enableMotor();
-    rightWheel.enableMotor();
 }
 void ControlSystem::disableWheels(){
     leftWheel.disableMotor();
@@ -462,15 +465,15 @@ void ControlSystem::resetEncoders(){
 }
 
 void ControlSystem::regulateWheelSpeed(){
-    leftWheel.regulateSpeed();
-    rightWheel.regulateSpeed();
+    //leftWheel.regulateSpeed();
+    //rightWheel.regulateSpeed();
 }
 
 void ControlSystem::debugRegulateWheelSpeed(){
     static int counter = 0;
-    leftWheel.regulateSpeed();
-    rightWheel.regulateSpeed();
-    if (counter==9){
+    //leftWheel.regulateSpeed();
+    //rightWheel.regulateSpeed();
+    if (counter==150){
         bluetooth.printMotorDebugData(leftWheel.encoder.getSpeed(),rightWheel.encoder.getSpeed());
         counter=0;
     }
