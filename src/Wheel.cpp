@@ -4,7 +4,7 @@ Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinN
              PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm) 
     : motor(motorBipolar, motorMultiplier, motorPwm, motorEnable), 
       encoder(encoderA, encoderB, wheelDiameter, encoderResolution),
-      target_rpm(0), max_rpm(maxRpm) {}
+      target_rpm(0), max_rpm(maxRpm), Kp(0.0) {}
 
 void Wheel::setSpeed(int rpm) {
     if (rpm > max_rpm) rpm = max_rpm;
@@ -18,6 +18,10 @@ void Wheel::setSpeed(int rpm) {
     //printf("normalized speed = %.2f\n", normalizedSpeed);
 
     motor.setSpeed(normalizedSpeed);
+}
+
+void Wheel::setKp(float newKp){
+    Kp=newKp;
 }
 
 void Wheel::regulateSpeed() {
