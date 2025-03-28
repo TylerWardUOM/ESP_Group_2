@@ -389,18 +389,22 @@ void ControlSystem::processFollowLine(float dt) {
 
 void ControlSystem::processBangBang() {
     float error = sensorArray.getError();  // Get error from sensor array
+    static int lostCount = 0;
     if (error>=900){
-        stopWheels();
-        movementCompleted = true;
-        state = IDLE;
-    }
-
-    if (error > 0) {
+        if (lostCount>1000){
+            stopWheels();
+            movementCompleted = true;
+            state = IDLE;
+            lostCount = 0;
+        }
+        lostCount++;
+    }else{
+    if (error > 0.6) {
         // Turn right sharply
         leftWheel.setSpeed(basespeed);
         rightWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down right wheel
     } 
-    else if (error < 0) {
+    else if (error < 0.6) {
         // Turn left sharply
         leftWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down left wheel
         rightWheel.setSpeed(basespeed);
@@ -409,6 +413,8 @@ void ControlSystem::processBangBang() {
         // Drive straight
         leftWheel.setSpeed(basespeed);
         rightWheel.setSpeed(basespeed);
+    }
+    lostCount=0;
     }
 }
 
