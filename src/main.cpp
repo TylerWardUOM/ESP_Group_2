@@ -58,11 +58,11 @@ SensorArray sensorArray(sensors, bluetooth);
 ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth, sensorArray);
 
 // Potentiometer Pins
-Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
-Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
+//Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
+//Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
 
 // LCD Pins
-C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
+//C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
 
 //
 // Function Prototypes
@@ -101,8 +101,6 @@ int main() {
         
         switch (buggyMode) {
             case idle_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Idle Mode");
                 control.stopWheels();
                 break;
 
@@ -110,17 +108,12 @@ int main() {
                 //LED.setGreen();
                 if (lcdUpdateRequired) {
                     leftWheel.enableMotor();
-                    lcd.cls();
-                    lcd.locate(25,8);
-                    lcd.printf("Speed Control Mode");
-                    lcd.locate(3, 17);
-                    lcd.printf("L=%.2frpm R=%.2frpm", leftWheel.encoder.getSpeed(), rightWheel.encoder.getSpeed());
                     lcdUpdateRequired = false;
                 }
-                potentiometerLeft.sample();
-                potentiometerRight.sample();
-                speedRawL = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM);
-                speedRawR = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
+                //potentiometerLeft.sample();
+                //potentiometerRight.sample();
+                //speedRawL = map(potentiometerLeft.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM);
+                //speedRawR = map(potentiometerRight.getCurrentSampleNorm()* 1000, 0, 1000, 0, MAX_RPM); // need to map speed
                 //Debug Prints
                 //printf("Lraw = %.2f Rraw = %.2f\n",speedRawL,speedRawR);
                 //printf("LCount = %f, Rcount = %f\n",leftWheel.encoder.getRevolutions(),rightWheel.encoder.getRevolutions());
@@ -143,8 +136,6 @@ int main() {
                 break;
 
             case sensor_debug:
-                lcd.locate(0, 0);
-                lcd.printf("Sensor Debug Mode");
                 break;
 
             case motor_debug_menu:
@@ -155,7 +146,6 @@ int main() {
                 break;
 
             case motor_debug:
-                lcd.locate(0, 0);
                 desiredSpeedL=bluetooth.SpeedRequestLeft();
                 desiredSpeedR=bluetooth.SpeedRequestRight();
                 if (desiredSpeedL!=5000.00){
@@ -165,12 +155,9 @@ int main() {
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
                 }
-                lcd.printf("Motor Debug Mode");
                 break;
 
             case square_idle_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Square Idle Mode");
                 if (bluetooth.shouldStart()){
                     switchToSquarePatternMode(control, buggyMode,controlticker,square_flag,squareParams);
                     break;
@@ -178,8 +165,6 @@ int main() {
                 break;
 
             case line_menu_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Line Menu Mode");
                 if (bluetooth.shouldStart()){
                     switchToLineMode(control,buggyMode,controlticker,straightlineParams);
                     break;
@@ -187,8 +172,6 @@ int main() {
                 break;
 
             case turn_menu_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Turn Menu Mode");
                 if (bluetooth.shouldStart()){
                     switchToTurnMode(control,buggyMode,controlticker, turnangleParams);
                     break;
@@ -197,8 +180,6 @@ int main() {
 
             
             case follow_menu_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Follow Menu Mode");
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
                     switchToFollowMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,followParams);
@@ -207,8 +188,6 @@ int main() {
                 break;
 
             case bang_bang_menu_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Bang Bang Menu Mode");
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
                     switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
@@ -217,8 +196,6 @@ int main() {
                 break;
 
             case bang_bang_proportional_menu_mode:
-                lcd.locate(0, 0);
-                lcd.printf("Bang Bang KP Menu Mode");
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
                     switchToBangBangProportionalMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangproportionalParams);
@@ -235,8 +212,6 @@ int main() {
                 switchToTurnAround(control,buggyMode,controlticker,turnangleParams);
 
             case waiting_for_movement:
-                lcd.locate(0, 0);
-                lcd.printf("Waiting for Movement");
 
                 if ((square_flag && control.isSquareComplete()) || (!square_flag && control.isMovementComplete())) {
                     if (turn_around_flag){
