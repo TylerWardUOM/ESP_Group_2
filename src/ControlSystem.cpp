@@ -391,7 +391,7 @@ void ControlSystem::processBangBang() {
     float error = sensorArray.getError();  // Get error from sensor array
     static int lostCount = 0;
     if (error>=900){
-        if (lostCount>1000){
+        if (lostCount>2500){ //Should Change Based off Control Interval or do a timer
             stopWheels();
             movementCompleted = true;
             state = IDLE;
