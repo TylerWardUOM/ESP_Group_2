@@ -14,6 +14,7 @@ void switchToSpeedControlMode(ControlSystem& control, BuggyMode& buggyMode);
 
 void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray& SensorArray);
 void switchToMotorDebug(BuggyMode& buggyMode, Ticker& motorTicker, ControlSystem& control);
+void switchToSensorCallibration(BuggyMode& buggyMode);
 
 
 void switchToSquareIdleMode(BuggyMode& buggyMode);
