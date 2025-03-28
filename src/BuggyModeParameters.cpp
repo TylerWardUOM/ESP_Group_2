@@ -18,7 +18,8 @@ TurnAngleParams::TurnAngleParams()
 
 FollowParams::FollowParams()
     : pid_kp(2.3), pid_ki(0.6), pid_kd(0.00),
-      pid_scaling(2.2), speed(0.0){}
+      pid_scaling(2.2), speed(0.0),
+      sensorSamplePeriod(0.01), controlPeriod(0.02){}
 
 BangBangParams::BangBangParams()
     : baseSpeed(1.0), turnSpeedMultiplier(0.5),

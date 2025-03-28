@@ -54,10 +54,11 @@ void ControlSystem::turn(float angle, float speed) {
         bluetooth.resetDebugData();
     }}
 
-void ControlSystem::follow(float speed) {
-    basespeed = speed;
+void ControlSystem::follow(const FollowParams& params) {
+    basespeed = params.speed;
     state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
     movementCompleted = false;
+    pidLine.reset();
 }
 
 void ControlSystem::moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier) {
@@ -149,6 +150,9 @@ void ControlSystem::update() {
             break;
         case IDLE:
             stopWheels();
+            pidTimer.stop();
+            pidTimer.reset(); 
+            timerStarted = false;
             break;
         case FOLLOW_LINE:
              processFollowLine(dt);
@@ -355,6 +359,7 @@ void ControlSystem::processSquare() {
 
 void ControlSystem::processFollowLine(float dt) {
     // Implement line following algorithm here
+    
     //for debugging
     float* sensorValues = sensorArray.getValues();  // Get pointer to array
     float leftDistance = fabs(leftWheel.encoder.getDistance());

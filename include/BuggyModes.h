@@ -25,7 +25,7 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
 void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker,Ticker& sensorTicker,Ticker& motorTicker, bool& square_flag);
 //Switch To Follow Mode Menu
 void switchToFollowMenuMode(BuggyMode& buggyMode);
-void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, FollowParams& params);
+void switchToFollowMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, FollowParams& params);
 
 void switchToBangBangMenuMode(BuggyMode& buggyMode);
 void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, BangBangParams& params);

@@ -84,12 +84,13 @@ void switchToTurnMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& cont
 }
 
 //Function to switch the buggy to turn mode
-void switchToFollowMode(ControlSystem& control, BuggyMode& buggyMode, Ticker& controlticker, FollowParams& params){
+void switchToFollowMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, FollowParams& params){
     //Set Relevant PID Parameters
     control.setModePIDParameters(NULL,NULL,NULL,&params);
     //Begin Control
-    control.follow(params.speed);
-    controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
+    control.follow(params);
+    controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
     //Update Mode state
     buggyMode = waiting_for_movement;
 }

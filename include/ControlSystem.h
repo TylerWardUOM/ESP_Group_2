@@ -15,7 +15,7 @@ public:
     ControlSystem(Wheel& leftWheel, Wheel& rightWheel, float track_width, Bluetooth& bluetooth, SensorArray& sensorArray);
     void moveForward(float distance, float speed);
     void turn(float angle, float speed);
-    void follow(float speed);
+    void follow(const FollowParams& params);
     void setBangBangMode(const BangBangParams& params);
     void setBangBangProportionalMode(const BangBangProportionalParams& params);
     void update();
