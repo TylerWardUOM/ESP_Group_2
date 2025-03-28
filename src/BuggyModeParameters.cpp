@@ -23,8 +23,8 @@ FollowParams::FollowParams()
       motorRegulatePeriod(0.1),motor_Kp(0.01){}
 
 BangBangParams::BangBangParams()
-    : baseSpeed(150.0), turnSpeedMultiplier(0.3),
-      sensorSamplePeriod(0.001), controlPeriod(0.001),
+    : baseSpeed(250.0), turnSpeedMultiplier(0.3),
+      sensorSamplePeriod(0.0005), controlPeriod(0.0002),
       motorRegulatePeriod(0.1),motor_Kp(0.01) {}
 
 BangBangProportionalParams::BangBangProportionalParams()
