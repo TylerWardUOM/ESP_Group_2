@@ -20,14 +20,14 @@ FollowParams::FollowParams()
     : pid_kp(2.3), pid_ki(0.6), pid_kd(0.00),
       pid_scaling(2.2), speed(0.0),
       sensorSamplePeriod(0.01), controlPeriod(0.02),
-      motorRegulatePeriod(0.1),motor_Kp(0.1){}
+      motorRegulatePeriod(0.1),motor_Kp(0.01){}
 
 BangBangParams::BangBangParams()
     : baseSpeed(150.0), turnSpeedMultiplier(0.3),
       sensorSamplePeriod(0.001), controlPeriod(0.001),
-      motorRegulatePeriod(0.1),motor_Kp(0.1) {}
+      motorRegulatePeriod(0.1),motor_Kp(0.01) {}
 
 BangBangProportionalParams::BangBangProportionalParams()
     : baseSpeed(1.0), kP(1.5), maxMultiplier(2.0),
       bangBangThreshold(0.2), sensorSamplePeriod(0.01), controlPeriod(0.02),
-      motorRegulatePeriod(0.1),motor_Kp(0.1){}
+      motorRegulatePeriod(0.1),motor_Kp(0.01){}

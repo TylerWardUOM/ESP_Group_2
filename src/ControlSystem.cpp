@@ -465,14 +465,14 @@ void ControlSystem::resetEncoders(){
 }
 
 void ControlSystem::regulateWheelSpeed(){
-    //leftWheel.regulateSpeed();
-    //rightWheel.regulateSpeed();
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeed();
 }
 
 void ControlSystem::debugRegulateWheelSpeed(){
     static int counter = 0;
-    //leftWheel.regulateSpeed();
-    //rightWheel.regulateSpeed();
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeedDebug();
     if (counter==150){
         bluetooth.printMotorDebugData(leftWheel.encoder.getSpeed(),rightWheel.encoder.getSpeed());
         counter=0;

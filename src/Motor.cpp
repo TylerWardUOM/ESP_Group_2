@@ -9,6 +9,7 @@ Motor::Motor(PinName bipolar, float multiplier, PinName pwm, PinName enable)
 }
 
 void Motor::setSpeed(float speed) {
+    _speed=speed;
     // Clamp speed to [-1.0, 1.0]
     if (speed > 1.0f) speed = 1.0f;
     if (speed < -1.0f) speed = -1.0f;
