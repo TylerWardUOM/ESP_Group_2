@@ -197,6 +197,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:MOTOR_DEBUG") == 0) {
         _currentMode = motor_debug_menu;
         _serial.printf("MODE_CHANGED:MOTOR_DEBUG\n");
+    }else if (strcmp(cmd, "SET_MODE:SENSOR_CALLIBRATION") == 0) {
+        _currentMode = sensor_callibration;
+        _serial.printf("MODE_CHANGED:SENSOR_CALLIBRATION\n");
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
