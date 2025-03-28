@@ -62,6 +62,7 @@ struct FollowParams {
 struct BangBangParams {
     float baseSpeed;
     float turnSpeedMultiplier;  // Speed multiplier for turning
+    float bangBangThreshold;    // Threshold to BANG-BANG
     float sensorSamplePeriod;   // Sampling period for sensors
     float controlPeriod;        // Control loop execution period
     float motorRegulatePeriod;

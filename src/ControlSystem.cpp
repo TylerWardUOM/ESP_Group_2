@@ -97,6 +97,7 @@ void ControlSystem::setBangBangMode(const BangBangParams& params) {
     enableWheels();
     // Store the given parameters
     basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
     turnSpeedMultiplier = params.turnSpeedMultiplier;
 
     // Set control state
@@ -399,12 +400,12 @@ void ControlSystem::processBangBang() {
         }
         lostCount++;
     }else{
-    if (error > 0.6) {
+    if (error > bangBangThreshold) {
         // Turn right sharply
         leftWheel.setSpeed(basespeed);
         rightWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down right wheel
     } 
-    else if (error < 0.6) {
+    else if (error < -bangBangThreshold) {
         // Turn left sharply
         leftWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down left wheel
         rightWheel.setSpeed(basespeed);
