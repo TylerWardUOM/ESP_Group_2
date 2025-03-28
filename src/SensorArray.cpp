@@ -5,7 +5,8 @@
 // Constructor
 SensorArray::SensorArray(Sensor** _sensors, Bluetooth &bt): _bt(bt) {
     memcpy(sensors, _sensors, 6 * sizeof(Sensor*));  // Faster than loop assignment
-    memset(calibratedValues, 0, sizeof(calibratedValues)); // Initialize calibration values
+    float defaultCalibratedValues[6] = {2.2596, 2.0807, 2.0566, 2.6416, 1.7092, 1.9590};
+    memcpy(calibratedValues, defaultCalibratedValues, sizeof(calibratedValues));
 }
 
 
