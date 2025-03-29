@@ -198,9 +198,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:MOTOR_DEBUG") == 0) {
         _currentMode = motor_debug_menu;
         _serial.printf("MODE_CHANGED:MOTOR_DEBUG\n");
-    }else if (strcmp(cmd, "SET_MODE:SENSOR_CALLIBRATION") == 0) {
-        _currentMode = sensor_callibration;
-        _serial.printf("MODE_CHANGED:SENSOR_CALLIBRATION\n");
+    }else if (strcmp(cmd, "CALLIBRATE_WHITE") == 0) {
+        callibrateWhite_flag=true;
+        _serial.printf("CALLIBRATING_WHITE\n");
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -299,6 +299,14 @@ void Bluetooth::updateParameter(const char *paramStr) {
 bool Bluetooth::shouldStart() {
     if (go_flag) {
         go_flag = false; // Reset flag
+        return true;
+    }
+    return false;
+}
+
+bool Bluetooth::shouldCallibrateWhite() {
+    if (callibrateWhite_flag) {
+        callibrateWhite_flag = false; // Reset flag
         return true;
     }
     return false;

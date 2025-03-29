@@ -102,6 +102,11 @@ int main() {
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                if (bluetooth.shouldCallibrateWhite()){
+                    sensorArray.calibrate();
+                    bluetooth.sendMovementFinished();
+                    break;
+                }
                 break;
 
             case speed_control_mode:
