@@ -35,9 +35,29 @@ void Wheel::regulateSpeed() {
     if (newSpeed < -1.0f) newSpeed = -1.0f;
 
     motor.setSpeed(newSpeed);
-    //Debug Print
-    //printf("Target: %d, Actual: %d, Adjusted Speed: %.2f\n", target_rpm, actual_rpm, newSpeed);
 }
+
+void Wheel::regulateSpeedwithBOOST() {
+    float actual_rpm = encoder.getSpeed();
+    float error = target_rpm - actual_rpm;
+
+    float adjustment = (error / max_rpm) * Kp;  // Proportional control
+
+    // If the error is large (e.g., struggling uphill), apply a constant boost
+    float threshold = 100.0f;     // Adjust this based on testing
+    float boost_amount = 0.2f;  // Extra push when needed
+
+    if (error > threshold) {
+        adjustment += boost_amount;  
+    }
+
+    // Calculate new speed and clamp it
+    float newSpeed = motor.getSpeed() + adjustment;
+    newSpeed = fmaxf(fminf(newSpeed, 1.0f), -1.0f);
+
+    motor.setSpeed(newSpeed);
+}
+
 
 void Wheel::regulateSpeedDebug() {
     float actual_rpm = encoder.getSpeed();

@@ -13,6 +13,7 @@ public:
     void setSpeed(int rpm);
     void regulateSpeed();
     void regulateSpeedDebug();
+    void regulateSpeedwithBOOST();
     void startRegulation(float interval);
     void stopRegulation();
     void enableMotor();
