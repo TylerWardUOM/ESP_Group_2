@@ -34,8 +34,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-Serial btSerial(PA_11,PA_12);
-//Serial btSerial(USBTX,USBRX);
+//Serial btSerial(PA_11,PA_12);
+Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction

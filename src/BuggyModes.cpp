@@ -52,7 +52,8 @@ void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode) {
 
 
 void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray& sensorArray){
-    sensorTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.1);
+    wait(1);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.2);
     buggyMode = sensor_debug;
 }
 
