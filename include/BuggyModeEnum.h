@@ -11,6 +11,7 @@ enum BuggyMode {
     turn_menu_mode,
     follow_menu_mode,
     bang_bang_menu_mode,
+    bang_bang_boost_menu_mode,
     bang_bang_proportional_menu_mode,
     sensor_debug,
     sensor_debug_menu,

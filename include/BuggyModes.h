@@ -31,6 +31,9 @@ void switchToFollowMode(ControlSystem& control, SensorArray& sensorArray, BuggyM
 void switchToBangBangMenuMode(BuggyMode& buggyMode);
 void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangParams& params);
 
+void switchToBangBangBoostMenuMode(BuggyMode& buggyMode);
+void switchToBangBangBoostMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangBoostParams& params);
+
 void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode);
 void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangProportionalParams& params);
 

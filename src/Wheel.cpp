@@ -24,6 +24,13 @@ void Wheel::setKp(float newKp){
     Kp=newKp;
 }
 
+void Wheel::setThreshold(float new_threshold){
+    threshold=new_threshold;
+}
+void Wheel::setBoost(float new_boost){
+    boost=new_boost;
+}
+
 void Wheel::regulateSpeed() {
     float actual_rpm = encoder.getSpeed();
     float error = target_rpm - actual_rpm;
@@ -36,7 +43,7 @@ void Wheel::regulateSpeed() {
 
     motor.setSpeed(newSpeed);
 }
-
+    
 void Wheel::regulateSpeedwithBOOST() {
     float actual_rpm = encoder.getSpeed();
     float error = target_rpm - actual_rpm;
@@ -44,11 +51,10 @@ void Wheel::regulateSpeedwithBOOST() {
     float adjustment = (error / max_rpm) * Kp;  // Proportional control
 
     // If the error is large (e.g., struggling uphill), apply a constant boost
-    float threshold = 100.0f;     // Adjust this based on testing
-    float boost_amount = 0.2f;  // Extra push when needed
+
 
     if (error > threshold) {
-        adjustment += boost_amount;  
+        adjustment += boost;  
     }
 
     // Calculate new speed and clamp it

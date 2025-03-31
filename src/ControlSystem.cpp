@@ -109,6 +109,23 @@ void ControlSystem::setBangBangMode(const BangBangParams& params) {
     bluetooth.resetDebugData();
 }
 
+void ControlSystem::setBangBangBoostMode(const BangBangBoostParams& params) {
+    // Ensure wheels are enabled before setting control mode
+    enableWheels();
+    // Store the given parameters
+    basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
+    turnSpeedMultiplier = params.turnSpeedMultiplier;
+
+    // Set control state
+    state = BANG_BANG;
+    movementCompleted = false;
+
+    // Reset encoders (if needed for tracking)
+    resetEncoders();
+    bluetooth.resetDebugData();
+}
+
 void ControlSystem::setBangBangProportionalMode(const BangBangProportionalParams& params) {
     // Ensure wheels are enabled before setting control mode
     enableWheels();
@@ -478,6 +495,11 @@ void ControlSystem::regulateWheelSpeed(){
     rightWheel.regulateSpeed();
 }
 
+void ControlSystem::regulateWheelSpeedwithBOOST(){
+    leftWheel.regulateSpeedwithBOOST();
+    rightWheel.regulateSpeedwithBOOST();
+}
+
 void ControlSystem::debugRegulateWheelSpeed(){
     static int counter = 0;
     leftWheel.regulateSpeed();
@@ -492,4 +514,13 @@ void ControlSystem::debugRegulateWheelSpeed(){
 void ControlSystem::setWheelKp(float wheelKp){
     leftWheel.setKp(wheelKp);
     rightWheel.setKp(wheelKp);
+}
+
+void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost){
+    leftWheel.setKp(wheelKp);
+    rightWheel.setKp(wheelKp);
+    leftWheel.setThreshold(wheel_threshold);
+    rightWheel.setThreshold(wheel_threshold);
+    leftWheel.setBoost(wheel_boost);
+    rightWheel.setBoost(wheel_boost);
 }

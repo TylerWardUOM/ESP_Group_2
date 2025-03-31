@@ -17,6 +17,7 @@ public:
     void turn(float angle, float speed);
     void follow(const FollowParams& params);
     void setBangBangMode(const BangBangParams& params);
+    void setBangBangBoostMode(const BangBangBoostParams& params);
     void setBangBangProportionalMode(const BangBangProportionalParams& params);
     void update();
     void moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier);
@@ -26,7 +27,9 @@ public:
     void enableWheels();
     void stopWheels();
     void setWheelKp(float wheelKp);
+    void setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost);
     void regulateWheelSpeed();
+    void regulateWheelSpeedwithBOOST();
     void debugRegulateWheelSpeed();
     void setModePIDParameters(const SquarePatternParams *squareParams, const StraightLineParams *straightlineParams, const TurnAngleParams *turnangleParams, const FollowParams *followParams);
     PIDController pidForward;

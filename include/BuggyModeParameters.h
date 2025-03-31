@@ -53,6 +53,8 @@ struct FollowParams {
     float controlPeriod;        // Control loop execution period
     float motorRegulatePeriod;
     float motor_Kp;
+    float motor_threshold;
+    float motor_boost;
 
     // Constructor
     FollowParams();
@@ -73,6 +75,22 @@ struct BangBangParams {
 
 };
 
+struct BangBangBoostParams {
+    float baseSpeed;
+    float turnSpeedMultiplier;  // Speed multiplier for turning
+    float bangBangThreshold;    // Threshold to BANG-BANG
+    float sensorSamplePeriod;   // Sampling period for sensors
+    float controlPeriod;        // Control loop execution period
+    float motorRegulatePeriod;
+    float motor_Kp;
+    float motor_threshold;
+    float motor_boost;
+
+    // Constructor
+    BangBangBoostParams();
+
+};
+
 struct BangBangProportionalParams {
     float baseSpeed;
     float kP;                   // Proportional gain
@@ -82,6 +100,8 @@ struct BangBangProportionalParams {
     float controlPeriod;        // Control loop execution period
     float motorRegulatePeriod;
     float motor_Kp;
+    float motor_threshold;
+    float motor_boost;
 
     // Constructor
     BangBangProportionalParams();

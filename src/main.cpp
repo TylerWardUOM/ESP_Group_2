@@ -29,6 +29,7 @@ StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
 FollowParams followParams;
 BangBangParams bangbangParams;
+BangBangBoostParams bangbangboostParams;
 BangBangProportionalParams bangbangproportionalParams;
 BuggyMode buggyMode = idle_mode;
 
@@ -36,7 +37,7 @@ BuggyMode buggyMode = idle_mode;
 // Bluetooth Instance
 //Serial btSerial(PA_11,PA_12);
 Serial btSerial(USBTX,USBRX);
-Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
+Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
 Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
@@ -197,7 +198,14 @@ int main() {
                     break;
                 }
                 break;
-
+                
+            case bang_bang_boost_menu_mode:
+                if (bluetooth.shouldStart()){
+                    previousMode=buggyMode;
+                    switchToBangBangBoostMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangboostParams);
+                    break;
+                }
+                break;
             case bang_bang_proportional_menu_mode:
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
