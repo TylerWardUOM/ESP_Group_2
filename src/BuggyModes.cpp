@@ -50,12 +50,10 @@ void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode) {
     buggyMode = bang_bang_proportional_menu_mode;
 }
 
-void switchToSensorCallibration(BuggyMode& buggyMode) {
-    buggyMode = sensor_callibration;
-}
 
 void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray& sensorArray){
-    sensorTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.1);
+    wait(1);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.2);
     buggyMode = sensor_debug;
 }
 
