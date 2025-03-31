@@ -104,12 +104,12 @@ int main() {
                 control.stopWheels();
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
-                    bluetooth.sendMovementFinished();
+                    bluetooth.sendCallibrationFinished();
                     break;
                 }
                 if (bluetooth.shouldCallibrateBlack()){
                     sensorArray.calibrateBlack();
-                    bluetooth.sendMovementFinished();
+                    bluetooth.sendCallibrationFinished();
                     break;
                 }
                 break;

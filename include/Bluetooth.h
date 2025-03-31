@@ -75,6 +75,16 @@ public:
      */
     void sendMovementFinished();
 
+        /**
+     * @brief Sends a notification that the callibration has finished.
+     */
+    void sendCallibrationFinished();
+
+        /**
+     * @brief Sends a notification that the testing has finished.
+     */
+    void sendTestingFinished();
+
     /**
      * @brief Logs debug data for tracking buggy movement and control performance.
      * @param leftDistance Distance measured by the left wheel encoder.

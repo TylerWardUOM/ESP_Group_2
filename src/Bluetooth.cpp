@@ -327,6 +327,14 @@ void Bluetooth::sendMovementFinished(){
     _serial.printf("MOVEMENT FINISHED\n");
 }
 
+void Bluetooth::sendCallibrationFinished(){
+    _serial.printf("CALLIBRATION FINISHED\n");
+}
+
+void Bluetooth::sendTestingFinished(){
+    _serial.printf("TESTING FINISHED\n");
+}
+
 void Bluetooth::sendCurrentMode() {
     // Call the helper function to get the mode name
     const char* modeName = getModeName(_currentMode);
