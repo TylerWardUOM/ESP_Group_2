@@ -17,7 +17,6 @@ enum BuggyMode {
     motor_debug,
     motor_debug_menu,
     turn_around,
-    sensor_callibration,
     waiting_for_movement,
 };
 

@@ -131,13 +131,6 @@ int main() {
                 rightWheel.setSpeed(speedRawR);
                 break;
 
-            case sensor_callibration:
-                if (bluetooth.shouldStart()){
-                    sensorArray.calibrate();
-                    bluetooth.sendMovementFinished();
-                    break;
-                }
-                break;
             
             case sensor_debug_menu:
                 wait(1);
