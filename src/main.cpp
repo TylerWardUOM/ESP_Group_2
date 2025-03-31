@@ -9,6 +9,8 @@
 #include "Bluetooth.h"
 #include "Sensor.h"
 #include "SensorArray.h"
+#include "OneWire_Methods.h"
+#include "ds2781.h"
 
 //Constants for Wheel
 //if not going correct distance adjust wheel_diameter
@@ -23,6 +25,8 @@
 
 //Try get this to smallest value possible if code stops working properly go back to previous
 #define SQUARE_CONTROL_INTERVAL 0.01
+
+//Battery Monitor
 
 SquarePatternParams squareParams;
 StraightLineParams straightlineParams;
@@ -58,8 +62,10 @@ SensorArray sensorArray(sensors, bluetooth);
 ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth, sensorArray);
 
 // Potentiometer Pins
+
 //Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
 //Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
+
 
 // LCD Pins
 //C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
@@ -72,6 +78,31 @@ void updateLCD();
 long map(long x, long in_min, long in_max, long out_min, long out_max){
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+
+Timer energyTimer;
+float accumulatedCharge;
+float fullBatteryCapacity;
+
+float getBatteryPercentage(float voltage, float current) {
+
+    float dt = energyTimer.read();  // Time in seconds
+    energyTimer.reset();  // Reset for next interval
+
+    // Convert current (A) * time (s) to charge (mAh)
+    accumulatedCharge += (current * dt * 1000.0) / 3600.0;
+
+    // Estimate remaining capacity
+    float remainingCapacity = fullBatteryCapacity - accumulatedCharge;
+    
+    // Calculate battery percentage
+    float batteryPercentage = (remainingCapacity / fullBatteryCapacity) * 100.0;
+    batteryPercentage = fmax(0.0, fmin(100.0, batteryPercentage)); // Ensure within 0-100%
+
+    printf("Voltage: %.2fV, Current: %.3fA, Battery: %.2f%%\n", voltage, current, batteryPercentage);
+    
+    return batteryPercentage;
+}
+
 // Update LCD periodically using a Ticker
 Ticker lcdUpdateTicker; 
 bool lcdUpdateRequired = false;
@@ -95,7 +126,10 @@ int main() {
     float speedRawR;
     float desiredSpeedL;
     float desiredSpeedR;
+    int VoltageReading, CurrentReading; 
+    float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
+    fullBatteryCapacity=2000;
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
@@ -112,6 +146,13 @@ int main() {
                     bluetooth.sendCallibrationFinished();
                     break;
                 }
+                VoltageReading = ReadVoltage(); 
+                Voltage = VoltageReading*0.00967; 
+                CurrentReading = ReadCurrent(); 
+                Current = CurrentReading/6400.0;
+                batteryPercentage=getBatteryPercentage(Voltage,Current);
+                bluetooth.printDebugData("%.2f,%.2f,%.2f",Voltage,Current,batteryPercentage);
+
                 break;
 
             case speed_control_mode:
