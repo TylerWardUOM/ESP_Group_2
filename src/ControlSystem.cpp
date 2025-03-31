@@ -97,6 +97,7 @@ void ControlSystem::setBangBangMode(const BangBangParams& params) {
     enableWheels();
     // Store the given parameters
     basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
     turnSpeedMultiplier = params.turnSpeedMultiplier;
 
     // Set control state
@@ -389,26 +390,34 @@ void ControlSystem::processFollowLine(float dt) {
 
 void ControlSystem::processBangBang() {
     float error = sensorArray.getError();  // Get error from sensor array
+    static int lostCount = 0;
     if (error>=900){
-        stopWheels();
-        movementCompleted = true;
-        state = IDLE;
-    }
-
-    if (error > 0) {
+        if (lostCount>2500){ //Should Change Based off Control Interval or do a timer
+            stopWheels();
+            movementCompleted = true;
+            state = IDLE;
+            lostCount = 0;
+        }
+        lostCount++;
+    }else{
+    if (error > bangBangThreshold) {
         // Turn right sharply
         leftWheel.setSpeed(basespeed);
         rightWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down right wheel
     } 
-    else if (error < 0) {
+    else if (error < -bangBangThreshold) {
         // Turn left sharply
         leftWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down left wheel
         rightWheel.setSpeed(basespeed);
     } 
     else {
         // Drive straight
+        //Could Add A multiplier for long straights to increase speed
+        //Use a Straight count to trigger it eg if straightCount>1000 
         leftWheel.setSpeed(basespeed);
         rightWheel.setSpeed(basespeed);
+    }
+    lostCount=0;
     }
 }
 

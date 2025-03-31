@@ -16,7 +16,6 @@ const char* getModeName(BuggyMode mode) {
         case motor_debug: return "MOTOR_DEBUG";
         case motor_debug_menu: return "MOTOR_DEBUG";
         case waiting_for_movement: return "WAITING_FOR_MOVEMENT";
-        case sensor_callibration: return "SENSOR_CALLIBRATION";
         case reset: return "IDLE";
         default: return "UNKNOWN_MODE";
     }
