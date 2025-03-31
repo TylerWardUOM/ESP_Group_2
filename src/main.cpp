@@ -107,6 +107,11 @@ int main() {
                     bluetooth.sendMovementFinished();
                     break;
                 }
+                if (bluetooth.shouldCallibrateBlack()){
+                    sensorArray.calibrateBlack();
+                    bluetooth.sendMovementFinished();
+                    break;
+                }
                 break;
 
             case speed_control_mode:

@@ -201,6 +201,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "CALLIBRATE_WHITE") == 0) {
         callibrateWhite_flag=true;
         _serial.printf("CALLIBRATING_WHITE\n");
+    }else if (strcmp(cmd, "CALLIBRATE_BLACK") == 0) {
+        callibrateBlack_flag=true;
+        _serial.printf("CALLIBRATING_BLACK\n");
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -307,6 +310,14 @@ bool Bluetooth::shouldStart() {
 bool Bluetooth::shouldCallibrateWhite() {
     if (callibrateWhite_flag) {
         callibrateWhite_flag = false; // Reset flag
+        return true;
+    }
+    return false;
+}
+
+bool Bluetooth::shouldCallibrateBlack() {
+    if (callibrateBlack_flag) {
+        callibrateBlack_flag = false; // Reset flag
         return true;
     }
     return false;

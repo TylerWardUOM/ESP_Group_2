@@ -65,6 +65,12 @@ public:
     bool shouldCallibrateWhite();
 
     /**
+     * @brief Check if the buggy should callibrate black.
+     * @return True if Callibrate Command recieved, false otherwise.
+     */
+    bool shouldCallibrateBlack();
+
+    /**
      * @brief Sends a notification that the movement has finished.
      */
     void sendMovementFinished();
@@ -116,10 +122,15 @@ public:
     void printMotorDebugData(float leftSpeed, float rightSpeed);
 
     /**
-     * @brief Returns desired motor speeds
+     * @brief Returns desired left motor speed
      * 
      */
     float SpeedRequestLeft();
+
+    /**
+     * @brief Returns desired right motor speed
+     * 
+    */
     float SpeedRequestRight();
 
 private:
@@ -134,6 +145,7 @@ private:
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
     bool callibrateWhite_flag; ///<Flage indicating wether the buggy should callibrate sensors over white.
+    bool callibrateBlack_flag; ///<Flage indicating wether the buggy should callibrate sensors over black.
 
     static const int BUFFER_SIZE = 128; ///< Size of the receive buffer.
     char rx_buffer[BUFFER_SIZE]; ///< Buffer for storing received commands.
