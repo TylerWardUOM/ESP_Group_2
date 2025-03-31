@@ -9,7 +9,5 @@ var searchData=
   ['pidline_6',['pidLine',['../classControlSystem.html#a5147eec1dacf2d9b5755374b8dba4786',1,'ControlSystem']]],
   ['pidtimer_7',['pidTimer',['../classControlSystem.html#a3dce331b24669a61f7efff8e49a0ac2e',1,'ControlSystem']]],
   ['pidturn_8',['pidTurn',['../classControlSystem.html#ab698b3d792ba9049c6e581346aa92183',1,'ControlSystem']]],
-  ['potentiometerleft_9',['potentiometerLeft',['../main_8cpp.html#a060e83724d3e20535e7ccc6a7cb8ff06',1,'main.cpp']]],
-  ['potentiometerright_10',['potentiometerRight',['../main_8cpp.html#a96c42dda2182a4c94616dd22f6793f8c',1,'main.cpp']]],
-  ['preverror_11',['prevError',['../classPIDController.html#a8af7db307a7659338ee5c8d78579f738',1,'PIDController']]]
+  ['preverror_9',['prevError',['../classPIDController.html#a8af7db307a7659338ee5c8d78579f738',1,'PIDController']]]
 ];

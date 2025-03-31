@@ -119,15 +119,33 @@ $(document).ready(function(){initNavTree('BuggyModeParameters_8cpp_source.html',
 <div class="foldopen" id="foldopen00015" data-start="{" data-end="}">
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structTurnAngleParams.html#ad508f39b3cb24bf4ecff8e0810578b26">   15</a></span><a class="code hl_function" href="structTurnAngleParams.html#ad508f39b3cb24bf4ecff8e0810578b26">TurnAngleParams::TurnAngleParams</a>()</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    : turn_pid_kp(2.3), turn_pid_ki(0.6), turn_pid_kd(0.00),</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>      scaling_turn(2.2), speed(0.0), angle(0.0) {}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>      scaling_turn(2.2), speed(150), angle(0.0) {}</div>
 </div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structFollowParams.html#ad38750db8723cca4af16fa076d592e5a">   19</a></span><a class="code hl_function" href="structFollowParams.html#ad38750db8723cca4af16fa076d592e5a">FollowParams::FollowParams</a>()</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    : pid_kp(2.3), pid_ki(0.6), pid_kd(0.00),</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      pid_scaling(2.2), speed(0.0){}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      pid_scaling(2.2), speed(0.0),</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>      sensorSamplePeriod(0.01), controlPeriod(0.02),</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>      motorRegulatePeriod(0.1),motor_Kp(0.01){}</div>
+</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structBangBangParams.html#aba4faa2620849270583bf803e2941e75">   25</a></span><a class="code hl_function" href="structBangBangParams.html#aba4faa2620849270583bf803e2941e75">BangBangParams::BangBangParams</a>()</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    : baseSpeed(250.0), turnSpeedMultiplier(0.25),bangBangThreshold(0.65),</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      sensorSamplePeriod(0.0001), controlPeriod(0.0001),</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      motorRegulatePeriod(0.1),motor_Kp(0.01) {}</div>
+</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structBangBangProportionalParams.html#a63c5c4e2183d417c9dbfc7f24a6566c0">   30</a></span><a class="code hl_function" href="structBangBangProportionalParams.html#a63c5c4e2183d417c9dbfc7f24a6566c0">BangBangProportionalParams::BangBangProportionalParams</a>()</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    : baseSpeed(1.0), kP(1.5), maxMultiplier(2.0),</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>      bangBangThreshold(0.2), sensorSamplePeriod(0.01), controlPeriod(0.02),</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      motorRegulatePeriod(0.1),motor_Kp(0.01){}</div>
 </div>
 <div class="ttc" id="aBuggyModeParameters_8h_html"><div class="ttname"><a href="BuggyModeParameters_8h.html">BuggyModeParameters.h</a></div></div>
+<div class="ttc" id="astructBangBangParams_html_aba4faa2620849270583bf803e2941e75"><div class="ttname"><a href="structBangBangParams.html#aba4faa2620849270583bf803e2941e75">BangBangParams::BangBangParams</a></div><div class="ttdeci">BangBangParams()</div><div class="ttdef"><b>Definition</b> <a href="BuggyModeParameters_8cpp_source.html#l00025">BuggyModeParameters.cpp:25</a></div></div>
+<div class="ttc" id="astructBangBangProportionalParams_html_a63c5c4e2183d417c9dbfc7f24a6566c0"><div class="ttname"><a href="structBangBangProportionalParams.html#a63c5c4e2183d417c9dbfc7f24a6566c0">BangBangProportionalParams::BangBangProportionalParams</a></div><div class="ttdeci">BangBangProportionalParams()</div><div class="ttdef"><b>Definition</b> <a href="BuggyModeParameters_8cpp_source.html#l00030">BuggyModeParameters.cpp:30</a></div></div>
 <div class="ttc" id="astructFollowParams_html_ad38750db8723cca4af16fa076d592e5a"><div class="ttname"><a href="structFollowParams.html#ad38750db8723cca4af16fa076d592e5a">FollowParams::FollowParams</a></div><div class="ttdeci">FollowParams()</div><div class="ttdef"><b>Definition</b> <a href="BuggyModeParameters_8cpp_source.html#l00019">BuggyModeParameters.cpp:19</a></div></div>
 <div class="ttc" id="astructSquarePatternParams_html_a1799344537a0abef13cc114594338dbb"><div class="ttname"><a href="structSquarePatternParams.html#a1799344537a0abef13cc114594338dbb">SquarePatternParams::SquarePatternParams</a></div><div class="ttdeci">SquarePatternParams()</div><div class="ttdef"><b>Definition</b> <a href="BuggyModeParameters_8cpp_source.html#l00004">BuggyModeParameters.cpp:4</a></div></div>
 <div class="ttc" id="astructStraightLineParams_html_aaf4cefa0a17621a20791425db6783533"><div class="ttname"><a href="structStraightLineParams.html#aaf4cefa0a17621a20791425db6783533">StraightLineParams::StraightLineParams</a></div><div class="ttdeci">StraightLineParams()</div><div class="ttdef"><b>Definition</b> <a href="BuggyModeParameters_8cpp_source.html#l00011">BuggyModeParameters.cpp:11</a></div></div>

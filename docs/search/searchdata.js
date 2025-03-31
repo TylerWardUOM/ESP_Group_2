@@ -6,7 +6,7 @@ var indexSectionsWithContent =
   3: "abcdefghilmoprstuw",
   4: "_abcdefghiklmprstv",
   5: "bs",
-  6: "filmstw",
+  6: "bfilmrstw",
   7: "demstw"
 };
 

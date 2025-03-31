@@ -104,82 +104,121 @@ $(document).ready(function(){initNavTree('SensorArray_8cpp_source.html',''); ini
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// Constructor</span></div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="}">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classSensorArray.html#a6a0403e8184a8f12afa1eeba65a648c1">    6</a></span><a class="code hl_function" href="classSensorArray.html#a6a0403e8184a8f12afa1eeba65a648c1">SensorArray::SensorArray</a>(<a class="code hl_class" href="classSensor.html">Sensor</a>** _sensors) {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <a class="code hl_variable" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a>[i] = _sensors[i];  <span class="comment">// Store pointers</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    }</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classSensorArray.html#a908f724dc6ff3617740053e734630c58">    6</a></span><a class="code hl_function" href="classSensorArray.html#a908f724dc6ff3617740053e734630c58">SensorArray::SensorArray</a>(<a class="code hl_class" href="classSensor.html">Sensor</a>** _sensors, <a class="code hl_class" href="classBluetooth.html">Bluetooth</a> &amp;bt): _bt(bt) {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    memcpy(<a class="code hl_variable" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a>, _sensors, 6 * <span class="keyword">sizeof</span>(<a class="code hl_class" href="classSensor.html">Sensor</a>*));  <span class="comment">// Faster than loop assignment</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="keywordtype">float</span> defaultCalibratedValues[6] = {2.2596, 2.0807, 2.0566, 2.6416, 1.7092, 1.9590};</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    memcpy(<a class="code hl_variable" href="classSensorArray.html#ab2dc2d01337571b2d5d07f66e4c6e21d">calibratedValues</a>, defaultCalibratedValues, <span class="keyword">sizeof</span>(<a class="code hl_variable" href="classSensorArray.html#ab2dc2d01337571b2d5d07f66e4c6e21d">calibratedValues</a>));</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>}</div>
 </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Sample analog values from sensors</span></div>
-<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">   13</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">SensorArray::sample</a>() {</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <a class="code hl_variable" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a>[i] = <a class="code hl_variable" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a>[i]-&gt;<a class="code hl_function" href="classSensor.html#aa97ecacda5c962842ae3c74888952117">GetValue</a>();</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    }</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
-</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// Calibrate sensor array by reading values over the white surface</span></div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classSensorArray.html#a6419d353b0d6b3c6f116b38b2cad0c6c">   14</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#a6419d353b0d6b3c6f116b38b2cad0c6c">SensorArray::calibrate</a>() {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">float</span> sum[6] = {0};</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordtype">float</span> maxReading[6] = {0};  <span class="comment">// To store the maximum value for each sensor</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordtype">int</span> samples = 100;  <span class="comment">// Number of samples for calibration</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// Convert analog values to digital states</span></div>
-<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classSensorArray.html#a535b2702c3c669c59144ba2fdfdab206">   20</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#a535b2702c3c669c59144ba2fdfdab206">SensorArray::updateDigitalStates</a>() {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_variable" href="classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16">digitalStates</a>[i] = <a class="code hl_variable" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a>[i]-&gt;<a class="code hl_function" href="classSensor.html#a3d40a695c6431d600bb6286e38ab2356">digitalize</a>();</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    }</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
-</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">// Compute error value (relative position of line)</span></div>
-<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">   27</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">SensorArray::getError</a>() {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">float</span> weightings[6] = {-0.6, -0.4, -0.2, 0.2, 0.4, 0.6}; </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">float</span> error = 0.0;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">int</span> activeCount = 0;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="comment">// Take multiple samples and determine the max reading for each sensor</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; samples; j++) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordtype">float</span> val = <a class="code hl_variable" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a>[i]-&gt;<a class="code hl_function" href="classSensor.html#aa97ecacda5c962842ae3c74888952117">GetValue</a>();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            sum[i] += val;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <span class="keywordflow">if</span> (val &gt; maxReading[i]) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                maxReading[i] = val;  <span class="comment">// Track the maximum value</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        }</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        wait(0.01);  <span class="comment">// Small delay to allow readings to stabilize</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Normalize the sensor values based on the maximum readings (calibrate over the white line)</span></div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16">digitalStates</a>[i] == 1) {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            error += weightings[i];  <span class="comment">// Use weights to calculate deviation</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            activeCount++;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        }</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (activeCount &gt; 0) {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">return</span> error; <span class="comment">// Return weighted error value</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">return</span> 0.0; <span class="comment">// Return 0 if no line is detected</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_variable" href="classSensorArray.html#ab2dc2d01337571b2d5d07f66e4c6e21d">calibratedValues</a>[i] = maxReading[i];  <span class="comment">// Store max value as calibration value</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">// Sample analog values from sensors (after calibration)</span></div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">   38</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">SensorArray::sample</a>() {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordtype">float</span> val = <a class="code hl_variable" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a>[i]-&gt;<a class="code hl_function" href="classSensor.html#aa97ecacda5c962842ae3c74888952117">GetValue</a>();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_variable" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a>[i] = (val / <a class="code hl_variable" href="classSensorArray.html#ab2dc2d01337571b2d5d07f66e4c6e21d">calibratedValues</a>[i]);  <span class="comment">// Normalize each sensor&#39;s value</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_variable" href="classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16">digitalStates</a>[i] = <a class="code hl_variable" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a>[i] &gt; 0.4; <span class="comment">// Inline digitalization (thresholding)</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
 </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// Get the most recent voltage sample</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// Compute error value (relative position of line)</span></div>
 <div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classSensorArray.html#a58f24872c505a49726c5c277027ff916">   48</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="classSensorArray.html#a58f24872c505a49726c5c277027ff916">SensorArray::getCurrentSampleVolts</a>() {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classSensorArray.html#ae5204bd1bb267e333446e67a680e3c1c">currentSampleVolts</a>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">   48</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">SensorArray::getError</a>() {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">float</span> weightings[6] = {-3.0, -2.0, -1.0, 1.0, 2.0, 3.0}; </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">float</span> error = 0;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">int</span> activeCount = 0;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; i++) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        error += (weightings[i]*<a class="code hl_variable" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a>[i]);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16">digitalStates</a>[i]) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            activeCount++;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (activeCount == 0) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">return</span> 999.0f; <span class="comment">// Special value indicating no line detected</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">return</span> error;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">// Get the most recent normalized sample</span></div>
-<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classSensorArray.html#a5bdf9bb4665ba7c7c7435bc0f346c6b6">   53</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="classSensorArray.html#a5bdf9bb4665ba7c7c7435bc0f346c6b6">SensorArray::getCurrentSampleNorm</a>() {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classSensorArray.html#a55143d8edcbb4f48c7642d34f583e66d">currentSampleNorm</a>;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classSensorArray.html#a4801fb1d5c06c94388a7f679ba43462e">   67</a></span><span class="keywordtype">float</span>* <a class="code hl_function" href="classSensorArray.html#a4801fb1d5c06c94388a7f679ba43462e">SensorArray::getValues</a>() {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a>; </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">// Start the ticker to sample at a fixed interval</span></div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classSensorArray.html#a2a1bad57f6e6089e7f7b544d4e0ce864">   72</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#a2a1bad57f6e6089e7f7b544d4e0ce864">SensorArray::startTicker</a>(<span class="keywordtype">float</span> period) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <a class="code hl_variable" href="classSensorArray.html#a16602ca681c0a5ac8587498cd26b812b">sampleTicker</a>.attach(callback(<span class="keyword">this</span>, &amp;<a class="code hl_function" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">SensorArray::sample</a>), period);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>}</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">// Stop the ticker</span></div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classSensorArray.html#aa156184463a68c5e6037f6fee4c3ef83">   77</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#aa156184463a68c5e6037f6fee4c3ef83">SensorArray::stopTicker</a>() {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <a class="code hl_variable" href="classSensorArray.html#a16602ca681c0a5ac8587498cd26b812b">sampleTicker</a>.detach();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="foldopen" id="foldopen00081" data-start="{" data-end="}">
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classSensorArray.html#a946eb8e37ce8be0546a0c0491813df07">   81</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classSensorArray.html#a946eb8e37ce8be0546a0c0491813df07">SensorArray::debugSensorData</a>() {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_function" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">sample</a>();  <span class="comment">// Sample the sensor values</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">float</span> error = <a class="code hl_function" href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">getError</a>();  <span class="comment">// Compute error value</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_variable" href="classSensorArray.html#aafcf7c72b17c3654c7dcc5746f689925">_bt</a>.<a class="code hl_function" href="classBluetooth.html#af7b3375729e06ba322df8266b487ef1c">printLiveSensorData</a>(<a class="code hl_variable" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a>, 6, error);  <span class="comment">// Send data via Bluetooth</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
 </div>
 <div class="ttc" id="aSensorArray_8h_html"><div class="ttname"><a href="SensorArray_8h.html">SensorArray.h</a></div></div>
 <div class="ttc" id="aSensor_8h_html"><div class="ttname"><a href="Sensor_8h.html">Sensor.h</a></div></div>
+<div class="ttc" id="aclassBluetooth_html"><div class="ttname"><a href="classBluetooth.html">Bluetooth</a></div><div class="ttdoc">Handles Bluetooth communication for controlling the buggy.</div><div class="ttdef"><b>Definition</b> <a href="Bluetooth_8h_source.html#l00016">Bluetooth.h:16</a></div></div>
+<div class="ttc" id="aclassBluetooth_html_af7b3375729e06ba322df8266b487ef1c"><div class="ttname"><a href="classBluetooth.html#af7b3375729e06ba322df8266b487ef1c">Bluetooth::printLiveSensorData</a></div><div class="ttdeci">void printLiveSensorData(float sensorValues[], int numSensors, float error)</div><div class="ttdoc">Prints live sensor data immediately to Bluetooth in a formatted manner.</div><div class="ttdef"><b>Definition</b> <a href="Bluetooth_8cpp_source.html#l00376">Bluetooth.cpp:376</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_a16602ca681c0a5ac8587498cd26b812b"><div class="ttname"><a href="classSensorArray.html#a16602ca681c0a5ac8587498cd26b812b">SensorArray::sampleTicker</a></div><div class="ttdeci">Ticker sampleTicker</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00023">SensorArray.h:23</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_a2a1bad57f6e6089e7f7b544d4e0ce864"><div class="ttname"><a href="classSensorArray.html#a2a1bad57f6e6089e7f7b544d4e0ce864">SensorArray::startTicker</a></div><div class="ttdeci">void startTicker(float period)</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00072">SensorArray.cpp:72</a></div></div>
 <div class="ttc" id="aclassSensorArray_html_a43ed588a7a71d13ab1050cac8f93f445"><div class="ttname"><a href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">SensorArray::sensorvalues</a></div><div class="ttdeci">float sensorvalues[6]</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00020">SensorArray.h:20</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_a535b2702c3c669c59144ba2fdfdab206"><div class="ttname"><a href="classSensorArray.html#a535b2702c3c669c59144ba2fdfdab206">SensorArray::updateDigitalStates</a></div><div class="ttdeci">void updateDigitalStates()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00020">SensorArray.cpp:20</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_a55143d8edcbb4f48c7642d34f583e66d"><div class="ttname"><a href="classSensorArray.html#a55143d8edcbb4f48c7642d34f583e66d">SensorArray::currentSampleNorm</a></div><div class="ttdeci">float currentSampleNorm</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00024">SensorArray.h:24</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_a58f24872c505a49726c5c277027ff916"><div class="ttname"><a href="classSensorArray.html#a58f24872c505a49726c5c277027ff916">SensorArray::getCurrentSampleVolts</a></div><div class="ttdeci">float getCurrentSampleVolts()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00048">SensorArray.cpp:48</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_a5bdf9bb4665ba7c7c7435bc0f346c6b6"><div class="ttname"><a href="classSensorArray.html#a5bdf9bb4665ba7c7c7435bc0f346c6b6">SensorArray::getCurrentSampleNorm</a></div><div class="ttdeci">float getCurrentSampleNorm()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00053">SensorArray.cpp:53</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_a6a0403e8184a8f12afa1eeba65a648c1"><div class="ttname"><a href="classSensorArray.html#a6a0403e8184a8f12afa1eeba65a648c1">SensorArray::SensorArray</a></div><div class="ttdeci">SensorArray(Sensor **_sensors)</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00006">SensorArray.cpp:6</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_a4801fb1d5c06c94388a7f679ba43462e"><div class="ttname"><a href="classSensorArray.html#a4801fb1d5c06c94388a7f679ba43462e">SensorArray::getValues</a></div><div class="ttdeci">float * getValues()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00067">SensorArray.cpp:67</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_a6419d353b0d6b3c6f116b38b2cad0c6c"><div class="ttname"><a href="classSensorArray.html#a6419d353b0d6b3c6f116b38b2cad0c6c">SensorArray::calibrate</a></div><div class="ttdeci">void calibrate()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00014">SensorArray.cpp:14</a></div></div>
 <div class="ttc" id="aclassSensorArray_html_a6f4d2bd2c643fb8602d9cad0b300a2cc"><div class="ttname"><a href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">SensorArray::sensors</a></div><div class="ttdeci">Sensor * sensors[6]</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00019">SensorArray.h:19</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_a908f724dc6ff3617740053e734630c58"><div class="ttname"><a href="classSensorArray.html#a908f724dc6ff3617740053e734630c58">SensorArray::SensorArray</a></div><div class="ttdeci">SensorArray(Sensor **_sensors, Bluetooth &amp;bt)</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00006">SensorArray.cpp:6</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_a946eb8e37ce8be0546a0c0491813df07"><div class="ttname"><a href="classSensorArray.html#a946eb8e37ce8be0546a0c0491813df07">SensorArray::debugSensorData</a></div><div class="ttdeci">void debugSensorData()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00081">SensorArray.cpp:81</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_aa156184463a68c5e6037f6fee4c3ef83"><div class="ttname"><a href="classSensorArray.html#aa156184463a68c5e6037f6fee4c3ef83">SensorArray::stopTicker</a></div><div class="ttdeci">void stopTicker()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00077">SensorArray.cpp:77</a></div></div>
 <div class="ttc" id="aclassSensorArray_html_aa3e90ff74634bdfe46e1c4c5513b9d16"><div class="ttname"><a href="classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16">SensorArray::digitalStates</a></div><div class="ttdeci">int digitalStates[6]</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00021">SensorArray.h:21</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_aa6a2d0a85f5c78b0b431e428432693fc"><div class="ttname"><a href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">SensorArray::getError</a></div><div class="ttdeci">float getError()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00027">SensorArray.cpp:27</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_ad4e397376387b91579ccbc63d789e10e"><div class="ttname"><a href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">SensorArray::sample</a></div><div class="ttdeci">void sample()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00013">SensorArray.cpp:13</a></div></div>
-<div class="ttc" id="aclassSensorArray_html_ae5204bd1bb267e333446e67a680e3c1c"><div class="ttname"><a href="classSensorArray.html#ae5204bd1bb267e333446e67a680e3c1c">SensorArray::currentSampleVolts</a></div><div class="ttdeci">float currentSampleVolts</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00023">SensorArray.h:23</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_aa6a2d0a85f5c78b0b431e428432693fc"><div class="ttname"><a href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">SensorArray::getError</a></div><div class="ttdeci">float getError()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00048">SensorArray.cpp:48</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_aafcf7c72b17c3654c7dcc5746f689925"><div class="ttname"><a href="classSensorArray.html#aafcf7c72b17c3654c7dcc5746f689925">SensorArray::_bt</a></div><div class="ttdeci">Bluetooth &amp; _bt</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00024">SensorArray.h:24</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_ab2dc2d01337571b2d5d07f66e4c6e21d"><div class="ttname"><a href="classSensorArray.html#ab2dc2d01337571b2d5d07f66e4c6e21d">SensorArray::calibratedValues</a></div><div class="ttdeci">float calibratedValues[6]</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8h_source.html#l00022">SensorArray.h:22</a></div></div>
+<div class="ttc" id="aclassSensorArray_html_ad4e397376387b91579ccbc63d789e10e"><div class="ttname"><a href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">SensorArray::sample</a></div><div class="ttdeci">void sample()</div><div class="ttdef"><b>Definition</b> <a href="SensorArray_8cpp_source.html#l00038">SensorArray.cpp:38</a></div></div>
 <div class="ttc" id="aclassSensor_html"><div class="ttname"><a href="classSensor.html">Sensor</a></div><div class="ttdef"><b>Definition</b> <a href="Sensor_8h_source.html#l00006">Sensor.h:6</a></div></div>
-<div class="ttc" id="aclassSensor_html_a3d40a695c6431d600bb6286e38ab2356"><div class="ttname"><a href="classSensor.html#a3d40a695c6431d600bb6286e38ab2356">Sensor::digitalize</a></div><div class="ttdeci">int digitalize()</div><div class="ttdef"><b>Definition</b> <a href="Sensor_8cpp_source.html#l00051">Sensor.cpp:51</a></div></div>
 <div class="ttc" id="aclassSensor_html_aa97ecacda5c962842ae3c74888952117"><div class="ttname"><a href="classSensor.html#aa97ecacda5c962842ae3c74888952117">Sensor::GetValue</a></div><div class="ttdeci">float GetValue()</div><div class="ttdef"><b>Definition</b> <a href="Sensor_8cpp_source.html#l00016">Sensor.cpp:16</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

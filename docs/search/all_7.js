@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['getcurrentsamplenorm_0',['getcurrentsamplenorm',['../classSensorArray.html#a5bdf9bb4665ba7c7c7435bc0f346c6b6',1,'SensorArray::getCurrentSampleNorm()'],['../classPotentiometer.html#a08272c7d8a85fd4acefba309d25d9004',1,'Potentiometer::getCurrentSampleNorm(void)']]],
-  ['getcurrentsamplevolts_1',['getcurrentsamplevolts',['../classPotentiometer.html#a3bbad0d08ee0bfa42723b9b18fd8a335',1,'Potentiometer::getCurrentSampleVolts()'],['../classSensorArray.html#a58f24872c505a49726c5c277027ff916',1,'SensorArray::getCurrentSampleVolts()']]],
+  ['getcurrentsamplenorm_0',['getCurrentSampleNorm',['../classPotentiometer.html#a08272c7d8a85fd4acefba309d25d9004',1,'Potentiometer']]],
+  ['getcurrentsamplevolts_1',['getCurrentSampleVolts',['../classPotentiometer.html#a3bbad0d08ee0bfa42723b9b18fd8a335',1,'Potentiometer']]],
   ['getdistance_2',['getDistance',['../classEncoder.html#aa4c38fc45f4a2952c1220985e2aaa010',1,'Encoder']]],
   ['geterror_3',['getError',['../classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc',1,'SensorArray']]],
   ['getkd_4',['getKd',['../classPIDController.html#a61d0ffee6a4af464cc30e79668693f85',1,'PIDController']]],
@@ -13,5 +13,6 @@ var searchData=
   ['getscalingmultiplier_10',['getScalingMultiplier',['../classPIDController.html#a1c55cc0ccb0b2d25023fc4a78e8bea23',1,'PIDController']]],
   ['getspeed_11',['getspeed',['../classEncoder.html#a9893c437b7764af322ec73b58d2274f2',1,'Encoder::getSpeed()'],['../classMotor.html#a16fd26b8314eb4d70fa1910deb482797',1,'Motor::getSpeed()']]],
   ['getvalue_12',['GetValue',['../classSensor.html#aa97ecacda5c962842ae3c74888952117',1,'Sensor']]],
-  ['go_5fflag_13',['go_flag',['../classBluetooth.html#ac21ce9e574051e199d686a83033957b7',1,'Bluetooth']]]
+  ['getvalues_13',['getValues',['../classSensorArray.html#a4801fb1d5c06c94388a7f679ba43462e',1,'SensorArray']]],
+  ['go_5fflag_14',['go_flag',['../classBluetooth.html#ac21ce9e574051e199d686a83033957b7',1,'Bluetooth']]]
 ];

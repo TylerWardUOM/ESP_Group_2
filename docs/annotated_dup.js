@@ -1,5 +1,7 @@
 var annotated_dup =
 [
+    [ "BangBangParams", "structBangBangParams.html", "structBangBangParams" ],
+    [ "BangBangProportionalParams", "structBangBangProportionalParams.html", "structBangBangProportionalParams" ],
     [ "Bluetooth", "classBluetooth.html", "classBluetooth" ],
     [ "ControlSystem", "classControlSystem.html", "classControlSystem" ],
     [ "Encoder", "classEncoder.html", "classEncoder" ],
