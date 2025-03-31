@@ -34,8 +34,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-Serial btSerial(PA_11,PA_12);
-//Serial btSerial(USBTX,USBRX);
+//Serial btSerial(PA_11,PA_12);
+Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -102,6 +102,16 @@ int main() {
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                if (bluetooth.shouldCallibrateWhite()){
+                    sensorArray.calibrate();
+                    bluetooth.sendCallibrationFinished();//Update to send the callibrated values
+                    break;
+                }
+                if (bluetooth.shouldCallibrateBlack()){
+                    sensorArray.calibrateBlack();
+                    bluetooth.sendCallibrationFinished();
+                    break;
+                }
                 break;
 
             case speed_control_mode:
@@ -121,13 +131,6 @@ int main() {
                 rightWheel.setSpeed(speedRawR);
                 break;
 
-            case sensor_callibration:
-                if (bluetooth.shouldStart()){
-                    sensorArray.calibrate();
-                    bluetooth.sendMovementFinished();
-                    break;
-                }
-                break;
             
             case sensor_debug_menu:
                 wait(1);

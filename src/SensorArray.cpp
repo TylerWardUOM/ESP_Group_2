@@ -7,6 +7,8 @@ SensorArray::SensorArray(Sensor** _sensors, Bluetooth &bt): _bt(bt) {
     memcpy(sensors, _sensors, 6 * sizeof(Sensor*));  // Faster than loop assignment
     float defaultCalibratedValues[6] = {2.2596, 2.0807, 2.0566, 2.6416, 1.7092, 1.9590};
     memcpy(calibratedValues, defaultCalibratedValues, sizeof(calibratedValues));
+    float defaultBlackValues[6] = {0};
+    memcpy(blackValues, defaultBlackValues, sizeof(blackValues));
 }
 
 
@@ -34,11 +36,34 @@ void SensorArray::calibrate() {
     }
 }
 
+// Calibrate sensor array by reading values over the black surface
+void SensorArray::calibrateBlack() {
+    float minReading[6] = {10000};  // To store the minimum value for each sensor
+    int samples = 100;  // Number of samples for calibration
+
+    // Take multiple samples and determine the minimum reading for each sensor (black surface)
+    for (int j = 0; j < samples; j++) {
+        for (int i = 0; i < 6; i++) {
+            float val = sensors[i]->GetValue();
+            if (val < minReading[i]) {
+                minReading[i] = val;  // Track the minimum value (black surface)
+            }
+        }
+        wait(0.01);  // Small delay to allow readings to stabilize
+    }
+
+    // Normalize the sensor values based on the minimum readings (black surface calibration)
+    for (int i = 0; i < 6; i++) {
+        blackValues[i] = minReading[i];  // Store min value as calibration value
+    }
+}
+
+
 // Sample analog values from sensors (after calibration)
 void SensorArray::sample() {
     for (int i = 0; i < 6; i++) {
         float val = sensors[i]->GetValue();
-        sensorvalues[i] = (val / calibratedValues[i]);  // Normalize each sensor's value
+        sensorvalues[i] = ((val-blackValues[i]) / calibratedValues[i]);  // Normalize each sensor's value
         digitalStates[i] = sensorvalues[i] > 0.4; // Inline digitalization (thresholding)
     }
 }
