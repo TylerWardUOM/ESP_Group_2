@@ -28,6 +28,8 @@
 
 //Battery Monitor
 
+DigitalInOut one_wire_pin(PC_3);
+
 SquarePatternParams squareParams;
 StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
@@ -151,7 +153,6 @@ int main() {
                 CurrentReading = ReadCurrent(); 
                 Current = CurrentReading/6400.0;
                 batteryPercentage=getBatteryPercentage(Voltage,Current);
-                bluetooth.printDebugData("%.2f,%.2f,%.2f",Voltage,Current,batteryPercentage);
 
                 break;
 
