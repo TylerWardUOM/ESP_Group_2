@@ -14,7 +14,7 @@ ControlSystem::ControlSystem(Wheel& leftWheel, Wheel& rightWheel,
       movementCompleted(true), _track_width(track_width),squareState(IDLE_SQUARE),
       bluetooth(bluetooth),
       squareCompleted(true),square_distance(0),square_speed(0),square_left_turn_multiplier(1),square_right_turn_multiplier(1),
-      sensorArray(sensorArray){}
+      sensorArray(sensorArray),turnSpeedMultiplier(0.0f){}
 
 void ControlSystem::moveForward(float distance, float speed) {
     //Ensure Motors Enabled
@@ -54,10 +54,13 @@ void ControlSystem::turn(float angle, float speed) {
         bluetooth.resetDebugData();
     }}
 
-void ControlSystem::follow(float speed) {
-    basespeed = speed;
+void ControlSystem::follow(const FollowParams& params) {
+    enableWheels();
+    resetEncoders();
+    basespeed = params.speed;
     state = FOLLOW_LINE;       // Set the state to FOLLOW_LINE
     movementCompleted = false;
+    pidLine.reset();
 }
 
 void ControlSystem::moveSquare(float distance, float speed, float left_turn_multiplier, float right_turn_multiplier) {
@@ -88,6 +91,45 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
 }
 
 
+
+void ControlSystem::setBangBangMode(const BangBangParams& params) {
+    // Ensure wheels are enabled before setting control mode
+    enableWheels();
+    // Store the given parameters
+    basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
+    turnSpeedMultiplier = params.turnSpeedMultiplier;
+
+    // Set control state
+    state = BANG_BANG;
+    movementCompleted = false;
+
+    // Reset encoders (if needed for tracking)
+    resetEncoders();
+    bluetooth.resetDebugData();
+}
+
+void ControlSystem::setBangBangProportionalMode(const BangBangProportionalParams& params) {
+    // Ensure wheels are enabled before setting control mode
+    enableWheels();
+
+    // Store the given parameters
+    basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
+    kP = params.kP;
+    maxMultiplier = params.maxMultiplier;
+
+    // Set control state
+    state = BANG_BANG_PROPORTIONAL;
+    movementCompleted = false;
+
+    // Reset encoders (if needed for tracking)
+    resetEncoders();
+}
+
+
+
+
 void ControlSystem::update() {
     static bool timerStarted = false;
     if (!timerStarted) {
@@ -113,10 +155,19 @@ void ControlSystem::update() {
             break;
         case IDLE:
             stopWheels();
+            pidTimer.stop();
+            pidTimer.reset(); 
+            timerStarted = false;
             break;
         case FOLLOW_LINE:
              processFollowLine(dt);
              break;
+        case BANG_BANG_PROPORTIONAL:
+            processBangBangProportional();
+            break;
+        case BANG_BANG:
+            processBangBang();
+            break;
     }
 }
 
@@ -164,10 +215,10 @@ void ControlSystem::setModePIDParameters(const SquarePatternParams* squareParams
     }
 
     if (followParams) {
-        pidTurn.setKp(followParams->pid_kp);
-        pidTurn.setKi(followParams->pid_ki);
-        pidTurn.setKd(followParams->pid_kd);
-        pidTurn.setScalingMultiplier(followParams->pid_scaling);
+        pidLine.setKp(followParams->pid_kp);
+        pidLine.setKi(followParams->pid_ki);
+        pidLine.setKd(followParams->pid_kd);
+        pidLine.setScalingMultiplier(followParams->pid_scaling);
     }
 }
 
@@ -313,19 +364,93 @@ void ControlSystem::processSquare() {
 
 void ControlSystem::processFollowLine(float dt) {
     // Implement line following algorithm here
+    
+    //for debugging
+    float* sensorValues = sensorArray.getValues();  // Get pointer to array
+    float leftDistance = fabs(leftWheel.encoder.getDistance());
+    float rightDistance = fabs(rightWheel.encoder.getDistance());
+
+
     float error = sensorArray.getError();
-    float output = pidLine.update(error, dt);  //kp,ki,kd need test after td2
-    float multiplier = 1.0f - (output);
+
+    if (error>=900){
+        stopWheels();
+        movementCompleted = true;
+        state = IDLE;
+    };
+    float pidOutput = pidLine.update(error, dt);  //kp,ki,kd need test after td2
+    float multiplier = 1.0f - (pidOutput);
     
     leftWheel.setSpeed(basespeed * multiplier);
     rightWheel.setSpeed(basespeed);
-
+    //For Debugging
+    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier,sensorValues);
 }
 
 
-//////calvin
+void ControlSystem::processBangBang() {
+    float error = sensorArray.getError();  // Get error from sensor array
+    static int lostCount = 0;
+    if (error>=900){
+        if (lostCount>2500){ //Should Change Based off Control Interval or do a timer
+            stopWheels();
+            movementCompleted = true;
+            state = IDLE;
+            lostCount = 0;
+        }
+        lostCount++;
+    }else{
+    if (error > bangBangThreshold) {
+        // Turn right sharply
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down right wheel
+    } 
+    else if (error < -bangBangThreshold) {
+        // Turn left sharply
+        leftWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down left wheel
+        rightWheel.setSpeed(basespeed);
+    } 
+    else {
+        // Drive straight
+        //Could Add A multiplier for long straights to increase speed
+        //Use a Straight count to trigger it eg if straightCount>1000 
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed);
+    }
+    lostCount=0;
+    }
+}
 
-/////////////////////////
+void ControlSystem::processBangBangProportional() {
+    float error = sensorArray.getError();  // Get error from sensor array
+
+    if (error>=900){
+        stopWheels();
+        movementCompleted = true;
+        state = IDLE;
+    }
+
+    if (fabs(error) > bangBangThreshold) {
+        // Use bang-bang for large errors
+        if (error > 0) {
+            leftWheel.setSpeed(basespeed);
+            rightWheel.setSpeed(basespeed * 0.5);
+        } else {
+            leftWheel.setSpeed(basespeed * 0.5);
+            rightWheel.setSpeed(basespeed);
+        }
+    } else {
+        // Use proportional control for small errors
+        float multiplier = 1.0f + kP * error;
+
+        // Clamp the multiplier
+        if (multiplier > maxMultiplier) multiplier = maxMultiplier;
+        if (multiplier < 1.0f / maxMultiplier) multiplier = 1.0f / maxMultiplier;
+
+        leftWheel.setSpeed(basespeed);
+        rightWheel.setSpeed(basespeed * multiplier);
+    }
+}
 
 
 void ControlSystem::stopWheels() {
@@ -337,7 +462,6 @@ void ControlSystem::stopWheels() {
 
 void ControlSystem::enableWheels(){
     leftWheel.enableMotor();
-    rightWheel.enableMotor();
 }
 void ControlSystem::disableWheels(){
     leftWheel.disableMotor();
@@ -347,4 +471,25 @@ void ControlSystem::disableWheels(){
 void ControlSystem::resetEncoders(){
     leftWheel.encoder.reset();
     rightWheel.encoder.reset();
+}
+
+void ControlSystem::regulateWheelSpeed(){
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeed();
+}
+
+void ControlSystem::debugRegulateWheelSpeed(){
+    static int counter = 0;
+    leftWheel.regulateSpeed();
+    rightWheel.regulateSpeedDebug();
+    if (counter==150){
+        bluetooth.printMotorDebugData(leftWheel.encoder.getSpeed(),rightWheel.encoder.getSpeed());
+        counter=0;
+    }
+    counter++;
+}
+
+void ControlSystem::setWheelKp(float wheelKp){
+    leftWheel.setKp(wheelKp);
+    rightWheel.setKp(wheelKp);
 }
