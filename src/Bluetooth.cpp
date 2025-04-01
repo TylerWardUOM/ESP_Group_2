@@ -204,6 +204,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "CALLIBRATE_BLACK") == 0) {
         callibrateBlack_flag=true;
         _serial.printf("CALLIBRATING_BLACK\n");
+    }else if (strcmp(cmd, "BATTERY") == 0) {
+        readBattery_flag=true;
+        _serial.printf("SENDING_BATTERY\n");
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -465,4 +468,16 @@ void Bluetooth::updateSpeed(const char* speedStr) {
     } else {
         printf("Invalid SET_SPEED command format\n");
     }
+}
+
+void Bluetooth::sendBatteryInfo(float voltage, float current, float batteryPercentage){
+    _serial.printf("BATTERY: Voltage: %.2f, Current: %.3f, Battery: %.2f\n", voltage, current, batteryPercentage);
+}
+
+bool Bluetooth::shouldReadBattery() {
+    if (readBattery_flag) {
+        readBattery_flag = false; // Reset flag
+        return true;
+    }
+    return false;
 }
