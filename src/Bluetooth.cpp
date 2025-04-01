@@ -110,11 +110,6 @@ void Bluetooth::sendAvailableParameters() {
 }
 
 void Bluetooth::sendDebugData() {
-    if (debug_index == 0) {
-        _serial.printf("DEBUG: No data available\n");
-        return;
-    }
-
     _serial.printf("DEBUG_START\n");
     for (int i = 0; i < debug_index; i++) {
         DebugEntry& entry = debug_data_buffer[i];
@@ -122,9 +117,8 @@ void Bluetooth::sendDebugData() {
 
         switch (entry.type) {
             case MOTOR_DEBUG:
-                _serial.printf("MOTOR:%f,%f,%f,%f,%f,%f\n",
-                               entry.data.motor.left_distance,
-                               entry.data.motor.right_distance,
+                _serial.printf("MOTOR:%f,%f,%f,%f,%f\n",
+                               entry.data.motor.distance,
                                entry.data.motor.speed,
                                entry.data.motor.set_speed,
                                entry.data.motor.error,
@@ -145,6 +139,13 @@ void Bluetooth::sendDebugData() {
                                entry.data.control.pid_output,
                                entry.data.control.multiplier);
                 break;
+            case SQUARE_DEBUG:
+                _serial.printf("SQUARE:%f,%f,%f,%f,%f\n",
+                                entry.data.square.left_distance,
+                                entry.data.square.right_distance,
+                                entry.data.square.error,
+                                entry.data.square.pid_output,
+                                entry.data.square.multiplier);
         }
     }
 
@@ -381,6 +382,9 @@ void Bluetooth::logDebugData(DebugType type, const void* data) {
             break;
         case CONTROL_DEBUG:
             memcpy(&entry.data.control, data, sizeof(ControlDebugData));
+            break;
+        case SQUARE_DEBUG:
+            memcpy(&entry.data.square, data, sizeof(SquareDebugData));
             break;
     }
 }

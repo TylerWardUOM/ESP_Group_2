@@ -51,6 +51,11 @@ public:
     void debugSensorData();
 
     /**
+     * @brief Sends live sensor data for debugging purposes via Bluetooth.
+     */
+    void live_debugSensorData();
+
+    /**
      * @brief Retrieves the latest sensor readings.
      * @return Pointer to an array containing sensor values.
      */

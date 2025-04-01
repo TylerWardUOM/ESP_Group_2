@@ -19,12 +19,12 @@ public:
     enum DebugType {
         MOTOR_DEBUG,
         SENSOR_DEBUG,
-        CONTROL_DEBUG
+        CONTROL_DEBUG,
+        SQUARE_DEBUG
     };
 
     struct MotorDebugData {
-        float left_distance;
-        float right_distance;
+        float distance;
         float speed;
         float set_speed;
         float error;
@@ -41,10 +41,19 @@ public:
         float multiplier;
     };
 
+    struct SquareDebugData{
+        float left_distance;
+        float right_distance;
+        float error;
+        float pid_output;
+        float multiplier;
+    };
+
     union DebugDataUnion {
         MotorDebugData motor;
         SensorDebugData sensor;
         ControlDebugData control;
+        SquareDebugData square;
     };
 
     struct DebugEntry {
