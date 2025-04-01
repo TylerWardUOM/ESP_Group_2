@@ -16,52 +16,81 @@
  */
 class Bluetooth {
 public:
+   /**
+     * @enum DebugType
+     * @brief Defines different types of debugging information.
+     */
     enum DebugType {
-        MOTOR_DEBUG,
-        SENSOR_DEBUG,
-        CONTROL_DEBUG,
-        SQUARE_DEBUG
+        MOTOR_DEBUG,   /**< Debugging information related to motor control. */
+        SENSOR_DEBUG,  /**< Debugging information related to sensor readings. */
+        CONTROL_DEBUG, /**< Debugging information related to control system. */
+        SQUARE_DEBUG   /**< Debugging information related to square movement pattern. */
     };
 
+    /**
+     * @struct MotorDebugData
+     * @brief Stores motor-related debug information.
+     */
     struct MotorDebugData {
-        int side; //0 left 1 right
-        float distance;
-        float speed;
-        float set_speed;
-        float error;
-        float adjustment;
+        int side;        /**< 0 for left, 1 for right motor. */
+        float distance;  /**< Distance traveled by the motor. */
+        float speed;     /**< Current speed of the motor. */
+        float set_speed; /**< Desired speed of the motor. */
+        float error;     /**< Error in speed tracking. */
+        float adjustment; /**< Adjustments applied for error correction. */
     };
 
+    /**
+     * @struct SensorDebugData
+     * @brief Stores sensor-related debug information.
+     */
     struct SensorDebugData {
-        float sensor_values[6];
-        float error;
+        float sensor_values[6]; /**< Array storing sensor readings. */
+        float error;            /**< Computed sensor error. */
     };
 
+    /**
+     * @struct ControlDebugData
+     * @brief Stores control-related debug information.
+     */
     struct ControlDebugData {
-        float pid_output;
-        float multiplier;
+        float pid_output; /**< PID controller output. */
+        float multiplier; /**< Multiplier for control adjustments. */
     };
 
-    struct SquareDebugData{
-        float left_distance;
-        float right_distance;
-        float error;
-        float pid_output;
-        float multiplier;
+    /**
+     * @struct SquareDebugData
+     * @brief Stores debug information related to square movement pattern.
+     */
+    struct SquareDebugData {
+        float left_distance;  /**< Distance covered by the left wheel. */
+        float right_distance; /**< Distance covered by the right wheel. */
+        float error;          /**< Error in maintaining the path. */
+        float pid_output;     /**< PID controller output for correction. */
+        float multiplier;     /**< Multiplier applied for adjustments. */
     };
 
+    /**
+     * @union DebugDataUnion
+     * @brief A union to store different types of debug data.
+     */
     union DebugDataUnion {
-        MotorDebugData motor;
-        SensorDebugData sensor;
-        ControlDebugData control;
-        SquareDebugData square;
+        MotorDebugData motor;   /**< Motor debug data. */
+        SensorDebugData sensor; /**< Sensor debug data. */
+        ControlDebugData control; /**< Control system debug data. */
+        SquareDebugData square; /**< Square movement debug data. */
     };
 
+    /**
+     * @struct DebugEntry
+     * @brief Stores a debug entry containing type, timestamp, and data.
+     */
     struct DebugEntry {
-        DebugType type;
-        uint32_t timestamp;
-        DebugDataUnion data;
+        DebugType type;      /**< Type of debug data. */
+        uint32_t timestamp;  /**< Timestamp of the debug entry. */
+        DebugDataUnion data; /**< Union containing debug data. */
     };
+
     /**
      * @brief Constructs a Bluetooth object.
      * @param serial Reference to a Serial object for Bluetooth communication.
@@ -140,13 +169,10 @@ public:
 
     /**
      * @brief Logs debug data for tracking buggy movement and control performance.
-     * @param leftDistance Distance measured by the left wheel encoder.
-     * @param rightDistance Distance measured by the right wheel encoder.
-     * @param error Current positional error.
-     * @param pidOutput PID controller output value.
-     * @param multiplier Control multiplier applied.
+     * @param type The type of debug data being logged.
+     * @param data Pointer to a DebugDataUnion structure containing debug information.
      */
-    void logDebugData(DebugType type, const void* data);
+    void logDebugData(DebugType type, const DebugDataUnion* data);
 
     /**
      * @brief Resets the debug data buffer.

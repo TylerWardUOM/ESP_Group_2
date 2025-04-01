@@ -281,6 +281,9 @@ int main() {
                         controlticker.detach();
                         sensorTicker.detach();
                         motorTicker.detach();
+                        sensor_debugTicker.detach();
+                        motor_debugTicker.detach();
+                        control_debugTicker.detach();
                         bluetooth.sendMovementFinished();
                         bluetooth.sendDebugData();
                         stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
