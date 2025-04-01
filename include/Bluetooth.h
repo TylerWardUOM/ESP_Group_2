@@ -226,6 +226,7 @@ private:
      */
     void sendCurrentMode();
 
+
     /**
      * @struct DebugEntry
      * @brief Stores a single debug entry for movement logging.
@@ -245,6 +246,7 @@ private:
 
     DebugEntry debug_data_buffer[MAX_ENTRIES]; ///< Buffer for storing debug data entries.
     int debug_index = 0; ///< Current index in the debug data buffer.
+
 
     float desiredSpeedL = 0.0;
     float desiredSpeedR = 0.0;
