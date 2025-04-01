@@ -4,8 +4,6 @@
 #include <cstdio>
 #include "mbed.h"
 
-// Define the timer
-Timer debugTimer;
 
 //Add a message when movement starts so website knows to wait and then a movement complete message that could open debug mode
 //Debug mode puts data in table and also displays parameters used somewhere
@@ -112,28 +110,45 @@ void Bluetooth::sendAvailableParameters() {
 }
 
 void Bluetooth::sendDebugData() {
-    _serial.printf("DEBUG DATA:\n");
-
-    for (int i = 0; i < debug_index; i++) {
-        DebugEntry entry = debug_data_buffer[i];
-
-        // Print main debug info
-        _serial.printf("%lu ms: Left_Distance=%f, Right_Distance=%f, Error=%f, PID_out=%f, Multiplier=%f\n",
-                       entry.timestamp, entry.left_distance, entry.right_distance, entry.error, entry.pid_output, entry.multiplier);
-
-        // Print sensor values (formatted inline)
-        _serial.printf("Sensors: [");
-        for (int j = 0; j < 6; j++) {
-            _serial.printf("%f", entry.sensor_values[j]);
-            if (j < 5) {
-                _serial.printf(", "); // Add commas between values
-            }
-        }
-        _serial.printf("]\n"); // Close sensor array output
+    if (debug_index == 0) {
+        _serial.printf("DEBUG: No data available\n");
+        return;
     }
 
-    debug_index = 0; // Reset binary buffer after sending
+    _serial.printf("DEBUG_START\n");
+    for (int i = 0; i < debug_index; i++) {
+        DebugEntry& entry = debug_data_buffer[i];
+        _serial.printf("%lu,%d,", entry.timestamp, entry.type);
 
+        switch (entry.type) {
+            case MOTOR_DEBUG:
+                _serial.printf("MOTOR:%f,%f,%f,%f,%f,%f\n",
+                               entry.data.motor.left_distance,
+                               entry.data.motor.right_distance,
+                               entry.data.motor.speed,
+                               entry.data.motor.set_speed,
+                               entry.data.motor.error,
+                               entry.data.motor.adjustment);
+                break;
+
+            case SENSOR_DEBUG:
+                _serial.printf("SENSOR:%f,", entry.data.sensor.error);
+                for (int j = 0; j < 6; j++) {
+                    _serial.printf("%f", entry.data.sensor.sensor_values[j]);
+                    if (j < 5) _serial.printf(",");
+                }
+                _serial.printf("\n");
+                break;
+
+            case CONTROL_DEBUG:
+                _serial.printf("CONTROL:%f,%f\n",
+                               entry.data.control.pid_output,
+                               entry.data.control.multiplier);
+                break;
+        }
+    }
+
+    debug_index = 0; // Clear buffer after sending
     _serial.printf("DEBUG_END\n");
 }
 
@@ -348,31 +363,27 @@ void Bluetooth::sendCurrentMode() {
 
 
 
-void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier, float* sensorValues) {
+void Bluetooth::logDebugData(DebugType type, const void* data) {
     if (debug_index >= MAX_ENTRIES) {
         return;  // Avoid buffer overflow
     }
 
-    // Get reference to the next available entry (avoids redundant indexing)
     DebugEntry& entry = debug_data_buffer[debug_index++];
-
-    // Assign basic data
     entry.timestamp = debugTimer.read_ms();
-    entry.left_distance = leftDistance;
-    entry.right_distance = rightDistance;
-    entry.error = error;
-    entry.pid_output = pidOutput;
-    entry.multiplier = multiplier;
+    entry.type = type;
 
-    // Only copy sensor values if provided
-    if (sensorValues) {
-        memcpy(entry.sensor_values, sensorValues, 6 * sizeof(float));
-    } else {
-        memset(entry.sensor_values, 0, 6 * sizeof(float)); // Default to 0 if no values provided
+    switch (type) {
+        case MOTOR_DEBUG:
+            memcpy(&entry.data.motor, data, sizeof(MotorDebugData));
+            break;
+        case SENSOR_DEBUG:
+            memcpy(&entry.data.sensor, data, sizeof(SensorDebugData));
+            break;
+        case CONTROL_DEBUG:
+            memcpy(&entry.data.control, data, sizeof(ControlDebugData));
+            break;
     }
 }
-
-
 
 
 void Bluetooth::resetDebugData() {

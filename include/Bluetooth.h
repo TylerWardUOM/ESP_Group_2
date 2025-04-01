@@ -16,6 +16,42 @@
  */
 class Bluetooth {
 public:
+    enum DebugType {
+        MOTOR_DEBUG,
+        SENSOR_DEBUG,
+        CONTROL_DEBUG
+    };
+
+    struct MotorDebugData {
+        float left_distance;
+        float right_distance;
+        float speed;
+        float set_speed;
+        float error;
+        float adjustment;
+    };
+
+    struct SensorDebugData {
+        float sensor_values[6];
+        float error;
+    };
+
+    struct ControlDebugData {
+        float pid_output;
+        float multiplier;
+    };
+
+    union DebugDataUnion {
+        MotorDebugData motor;
+        SensorDebugData sensor;
+        ControlDebugData control;
+    };
+
+    struct DebugEntry {
+        DebugType type;
+        uint32_t timestamp;
+        DebugDataUnion data;
+    };
     /**
      * @brief Constructs a Bluetooth object.
      * @param serial Reference to a Serial object for Bluetooth communication.
@@ -100,7 +136,7 @@ public:
      * @param pidOutput PID controller output value.
      * @param multiplier Control multiplier applied.
      */
-    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier,float* sensorValues = NULL);
+    void logDebugData(DebugType type, const void* data);
 
     /**
      * @brief Resets the debug data buffer.
@@ -227,26 +263,12 @@ private:
     void sendCurrentMode();
 
 
-    /**
-     * @struct DebugEntry
-     * @brief Stores a single debug entry for movement logging.
-     */
-    struct DebugEntry {
-        uint32_t timestamp; ///< Timestamp of the recorded data entry.
-        float left_distance; ///< Distance recorded by the left wheel encoder.
-        float right_distance; ///< Distance recorded by the right wheel encoder.
-        float error; ///< Positional error value.
-        float pid_output; ///< PID controller output.
-        float multiplier; ///< Applied control multiplier.
-        float sensor_values[6]; ///< Array to store sensor values.
-    };
-
     #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  ///< Half of available RAM allocated for debugging.
     #define MAX_ENTRIES  (DEBUG_RAM_ALLOCATION / sizeof(DebugEntry)) ///< Maximum number of debug entries.
 
     DebugEntry debug_data_buffer[MAX_ENTRIES]; ///< Buffer for storing debug data entries.
     int debug_index = 0; ///< Current index in the debug data buffer.
-
+    Timer debugTimer; ///< Timer for debug log time stamps.
 
     float desiredSpeedL = 0.0;
     float desiredSpeedR = 0.0;
