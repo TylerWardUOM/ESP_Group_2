@@ -7,6 +7,7 @@
 #include "BuggyModeParameters.h"
 
 /**
+ * @file Bluetooth.h
  * @class Bluetooth
  * @brief Handles Bluetooth communication for controlling the buggy.
  *

@@ -1,32 +1,95 @@
 #ifndef WHEEL_H
 #define WHEEL_H
 
+/**
+ * @file Wheel.h
+ * @brief Defines the Wheel class, which handles motor control and speed regulation.
+ */
+
 #include "mbed.h"
 #include "Motor.h"
 #include "Encoder.h"
 
+/**
+ * @class Wheel
+ * @brief Represents a wheel with motor control and speed regulation.
+ */
 class Wheel {
 public:
+    /**
+     * @brief Constructs a Wheel object.
+     * @param motorBipolar Pin for motor bipolar control.
+     * @param motorMultiplier Speed multiplier for the motor.
+     * @param motorPwm PWM pin for motor speed control.
+     * @param motorEnable Pin to enable or disable the motor.
+     * @param encoderA Encoder channel A pin.
+     * @param encoderB Encoder channel B pin.
+     * @param wheelDiameter Diameter of the wheel in meters.
+     * @param encoderResolution Number of pulses per revolution.
+     * @param maxRpm Maximum RPM of the motor.
+     */
     Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinName motorEnable, 
           PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm);
 
+    /**
+     * @brief Sets the target speed of the wheel.
+     * @param rpm Desired speed in revolutions per minute (RPM).
+     */
     void setSpeed(int rpm);
+
+    /**
+     * @brief Regulates the wheel speed using proportional control.
+     */
     void regulateSpeed();
+
+    /**
+     * @brief Regulates the wheel speed and logs debug information.
+     */
     void regulateSpeedDebug();
+
+    /**
+     * @brief Starts automatic speed regulation at a fixed interval.
+     * @param interval Time interval (in seconds) for speed regulation updates.
+     */
     void startRegulation(float interval);
+
+    /**
+     * @brief Stops the automatic speed regulation.
+     */
     void stopRegulation();
+
+    /**
+     * @brief Enables the motor.
+     */
     void enableMotor();
+
+    /**
+     * @brief Disables the motor.
+     */
     void disableMotor();
+
+    /**
+     * @brief Sets the proportional gain (Kp) for speed control.
+     * @param kp Proportional gain value.
+     */
     void setKp(float kp);
+
+    /**
+     * @brief Stops the wheel by setting speed to zero.
+     */
     void stop();
+
+    /// Motor control instance
     Motor motor;
+
+    /// Encoder instance for measuring wheel speed and distance
     Encoder encoder;
 
 private:
-    int target_rpm;
-    int max_rpm;
-    float Kp;
-    Ticker ticker;
+    int target_rpm; ///< Target speed in RPM
+    int max_rpm; ///< Maximum allowable speed in RPM
+    float Kp; ///< Proportional gain for speed regulation
+    Ticker ticker; ///< Timer for automatic speed regulation
 };
 
 #endif // WHEEL_H
