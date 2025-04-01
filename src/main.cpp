@@ -28,6 +28,8 @@
 
 //Battery Monitor
 
+DigitalInOut one_wire_pin(PC_3);
+
 SquarePatternParams squareParams;
 StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
@@ -98,8 +100,6 @@ float getBatteryPercentage(float voltage, float current) {
     float batteryPercentage = (remainingCapacity / fullBatteryCapacity) * 100.0;
     batteryPercentage = fmax(0.0, fmin(100.0, batteryPercentage)); // Ensure within 0-100%
 
-    printf("Voltage: %.2fV, Current: %.3fA, Battery: %.2f%%\n", voltage, current, batteryPercentage);
-    
     return batteryPercentage;
 }
 
@@ -146,12 +146,14 @@ int main() {
                     bluetooth.sendCallibrationFinished();
                     break;
                 }
-                VoltageReading = ReadVoltage(); 
-                Voltage = VoltageReading*0.00967; 
-                CurrentReading = ReadCurrent(); 
-                Current = CurrentReading/6400.0;
-                batteryPercentage=getBatteryPercentage(Voltage,Current);
-                bluetooth.printDebugData("%.2f,%.2f,%.2f",Voltage,Current,batteryPercentage);
+                if (bluetooth.shouldReadBattery()){
+                    VoltageReading = ReadVoltage(); 
+                    Voltage = VoltageReading*0.00967; 
+                    CurrentReading = ReadCurrent(); 
+                    Current = CurrentReading/6400.0;
+                    batteryPercentage=getBatteryPercentage(Voltage,Current);
+                    bluetooth.sendBatteryInfo(Voltage, Current, batteryPercentage);
+                }
 
                 break;
 

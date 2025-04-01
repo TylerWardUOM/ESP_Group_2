@@ -70,6 +70,12 @@ public:
      */
     bool shouldCallibrateBlack();
 
+        /**
+     * @brief Check if the buggy should read battery info.
+     * @return True if Callibrate Command recieved, false otherwise.
+     */
+    bool shouldReadBattery();
+
     /**
      * @brief Sends a notification that the movement has finished.
      */
@@ -143,6 +149,16 @@ public:
     */
     float SpeedRequestRight();
 
+    /**
+     * @brief Sends battery information for monitoring.
+     * 
+     * @param voltage The battery voltage in volts.
+     * @param current The battery current in amperes.
+     * @param batteryPercentage The remaining battery percentage (0-100%).
+     */
+    void sendBatteryInfo(float voltage, float current, float batteryPercentage);
+
+
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
     BuggyMode &_currentMode;  ///< Pointer to the current buggy mode.
@@ -154,8 +170,9 @@ private:
     BangBangProportionalParams &_bbpParams; ///< Pointer to bang bang proportional movement parameters.
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
-    bool callibrateWhite_flag; ///<Flage indicating wether the buggy should callibrate sensors over white.
-    bool callibrateBlack_flag; ///<Flage indicating wether the buggy should callibrate sensors over black.
+    bool callibrateWhite_flag; ///<Flag indicating wether the buggy should callibrate sensors over white.
+    bool callibrateBlack_flag; ///<Flag indicating wether the buggy should callibrate sensors over black.
+    bool readBattery_flag; ///<Flag indicating wether the buggy should read battery info.
 
     static const int BUFFER_SIZE = 128; ///< Size of the receive buffer.
     char rx_buffer[BUFFER_SIZE]; ///< Buffer for storing received commands.
