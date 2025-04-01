@@ -119,7 +119,11 @@ public:
      */
     void debugRegulateWheelSpeed();
 
-
+    /**
+     * @brief Calls wheel debug logging functions.
+     */
+    void debugWheels();
+    
     /**
      * @brief Sets PID parameters based on the current movement mode.
      * @param squareParams Parameters for square movement (nullable).
@@ -223,6 +227,7 @@ private:
      * @brief Processes Bang-Bang control logic.
      */
     void processBangBang();
+
 };
 
 #endif // CONTROL_SYSTEM_H

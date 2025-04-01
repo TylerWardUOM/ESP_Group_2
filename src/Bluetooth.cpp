@@ -86,6 +86,7 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbParams.motor_Kp);
+            _serial.printf("debugFlag=%.7f\n", _bbParams.debugFlag);
             break;
 
         case bang_bang_proportional_menu_mode:
@@ -118,6 +119,7 @@ void Bluetooth::sendDebugData() {
         switch (entry.type) {
             case MOTOR_DEBUG:
                 _serial.printf("MOTOR:%f,%f,%f,%f,%f\n",
+                               entry.data.motor.side,
                                entry.data.motor.distance,
                                entry.data.motor.speed,
                                entry.data.motor.set_speed,
@@ -300,6 +302,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbParams.motor_Kp = value;
+                else if (strcmp(key, "debugFlag") == 0) _bbParams.debugFlag = value;
                 break;
 
             case bang_bang_proportional_menu_mode:

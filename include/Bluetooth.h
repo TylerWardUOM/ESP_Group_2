@@ -24,6 +24,7 @@ public:
     };
 
     struct MotorDebugData {
+        int side; //0 left 1 right
         float distance;
         float speed;
         float set_speed;

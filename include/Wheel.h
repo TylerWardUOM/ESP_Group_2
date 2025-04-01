@@ -69,7 +69,7 @@ public:
     /**
      * @brief Logs wheel data for debugging purposes via Bluetooth.
      */
-    void debugWheelData();
+    void debugWheelData(int side);
 
     /**
      * @brief Disables the motor.

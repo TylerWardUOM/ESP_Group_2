@@ -76,7 +76,7 @@ void Wheel::stop() {
     motor.setSpeed(0.0f);  // Stop the motor
 }
 
-void Wheel::debugWheelData(){
-    Bluetooth::MotorDebugData motorData = {encoder.getDistance(),actual_rpm,target_rpm,error,adjustment};
+void Wheel::debugWheelData(int side){
+    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment};
     _bt.logDebugData(Bluetooth::MOTOR_DEBUG, &motorData);
 }

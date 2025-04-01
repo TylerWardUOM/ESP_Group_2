@@ -494,3 +494,8 @@ void ControlSystem::setWheelKp(float wheelKp){
     leftWheel.setKp(wheelKp);
     rightWheel.setKp(wheelKp);
 }
+
+void ControlSystem::debugWheels(){
+    leftWheel.debugWheelData(0);
+    rightWheel.debugWheelData(1);
+}

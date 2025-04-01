@@ -99,6 +99,7 @@ struct BangBangParams {
     float controlPeriod; ///< Control loop execution period.
     float motorRegulatePeriod; ///< Motor regulation period.
     float motor_Kp; ///< Motor proportional control gain.
+    float debugFlag; ///< Flag for if should debug log.
 
     /**
      * @brief Constructor for BangBangParams.
