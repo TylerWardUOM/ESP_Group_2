@@ -108,6 +108,7 @@ public:
               TurnAngleParams &taParams,
               FollowParams &flParams,
               BangBangParams &bbParams,
+              BangBangBoostParams &bbbParams,
               BangBangProportionalParams &bbpParams);
 
     /**
@@ -292,6 +293,7 @@ private:
     TurnAngleParams &_taParams;     ///< Pointer to turn angle movement parameters.
     FollowParams &_flParams;    ///< Pointer to follow line  movement parameters.
     BangBangParams &_bbParams;  ///< Pointer to bang bang movement parameters.
+    BangBangBoostParams &_bbbParams; ///< Pointer to bang bang boost movement parameters.
     BangBangProportionalParams &_bbpParams; ///< Pointer to bang bang proportional movement parameters.
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.

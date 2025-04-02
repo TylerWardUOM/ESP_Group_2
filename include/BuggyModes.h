@@ -124,6 +124,12 @@ void switchToFollowMode(ControlSystem& control, SensorArray& sensorArray, BuggyM
  */
 void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangParams& params);
 
+
+void switchToBangBangBoostMenuMode(BuggyMode& buggyMode);
+
+
+void switchToBangBangBoostMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangBoostParams& params);
+
 /**
  * @brief Switches the buggy to Bang-Bang proportional mode.
  * @param control Reference to the control system.

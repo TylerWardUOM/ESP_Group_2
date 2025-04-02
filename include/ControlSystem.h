@@ -55,6 +55,8 @@ public:
      * @param params Parameters for Bang-Bang mode.
      */
     void setBangBangMode(const BangBangParams& params);
+  
+    void setBangBangBoostMode(const BangBangBoostParams& params);
 
     /**
      * @brief Engages Bang-Bang control with proportional adjustments.
@@ -108,6 +110,10 @@ public:
      * @param wheelKp Proportional gain value.
      */
     void setWheelKp(float wheelKp);
+  
+    void setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost);
+
+    void regulateWheelSpeedwithBOOST();
 
     /**
      * @brief Calls the wheel control functions to regulate speed using feedback control.

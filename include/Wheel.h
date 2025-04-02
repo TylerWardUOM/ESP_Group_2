@@ -49,6 +49,9 @@ public:
      * @brief Regulates the wheel speed and logs debug information.
      */
     void regulateSpeedDebug();
+  
+  
+    void regulateSpeedwithBOOST();
 
     /**
      * @brief Starts automatic speed regulation at a fixed interval.
@@ -81,6 +84,10 @@ public:
      * @param kp Proportional gain value.
      */
     void setKp(float kp);
+  
+    void setThreshold(float new_threshold);
+  
+    void setBoost(float new_boost);
 
     /**
      * @brief Stops the wheel by setting speed to zero.
@@ -97,6 +104,8 @@ private:
     int target_rpm; ///< Target speed in RPM
     int max_rpm; ///< Maximum allowable speed in RPM
     float Kp; ///< Proportional gain for speed regulation
+    float boost;
+    float threshold;
     float actual_rpm;  ///< Measured RPM from encoder
     float error;       ///< Difference between target and actual RPM
     float adjustment;  ///< P correction value

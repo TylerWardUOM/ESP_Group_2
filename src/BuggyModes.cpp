@@ -46,6 +46,10 @@ void switchToBangBangMenuMode(BuggyMode& buggyMode) {
     buggyMode = bang_bang_menu_mode;
 }
 
+void switchToBangBangBoostMenuMode(BuggyMode& buggyMode) {
+    buggyMode = bang_bang_boost_menu_mode;
+}
+
 void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode) {
     buggyMode = bang_bang_proportional_menu_mode;
 }
@@ -118,8 +122,18 @@ void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, Bug
     motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), params.motorRegulatePeriod);
     buggyMode = waiting_for_movement;
 }
+
+void switchToBangBangBoostMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangBoostParams& params){
+    control.setWheelParams(params.motor_Kp,params.motor_threshold,params.motor_boost);
+    control.setBangBangBoostMode(params);
+    controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
+    motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeedwithBOOST), params.motorRegulatePeriod);
+    buggyMode = waiting_for_movement;
+}
+
 void switchToBangBangProportionalMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangProportionalParams& params){
-    control.setWheelKp(params.motor_Kp);
+    control.setWheelParams(params.motor_Kp,params.motor_threshold,params.motor_boost);
     control.setBangBangProportionalMode(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);

@@ -10,6 +10,7 @@ const char* getModeName(BuggyMode mode) {
         case turn_menu_mode: return "TURN_MENU";
         case follow_menu_mode: return "FOLLOW_MENU";
         case bang_bang_menu_mode: return "BANG_BANG_MENU";
+        case bang_bang_boost_menu_mode: return "BANG_BANG_BOOST_MENU";
         case bang_bang_proportional_menu_mode: return "BANG_PROPORTIONAL_MENU";
         case sensor_debug: return "SENSOR_DEBUG";
         case rc: return "RC";
