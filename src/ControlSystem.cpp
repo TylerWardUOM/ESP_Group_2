@@ -524,7 +524,7 @@ void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float w
     rightWheel.setThreshold(wheel_threshold);
     leftWheel.setBoost(wheel_boost);
     rightWheel.setBoost(wheel_boost);
-
+}
   
 void ControlSystem::debugWheels(){
     leftWheel.debugWheelData(0);

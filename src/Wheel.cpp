@@ -46,10 +46,10 @@ void Wheel::regulateSpeed() {
 }
     
 void Wheel::regulateSpeedwithBOOST() {
-    float actual_rpm = encoder.getSpeed();
-    float error = target_rpm - actual_rpm;
+    actual_rpm = encoder.getSpeed();
+    error = target_rpm - actual_rpm;
 
-    float adjustment = (error / max_rpm) * Kp;  // Proportional control
+    adjustment = (error / max_rpm) * Kp;  // Proportional control
 
     // If the error is large (e.g., struggling uphill), apply a constant boost
 

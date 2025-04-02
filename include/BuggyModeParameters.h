@@ -119,6 +119,7 @@ struct BangBangBoostParams {
     float motor_Kp;
     float motor_threshold;
     float motor_boost;
+    float debugFlag; ///< Flag for if should debug log.
 
     // Constructor
     BangBangBoostParams();

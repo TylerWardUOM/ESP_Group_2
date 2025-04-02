@@ -103,6 +103,7 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("motorKp=%.7f\n", _bbbParams.motor_Kp);
             _serial.printf("motorThreshold=%.7f\n",_bbbParams.motor_threshold);
             _serial.printf("motorBoost=%.7f\n",_bbbParams.motor_boost);
+            _serial.printf("debugFlag=%.7f\n", _bbbParams.debugFlag);
             break;
 
         case bang_bang_proportional_menu_mode:
@@ -341,6 +342,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "motorKp") == 0) _bbbParams.motor_Kp = value;
                 else if (strcmp(key, "motorThreshold") == 0) _bbbParams.motor_threshold = value;
                 else if (strcmp(key, "motorBoost") == 0) _bbbParams.motor_boost = value;
+                else if (strcmp(key, "debugFlag") == 0) _bbbParams.debugFlag = value;
                 break;
 
             case bang_bang_proportional_menu_mode:
