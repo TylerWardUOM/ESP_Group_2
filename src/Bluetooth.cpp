@@ -111,14 +111,14 @@ void Bluetooth::sendAvailableParameters() {
 }
 
 void Bluetooth::sendDebugData() {
-    _serial.printf("DEBUG_START\n");
+    _serial.printf("DEBUG DATA:\n");
     for (int i = 0; i < debug_index; i++) {
         DebugEntry& entry = debug_data_buffer[i];
-        _serial.printf("%lu,%d,", entry.timestamp, entry.type);
+        _serial.printf("T:%lu ", entry.timestamp);
 
         switch (entry.type) {
             case MOTOR_DEBUG:
-                _serial.printf("MOTOR:%f,%f,%f,%f,%f\n",
+                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f\n",
                                entry.data.motor.side,
                                entry.data.motor.distance,
                                entry.data.motor.speed,
@@ -128,21 +128,21 @@ void Bluetooth::sendDebugData() {
                 break;
 
             case SENSOR_DEBUG:
-                _serial.printf("SENSOR:%f,", entry.data.sensor.error);
+                _serial.printf("SENSOR:%.5f,", entry.data.sensor.error);
                 for (int j = 0; j < 6; j++) {
-                    _serial.printf("%f", entry.data.sensor.sensor_values[j]);
+                    _serial.printf("%.5f", entry.data.sensor.sensor_values[j]);
                     if (j < 5) _serial.printf(",");
                 }
                 _serial.printf("\n");
                 break;
 
             case CONTROL_DEBUG:
-                _serial.printf("CONTROL:%f,%f\n",
+                _serial.printf("CONTROL:%.5f,%.5f\n",
                                entry.data.control.pid_output,
                                entry.data.control.multiplier);
                 break;
             case SQUARE_DEBUG:
-                _serial.printf("SQUARE:%f,%f,%f,%f,%f\n",
+                _serial.printf("SQUARE:%.5f,%.5f,%.5f,%.5f,%.5f\n",
                                 entry.data.square.left_distance,
                                 entry.data.square.right_distance,
                                 entry.data.square.error,

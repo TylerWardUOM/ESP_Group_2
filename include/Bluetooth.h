@@ -124,7 +124,59 @@ public:
     void sendAvailableParameters();
 
     /**
-     * @brief Sends debug data from debug buffer over Bluetooth.
+     * @brief Sends debug data from the debug buffer over Bluetooth.
+     * 
+     * This function iterates through the `debug_data_buffer` and sends formatted 
+     * debug information via `_serial`. Each entry in the buffer contains a timestamp 
+     * and a specific type of debug data (Motor, Sensor, Control, or Square).
+     * 
+     * The function then resets the debug buffer after transmission.
+     * 
+     * @note The output format varies depending on the debug type.
+     * 
+     * **Output Format:**
+     * ```
+     * DEBUG DATA:
+     * T:<timestamp> <DATA_TYPE>:<comma-separated values>
+     * DEBUG_END
+     * ```
+     * 
+     * **Debug Data Types & Their Fields:**
+     * - **MOTOR_DEBUG**  
+     *   ```
+     *   MOTOR:<side>,<distance>,<speed>,<set_speed>,<error>,<adjustment>
+     *   ```
+     *   - `side` (int): Motor side (left or right)
+     *   - `distance` (float): Distance traveled
+     *   - `speed` (float): Current speed
+     *   - `set_speed` (float): Target speed
+     *   - `error` (float): Speed error
+     *   - `adjustment` (float): Adjustment applied for correction
+     * 
+     * - **SENSOR_DEBUG**  
+     *   ```
+     *   SENSOR:<error>,<sensor_1>,<sensor_2>,<sensor_3>,<sensor_4>,<sensor_5>,<sensor_6>
+     *   ```
+     *   - `error` (float): Sensor error
+     *   - `sensor_values[6]` (float[6]): Values from individual sensors
+     * 
+     * - **CONTROL_DEBUG**  
+     *   ```
+     *   CONTROL:<pid_output>,<multiplier>
+     *   ```
+     *   - `pid_output` (float): PID controller output
+     *   - `multiplier` (float): Control multiplier
+     * 
+     * - **SQUARE_DEBUG**  
+     *   ```
+     *   SQUARE:<left_distance>,<right_distance>,<error>,<pid_output>,<multiplier>
+     *   ```
+     *   - `left_distance` (float): Left wheel distance
+     *   - `right_distance` (float): Right wheel distance
+     *   - `error` (float): Square alignment error
+     *   - `pid_output` (float): PID correction value
+     *   - `multiplier` (float): Correction multiplier
+     * 
      */
     void sendDebugData();
 
@@ -172,7 +224,7 @@ public:
      * @param type The type of debug data being logged.
      * @param data Pointer to a DebugDataUnion structure containing debug information.
      */
-    void logDebugData(DebugType type, const DebugDataUnion* data);
+    void logDebugData(DebugType type, const void* data);
 
     /**
      * @brief Resets the debug data buffer.
