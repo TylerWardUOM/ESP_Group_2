@@ -57,7 +57,7 @@ void switchToBangBangProportionalMenuMode(BuggyMode& buggyMode) {
 
 void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray& sensorArray){
     wait(1);
-    sensorTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.2);
+    sensorTicker.attach(callback(&sensorArray, &SensorArray::live_debugSensorData), 0.2);
     buggyMode = sensor_debug;
 }
 
@@ -151,4 +151,9 @@ void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, 
     motorTicker.detach();
     //Reset square_flag
     square_flag = false;
+}
+
+void switchToRCMode(ControlSystem& control, BuggyMode& buggyMode){
+    buggyMode=rc;
+    control.enableWheels();
 }

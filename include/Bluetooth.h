@@ -7,6 +7,7 @@
 #include "BuggyModeParameters.h"
 
 /**
+ * @file Bluetooth.h
  * @class Bluetooth
  * @brief Handles Bluetooth communication for controlling the buggy.
  *
@@ -15,6 +16,81 @@
  */
 class Bluetooth {
 public:
+   /**
+     * @enum DebugType
+     * @brief Defines different types of debugging information.
+     */
+    enum DebugType {
+        MOTOR_DEBUG,   /**< Debugging information related to motor control. */
+        SENSOR_DEBUG,  /**< Debugging information related to sensor readings. */
+        CONTROL_DEBUG, /**< Debugging information related to control system. */
+        SQUARE_DEBUG   /**< Debugging information related to square movement pattern. */
+    };
+
+    /**
+     * @struct MotorDebugData
+     * @brief Stores motor-related debug information.
+     */
+    struct MotorDebugData {
+        int side;        /**< 0 for left, 1 for right motor. */
+        float distance;  /**< Distance traveled by the motor. */
+        float speed;     /**< Current speed of the motor. */
+        float set_speed; /**< Desired speed of the motor. */
+        float error;     /**< Error in speed tracking. */
+        float adjustment; /**< Adjustments applied for error correction. */
+    };
+
+    /**
+     * @struct SensorDebugData
+     * @brief Stores sensor-related debug information.
+     */
+    struct SensorDebugData {
+        float sensor_values[6]; /**< Array storing sensor readings. */
+        float error;            /**< Computed sensor error. */
+    };
+
+    /**
+     * @struct ControlDebugData
+     * @brief Stores control-related debug information.
+     */
+    struct ControlDebugData {
+        float pid_output; /**< PID controller output. */
+        float multiplier; /**< Multiplier for control adjustments. */
+    };
+
+    /**
+     * @struct SquareDebugData
+     * @brief Stores debug information related to square movement pattern.
+     */
+    struct SquareDebugData {
+        float left_distance;  /**< Distance covered by the left wheel. */
+        float right_distance; /**< Distance covered by the right wheel. */
+        float error;          /**< Error in maintaining the path. */
+        float pid_output;     /**< PID controller output for correction. */
+        float multiplier;     /**< Multiplier applied for adjustments. */
+    };
+
+    /**
+     * @union DebugDataUnion
+     * @brief A union to store different types of debug data.
+     */
+    union DebugDataUnion {
+        MotorDebugData motor;   /**< Motor debug data. */
+        SensorDebugData sensor; /**< Sensor debug data. */
+        ControlDebugData control; /**< Control system debug data. */
+        SquareDebugData square; /**< Square movement debug data. */
+    };
+
+    /**
+     * @struct DebugEntry
+     * @brief Stores a debug entry containing type, timestamp, and data.
+     */
+    struct DebugEntry {
+        DebugType type;      /**< Type of debug data. */
+        uint32_t timestamp;  /**< Timestamp of the debug entry. */
+        DebugDataUnion data; /**< Union containing debug data. */
+    };
+
     /**
      * @brief Constructs a Bluetooth object.
      * @param serial Reference to a Serial object for Bluetooth communication.
@@ -49,7 +125,59 @@ public:
     void sendAvailableParameters();
 
     /**
-     * @brief Sends debug data from debug buffer over Bluetooth.
+     * @brief Sends debug data from the debug buffer over Bluetooth.
+     * 
+     * This function iterates through the `debug_data_buffer` and sends formatted 
+     * debug information via `_serial`. Each entry in the buffer contains a timestamp 
+     * and a specific type of debug data (Motor, Sensor, Control, or Square).
+     * 
+     * The function then resets the debug buffer after transmission.
+     * 
+     * @note The output format varies depending on the debug type.
+     * 
+     * **Output Format:**
+     * ```
+     * DEBUG DATA:
+     * T:<timestamp> <DATA_TYPE>:<comma-separated values>
+     * DEBUG_END
+     * ```
+     * 
+     * **Debug Data Types & Their Fields:**
+     * - **MOTOR_DEBUG**  
+     *   ```
+     *   MOTOR:<side>,<distance>,<speed>,<set_speed>,<error>,<adjustment>
+     *   ```
+     *   - `side` (int): Motor side (left or right)
+     *   - `distance` (float): Distance traveled
+     *   - `speed` (float): Current speed
+     *   - `set_speed` (float): Target speed
+     *   - `error` (float): Speed error
+     *   - `adjustment` (float): Adjustment applied for correction
+     * 
+     * - **SENSOR_DEBUG**  
+     *   ```
+     *   SENSOR:<error>,<sensor_1>,<sensor_2>,<sensor_3>,<sensor_4>,<sensor_5>,<sensor_6>
+     *   ```
+     *   - `error` (float): Sensor error
+     *   - `sensor_values[6]` (float[6]): Values from individual sensors
+     * 
+     * - **CONTROL_DEBUG**  
+     *   ```
+     *   CONTROL:<pid_output>,<multiplier>
+     *   ```
+     *   - `pid_output` (float): PID controller output
+     *   - `multiplier` (float): Control multiplier
+     * 
+     * - **SQUARE_DEBUG**  
+     *   ```
+     *   SQUARE:<left_distance>,<right_distance>,<error>,<pid_output>,<multiplier>
+     *   ```
+     *   - `left_distance` (float): Left wheel distance
+     *   - `right_distance` (float): Right wheel distance
+     *   - `error` (float): Square alignment error
+     *   - `pid_output` (float): PID correction value
+     *   - `multiplier` (float): Correction multiplier
+     * 
      */
     void sendDebugData();
 
@@ -71,6 +199,12 @@ public:
      */
     bool shouldCallibrateBlack();
 
+        /**
+     * @brief Check if the buggy should read battery info.
+     * @return True if Callibrate Command recieved, false otherwise.
+     */
+    bool shouldReadBattery();
+
     /**
      * @brief Sends a notification that the movement has finished.
      */
@@ -88,13 +222,10 @@ public:
 
     /**
      * @brief Logs debug data for tracking buggy movement and control performance.
-     * @param leftDistance Distance measured by the left wheel encoder.
-     * @param rightDistance Distance measured by the right wheel encoder.
-     * @param error Current positional error.
-     * @param pidOutput PID controller output value.
-     * @param multiplier Control multiplier applied.
+     * @param type The type of debug data being logged.
+     * @param data Pointer to a DebugDataUnion structure containing debug information.
      */
-    void logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier,float* sensorValues = NULL);
+    void logDebugData(DebugType type, const void* data);
 
     /**
      * @brief Resets the debug data buffer.
@@ -144,6 +275,16 @@ public:
     */
     float SpeedRequestRight();
 
+    /**
+     * @brief Sends battery information for monitoring.
+     * 
+     * @param voltage The battery voltage in volts.
+     * @param current The battery current in amperes.
+     * @param batteryPercentage The remaining battery percentage (0-100%).
+     */
+    void sendBatteryInfo(float voltage, float current, float batteryPercentage);
+
+
 private:
     Serial &_serial;  ///< Reference to the Serial interface for Bluetooth communication.
     BuggyMode &_currentMode;  ///< Pointer to the current buggy mode.
@@ -156,8 +297,9 @@ private:
     BangBangProportionalParams &_bbpParams; ///< Pointer to bang bang proportional movement parameters.
 
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
-    bool callibrateWhite_flag; ///<Flage indicating wether the buggy should callibrate sensors over white.
-    bool callibrateBlack_flag; ///<Flage indicating wether the buggy should callibrate sensors over black.
+    bool callibrateWhite_flag; ///<Flag indicating wether the buggy should callibrate sensors over white.
+    bool callibrateBlack_flag; ///<Flag indicating wether the buggy should callibrate sensors over black.
+    bool readBattery_flag; ///<Flag indicating wether the buggy should read battery info.
 
     static const int BUFFER_SIZE = 128; ///< Size of the receive buffer.
     char rx_buffer[BUFFER_SIZE]; ///< Buffer for storing received commands.
@@ -210,25 +352,13 @@ private:
      */
     void sendCurrentMode();
 
-    /**
-     * @struct DebugEntry
-     * @brief Stores a single debug entry for movement logging.
-     */
-    struct DebugEntry {
-        uint32_t timestamp; ///< Timestamp of the recorded data entry.
-        float left_distance; ///< Distance recorded by the left wheel encoder.
-        float right_distance; ///< Distance recorded by the right wheel encoder.
-        float error; ///< Positional error value.
-        float pid_output; ///< PID controller output.
-        float multiplier; ///< Applied control multiplier.
-        float sensor_values[6]; ///< Array to store sensor values.
-    };
 
     #define DEBUG_RAM_ALLOCATION  (98304 - 16312) / 2  ///< Half of available RAM allocated for debugging.
     #define MAX_ENTRIES  (DEBUG_RAM_ALLOCATION / sizeof(DebugEntry)) ///< Maximum number of debug entries.
 
     DebugEntry debug_data_buffer[MAX_ENTRIES]; ///< Buffer for storing debug data entries.
     int debug_index = 0; ///< Current index in the debug data buffer.
+    Timer debugTimer; ///< Timer for debug log time stamps.
 
     float desiredSpeedL = 0.0;
     float desiredSpeedR = 0.0;

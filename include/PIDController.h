@@ -2,6 +2,7 @@
 #define PID_CONTROLLER_H
 
 /**
+ * @file PIDController.h
  * @class PIDController
  * @brief Implements a simple PID controller.
  *

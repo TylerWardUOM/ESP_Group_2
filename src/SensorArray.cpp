@@ -103,9 +103,18 @@ void SensorArray::stopTicker() {
     sampleTicker.detach();
 }
 
-void SensorArray::debugSensorData() {
+void SensorArray::live_debugSensorData() {
     sample();  // Sample the sensor values
     float error = getError();  // Compute error value
 
     _bt.printLiveSensorData(sensorvalues, 6, error);  // Send data via Bluetooth
+}
+
+void SensorArray::debugSensorData() {
+    sample();  // Sample the sensor values
+    float error = getError();  // Compute error value
+    Bluetooth::SensorDebugData sensorData = {};
+    memcpy(sensorData.sensor_values, sensorvalues, sizeof(sensorData.sensor_values));
+    sensorData.error=error;
+    _bt.logDebugData(Bluetooth::SENSOR_DEBUG, &sensorData);
 }

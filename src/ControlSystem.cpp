@@ -257,7 +257,8 @@ void ControlSystem::processForwardMovement(float dt) {
     }
     leftWheel.setSpeed(basespeed);
     rightWheel.setSpeed(basespeed * multiplier);
-    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
+    Bluetooth::SquareDebugData squareData = {leftDistance,rightDistance,error,pidOutput,multiplier};
+    bluetooth.logDebugData(Bluetooth::SQUARE_DEBUG, &squareData);
     if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
         stopWheels();
         pidForward.reset();
@@ -290,7 +291,8 @@ void ControlSystem::processTurning(float dt) {
     float baseTurnSpeed = 0.2f;
     leftWheel.setSpeed(-turnDirection * basespeed * multiplier);
     rightWheel.setSpeed(turnDirection * basespeed);
-    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
+    Bluetooth::SquareDebugData squareData = {leftDistance,rightDistance,error,pidOutput,multiplier};
+    bluetooth.logDebugData(Bluetooth::SQUARE_DEBUG, &squareData);
     if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
         stopWheels();
         pidTurn.reset();
@@ -383,9 +385,9 @@ void ControlSystem::processFollowLine(float dt) {
     // Implement line following algorithm here
     
     //for debugging
-    float* sensorValues = sensorArray.getValues();  // Get pointer to array
-    float leftDistance = fabs(leftWheel.encoder.getDistance());
-    float rightDistance = fabs(rightWheel.encoder.getDistance());
+    // float* sensorValues = sensorArray.getValues();  // Get pointer to array
+    // float leftDistance = fabs(leftWheel.encoder.getDistance());
+    // float rightDistance = fabs(rightWheel.encoder.getDistance());
 
 
     float error = sensorArray.getError();
@@ -400,8 +402,7 @@ void ControlSystem::processFollowLine(float dt) {
     
     leftWheel.setSpeed(basespeed * multiplier);
     rightWheel.setSpeed(basespeed);
-    //For Debugging
-    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier,sensorValues);
+    
 }
 
 
@@ -523,4 +524,9 @@ void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float w
     rightWheel.setThreshold(wheel_threshold);
     leftWheel.setBoost(wheel_boost);
     rightWheel.setBoost(wheel_boost);
+
+  
+void ControlSystem::debugWheels(){
+    leftWheel.debugWheelData(0);
+    rightWheel.debugWheelData(1);
 }
