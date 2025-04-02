@@ -201,7 +201,21 @@ int main() {
                 desiredSpeedR=bluetooth.SpeedRequestRight();
                 if (desiredSpeedL!=5000.00){
                     leftWheel.setSpeed(desiredSpeedL);
-                    bluetooth.printDebugData("%f\n",(desiredSpeedL));
+                }
+                if (desiredSpeedR!=5000.00){
+                    rightWheel.setSpeed(desiredSpeedR);
+                }
+                break;
+
+            case rc_menu:
+                switchToRCMode(control,buggyMode);
+                break;
+                
+            case rc:
+                desiredSpeedL=bluetooth.SpeedRequestLeft();
+                desiredSpeedR=bluetooth.SpeedRequestRight();
+                if (desiredSpeedL!=5000.00){
+                    leftWheel.setSpeed(desiredSpeedL);
                 }
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
