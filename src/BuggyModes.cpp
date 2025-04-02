@@ -138,3 +138,8 @@ void stopMotorAndSwitchToIdleMode(ControlSystem& control, BuggyMode& buggyMode, 
     //Reset square_flag
     square_flag = false;
 }
+
+void switchToRCMode(ControlSystem& control, BuggyMode& buggyMode){
+    buggyMode=rc;
+    control.enableWheels();
+}

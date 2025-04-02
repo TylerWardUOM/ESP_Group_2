@@ -21,6 +21,14 @@ class SensorArray;
  */
 void switchToSpeedControlMode(ControlSystem& control, BuggyMode& buggyMode);
 
+
+/**
+ * @brief Switches the buggy to RC mode.
+ * @param control Reference to the control system.
+ * @param buggyMode Reference to the current buggy mode.
+ */
+void switchToRCMode(ControlSystem& control, BuggyMode& buggyMode);
+
 /**
  * @brief Switches the buggy to sensor debug mode.
  * @param buggyMode Reference to the current buggy mode.

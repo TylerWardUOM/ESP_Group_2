@@ -198,6 +198,9 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:MOTOR_DEBUG") == 0) {
         _currentMode = motor_debug_menu;
         _serial.printf("MODE_CHANGED:MOTOR_DEBUG\n");
+    }else if (strcmp(cmd, "SET_MODE:RC") == 0) {
+        _currentMode = rc_menu;
+        _serial.printf("MODE_CHANGED:RC\n");
     }else if (strcmp(cmd, "CALLIBRATE_WHITE") == 0) {
         callibrateWhite_flag=true;
         _serial.printf("CALLIBRATING_WHITE\n");
