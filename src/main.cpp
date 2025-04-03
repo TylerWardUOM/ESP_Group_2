@@ -41,8 +41,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-//Serial btSerial(PA_11,PA_12);
-Serial btSerial(USBTX,USBRX);
+Serial btSerial(PA_11,PA_12);
+//Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -85,6 +85,7 @@ long map(long x, long in_min, long in_max, long out_min, long out_max){
 Timer energyTimer;
 float accumulatedCharge;
 float fullBatteryCapacity;
+bool energyTimerStarted = false;  
 
 float getBatteryPercentage(float voltage, float current) {
 
@@ -135,13 +136,18 @@ int main() {
     int VoltageReading, CurrentReading; 
     float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
-    fullBatteryCapacity=2000;
+    fullBatteryCapacity=2500; //Estimated 
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                if (energyTimerStarted!=true){
+                    energyTimer.reset();
+                    energyTimer.start();
+                    energyTimerStarted=true;
+                }
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
                     bluetooth.sendCallibrationFinished();//Update to send the callibrated values
