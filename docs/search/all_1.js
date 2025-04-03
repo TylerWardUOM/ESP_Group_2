@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['amplitudenorm_0',['amplitudeNorm',['../classPotentiometer.html#a7a06a6375cdc5740713cc81659d423b0',1,'Potentiometer']]],
-  ['amplitudevolts_1',['amplitudeVolts',['../classPotentiometer.html#a966459d3cc16ee5cf1074eb23d95cce1',1,'Potentiometer']]],
-  ['angle_2',['angle',['../structTurnAngleParams.html#a480b963a264ff1e7e9d104e4f152f3e6',1,'TurnAngleParams']]]
+  ['accumulatedcharge_0',['accumulatedCharge',['../main_8cpp.html#a5e7a71a43bc7e0f7375ade010f7a3a2f',1,'main.cpp']]],
+  ['actual_5frpm_1',['actual_rpm',['../classWheel.html#a70b1cdd5728430e6e9e6aaf0c3b09741',1,'Wheel']]],
+  ['adjustment_2',['adjustment',['../structBluetooth_1_1MotorDebugData.html#ac0ad5b8323e1e75e90da432684d53d41',1,'Bluetooth::MotorDebugData::adjustment'],['../classWheel.html#a9b3f6803dda8f5525162f1e2cf0d2ad3',1,'Wheel::adjustment']]],
+  ['amplitudenorm_3',['amplitudeNorm',['../classPotentiometer.html#a7a06a6375cdc5740713cc81659d423b0',1,'Potentiometer']]],
+  ['amplitudevolts_4',['amplitudeVolts',['../classPotentiometer.html#a966459d3cc16ee5cf1074eb23d95cce1',1,'Potentiometer']]],
+  ['angle_5',['angle',['../structTurnAngleParams.html#a480b963a264ff1e7e9d104e4f152f3e6',1,'TurnAngleParams']]]
 ];

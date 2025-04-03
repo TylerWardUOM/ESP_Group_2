@@ -104,67 +104,140 @@ $(document).ready(function(){initNavTree('classWheel.html',''); initResizable();
 </div><!--header-->
 <div class="contents">
 
+<p>Represents a wheel with motor control and speed regulation.  
+ <a href="classWheel.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Wheel_8h_source.html">Wheel.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Wheel:</div>
 <div class="dyncontent">
 <div class="center"><img src="classWheel__coll__graph.png" border="0" usemap="#aWheel_coll__map" alt="Collaboration graph"/></div>
 <map name="aWheel_coll__map" id="aWheel_coll__map">
-<area shape="rect" title=" " alt="" coords="49,93,112,119"/>
-<area shape="rect" href="classMotor.html" title=" " alt="" coords="5,5,65,31"/>
-<area shape="poly" title=" " alt="" coords="45,43,56,68,73,91,68,94,52,71,40,45"/>
-<area shape="rect" href="classEncoder.html" title=" " alt="" coords="90,5,165,31"/>
-<area shape="poly" title=" " alt="" coords="117,44,89,94,85,92,112,41"/>
+<area shape="rect" title="Represents a wheel with motor control and speed regulation." alt="" coords="1180,145,1243,170"/>
+<area shape="rect" href="classMotor.html" title="Controls a DC motor using a bipolar signal and PWM." alt="" coords="1002,95,1062,121"/>
+<area shape="poly" title=" " alt="" coords="1076,114,1157,135,1181,143,1179,148,1155,140,1075,119"/>
+<area shape="rect" href="classEncoder.html" title="Measures wheel rotations using an incremental encoder and calculates speed and distance." alt="" coords="995,145,1069,170"/>
+<area shape="poly" title=" " alt="" coords="1083,155,1180,155,1180,160,1083,160"/>
+<area shape="rect" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy." alt="" coords="989,194,1075,219"/>
+<area shape="poly" title=" " alt="" coords="1088,192,1155,175,1179,167,1181,172,1157,180,1089,198"/>
+<area shape="rect" href="structSquarePatternParams.html" title="Parameters for executing a square movement pattern." alt="" coords="628,21,789,46"/>
+<area shape="poly" title=" " alt="" coords="796,17,840,16,885,22,929,36,967,61,979,75,984,90,983,119,981,149,984,164,991,180,1005,192,1001,196,987,183,979,166,975,149,978,119,979,91,974,78,964,65,927,41,884,27,840,22,797,22"/>
+<area shape="rect" href="structStraightLineParams.html" title="Parameters for executing a straight&#45;line movement." alt="" coords="635,70,783,95"/>
+<area shape="poly" title=" " alt="" coords="796,74,839,77,884,85,928,100,967,123,978,137,981,151,984,165,991,180,1006,192,1003,196,987,183,979,167,976,152,973,139,964,127,925,105,883,90,838,83,796,80"/>
+<area shape="rect" href="structTurnAngleParams.html" title="Parameters for executing a turn by a specific angle." alt="" coords="641,119,776,145"/>
+<area shape="poly" title=" " alt="" coords="790,135,876,147,966,169,1012,192,1010,196,964,175,875,152,789,140"/>
+<area shape="rect" href="structFollowParams.html" title="Parameters for following a line with PID." alt="" coords="653,169,765,194"/>
+<area shape="poly" title=" " alt="" coords="779,184,989,201,989,206,778,189"/>
+<area shape="rect" href="structBangBangParams.html" title="Parameters for Bang&#45;Bang for Line control." alt="" coords="641,218,777,243"/>
+<area shape="poly" title=" " alt="" coords="791,232,875,231,965,223,992,217,993,222,966,228,875,236,791,237"/>
+<area shape="rect" href="structBangBangBoostParams.html" title=" " alt="" coords="622,267,795,293"/>
+<area shape="poly" title=" " alt="" coords="809,280,886,272,926,264,964,252,993,236,1016,218,1019,222,996,241,966,257,928,269,887,278,809,285"/>
+<area shape="rect" href="structBangBangProportionalParams.html" title="Parameters for Bang&#45;Bang Line control with proportional adjustments." alt="" coords="601,317,816,342"/>
+<area shape="poly" title=" " alt="" coords="830,334,899,324,933,314,964,299,985,282,1002,260,1024,218,1028,221,1007,263,989,285,967,304,935,319,900,330,831,339"/>
+<area shape="rect" href="structBluetooth_1_1DebugEntry.html" title="Stores a debug entry containing type, timestamp, and data." alt="" coords="624,366,793,391"/>
+<area shape="poly" title=" " alt="" coords="803,390,843,390,886,385,927,374,964,354,979,340,992,323,1011,285,1022,248,1027,219,1032,220,1027,249,1016,287,997,326,983,344,967,358,929,379,887,390,844,395,803,395"/>
+<area shape="rect" href="unionBluetooth_1_1DebugDataUnion.html" title="A union to store different types of debug data." alt="" coords="316,366,520,391"/>
+<area shape="poly" title=" " alt="" coords="534,376,624,376,624,381,534,381"/>
+<area shape="rect" href="structBluetooth_1_1MotorDebugData.html" title="Stores motor&#45;related debug information." alt="" coords="10,291,214,317"/>
+<area shape="poly" title=" " alt="" coords="184,317,219,325,293,343,371,363,370,369,291,348,218,331,182,322"/>
+<area shape="rect" href="structBluetooth_1_1SensorDebugData.html" title="Stores sensor&#45;related debug information." alt="" coords="7,341,217,366"/>
+<area shape="poly" title=" " alt="" coords="231,361,316,368,315,373,231,366"/>
+<area shape="rect" href="structBluetooth_1_1ControlDebugData.html" title="Stores control&#45;related debug information." alt="" coords="5,390,219,415"/>
+<area shape="poly" title=" " alt="" coords="232,398,292,395,341,389,342,394,292,400,233,404"/>
+<area shape="rect" href="structBluetooth_1_1SquareDebugData.html" title="Stores debug information related to square movement pattern." alt="" coords="7,439,217,465"/>
+<area shape="poly" title=" " alt="" coords="217,434,291,419,383,389,385,394,293,424,218,440"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a665310a495aba58b8e2caebcb1926bab" id="r_a665310a495aba58b8e2caebcb1926bab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a665310a495aba58b8e2caebcb1926bab">Wheel</a> (PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinName motorEnable, PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm)</td></tr>
-<tr class="separator:a665310a495aba58b8e2caebcb1926bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a452e3e418cb5b3a6e7697cd4a770241c" id="r_a452e3e418cb5b3a6e7697cd4a770241c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a452e3e418cb5b3a6e7697cd4a770241c">Wheel</a> (PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinName motorEnable, PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm, <a class="el" href="classBluetooth.html">Bluetooth</a> &amp;bt)</td></tr>
+<tr class="memdesc:a452e3e418cb5b3a6e7697cd4a770241c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classWheel.html" title="Represents a wheel with motor control and speed regulation.">Wheel</a> object.  <br /></td></tr>
+<tr class="separator:a452e3e418cb5b3a6e7697cd4a770241c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30061642c5be4e770686a2e72359f5fb" id="r_a30061642c5be4e770686a2e72359f5fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a30061642c5be4e770686a2e72359f5fb">setSpeed</a> (int rpm)</td></tr>
+<tr class="memdesc:a30061642c5be4e770686a2e72359f5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the target speed of the wheel.  <br /></td></tr>
 <tr class="separator:a30061642c5be4e770686a2e72359f5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6171ccd45c79741fb8b558000e7f15d" id="r_ab6171ccd45c79741fb8b558000e7f15d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#ab6171ccd45c79741fb8b558000e7f15d">regulateSpeed</a> ()</td></tr>
+<tr class="memdesc:ab6171ccd45c79741fb8b558000e7f15d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regulates the wheel speed using proportional control.  <br /></td></tr>
 <tr class="separator:ab6171ccd45c79741fb8b558000e7f15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5969020e938501f29d9cd1e69f1244bf" id="r_a5969020e938501f29d9cd1e69f1244bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a5969020e938501f29d9cd1e69f1244bf">regulateSpeedDebug</a> ()</td></tr>
+<tr class="memdesc:a5969020e938501f29d9cd1e69f1244bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regulates the wheel speed and logs debug information.  <br /></td></tr>
 <tr class="separator:a5969020e938501f29d9cd1e69f1244bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6da0ea936e3adb7d9b99bdf64291b61" id="r_aa6da0ea936e3adb7d9b99bdf64291b61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#aa6da0ea936e3adb7d9b99bdf64291b61">regulateSpeedwithBOOST</a> ()</td></tr>
+<tr class="separator:aa6da0ea936e3adb7d9b99bdf64291b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae05abdfe6198e5c254e3a4b6b042ca4c" id="r_ae05abdfe6198e5c254e3a4b6b042ca4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#ae05abdfe6198e5c254e3a4b6b042ca4c">startRegulation</a> (float interval)</td></tr>
+<tr class="memdesc:ae05abdfe6198e5c254e3a4b6b042ca4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts automatic speed regulation at a fixed interval.  <br /></td></tr>
 <tr class="separator:ae05abdfe6198e5c254e3a4b6b042ca4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7a4936988399b73ab58ac1b7ac9a2ca" id="r_af7a4936988399b73ab58ac1b7ac9a2ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#af7a4936988399b73ab58ac1b7ac9a2ca">stopRegulation</a> ()</td></tr>
+<tr class="memdesc:af7a4936988399b73ab58ac1b7ac9a2ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the automatic speed regulation.  <br /></td></tr>
 <tr class="separator:af7a4936988399b73ab58ac1b7ac9a2ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3c8a229ddb2d2e751a551848da85641" id="r_af3c8a229ddb2d2e751a551848da85641"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#af3c8a229ddb2d2e751a551848da85641">enableMotor</a> ()</td></tr>
+<tr class="memdesc:af3c8a229ddb2d2e751a551848da85641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the motor.  <br /></td></tr>
 <tr class="separator:af3c8a229ddb2d2e751a551848da85641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfd559544015a3e0c9c89aa0780a6826" id="r_acfd559544015a3e0c9c89aa0780a6826"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#acfd559544015a3e0c9c89aa0780a6826">debugWheelData</a> (int side)</td></tr>
+<tr class="memdesc:acfd559544015a3e0c9c89aa0780a6826"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs wheel data for debugging purposes via <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>.  <br /></td></tr>
+<tr class="separator:acfd559544015a3e0c9c89aa0780a6826"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ab07d11bd59b93223eb423228e83594" id="r_a1ab07d11bd59b93223eb423228e83594"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a1ab07d11bd59b93223eb423228e83594">disableMotor</a> ()</td></tr>
+<tr class="memdesc:a1ab07d11bd59b93223eb423228e83594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the motor.  <br /></td></tr>
 <tr class="separator:a1ab07d11bd59b93223eb423228e83594"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25f3a1f9bde8d7e3f6e0b308ab21d31d" id="r_a25f3a1f9bde8d7e3f6e0b308ab21d31d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a25f3a1f9bde8d7e3f6e0b308ab21d31d">setKp</a> (float kp)</td></tr>
+<tr class="memdesc:a25f3a1f9bde8d7e3f6e0b308ab21d31d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the proportional gain (Kp) for speed control.  <br /></td></tr>
 <tr class="separator:a25f3a1f9bde8d7e3f6e0b308ab21d31d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac76c731ec789a433267df7a73e212a8f" id="r_ac76c731ec789a433267df7a73e212a8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#ac76c731ec789a433267df7a73e212a8f">setThreshold</a> (float new_threshold)</td></tr>
+<tr class="separator:ac76c731ec789a433267df7a73e212a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecd9fb78c8240ff4c88f96ad69b4e134" id="r_aecd9fb78c8240ff4c88f96ad69b4e134"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#aecd9fb78c8240ff4c88f96ad69b4e134">setBoost</a> (float new_boost)</td></tr>
+<tr class="separator:aecd9fb78c8240ff4c88f96ad69b4e134"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a793fb7cac828febc52962755afd478fe" id="r_a793fb7cac828febc52962755afd478fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a793fb7cac828febc52962755afd478fe">stop</a> ()</td></tr>
+<tr class="memdesc:a793fb7cac828febc52962755afd478fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the wheel by setting speed to zero.  <br /></td></tr>
 <tr class="separator:a793fb7cac828febc52962755afd478fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a122cb59b715d1335c14a18d61483ce94" id="r_a122cb59b715d1335c14a18d61483ce94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMotor.html">Motor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a122cb59b715d1335c14a18d61483ce94">motor</a></td></tr>
+<tr class="memdesc:a122cb59b715d1335c14a18d61483ce94"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMotor.html" title="Controls a DC motor using a bipolar signal and PWM.">Motor</a> control instance.  <br /></td></tr>
 <tr class="separator:a122cb59b715d1335c14a18d61483ce94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b1067e22a294c68bbf518372fd7548f" id="r_a9b1067e22a294c68bbf518372fd7548f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEncoder.html">Encoder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a9b1067e22a294c68bbf518372fd7548f">encoder</a></td></tr>
+<tr class="memdesc:a9b1067e22a294c68bbf518372fd7548f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classEncoder.html" title="Measures wheel rotations using an incremental encoder and calculates speed and distance.">Encoder</a> instance for measuring wheel speed and distance.  <br /></td></tr>
 <tr class="separator:a9b1067e22a294c68bbf518372fd7548f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a79268f89ebe9d6a91c37374162fbb5bd" id="r_a79268f89ebe9d6a91c37374162fbb5bd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a79268f89ebe9d6a91c37374162fbb5bd">target_rpm</a></td></tr>
+<tr class="memdesc:a79268f89ebe9d6a91c37374162fbb5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Target speed in RPM.  <br /></td></tr>
 <tr class="separator:a79268f89ebe9d6a91c37374162fbb5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e86d843b6a3aa038ca9f9d7cebf469f" id="r_a2e86d843b6a3aa038ca9f9d7cebf469f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a2e86d843b6a3aa038ca9f9d7cebf469f">max_rpm</a></td></tr>
+<tr class="memdesc:a2e86d843b6a3aa038ca9f9d7cebf469f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum allowable speed in RPM.  <br /></td></tr>
 <tr class="separator:a2e86d843b6a3aa038ca9f9d7cebf469f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedfbbcefae4534aa9985c0e53a277368" id="r_aedfbbcefae4534aa9985c0e53a277368"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#aedfbbcefae4534aa9985c0e53a277368">Kp</a></td></tr>
+<tr class="memdesc:aedfbbcefae4534aa9985c0e53a277368"><td class="mdescLeft">&#160;</td><td class="mdescRight">Proportional gain for speed regulation.  <br /></td></tr>
 <tr class="separator:aedfbbcefae4534aa9985c0e53a277368"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a47cff2fb8246272198b49b43e2018c" id="r_a8a47cff2fb8246272198b49b43e2018c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a8a47cff2fb8246272198b49b43e2018c">boost</a></td></tr>
+<tr class="separator:a8a47cff2fb8246272198b49b43e2018c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc747f90e7b5f72a3e20c5eb6bea0cba" id="r_abc747f90e7b5f72a3e20c5eb6bea0cba"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#abc747f90e7b5f72a3e20c5eb6bea0cba">threshold</a></td></tr>
+<tr class="separator:abc747f90e7b5f72a3e20c5eb6bea0cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70b1cdd5728430e6e9e6aaf0c3b09741" id="r_a70b1cdd5728430e6e9e6aaf0c3b09741"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a70b1cdd5728430e6e9e6aaf0c3b09741">actual_rpm</a></td></tr>
+<tr class="memdesc:a70b1cdd5728430e6e9e6aaf0c3b09741"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measured RPM from encoder.  <br /></td></tr>
+<tr class="separator:a70b1cdd5728430e6e9e6aaf0c3b09741"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fcefa35d2c79ef6517822e6e1dbe40a" id="r_a7fcefa35d2c79ef6517822e6e1dbe40a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a7fcefa35d2c79ef6517822e6e1dbe40a">error</a></td></tr>
+<tr class="memdesc:a7fcefa35d2c79ef6517822e6e1dbe40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Difference between target and actual RPM.  <br /></td></tr>
+<tr class="separator:a7fcefa35d2c79ef6517822e6e1dbe40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b3f6803dda8f5525162f1e2cf0d2ad3" id="r_a9b3f6803dda8f5525162f1e2cf0d2ad3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a9b3f6803dda8f5525162f1e2cf0d2ad3">adjustment</a></td></tr>
+<tr class="memdesc:a9b3f6803dda8f5525162f1e2cf0d2ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">P correction value.  <br /></td></tr>
+<tr class="separator:a9b3f6803dda8f5525162f1e2cf0d2ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0cba5c340d4aa5fc668c91d0dc1628f" id="r_aa0cba5c340d4aa5fc668c91d0dc1628f"><td class="memItemLeft" align="right" valign="top">Ticker&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#aa0cba5c340d4aa5fc668c91d0dc1628f">ticker</a></td></tr>
+<tr class="memdesc:aa0cba5c340d4aa5fc668c91d0dc1628f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer for automatic speed regulation.  <br /></td></tr>
 <tr class="separator:aa0cba5c340d4aa5fc668c91d0dc1628f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cdde567c1159a41ed615c47dafb1737" id="r_a5cdde567c1159a41ed615c47dafb1737"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBluetooth.html">Bluetooth</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a5cdde567c1159a41ed615c47dafb1737">_bt</a></td></tr>
+<tr class="memdesc:a5cdde567c1159a41ed615c47dafb1737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module for debugging.  <br /></td></tr>
+<tr class="separator:a5cdde567c1159a41ed615c47dafb1737"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00008">8</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<div class="textblock"><p>Represents a wheel with motor control and speed regulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00018">18</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a665310a495aba58b8e2caebcb1926bab" name="a665310a495aba58b8e2caebcb1926bab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a665310a495aba58b8e2caebcb1926bab">&#9670;&#160;</a></span>Wheel()</h2>
+<a id="a452e3e418cb5b3a6e7697cd4a770241c" name="a452e3e418cb5b3a6e7697cd4a770241c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a452e3e418cb5b3a6e7697cd4a770241c">&#9670;&#160;</a></span>Wheel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +294,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>maxRpm</em>&#160;</td>
+          <td class="paramname"><em>maxRpm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classBluetooth.html">Bluetooth</a> &amp;&#160;</td>
+          <td class="paramname"><em>bt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -231,11 +310,50 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a <a class="el" href="classWheel.html" title="Represents a wheel with motor control and speed regulation.">Wheel</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">motorBipolar</td><td>Pin for motor bipolar control. </td></tr>
+    <tr><td class="paramname">motorMultiplier</td><td>Speed multiplier for the motor. </td></tr>
+    <tr><td class="paramname">motorPwm</td><td>PWM pin for motor speed control. </td></tr>
+    <tr><td class="paramname">motorEnable</td><td>Pin to enable or disable the motor. </td></tr>
+    <tr><td class="paramname">encoderA</td><td><a class="el" href="classEncoder.html" title="Measures wheel rotations using an incremental encoder and calculates speed and distance.">Encoder</a> channel A pin. </td></tr>
+    <tr><td class="paramname">encoderB</td><td><a class="el" href="classEncoder.html" title="Measures wheel rotations using an incremental encoder and calculates speed and distance.">Encoder</a> channel B pin. </td></tr>
+    <tr><td class="paramname">wheelDiameter</td><td>Diameter of the wheel in meters. </td></tr>
+    <tr><td class="paramname">encoderResolution</td><td>Number of pulses per revolution. </td></tr>
+    <tr><td class="paramname">maxRpm</td><td>Maximum RPM of the motor. </td></tr>
+    <tr><td class="paramname">bt</td><td>Reference to a <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module for debugging and communication. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00003">3</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="acfd559544015a3e0c9c89aa0780a6826" name="acfd559544015a3e0c9c89aa0780a6826"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfd559544015a3e0c9c89aa0780a6826">&#9670;&#160;</a></span>debugWheelData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Wheel::debugWheelData </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>side</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Logs wheel data for debugging purposes via <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00105">105</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a1ab07d11bd59b93223eb423228e83594" name="a1ab07d11bd59b93223eb423228e83594"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ab07d11bd59b93223eb423228e83594">&#9670;&#160;</a></span>disableMotor()</h2>
 
@@ -251,7 +369,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00069">69</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Disables the motor. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00096">96</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -270,7 +390,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00065">65</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Enables the motor. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00092">92</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -289,7 +411,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00027">27</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Regulates the wheel speed using proportional control. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00035">35</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -308,7 +432,48 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00042">42</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Regulates the wheel speed and logs debug information. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00069">69</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa6da0ea936e3adb7d9b99bdf64291b61" name="aa6da0ea936e3adb7d9b99bdf64291b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6da0ea936e3adb7d9b99bdf64291b61">&#9670;&#160;</a></span>regulateSpeedwithBOOST()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Wheel::regulateSpeedwithBOOST </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00048">48</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aecd9fb78c8240ff4c88f96ad69b4e134" name="aecd9fb78c8240ff4c88f96ad69b4e134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecd9fb78c8240ff4c88f96ad69b4e134">&#9670;&#160;</a></span>setBoost()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Wheel::setBoost </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>new_boost</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00031">31</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +493,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00023">23</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Sets the proportional gain (Kp) for speed control. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kp</td><td>Proportional gain value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00024">24</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -348,7 +521,35 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00009">9</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Sets the target speed of the wheel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rpm</td><td>Desired speed in revolutions per minute (RPM). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00010">10</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac76c731ec789a433267df7a73e212a8f" name="ac76c731ec789a433267df7a73e212a8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac76c731ec789a433267df7a73e212a8f">&#9670;&#160;</a></span>setThreshold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Wheel::setThreshold </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>new_threshold</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00028">28</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -368,7 +569,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00057">57</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Starts automatic speed regulation at a fixed interval. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">interval</td><td>Time interval (in seconds) for speed regulation updates. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00084">84</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -387,7 +596,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00073">73</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Stops the wheel by setting speed to zero. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00100">100</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
@@ -406,11 +617,115 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00061">61</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
+<p>Stops the automatic speed regulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8cpp_source.html#l00088">88</a> of file <a class="el" href="Wheel_8cpp_source.html">Wheel.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a5cdde567c1159a41ed615c47dafb1737" name="a5cdde567c1159a41ed615c47dafb1737"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cdde567c1159a41ed615c47dafb1737">&#9670;&#160;</a></span>_bt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBluetooth.html">Bluetooth</a>&amp; Wheel::_bt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reference to the <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module for debugging. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00113">113</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+
+</div>
+</div>
+<a id="a70b1cdd5728430e6e9e6aaf0c3b09741" name="a70b1cdd5728430e6e9e6aaf0c3b09741"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70b1cdd5728430e6e9e6aaf0c3b09741">&#9670;&#160;</a></span>actual_rpm</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Wheel::actual_rpm</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Measured RPM from encoder. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00109">109</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+
+</div>
+</div>
+<a id="a9b3f6803dda8f5525162f1e2cf0d2ad3" name="a9b3f6803dda8f5525162f1e2cf0d2ad3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3f6803dda8f5525162f1e2cf0d2ad3">&#9670;&#160;</a></span>adjustment</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Wheel::adjustment</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>P correction value. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00111">111</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+
+</div>
+</div>
+<a id="a8a47cff2fb8246272198b49b43e2018c" name="a8a47cff2fb8246272198b49b43e2018c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a47cff2fb8246272198b49b43e2018c">&#9670;&#160;</a></span>boost</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Wheel::boost</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00107">107</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+
+</div>
+</div>
 <a id="a9b1067e22a294c68bbf518372fd7548f" name="a9b1067e22a294c68bbf518372fd7548f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b1067e22a294c68bbf518372fd7548f">&#9670;&#160;</a></span>encoder</h2>
 
@@ -423,7 +738,35 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00023">23</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<p><a class="el" href="classEncoder.html" title="Measures wheel rotations using an incremental encoder and calculates speed and distance.">Encoder</a> instance for measuring wheel speed and distance. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00101">101</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+
+</div>
+</div>
+<a id="a7fcefa35d2c79ef6517822e6e1dbe40a" name="a7fcefa35d2c79ef6517822e6e1dbe40a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fcefa35d2c79ef6517822e6e1dbe40a">&#9670;&#160;</a></span>error</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Wheel::error</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Difference between target and actual RPM. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00110">110</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 
 </div>
 </div>
@@ -447,7 +790,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00028">28</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<p>Proportional gain for speed regulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00106">106</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 
 </div>
 </div>
@@ -471,7 +816,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00027">27</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<p>Maximum allowable speed in RPM. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00105">105</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 
 </div>
 </div>
@@ -487,7 +834,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00022">22</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<p><a class="el" href="classMotor.html" title="Controls a DC motor using a bipolar signal and PWM.">Motor</a> control instance. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00098">98</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 
 </div>
 </div>
@@ -511,7 +860,33 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00026">26</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<p>Target speed in RPM. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00104">104</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+
+</div>
+</div>
+<a id="abc747f90e7b5f72a3e20c5eb6bea0cba" name="abc747f90e7b5f72a3e20c5eb6bea0cba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc747f90e7b5f72a3e20c5eb6bea0cba">&#9670;&#160;</a></span>threshold</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Wheel::threshold</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00108">108</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 
 </div>
 </div>
@@ -535,7 +910,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00029">29</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
+<p>Timer for automatic speed regulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="Wheel_8h_source.html#l00112">112</a> of file <a class="el" href="Wheel_8h_source.html">Wheel.h</a>.</p>
 
 </div>
 </div>

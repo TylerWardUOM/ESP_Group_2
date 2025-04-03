@@ -103,71 +103,110 @@ $(document).ready(function(){initNavTree('classSensorArray.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
+<p>Manages an array of sensors, handles calibration, and provides error calculations.  
+ <a href="classSensorArray.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for SensorArray:</div>
 <div class="dyncontent">
 <div class="center"><img src="classSensorArray__coll__graph.png" border="0" usemap="#aSensorArray_coll__map" alt="Collaboration graph"/></div>
 <map name="aSensorArray_coll__map" id="aSensorArray_coll__map">
-<area shape="rect" title=" " alt="" coords="581,141,683,166"/>
-<area shape="rect" href="classSensor.html" title=" " alt="" coords="403,117,469,142"/>
-<area shape="poly" title=" " alt="" coords="483,132,581,145,581,150,483,138"/>
-<area shape="rect" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy." alt="" coords="393,166,479,191"/>
-<area shape="poly" title=" " alt="" coords="492,170,557,163,581,159,581,164,558,168,493,176"/>
-<area shape="rect" href="structSquarePatternParams.html" title=" " alt="" coords="32,18,193,43"/>
-<area shape="poly" title=" " alt="" coords="207,16,249,17,292,23,334,37,371,61,381,72,385,83,386,106,386,128,396,152,409,164,405,168,391,155,381,129,381,106,380,84,376,74,368,65,332,42,291,28,249,22,207,21"/>
-<area shape="rect" href="structStraightLineParams.html" title=" " alt="" coords="39,67,187,93"/>
-<area shape="poly" title=" " alt="" coords="200,75,242,78,286,85,330,98,371,118,380,126,384,134,395,152,412,164,409,168,391,155,380,137,376,129,368,122,328,103,285,90,241,83,200,80"/>
-<area shape="rect" href="structTurnAngleParams.html" title=" " alt="" coords="45,117,180,142"/>
-<area shape="poly" title=" " alt="" coords="194,132,279,141,370,156,398,163,397,169,369,161,278,146,194,137"/>
-<area shape="rect" href="structFollowParams.html" title=" " alt="" coords="57,166,169,191"/>
-<area shape="poly" title=" " alt="" coords="182,176,393,176,393,181,182,181"/>
-<area shape="rect" href="structBangBangParams.html" title=" " alt="" coords="45,215,181,241"/>
-<area shape="poly" title=" " alt="" coords="195,220,279,211,369,196,397,189,398,194,370,201,280,216,195,225"/>
-<area shape="rect" href="structBangBangProportionalParams.html" title=" " alt="" coords="5,265,220,290"/>
-<area shape="poly" title=" " alt="" coords="234,271,302,259,368,236,400,214,423,190,427,193,403,218,371,241,303,264,235,276"/>
-<area shape="rect" href="structBluetooth_1_1DebugEntry.html" title="Stores a single debug entry for movement logging." alt="" coords="28,314,197,339"/>
-<area shape="poly" title=" " alt="" coords="211,331,251,329,291,322,331,310,368,291,392,269,409,241,429,191,434,193,414,244,396,272,371,296,333,315,293,327,251,334,211,337"/>
+<area shape="rect" title="Manages an array of sensors, handles calibration, and provides error calculations." alt="" coords="1177,169,1279,194"/>
+<area shape="rect" href="classSensor.html" title="Represents a sensor that reads analog values and provides digitalized output." alt="" coords="999,145,1065,170"/>
+<area shape="poly" title=" " alt="" coords="1079,160,1177,173,1177,178,1079,166"/>
+<area shape="rect" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy." alt="" coords="989,194,1075,219"/>
+<area shape="poly" title=" " alt="" coords="1088,198,1153,191,1177,187,1177,192,1154,196,1089,204"/>
+<area shape="rect" href="structSquarePatternParams.html" title="Parameters for executing a square movement pattern." alt="" coords="628,21,789,46"/>
+<area shape="poly" title=" " alt="" coords="796,17,840,16,885,22,929,36,967,61,979,75,984,90,983,119,981,149,984,164,991,180,1005,192,1001,196,987,183,979,166,975,149,978,119,979,91,974,78,964,65,927,41,884,27,840,22,797,22"/>
+<area shape="rect" href="structStraightLineParams.html" title="Parameters for executing a straight&#45;line movement." alt="" coords="635,70,783,95"/>
+<area shape="poly" title=" " alt="" coords="796,74,839,77,884,85,928,100,967,123,978,137,981,151,984,165,991,180,1006,192,1003,196,987,183,979,167,976,152,973,139,964,127,925,105,883,90,838,83,796,80"/>
+<area shape="rect" href="structTurnAngleParams.html" title="Parameters for executing a turn by a specific angle." alt="" coords="641,119,776,145"/>
+<area shape="poly" title=" " alt="" coords="790,135,876,147,966,169,1012,192,1010,196,964,175,875,152,789,140"/>
+<area shape="rect" href="structFollowParams.html" title="Parameters for following a line with PID." alt="" coords="653,169,765,194"/>
+<area shape="poly" title=" " alt="" coords="779,184,989,201,989,206,778,189"/>
+<area shape="rect" href="structBangBangParams.html" title="Parameters for Bang&#45;Bang for Line control." alt="" coords="641,218,777,243"/>
+<area shape="poly" title=" " alt="" coords="791,232,875,231,965,223,992,217,993,222,966,228,875,236,791,237"/>
+<area shape="rect" href="structBangBangBoostParams.html" title=" " alt="" coords="622,267,795,293"/>
+<area shape="poly" title=" " alt="" coords="809,280,886,272,926,264,964,252,993,236,1016,218,1019,222,996,241,966,257,928,269,887,278,809,285"/>
+<area shape="rect" href="structBangBangProportionalParams.html" title="Parameters for Bang&#45;Bang Line control with proportional adjustments." alt="" coords="601,317,816,342"/>
+<area shape="poly" title=" " alt="" coords="830,334,899,324,933,314,964,299,985,282,1002,260,1024,218,1028,221,1007,263,989,285,967,304,935,319,900,330,831,339"/>
+<area shape="rect" href="structBluetooth_1_1DebugEntry.html" title="Stores a debug entry containing type, timestamp, and data." alt="" coords="624,366,793,391"/>
+<area shape="poly" title=" " alt="" coords="803,390,843,390,886,385,927,374,964,354,979,340,992,323,1011,285,1022,248,1027,219,1032,220,1027,249,1016,287,997,326,983,344,967,358,929,379,887,390,844,395,803,395"/>
+<area shape="rect" href="unionBluetooth_1_1DebugDataUnion.html" title="A union to store different types of debug data." alt="" coords="316,366,520,391"/>
+<area shape="poly" title=" " alt="" coords="534,376,624,376,624,381,534,381"/>
+<area shape="rect" href="structBluetooth_1_1MotorDebugData.html" title="Stores motor&#45;related debug information." alt="" coords="10,291,214,317"/>
+<area shape="poly" title=" " alt="" coords="184,317,219,325,293,343,371,363,370,369,291,348,218,331,182,322"/>
+<area shape="rect" href="structBluetooth_1_1SensorDebugData.html" title="Stores sensor&#45;related debug information." alt="" coords="7,341,217,366"/>
+<area shape="poly" title=" " alt="" coords="231,361,316,368,315,373,231,366"/>
+<area shape="rect" href="structBluetooth_1_1ControlDebugData.html" title="Stores control&#45;related debug information." alt="" coords="5,390,219,415"/>
+<area shape="poly" title=" " alt="" coords="232,398,292,395,341,389,342,394,292,400,233,404"/>
+<area shape="rect" href="structBluetooth_1_1SquareDebugData.html" title="Stores debug information related to square movement pattern." alt="" coords="7,439,217,465"/>
+<area shape="poly" title=" " alt="" coords="217,434,291,419,383,389,385,394,293,424,218,440"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a908f724dc6ff3617740053e734630c58" id="r_a908f724dc6ff3617740053e734630c58"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a908f724dc6ff3617740053e734630c58">SensorArray</a> (<a class="el" href="classSensor.html">Sensor</a> **_sensors, <a class="el" href="classBluetooth.html">Bluetooth</a> &amp;bt)</td></tr>
+<tr class="memdesc:a908f724dc6ff3617740053e734630c58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classSensorArray.html" title="Manages an array of sensors, handles calibration, and provides error calculations.">SensorArray</a> object.  <br /></td></tr>
 <tr class="separator:a908f724dc6ff3617740053e734630c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4e397376387b91579ccbc63d789e10e" id="r_ad4e397376387b91579ccbc63d789e10e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#ad4e397376387b91579ccbc63d789e10e">sample</a> ()</td></tr>
+<tr class="memdesc:ad4e397376387b91579ccbc63d789e10e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Samples all sensors and updates their values.  <br /></td></tr>
 <tr class="separator:ad4e397376387b91579ccbc63d789e10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6a2d0a85f5c78b0b431e428432693fc" id="r_aa6a2d0a85f5c78b0b431e428432693fc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#aa6a2d0a85f5c78b0b431e428432693fc">getError</a> ()</td></tr>
+<tr class="memdesc:aa6a2d0a85f5c78b0b431e428432693fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the error value for line-following applications.  <br /></td></tr>
 <tr class="separator:aa6a2d0a85f5c78b0b431e428432693fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a1bad57f6e6089e7f7b544d4e0ce864" id="r_a2a1bad57f6e6089e7f7b544d4e0ce864"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a2a1bad57f6e6089e7f7b544d4e0ce864">startTicker</a> (float period)</td></tr>
+<tr class="memdesc:a2a1bad57f6e6089e7f7b544d4e0ce864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts periodic sampling of sensors at a specified interval.  <br /></td></tr>
 <tr class="separator:a2a1bad57f6e6089e7f7b544d4e0ce864"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa156184463a68c5e6037f6fee4c3ef83" id="r_aa156184463a68c5e6037f6fee4c3ef83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#aa156184463a68c5e6037f6fee4c3ef83">stopTicker</a> ()</td></tr>
+<tr class="memdesc:aa156184463a68c5e6037f6fee4c3ef83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops periodic sensor sampling.  <br /></td></tr>
 <tr class="separator:aa156184463a68c5e6037f6fee4c3ef83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a946eb8e37ce8be0546a0c0491813df07" id="r_a946eb8e37ce8be0546a0c0491813df07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a946eb8e37ce8be0546a0c0491813df07">debugSensorData</a> ()</td></tr>
+<tr class="memdesc:a946eb8e37ce8be0546a0c0491813df07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs sensor data for debugging purposes via <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>.  <br /></td></tr>
 <tr class="separator:a946eb8e37ce8be0546a0c0491813df07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d4b11b74ba404ff88f7fcbaeee97d23" id="r_a6d4b11b74ba404ff88f7fcbaeee97d23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a6d4b11b74ba404ff88f7fcbaeee97d23">live_debugSensorData</a> ()</td></tr>
+<tr class="memdesc:a6d4b11b74ba404ff88f7fcbaeee97d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends live sensor data for debugging purposes via <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>.  <br /></td></tr>
+<tr class="separator:a6d4b11b74ba404ff88f7fcbaeee97d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4801fb1d5c06c94388a7f679ba43462e" id="r_a4801fb1d5c06c94388a7f679ba43462e"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a4801fb1d5c06c94388a7f679ba43462e">getValues</a> ()</td></tr>
+<tr class="memdesc:a4801fb1d5c06c94388a7f679ba43462e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the latest sensor readings.  <br /></td></tr>
 <tr class="separator:a4801fb1d5c06c94388a7f679ba43462e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6419d353b0d6b3c6f116b38b2cad0c6c" id="r_a6419d353b0d6b3c6f116b38b2cad0c6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a6419d353b0d6b3c6f116b38b2cad0c6c">calibrate</a> ()</td></tr>
+<tr class="memdesc:a6419d353b0d6b3c6f116b38b2cad0c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrates the sensors over a white line to normalize maximum values.  <br /></td></tr>
 <tr class="separator:a6419d353b0d6b3c6f116b38b2cad0c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae39b8dfc1f6826463fd000df46ffbf76" id="r_ae39b8dfc1f6826463fd000df46ffbf76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#ae39b8dfc1f6826463fd000df46ffbf76">calibrateBlack</a> ()</td></tr>
+<tr class="memdesc:ae39b8dfc1f6826463fd000df46ffbf76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrates the sensors over a black surface to normalize minimum values.  <br /></td></tr>
+<tr class="separator:ae39b8dfc1f6826463fd000df46ffbf76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a6f4d2bd2c643fb8602d9cad0b300a2cc" id="r_a6f4d2bd2c643fb8602d9cad0b300a2cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSensor.html">Sensor</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a6f4d2bd2c643fb8602d9cad0b300a2cc">sensors</a> [6]</td></tr>
+<tr class="memdesc:a6f4d2bd2c643fb8602d9cad0b300a2cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of pointers to sensor objects.  <br /></td></tr>
 <tr class="separator:a6f4d2bd2c643fb8602d9cad0b300a2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43ed588a7a71d13ab1050cac8f93f445" id="r_a43ed588a7a71d13ab1050cac8f93f445"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a43ed588a7a71d13ab1050cac8f93f445">sensorvalues</a> [6]</td></tr>
+<tr class="memdesc:a43ed588a7a71d13ab1050cac8f93f445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the latest sensor readings.  <br /></td></tr>
 <tr class="separator:a43ed588a7a71d13ab1050cac8f93f445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3e90ff74634bdfe46e1c4c5513b9d16" id="r_aa3e90ff74634bdfe46e1c4c5513b9d16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#aa3e90ff74634bdfe46e1c4c5513b9d16">digitalStates</a> [6]</td></tr>
+<tr class="memdesc:aa3e90ff74634bdfe46e1c4c5513b9d16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores digitalized sensor states.  <br /></td></tr>
 <tr class="separator:aa3e90ff74634bdfe46e1c4c5513b9d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2dc2d01337571b2d5d07f66e4c6e21d" id="r_ab2dc2d01337571b2d5d07f66e4c6e21d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#ab2dc2d01337571b2d5d07f66e4c6e21d">calibratedValues</a> [6]</td></tr>
+<tr class="memdesc:ab2dc2d01337571b2d5d07f66e4c6e21d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores maximum calibration values (white line).  <br /></td></tr>
 <tr class="separator:ab2dc2d01337571b2d5d07f66e4c6e21d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78de97402eecf93094adfef31e310ff5" id="r_a78de97402eecf93094adfef31e310ff5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a78de97402eecf93094adfef31e310ff5">blackValues</a> [6]</td></tr>
+<tr class="memdesc:a78de97402eecf93094adfef31e310ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores minimum calibration values (black surface).  <br /></td></tr>
+<tr class="separator:a78de97402eecf93094adfef31e310ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16602ca681c0a5ac8587498cd26b812b" id="r_a16602ca681c0a5ac8587498cd26b812b"><td class="memItemLeft" align="right" valign="top">Ticker&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#a16602ca681c0a5ac8587498cd26b812b">sampleTicker</a></td></tr>
+<tr class="memdesc:a16602ca681c0a5ac8587498cd26b812b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ticker for periodic sampling.  <br /></td></tr>
 <tr class="separator:a16602ca681c0a5ac8587498cd26b812b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafcf7c72b17c3654c7dcc5746f689925" id="r_aafcf7c72b17c3654c7dcc5746f689925"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBluetooth.html">Bluetooth</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensorArray.html#aafcf7c72b17c3654c7dcc5746f689925">_bt</a></td></tr>
+<tr class="memdesc:aafcf7c72b17c3654c7dcc5746f689925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module for debugging.  <br /></td></tr>
 <tr class="separator:aafcf7c72b17c3654c7dcc5746f689925"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00007">7</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<div class="textblock"><p>Manages an array of sensors, handles calibration, and provides error calculations. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00017">17</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a908f724dc6ff3617740053e734630c58" name="a908f724dc6ff3617740053e734630c58"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a908f724dc6ff3617740053e734630c58">&#9670;&#160;</a></span>SensorArray()</h2>
@@ -195,6 +234,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a <a class="el" href="classSensorArray.html" title="Manages an array of sensors, handles calibration, and provides error calculations.">SensorArray</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_sensors</td><td>Pointer to an array of <a class="el" href="classSensor.html" title="Represents a sensor that reads analog values and provides digitalized output.">Sensor</a> objects. </td></tr>
+    <tr><td class="paramname">bt</td><td>Reference to a <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module for debugging and communication. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00006">6</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
@@ -215,7 +263,30 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00014">14</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Calibrates the sensors over a white line to normalize maximum values. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00016">16</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae39b8dfc1f6826463fd000df46ffbf76" name="ae39b8dfc1f6826463fd000df46ffbf76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae39b8dfc1f6826463fd000df46ffbf76">&#9670;&#160;</a></span>calibrateBlack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SensorArray::calibrateBlack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calibrates the sensors over a black surface to normalize minimum values. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00040">40</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -234,7 +305,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00081">81</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Logs sensor data for debugging purposes via <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00113">113</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -253,7 +326,10 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00048">48</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Computes the error value for line-following applications. </p>
+<dl class="section return"><dt>Returns</dt><dd>The calculated error value based on sensor readings. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00073">73</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +348,31 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00067">67</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Retrieves the latest sensor readings. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to an array containing sensor values. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00092">92</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6d4b11b74ba404ff88f7fcbaeee97d23" name="a6d4b11b74ba404ff88f7fcbaeee97d23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d4b11b74ba404ff88f7fcbaeee97d23">&#9670;&#160;</a></span>live_debugSensorData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SensorArray::live_debugSensorData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sends live sensor data for debugging purposes via <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00106">106</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -291,7 +391,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00038">38</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Samples all sensors and updates their values. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00063">63</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -311,7 +413,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00072">72</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Starts periodic sampling of sensors at a specified interval. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">period</td><td>The sampling period in seconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00097">97</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -330,7 +440,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00077">77</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
+<p>Stops periodic sensor sampling. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8cpp_source.html#l00102">102</a> of file <a class="el" href="SensorArray_8cpp_source.html">SensorArray.cpp</a>.</p>
 
 </div>
 </div>
@@ -355,7 +467,35 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00024">24</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<p>Reference to the <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module for debugging. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00081">81</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+
+</div>
+</div>
+<a id="a78de97402eecf93094adfef31e310ff5" name="a78de97402eecf93094adfef31e310ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78de97402eecf93094adfef31e310ff5">&#9670;&#160;</a></span>blackValues</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float SensorArray::blackValues[6]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stores minimum calibration values (black surface). </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00079">79</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 
 </div>
 </div>
@@ -379,7 +519,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00022">22</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<p>Stores maximum calibration values (white line). </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00078">78</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 
 </div>
 </div>
@@ -403,7 +545,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00021">21</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<p>Stores digitalized sensor states. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00077">77</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 
 </div>
 </div>
@@ -427,7 +571,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00023">23</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<p>Ticker for periodic sampling. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00080">80</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 
 </div>
 </div>
@@ -451,7 +597,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00019">19</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<p>Array of pointers to sensor objects. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00075">75</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 
 </div>
 </div>
@@ -475,7 +623,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00020">20</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
+<p>Stores the latest sensor readings. </p>
+
+<p class="definition">Definition at line <a class="el" href="SensorArray_8h_source.html#l00076">76</a> of file <a class="el" href="SensorArray_8h_source.html">SensorArray.h</a>.</p>
 
 </div>
 </div>

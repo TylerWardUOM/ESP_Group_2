@@ -53,7 +53,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Bluetooth_8cpp.html",
-"classPIDController.html#a3b1d0f85cef60fe25424e88a6adbb51a"
+"classEncoder.html#af1bd7295e84787c934373d766ca436cc",
+"structFollowParams.html#a5765e9163856904a6fe0026568ce4d50"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -104,46 +104,63 @@ $(document).ready(function(){initNavTree('classSensor.html',''); initResizable()
 </div><!--header-->
 <div class="contents">
 
+<p>Represents a sensor that reads analog values and provides digitalized output.  
+ <a href="classSensor.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Sensor_8h_source.html">Sensor.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb5c9a9f72720b557b620d434dd92b0e" id="r_aeb5c9a9f72720b557b620d434dd92b0e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#aeb5c9a9f72720b557b620d434dd92b0e">Sensor</a> (PinName inputPin, PinName controlPin)</td></tr>
+<tr class="memdesc:aeb5c9a9f72720b557b620d434dd92b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classSensor.html" title="Represents a sensor that reads analog values and provides digitalized output.">Sensor</a> object.  <br /></td></tr>
 <tr class="separator:aeb5c9a9f72720b557b620d434dd92b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c7788bb64114ea37a422d2329d90851" id="r_a7c7788bb64114ea37a422d2329d90851"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a7c7788bb64114ea37a422d2329d90851">Sample</a> ()</td></tr>
+<tr class="memdesc:a7c7788bb64114ea37a422d2329d90851"><td class="mdescLeft">&#160;</td><td class="mdescRight">Samples the sensor and updates the internal value.  <br /></td></tr>
 <tr class="separator:a7c7788bb64114ea37a422d2329d90851"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa97ecacda5c962842ae3c74888952117" id="r_aa97ecacda5c962842ae3c74888952117"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#aa97ecacda5c962842ae3c74888952117">GetValue</a> ()</td></tr>
+<tr class="memdesc:aa97ecacda5c962842ae3c74888952117"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the raw sensor reading.  <br /></td></tr>
 <tr class="separator:aa97ecacda5c962842ae3c74888952117"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4f96f1e9d736e255b1b00a3eddaadce" id="r_af4f96f1e9d736e255b1b00a3eddaadce"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#af4f96f1e9d736e255b1b00a3eddaadce">GetNormalizedValue</a> ()</td></tr>
+<tr class="memdesc:af4f96f1e9d736e255b1b00a3eddaadce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the normalized sensor reading.  <br /></td></tr>
 <tr class="separator:af4f96f1e9d736e255b1b00a3eddaadce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79f755545389b06c2dd5da9fe4ab0353" id="r_a79f755545389b06c2dd5da9fe4ab0353"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a79f755545389b06c2dd5da9fe4ab0353">clearReading</a> ()</td></tr>
+<tr class="memdesc:a79f755545389b06c2dd5da9fe4ab0353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the sensor reading and resets the logic state.  <br /></td></tr>
 <tr class="separator:a79f755545389b06c2dd5da9fe4ab0353"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3880bc640eb060e012bb02d16f44c612" id="r_a3880bc640eb060e012bb02d16f44c612"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a3880bc640eb060e012bb02d16f44c612">on</a> ()</td></tr>
+<tr class="memdesc:a3880bc640eb060e012bb02d16f44c612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the sensor on by setting the LED control pin high.  <br /></td></tr>
 <tr class="separator:a3880bc640eb060e012bb02d16f44c612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84dae9bf913b5e4267bbfc1f6ed5771c" id="r_a84dae9bf913b5e4267bbfc1f6ed5771c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a84dae9bf913b5e4267bbfc1f6ed5771c">off</a> ()</td></tr>
+<tr class="memdesc:a84dae9bf913b5e4267bbfc1f6ed5771c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the sensor off by setting the LED control pin low.  <br /></td></tr>
 <tr class="separator:a84dae9bf913b5e4267bbfc1f6ed5771c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a880e5bef60491a8bc6e47c40219b1225" id="r_a880e5bef60491a8bc6e47c40219b1225"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a880e5bef60491a8bc6e47c40219b1225">toggle</a> ()</td></tr>
+<tr class="memdesc:a880e5bef60491a8bc6e47c40219b1225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles the sensor control state.  <br /></td></tr>
 <tr class="separator:a880e5bef60491a8bc6e47c40219b1225"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d40a695c6431d600bb6286e38ab2356" id="r_a3d40a695c6431d600bb6286e38ab2356"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a3d40a695c6431d600bb6286e38ab2356">digitalize</a> ()</td></tr>
+<tr class="memdesc:a3d40a695c6431d600bb6286e38ab2356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the analog sensor value to a digital output.  <br /></td></tr>
 <tr class="separator:a3d40a695c6431d600bb6286e38ab2356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a9c4cfa7a0df7fde344eb611a9f3ed28c" id="r_a9c4cfa7a0df7fde344eb611a9f3ed28c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a9c4cfa7a0df7fde344eb611a9f3ed28c">Logic</a></td></tr>
+<tr class="memdesc:a9c4cfa7a0df7fde344eb611a9f3ed28c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Digital logic state after digitalization (1 = white, 0 = black).  <br /></td></tr>
 <tr class="separator:a9c4cfa7a0df7fde344eb611a9f3ed28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a530a5ef20b2e0d7d317b795eeb279499" id="r_a530a5ef20b2e0d7d317b795eeb279499"><td class="memItemLeft" align="right" valign="top">AnalogIn&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a530a5ef20b2e0d7d317b795eeb279499">sensor_pin</a></td></tr>
+<tr class="memdesc:a530a5ef20b2e0d7d317b795eeb279499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analog input pin for sensor output.  <br /></td></tr>
 <tr class="separator:a530a5ef20b2e0d7d317b795eeb279499"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66a38fcd56d148fc5de00287e3fb255c" id="r_a66a38fcd56d148fc5de00287e3fb255c"><td class="memItemLeft" align="right" valign="top">DigitalOut&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a66a38fcd56d148fc5de00287e3fb255c">control</a></td></tr>
+<tr class="memdesc:a66a38fcd56d148fc5de00287e3fb255c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Digital pin to control the sensor state.  <br /></td></tr>
 <tr class="separator:a66a38fcd56d148fc5de00287e3fb255c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07697d6a2742fbbedbd706af8c65651d" id="r_a07697d6a2742fbbedbd706af8c65651d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSensor.html#a07697d6a2742fbbedbd706af8c65651d">value</a></td></tr>
+<tr class="memdesc:a07697d6a2742fbbedbd706af8c65651d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Latest sampled sensor reading.  <br /></td></tr>
 <tr class="separator:a07697d6a2742fbbedbd706af8c65651d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00006">6</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
+<div class="textblock"><p>Represents a sensor that reads analog values and provides digitalized output. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00015">15</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aeb5c9a9f72720b557b620d434dd92b0e" name="aeb5c9a9f72720b557b620d434dd92b0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeb5c9a9f72720b557b620d434dd92b0e">&#9670;&#160;</a></span>Sensor()</h2>
@@ -171,6 +188,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a <a class="el" href="classSensor.html" title="Represents a sensor that reads analog values and provides digitalized output.">Sensor</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputPin</td><td>The pin connected to the sensor output. </td></tr>
+    <tr><td class="paramname">controlPin</td><td>The pin used to control the sensor LED. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00004">4</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
 </div>
@@ -191,6 +217,8 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Clears the sensor reading and resets the logic state. </p>
+
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00027">27</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
 </div>
@@ -209,6 +237,9 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Converts the analog sensor value to a digital output. </p>
+<dl class="section return"><dt>Returns</dt><dd>1 if white (high value), 0 if black (low value). </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00052">52</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
@@ -229,6 +260,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Gets the normalized sensor reading. </p>
+<dl class="section return"><dt>Returns</dt><dd>The normalized value between 0.0 and 1.0. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00022">22</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
 </div>
@@ -247,6 +281,9 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gets the raw sensor reading. </p>
+<dl class="section return"><dt>Returns</dt><dd>The sensor voltage value. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00016">16</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
@@ -267,6 +304,8 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Turns the sensor off by setting the LED control pin low. </p>
+
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00038">38</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
 </div>
@@ -285,6 +324,8 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Turns the sensor on by setting the LED control pin high. </p>
 
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00033">33</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
@@ -305,6 +346,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Samples the sensor and updates the internal value. </p>
+<p>The value is scaled to a 3.3V reference. </p>
+
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00011">11</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
 </div>
@@ -323,6 +367,8 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Toggles the sensor control state. </p>
 
 <p class="definition">Definition at line <a class="el" href="Sensor_8cpp_source.html#l00043">43</a> of file <a class="el" href="Sensor_8cpp_source.html">Sensor.cpp</a>.</p>
 
@@ -349,7 +395,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00039">39</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
+<p>Digital pin to control the sensor state. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00074">74</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
 
 </div>
 </div>
@@ -365,7 +413,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00035">35</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
+<p>Digital logic state after digitalization (1 = white, 0 = black). </p>
+
+<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00070">70</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
 
 </div>
 </div>
@@ -389,7 +439,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00038">38</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
+<p>Analog input pin for sensor output. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00073">73</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
 
 </div>
 </div>
@@ -413,7 +465,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00040">40</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
+<p>Latest sampled sensor reading. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sensor_8h_source.html#l00075">75</a> of file <a class="el" href="Sensor_8h_source.html">Sensor.h</a>.</p>
 
 </div>
 </div>

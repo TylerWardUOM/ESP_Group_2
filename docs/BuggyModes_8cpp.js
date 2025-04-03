@@ -1,6 +1,8 @@
 var BuggyModes_8cpp =
 [
     [ "stopMotorAndSwitchToIdleMode", "BuggyModes_8cpp.html#ab73cd777ac477695d0e432fb228735ec", null ],
+    [ "switchToBangBangBoostMenuMode", "BuggyModes_8cpp.html#ab095afa8ac33556ecfb6d905e4b60455", null ],
+    [ "switchToBangBangBoostMode", "BuggyModes_8cpp.html#a094cc25be3b233a13c59869eb332e275", null ],
     [ "switchToBangBangMenuMode", "BuggyModes_8cpp.html#a60e0de50f2b61f886a4052eafd08c8c2", null ],
     [ "switchToBangBangMode", "BuggyModes_8cpp.html#a524ddf13013af7e370a9b56bb48d1ce0", null ],
     [ "switchToBangBangProportionalMenuMode", "BuggyModes_8cpp.html#aa1a246c9dc0b3ed810ece6242015a149", null ],
@@ -10,7 +12,7 @@ var BuggyModes_8cpp =
     [ "switchToLineMenuMode", "BuggyModes_8cpp.html#a1e62ed26c2492162c4a06288668df063", null ],
     [ "switchToLineMode", "BuggyModes_8cpp.html#adf12168be3937066569eaf389d80e2df", null ],
     [ "switchToMotorDebug", "BuggyModes_8cpp.html#a7770a594bd65ca64a36c45567b81bd24", null ],
-    [ "switchToSensorCallibration", "BuggyModes_8cpp.html#a40d9dd9d962ee9cfdd111d2874f13192", null ],
+    [ "switchToRCMode", "BuggyModes_8cpp.html#a052d06637ef9d406f4852267d464eb9a", null ],
     [ "switchToSensorDebug", "BuggyModes_8cpp.html#ad8878bafb4c9f40d4f736d463121ec93", null ],
     [ "switchToSpeedControlMode", "BuggyModes_8cpp.html#afc8fcb709b57271cc7fa1d9f898dc724", null ],
     [ "switchToSquareIdleMode", "BuggyModes_8cpp.html#a09265f68f84ff6a703b4f9725ef698a0", null ],

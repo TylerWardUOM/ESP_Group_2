@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['turn_5faround_0',['turn_around',['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa5861afb13b2840134a33d6f662f58291',1,'BuggyModeEnum.h']]],
-  ['turn_5faround_5fsquare_1',['TURN_AROUND_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa1c9649369128e06a6b0f3259d7164752',1,'ControlSystem']]],
-  ['turn_5fleft_5fsquare_2',['TURN_LEFT_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aac7f06f622da754f9e8b4713e3e7645bf',1,'ControlSystem']]],
-  ['turn_5fmenu_5fmode_3',['turn_menu_mode',['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa7fbdec016367d41109c89cbccf941fce',1,'BuggyModeEnum.h']]],
-  ['turn_5fright_5fsquare_4',['TURN_RIGHT_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa7a062c459bf6dbf87b6ebd1635a8d94d',1,'ControlSystem']]],
-  ['turning_5',['TURNING',['../classControlSystem.html#a65cce478a68b55ad9616905535672d65a436f5cf925bee196e38b5f18037913db',1,'ControlSystem']]]
+  ['sensor_5fdebug_0',['sensor_debug',['../classBluetooth.html#a08c6b1544a375926c8745ad1ba864919a94b595c2e9ccbd03494e59e7326e6e52',1,'Bluetooth::SENSOR_DEBUG'],['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaa3d0d2d6b6eaf453944d9469061dd4aa7',1,'sensor_debug:&#160;BuggyModeEnum.h']]],
+  ['sensor_5fdebug_5fmenu_1',['sensor_debug_menu',['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaaa590e3961af6b376835f46320687d95e',1,'BuggyModeEnum.h']]],
+  ['speed_5fcontrol_5fmode_2',['speed_control_mode',['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaac4435497dc78172de794ae3fe7d3d970',1,'BuggyModeEnum.h']]],
+  ['square_5fdebug_3',['SQUARE_DEBUG',['../classBluetooth.html#a08c6b1544a375926c8745ad1ba864919a87c7960c0d9d2b4a7efeaa40d5d462ce',1,'Bluetooth']]],
+  ['square_5fidle_5fmode_4',['square_idle_mode',['../BuggyModeEnum_8h.html#aa200729ecfb3bc499fcd2d1306fc7cfaae66c5ca394bf6c7af8cee797d98054f4',1,'BuggyModeEnum.h']]],
+  ['stop_5fsquare_5',['STOP_SQUARE',['../classControlSystem.html#a3b830aff4b92916aec06eef45a432b9aa79c7ca05c541bb20cfb4578cd4ade9e2',1,'ControlSystem']]]
 ];
