@@ -109,6 +109,23 @@ void ControlSystem::setBangBangMode(const BangBangParams& params) {
     bluetooth.resetDebugData();
 }
 
+void ControlSystem::setBangBangBoostMode(const BangBangBoostParams& params) {
+    // Ensure wheels are enabled before setting control mode
+    enableWheels();
+    // Store the given parameters
+    basespeed = params.baseSpeed;
+    bangBangThreshold = params.bangBangThreshold;
+    turnSpeedMultiplier = params.turnSpeedMultiplier;
+
+    // Set control state
+    state = BANG_BANG;
+    movementCompleted = false;
+
+    // Reset encoders (if needed for tracking)
+    resetEncoders();
+    bluetooth.resetDebugData();
+}
+
 void ControlSystem::setBangBangProportionalMode(const BangBangProportionalParams& params) {
     // Ensure wheels are enabled before setting control mode
     enableWheels();
@@ -240,7 +257,8 @@ void ControlSystem::processForwardMovement(float dt) {
     }
     leftWheel.setSpeed(basespeed);
     rightWheel.setSpeed(basespeed * multiplier);
-    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
+    Bluetooth::SquareDebugData squareData = {leftDistance,rightDistance,error,pidOutput,multiplier};
+    bluetooth.logDebugData(Bluetooth::SQUARE_DEBUG, &squareData);
     if (((leftDistance + rightDistance) / 2.0f) >= targetDistance) {
         stopWheels();
         pidForward.reset();
@@ -273,7 +291,8 @@ void ControlSystem::processTurning(float dt) {
     float baseTurnSpeed = 0.2f;
     leftWheel.setSpeed(-turnDirection * basespeed * multiplier);
     rightWheel.setSpeed(turnDirection * basespeed);
-    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier);
+    Bluetooth::SquareDebugData squareData = {leftDistance,rightDistance,error,pidOutput,multiplier};
+    bluetooth.logDebugData(Bluetooth::SQUARE_DEBUG, &squareData);
     if (fabs(error) < 0.02f || avgDistance >= targetDistance) {
         stopWheels();
         pidTurn.reset();
@@ -366,9 +385,9 @@ void ControlSystem::processFollowLine(float dt) {
     // Implement line following algorithm here
     
     //for debugging
-    float* sensorValues = sensorArray.getValues();  // Get pointer to array
-    float leftDistance = fabs(leftWheel.encoder.getDistance());
-    float rightDistance = fabs(rightWheel.encoder.getDistance());
+    // float* sensorValues = sensorArray.getValues();  // Get pointer to array
+    // float leftDistance = fabs(leftWheel.encoder.getDistance());
+    // float rightDistance = fabs(rightWheel.encoder.getDistance());
 
 
     float error = sensorArray.getError();
@@ -383,8 +402,7 @@ void ControlSystem::processFollowLine(float dt) {
     
     leftWheel.setSpeed(basespeed * multiplier);
     rightWheel.setSpeed(basespeed);
-    //For Debugging
-    bluetooth.logDebugData(leftDistance,rightDistance,error,pidOutput,multiplier,sensorValues);
+    
 }
 
 
@@ -478,6 +496,11 @@ void ControlSystem::regulateWheelSpeed(){
     rightWheel.regulateSpeed();
 }
 
+void ControlSystem::regulateWheelSpeedwithBOOST(){
+    leftWheel.regulateSpeedwithBOOST();
+    rightWheel.regulateSpeedwithBOOST();
+}
+
 void ControlSystem::debugRegulateWheelSpeed(){
     static int counter = 0;
     leftWheel.regulateSpeed();
@@ -492,4 +515,18 @@ void ControlSystem::debugRegulateWheelSpeed(){
 void ControlSystem::setWheelKp(float wheelKp){
     leftWheel.setKp(wheelKp);
     rightWheel.setKp(wheelKp);
+}
+
+void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost){
+    leftWheel.setKp(wheelKp);
+    rightWheel.setKp(wheelKp);
+    leftWheel.setThreshold(wheel_threshold);
+    rightWheel.setThreshold(wheel_threshold);
+    leftWheel.setBoost(wheel_boost);
+    rightWheel.setBoost(wheel_boost);
+}
+  
+void ControlSystem::debugWheels(){
+    leftWheel.debugWheelData(0);
+    rightWheel.debugWheelData(1);
 }

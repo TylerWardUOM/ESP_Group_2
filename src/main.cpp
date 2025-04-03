@@ -9,6 +9,8 @@
 #include "Bluetooth.h"
 #include "Sensor.h"
 #include "SensorArray.h"
+#include "OneWire_Methods.h"
+#include "ds2781.h"
 
 //Constants for Wheel
 //if not going correct distance adjust wheel_diameter
@@ -24,11 +26,16 @@
 //Try get this to smallest value possible if code stops working properly go back to previous
 #define SQUARE_CONTROL_INTERVAL 0.01
 
+//Battery Monitor
+
+DigitalInOut one_wire_pin(PC_3);
+
 SquarePatternParams squareParams;
 StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
 FollowParams followParams;
 BangBangParams bangbangParams;
+BangBangBoostParams bangbangboostParams;
 BangBangProportionalParams bangbangproportionalParams;
 BuggyMode buggyMode = idle_mode;
 
@@ -36,11 +43,11 @@ BuggyMode buggyMode = idle_mode;
 // Bluetooth Instance
 Serial btSerial(PA_11,PA_12);
 //Serial btSerial(USBTX,USBRX);
-Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
+Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
-Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
-Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
+Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM,bluetooth); //change max rpm by testing
+Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM,bluetooth);
 
 Sensor sensor1(A0, NC);
 Sensor sensor2(A1, NC);
@@ -58,8 +65,10 @@ SensorArray sensorArray(sensors, bluetooth);
 ControlSystem control(leftWheel, rightWheel, TRACK_WIDTH, bluetooth, sensorArray);
 
 // Potentiometer Pins
+
 //Potentiometer potentiometerLeft(A0, 3.3);   // Left potentiometer pin
 //Potentiometer potentiometerRight(A1, 3.3);  // Right potentiometer pin
+
 
 // LCD Pins
 //C12832 lcd(D11, D13, D12, D7, D10);  // LCD display
@@ -72,6 +81,30 @@ void updateLCD();
 long map(long x, long in_min, long in_max, long out_min, long out_max){
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+
+Timer energyTimer;
+float accumulatedCharge;
+float fullBatteryCapacity;
+bool energyTimerStarted = false;  
+
+float getBatteryPercentage(float voltage, float current) {
+
+    float dt = energyTimer.read();  // Time in seconds
+    energyTimer.reset();  // Reset for next interval
+
+    // Convert current (A) * time (s) to charge (mAh)
+    accumulatedCharge += (current * dt * 1000.0) / 3600.0;
+
+    // Estimate remaining capacity
+    float remainingCapacity = fullBatteryCapacity - accumulatedCharge;
+    
+    // Calculate battery percentage
+    float batteryPercentage = (remainingCapacity / fullBatteryCapacity) * 100.0;
+    batteryPercentage = fmax(0.0, fmin(100.0, batteryPercentage)); // Ensure within 0-100%
+
+    return batteryPercentage;
+}
+
 // Update LCD periodically using a Ticker
 Ticker lcdUpdateTicker; 
 bool lcdUpdateRequired = false;
@@ -85,6 +118,11 @@ Ticker controlticker;
 Ticker sensorTicker;
 Ticker motorTicker;
 
+//Debug Tickers
+Ticker control_debugTicker;
+Ticker sensor_debugTicker;
+Ticker motor_debugTicker;
+
 bool square_flag = false;
 bool turn_around_flag = false;
 
@@ -95,13 +133,40 @@ int main() {
     float speedRawR;
     float desiredSpeedL;
     float desiredSpeedR;
+    int VoltageReading, CurrentReading; 
+    float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
+    fullBatteryCapacity=2500; //Estimated 
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                if (energyTimerStarted!=true){
+                    energyTimer.reset();
+                    energyTimer.start();
+                    energyTimerStarted=true;
+                }
+                if (bluetooth.shouldCallibrateWhite()){
+                    sensorArray.calibrate();
+                    bluetooth.sendCallibrationFinished();//Update to send the callibrated values
+                    break;
+                }
+                if (bluetooth.shouldCallibrateBlack()){
+                    sensorArray.calibrateBlack();
+                    bluetooth.sendCallibrationFinished();
+                    break;
+                }
+                if (bluetooth.shouldReadBattery()){
+                    VoltageReading = ReadVoltage(); 
+                    Voltage = VoltageReading*0.00967; 
+                    CurrentReading = ReadCurrent(); 
+                    Current = CurrentReading/6400.0;
+                    batteryPercentage=getBatteryPercentage(Voltage,Current);
+                    bluetooth.sendBatteryInfo(Voltage, Current, batteryPercentage);
+                }
+
                 break;
 
             case speed_control_mode:
@@ -121,13 +186,6 @@ int main() {
                 rightWheel.setSpeed(speedRawR);
                 break;
 
-            case sensor_callibration:
-                if (bluetooth.shouldStart()){
-                    sensorArray.calibrate();
-                    bluetooth.sendMovementFinished();
-                    break;
-                }
-                break;
             
             case sensor_debug_menu:
                 wait(1);
@@ -150,7 +208,21 @@ int main() {
                 desiredSpeedR=bluetooth.SpeedRequestRight();
                 if (desiredSpeedL!=5000.00){
                     leftWheel.setSpeed(desiredSpeedL);
-                    bluetooth.printDebugData("%f\n",(desiredSpeedL));
+                }
+                if (desiredSpeedR!=5000.00){
+                    rightWheel.setSpeed(desiredSpeedR);
+                }
+                break;
+
+            case rc_menu:
+                switchToRCMode(control,buggyMode);
+                break;
+                
+            case rc:
+                desiredSpeedL=bluetooth.SpeedRequestLeft();
+                desiredSpeedR=bluetooth.SpeedRequestRight();
+                if (desiredSpeedL!=5000.00){
+                    leftWheel.setSpeed(desiredSpeedL);
                 }
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
@@ -190,11 +262,26 @@ int main() {
             case bang_bang_menu_mode:
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
+                    if (bangbangParams.debugFlag==1.0){
+                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.3);
+                        sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.3);
+                    }
                     switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
                     break;
                 }
                 break;
-
+                
+            case bang_bang_boost_menu_mode:
+                if (bluetooth.shouldStart()){
+                    previousMode=buggyMode;
+                    if (bangbangboostParams.debugFlag==1.0){
+                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.3);
+                        sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.3);
+                    }
+                    switchToBangBangBoostMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangboostParams);
+                    break;
+                }
+                break;
             case bang_bang_proportional_menu_mode:
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
@@ -226,6 +313,9 @@ int main() {
                         controlticker.detach();
                         sensorTicker.detach();
                         motorTicker.detach();
+                        sensor_debugTicker.detach();
+                        motor_debugTicker.detach();
+                        control_debugTicker.detach();
                         bluetooth.sendMovementFinished();
                         bluetooth.sendDebugData();
                         stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
