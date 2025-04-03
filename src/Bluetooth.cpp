@@ -4,8 +4,6 @@
 #include <cstdio>
 #include "mbed.h"
 
-// Define the timer
-Timer debugTimer;
 
 //Add a message when movement starts so website knows to wait and then a movement complete message that could open debug mode
 //Debug mode puts data in table and also displays parameters used somewhere
@@ -17,10 +15,12 @@ Bluetooth::Bluetooth(Serial &serial, BuggyMode &mode,
                      TurnAngleParams &taParams,
                      FollowParams &flParams,
                      BangBangParams &bbParams,
+                     BangBangBoostParams &bbbParams,
                      BangBangProportionalParams &bbpParams)
     : _serial(serial), _currentMode(mode),
       _sqParams(sqParams), _slParams(slParams), _taParams(taParams),
-      _flParams(flParams), _bbParams(bbParams),_bbpParams(bbpParams) {
+      _flParams(flParams), _bbParams(bbParams),_bbpParams(bbpParams),
+      _bbbParams(bbbParams) {
     _serial.attach(callback(this, &Bluetooth::rx_interrupt), Serial::RxIrq);
     debugTimer.start();
 }
@@ -78,6 +78,8 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _flParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _flParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _flParams.motor_Kp);
+            _serial.printf("motorThreshold=%.7f\n",_flParams.motor_threshold);
+            _serial.printf("motorBoost=%.7f\n",_flParams.motor_boost);
             break;
 
         case bang_bang_menu_mode:
@@ -88,6 +90,20 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbParams.motor_Kp);
+            _serial.printf("debugFlag=%.7f\n", _bbParams.debugFlag);
+            break;
+
+        case bang_bang_boost_menu_mode:
+            _serial.printf("baseSpeed=%.7f\n", _bbbParams.baseSpeed);
+            _serial.printf("turnSpeedMultiplier=%.7f\n", _bbbParams.turnSpeedMultiplier);
+            _serial.printf("bangBangThreshold=%.7f\n", _bbbParams.bangBangThreshold);
+            _serial.printf("sensorPeriod=%.7f\n", _bbbParams.sensorSamplePeriod);
+            _serial.printf("controlPeriod=%.7f\n", _bbbParams.controlPeriod);
+            _serial.printf("motorRegulatePeriod=%.7f\n", _bbbParams.motorRegulatePeriod);
+            _serial.printf("motorKp=%.7f\n", _bbbParams.motor_Kp);
+            _serial.printf("motorThreshold=%.7f\n",_bbbParams.motor_threshold);
+            _serial.printf("motorBoost=%.7f\n",_bbbParams.motor_boost);
+            _serial.printf("debugFlag=%.7f\n", _bbbParams.debugFlag);
             break;
 
         case bang_bang_proportional_menu_mode:
@@ -99,6 +115,8 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbpParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbpParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbpParams.motor_Kp);
+            _serial.printf("motorThreshold=%.7f\n",_bbpParams.motor_threshold);
+            _serial.printf("motorBoost=%.7f\n",_bbpParams.motor_boost);
             break;
 
 
@@ -113,27 +131,46 @@ void Bluetooth::sendAvailableParameters() {
 
 void Bluetooth::sendDebugData() {
     _serial.printf("DEBUG DATA:\n");
-
     for (int i = 0; i < debug_index; i++) {
-        DebugEntry entry = debug_data_buffer[i];
+        DebugEntry& entry = debug_data_buffer[i];
+        _serial.printf("T:%lu ", entry.timestamp);
 
-        // Print main debug info
-        _serial.printf("%lu ms: Left_Distance=%f, Right_Distance=%f, Error=%f, PID_out=%f, Multiplier=%f\n",
-                       entry.timestamp, entry.left_distance, entry.right_distance, entry.error, entry.pid_output, entry.multiplier);
+        switch (entry.type) {
+            case MOTOR_DEBUG:
+                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                               entry.data.motor.side,
+                               entry.data.motor.distance,
+                               entry.data.motor.speed,
+                               entry.data.motor.set_speed,
+                               entry.data.motor.error,
+                               entry.data.motor.adjustment);
+                break;
 
-        // Print sensor values (formatted inline)
-        _serial.printf("Sensors: [");
-        for (int j = 0; j < 6; j++) {
-            _serial.printf("%f", entry.sensor_values[j]);
-            if (j < 5) {
-                _serial.printf(", "); // Add commas between values
-            }
+            case SENSOR_DEBUG:
+                _serial.printf("SENSOR:%.5f,", entry.data.sensor.error);
+                for (int j = 0; j < 6; j++) {
+                    _serial.printf("%.5f", entry.data.sensor.sensor_values[j]);
+                    if (j < 5) _serial.printf(",");
+                }
+                _serial.printf("\n");
+                break;
+
+            case CONTROL_DEBUG:
+                _serial.printf("CONTROL:%.5f,%.5f\n",
+                               entry.data.control.pid_output,
+                               entry.data.control.multiplier);
+                break;
+            case SQUARE_DEBUG:
+                _serial.printf("SQUARE:%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                                entry.data.square.left_distance,
+                                entry.data.square.right_distance,
+                                entry.data.square.error,
+                                entry.data.square.pid_output,
+                                entry.data.square.multiplier);
         }
-        _serial.printf("]\n"); // Close sensor array output
     }
 
-    debug_index = 0; // Reset binary buffer after sending
-
+    debug_index = 0; // Clear buffer after sending
     _serial.printf("DEBUG_END\n");
 }
 
@@ -198,6 +235,12 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "SET_MODE:MOTOR_DEBUG") == 0) {
         _currentMode = motor_debug_menu;
         _serial.printf("MODE_CHANGED:MOTOR_DEBUG\n");
+    }else if (strcmp(cmd, "SET_MODE:BANG_BANG_BOOST_MENU") == 0) {
+        _currentMode = bang_bang_boost_menu_mode;
+        _serial.printf("MODE_CHANGED:BANG_BANG_BOOST_MENU\n");
+    }else if (strcmp(cmd, "SET_MODE:RC") == 0) {
+        _currentMode = rc_menu;
+        _serial.printf("MODE_CHANGED:RC\n");
     }else if (strcmp(cmd, "CALLIBRATE_WHITE") == 0) {
         callibrateWhite_flag=true;
         _serial.printf("CALLIBRATING_WHITE\n");
@@ -274,6 +317,8 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _flParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _flParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _flParams.motor_Kp = value;
+                else if (strcmp(key, "motorThreshold") == 0) _flParams.motor_threshold = value;
+                else if (strcmp(key, "motorBoost") == 0) _flParams.motor_boost = value;
                 break;
 
             case bang_bang_menu_mode:
@@ -284,6 +329,20 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbParams.motor_Kp = value;
+                else if (strcmp(key, "debugFlag") == 0) _bbParams.debugFlag = value;
+                break;
+
+            case bang_bang_boost_menu_mode:
+                if (strcmp(key, "baseSpeed") == 0) _bbbParams.baseSpeed = value;
+                else if (strcmp(key, "turnSpeedMultiplier") == 0) _bbbParams.turnSpeedMultiplier = value;
+                else if (strcmp(key, "bangBangThreshold") == 0) _bbbParams.bangBangThreshold = value;
+                else if (strcmp(key, "sensorPeriod") == 0) _bbbParams.sensorSamplePeriod = value;
+                else if (strcmp(key, "controlPeriod") == 0) _bbbParams.controlPeriod = value;
+                else if (strcmp(key, "motorRegulatePeriod") == 0) _bbbParams.motorRegulatePeriod = value;
+                else if (strcmp(key, "motorKp") == 0) _bbbParams.motor_Kp = value;
+                else if (strcmp(key, "motorThreshold") == 0) _bbbParams.motor_threshold = value;
+                else if (strcmp(key, "motorBoost") == 0) _bbbParams.motor_boost = value;
+                else if (strcmp(key, "debugFlag") == 0) _bbbParams.debugFlag = value;
                 break;
 
             case bang_bang_proportional_menu_mode:
@@ -295,6 +354,8 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbpParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbpParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbpParams.motor_Kp = value;
+                else if (strcmp(key, "motorThreshold") == 0) _bbpParams.motor_threshold = value;
+                else if (strcmp(key, "motorBoost") == 0) _bbpParams.motor_boost = value;
                 break;
 
         }
@@ -348,31 +409,30 @@ void Bluetooth::sendCurrentMode() {
 
 
 
-void Bluetooth::logDebugData(float leftDistance, float rightDistance, float error, float pidOutput, float multiplier, float* sensorValues) {
+void Bluetooth::logDebugData(DebugType type, const void* data) {
     if (debug_index >= MAX_ENTRIES) {
         return;  // Avoid buffer overflow
     }
 
-    // Get reference to the next available entry (avoids redundant indexing)
     DebugEntry& entry = debug_data_buffer[debug_index++];
-
-    // Assign basic data
     entry.timestamp = debugTimer.read_ms();
-    entry.left_distance = leftDistance;
-    entry.right_distance = rightDistance;
-    entry.error = error;
-    entry.pid_output = pidOutput;
-    entry.multiplier = multiplier;
+    entry.type = type;
 
-    // Only copy sensor values if provided
-    if (sensorValues) {
-        memcpy(entry.sensor_values, sensorValues, 6 * sizeof(float));
-    } else {
-        memset(entry.sensor_values, 0, 6 * sizeof(float)); // Default to 0 if no values provided
+    switch (type) {
+        case MOTOR_DEBUG:
+            memcpy(&entry.data.motor, data, sizeof(MotorDebugData));
+            break;
+        case SENSOR_DEBUG:
+            memcpy(&entry.data.sensor, data, sizeof(SensorDebugData));
+            break;
+        case CONTROL_DEBUG:
+            memcpy(&entry.data.control, data, sizeof(ControlDebugData));
+            break;
+        case SQUARE_DEBUG:
+            memcpy(&entry.data.square, data, sizeof(SquareDebugData));
+            break;
     }
 }
-
-
 
 
 void Bluetooth::resetDebugData() {

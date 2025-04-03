@@ -35,18 +35,19 @@ StraightLineParams straightlineParams;
 TurnAngleParams turnangleParams;
 FollowParams followParams;
 BangBangParams bangbangParams;
+BangBangBoostParams bangbangboostParams;
 BangBangProportionalParams bangbangproportionalParams;
 BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-//Serial btSerial(PA_11,PA_12);
-Serial btSerial(USBTX,USBRX);
-Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangproportionalParams);
+Serial btSerial(PA_11,PA_12);
+//Serial btSerial(USBTX,USBRX);
+Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
-Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM); //change max rpm by testing
-Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM);
+Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM,bluetooth); //change max rpm by testing
+Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM,bluetooth);
 
 Sensor sensor1(A0, NC);
 Sensor sensor2(A1, NC);
@@ -84,6 +85,7 @@ long map(long x, long in_min, long in_max, long out_min, long out_max){
 Timer energyTimer;
 float accumulatedCharge;
 float fullBatteryCapacity;
+bool energyTimerStarted = false;  
 
 float getBatteryPercentage(float voltage, float current) {
 
@@ -116,6 +118,11 @@ Ticker controlticker;
 Ticker sensorTicker;
 Ticker motorTicker;
 
+//Debug Tickers
+Ticker control_debugTicker;
+Ticker sensor_debugTicker;
+Ticker motor_debugTicker;
+
 bool square_flag = false;
 bool turn_around_flag = false;
 
@@ -129,13 +136,18 @@ int main() {
     int VoltageReading, CurrentReading; 
     float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
-    fullBatteryCapacity=2000;
+    fullBatteryCapacity=2500; //Estimated 
     while (true) {
         bluetooth.processCommand(); // Process Bluetooth commands
         
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                if (energyTimerStarted!=true){
+                    energyTimer.reset();
+                    energyTimer.start();
+                    energyTimerStarted=true;
+                }
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
                     bluetooth.sendCallibrationFinished();//Update to send the callibrated values
@@ -196,7 +208,21 @@ int main() {
                 desiredSpeedR=bluetooth.SpeedRequestRight();
                 if (desiredSpeedL!=5000.00){
                     leftWheel.setSpeed(desiredSpeedL);
-                    bluetooth.printDebugData("%f\n",(desiredSpeedL));
+                }
+                if (desiredSpeedR!=5000.00){
+                    rightWheel.setSpeed(desiredSpeedR);
+                }
+                break;
+
+            case rc_menu:
+                switchToRCMode(control,buggyMode);
+                break;
+                
+            case rc:
+                desiredSpeedL=bluetooth.SpeedRequestLeft();
+                desiredSpeedR=bluetooth.SpeedRequestRight();
+                if (desiredSpeedL!=5000.00){
+                    leftWheel.setSpeed(desiredSpeedL);
                 }
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
@@ -236,11 +262,26 @@ int main() {
             case bang_bang_menu_mode:
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
+                    if (bangbangParams.debugFlag==1.0){
+                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.3);
+                        sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.3);
+                    }
                     switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
                     break;
                 }
                 break;
-
+                
+            case bang_bang_boost_menu_mode:
+                if (bluetooth.shouldStart()){
+                    previousMode=buggyMode;
+                    if (bangbangboostParams.debugFlag==1.0){
+                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.3);
+                        sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.3);
+                    }
+                    switchToBangBangBoostMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangboostParams);
+                    break;
+                }
+                break;
             case bang_bang_proportional_menu_mode:
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
@@ -272,6 +313,9 @@ int main() {
                         controlticker.detach();
                         sensorTicker.detach();
                         motorTicker.detach();
+                        sensor_debugTicker.detach();
+                        motor_debugTicker.detach();
+                        control_debugTicker.detach();
                         bluetooth.sendMovementFinished();
                         bluetooth.sendDebugData();
                         stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);

@@ -1,10 +1,11 @@
 #include "Wheel.h"
 
 Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinName motorEnable, 
-             PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm) 
+             PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm,
+             Bluetooth& bt) 
     : motor(motorBipolar, motorMultiplier, motorPwm, motorEnable), 
       encoder(encoderA, encoderB, wheelDiameter, encoderResolution),
-      target_rpm(0), max_rpm(maxRpm), Kp(0.01) {}
+      target_rpm(0), max_rpm(maxRpm), Kp(0.01), _bt(bt) {}
 
 void Wheel::setSpeed(int rpm) {
     if (rpm > max_rpm) rpm = max_rpm;
@@ -24,26 +25,52 @@ void Wheel::setKp(float newKp){
     Kp=newKp;
 }
 
-void Wheel::regulateSpeed() {
-    float actual_rpm = encoder.getSpeed();
-    float error = target_rpm - actual_rpm;
+void Wheel::setThreshold(float new_threshold){
+    threshold=new_threshold;
+}
+void Wheel::setBoost(float new_boost){
+    boost=new_boost;
+}
 
-    float adjustment = error/max_rpm * Kp;  // Tuning factor
+void Wheel::regulateSpeed() {
+    actual_rpm = encoder.getSpeed();
+    error = target_rpm - actual_rpm;
+
+    adjustment = error/max_rpm * Kp;  // Tuning factor
     float newSpeed = (motor.getSpeed() + adjustment);
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;
     if (newSpeed < -1.0f) newSpeed = -1.0f;
 
     motor.setSpeed(newSpeed);
-    //Debug Print
-    //printf("Target: %d, Actual: %d, Adjusted Speed: %.2f\n", target_rpm, actual_rpm, newSpeed);
+}
+    
+void Wheel::regulateSpeedwithBOOST() {
+    actual_rpm = encoder.getSpeed();
+    error = target_rpm - actual_rpm;
+
+    adjustment = (error / max_rpm) * Kp;  // Proportional control
+
+    // If the error is large (e.g., struggling uphill), apply a constant boost
+
+
+    if (error > threshold) {
+        adjustment += boost;  
+    }
+
+    // Calculate new speed and clamp it
+    float newSpeed = motor.getSpeed() + adjustment;
+    newSpeed = fmaxf(fminf(newSpeed, 1.0f), -1.0f);
+
+    motor.setSpeed(newSpeed);
 }
 
-void Wheel::regulateSpeedDebug() {
-    float actual_rpm = encoder.getSpeed();
-    float error = target_rpm - actual_rpm;
 
-    float adjustment = error/max_rpm * Kp;  // Tuning factor
+void Wheel::regulateSpeedDebug() {
+    actual_rpm = encoder.getSpeed();
+    error = target_rpm - actual_rpm;
+
+    adjustment = error/max_rpm * Kp;  // Tuning factor
     float newSpeed = (motor.getSpeed() + adjustment);
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;
@@ -73,4 +100,9 @@ void Wheel::disableMotor(){
 void Wheel::stop() {
     target_rpm = 0;  // Ensure target speed is reset
     motor.setSpeed(0.0f);  // Stop the motor
+}
+
+void Wheel::debugWheelData(int side){
+    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment};
+    _bt.logDebugData(Bluetooth::MOTOR_DEBUG, &motorData);
 }

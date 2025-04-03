@@ -21,6 +21,14 @@ class SensorArray;
  */
 void switchToSpeedControlMode(ControlSystem& control, BuggyMode& buggyMode);
 
+
+/**
+ * @brief Switches the buggy to RC mode.
+ * @param control Reference to the control system.
+ * @param buggyMode Reference to the current buggy mode.
+ */
+void switchToRCMode(ControlSystem& control, BuggyMode& buggyMode);
+
 /**
  * @brief Switches the buggy to sensor debug mode.
  * @param buggyMode Reference to the current buggy mode.
@@ -115,6 +123,12 @@ void switchToFollowMode(ControlSystem& control, SensorArray& sensorArray, BuggyM
  * @param params Reference to the parameters for Bang-Bang mode.
  */
 void switchToBangBangMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangParams& params);
+
+
+void switchToBangBangBoostMenuMode(BuggyMode& buggyMode);
+
+
+void switchToBangBangBoostMode(ControlSystem& control, SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker, Ticker& motorTicker, BangBangBoostParams& params);
 
 /**
  * @brief Switches the buggy to Bang-Bang proportional mode.
