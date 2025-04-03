@@ -7,18 +7,20 @@ Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinN
       encoder(encoderA, encoderB, wheelDiameter, encoderResolution),
       target_rpm(0), max_rpm(maxRpm), Kp(0.01), _bt(bt) {}
 
+//Only Directly adjust motor if a large change else let regulate handle it
 void Wheel::setSpeed(int rpm) {
     if (rpm > max_rpm) rpm = max_rpm;
     if (rpm < -max_rpm) rpm = -max_rpm;
 
-    target_rpm = rpm;
+    if (abs(target_rpm-rpm)>30){
+        target_rpm = rpm;
 
-    float normalizedSpeed = static_cast<float>(rpm) / max_rpm;
-    //Debug Print
-    //printf("RPM = %d",rpm);
-    //printf("normalized speed = %.2f\n", normalizedSpeed);
-
-    motor.setSpeed(normalizedSpeed);
+        float normalizedSpeed = static_cast<float>(rpm) / max_rpm;
+        motor.setSpeed(normalizedSpeed);
+    }
+    else{
+        target_rpm = rpm;
+    }
 }
 
 void Wheel::setKp(float newKp){
