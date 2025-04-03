@@ -8,6 +8,7 @@
 
 #include "mbed.h"
 #include "Motor.h"
+#include "MotorUnipolar.h"
 #include "Encoder.h"
 #include "Bluetooth.h"
 
@@ -29,10 +30,13 @@ public:
      * @param encoderResolution Number of pulses per revolution.
      * @param maxRpm Maximum RPM of the motor.
      * @param bt Reference to a Bluetooth module for debugging and communication.
+     * @param motorDirection Pin for motor direction.
      */
     Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinName motorEnable, 
           PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm,
-          Bluetooth &bt);
+          Bluetooth &bt, PinName motorDirection = NC); // Added the useUnipolar parameter
+
+    ~Wheel();  // Destructor to clean up dynamically allocated motor
 
     /**
      * @brief Sets the target speed of the wheel.
@@ -95,7 +99,7 @@ public:
     void stop();
 
     /// Motor control instance
-    Motor motor;
+    Motor* motor;
 
     /// Encoder instance for measuring wheel speed and distance
     Encoder encoder;

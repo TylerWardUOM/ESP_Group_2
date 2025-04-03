@@ -51,11 +51,13 @@ public:
     float getSpeed();
 
 private:
-    DigitalOut _bipolar; ///< Controls motor direction.
     float _multiplier; ///< Multiplier for speed adjustment.
-    PwmOut _pwm; ///< PWM output for speed control.
     DigitalOut _enable; ///< Digital output to enable/disable the motor.
+
+protected:
+    DigitalOut _bipolar; ///< Controls motor direction.
     float _speed; ///< Stores the current motor speed.
+    PwmOut _pwm; ///< PWM output for speed control.
 };
 
 #endif // MOTOR_H

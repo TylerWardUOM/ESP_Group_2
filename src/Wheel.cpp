@@ -2,10 +2,23 @@
 
 Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinName motorEnable, 
              PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm,
-             Bluetooth& bt) 
-    : motor(motorBipolar, motorMultiplier, motorPwm, motorEnable), 
-      encoder(encoderA, encoderB, wheelDiameter, encoderResolution),
-      target_rpm(0), max_rpm(maxRpm), Kp(0.01), _bt(bt) {}
+             Bluetooth &bt, PinName motorDirection)  // Make motorDirection optional with default value NC
+    : encoder(encoderA, encoderB, wheelDiameter, encoderResolution), 
+      target_rpm(0), max_rpm(maxRpm), Kp(0.01), _bt(bt) {
+
+    // Dynamically allocate the correct motor type based on the presence of a motorDirection pin
+    if (motorDirection != NC) {  // Check if a motorDirection pin was passed
+        // Use Unipolar Motor
+        motor = new MotorUnipolar(motorBipolar, motorDirection, motorMultiplier, motorPwm, motorEnable);
+    } else {
+        // Use Bipolar Motor
+        motor = new Motor(motorBipolar, motorMultiplier, motorPwm, motorEnable);
+    }
+}
+// Destructor to free dynamically allocated memory
+Wheel::~Wheel() {
+    delete motor;  // Free the motor object
+}
 
 //Only Directly adjust motor if a large change else let regulate handle it
 void Wheel::setSpeed(int rpm) {
