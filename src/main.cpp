@@ -82,28 +82,24 @@ long map(long x, long in_min, long in_max, long out_min, long out_max){
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-Timer energyTimer;
-float accumulatedCharge;
 float fullBatteryCapacity;
-bool energyTimerStarted = false;  
+float Rsns= 1000.0;
+float getBatteryPercentage() {
+    uint32_t accumulatedCurrent = ReadAccumulatedCurrent();  // Get accumulated charge (in nVhr/Rsns)
 
-float getBatteryPercentage(float voltage, float current) {
-
-    float dt = energyTimer.read();  // Time in seconds
-    energyTimer.reset();  // Reset for next interval
-
-    // Convert current (A) * time (s) to charge (mAh)
-    accumulatedCharge += (current * dt * 1000.0) / 3600.0;
+    // Convert to mAh based on sense resistor (Rsns) and time factor
+    float accumulatedCharge_mAh = accumulatedCurrent * (1.526e-9) / Rsns * 1000.0 / 3600.0;
 
     // Estimate remaining capacity
-    float remainingCapacity = fullBatteryCapacity - accumulatedCharge;
-    
+    float remainingCapacity = fullBatteryCapacity - accumulatedCharge_mAh;
+
     // Calculate battery percentage
     float batteryPercentage = (remainingCapacity / fullBatteryCapacity) * 100.0;
     batteryPercentage = fmax(0.0, fmin(100.0, batteryPercentage)); // Ensure within 0-100%
 
     return batteryPercentage;
 }
+
 
 // Update LCD periodically using a Ticker
 Ticker lcdUpdateTicker; 
@@ -143,11 +139,6 @@ int main() {
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
-                if (energyTimerStarted!=true){
-                    energyTimer.reset();
-                    energyTimer.start();
-                    energyTimerStarted=true;
-                }
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
                     bluetooth.sendCallibrationFinished();//Update to send the callibrated values
@@ -163,7 +154,7 @@ int main() {
                     Voltage = VoltageReading*0.00967; 
                     CurrentReading = ReadCurrent(); 
                     Current = CurrentReading/6400.0;
-                    batteryPercentage=getBatteryPercentage(Voltage,Current);
+                    batteryPercentage=getBatteryPercentage();
                     bluetooth.sendBatteryInfo(Voltage, Current, batteryPercentage);
                 }
 
