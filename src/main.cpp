@@ -15,7 +15,7 @@
 //Constants for Wheel
 //if not going correct distance adjust wheel_diameter
 #define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
-#define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
+#define ENCODER_RESOLUTION 4        // encoder resolution (1, 2, or 4)
 #define MAX_RPM 500
 
 //Constants for Buggy
@@ -46,8 +46,8 @@ Serial btSerial(PA_11,PA_12);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
-Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM,bluetooth); //change max rpm by testing
-Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM,bluetooth);
+Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PA_15,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM,bluetooth,PA_3); //change max rpm by testing
+Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PA_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM,bluetooth,PA_2);
 
 Sensor sensor1(A0, NC);
 Sensor sensor2(A1, NC);
