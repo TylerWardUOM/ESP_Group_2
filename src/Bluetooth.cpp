@@ -137,13 +137,15 @@ void Bluetooth::sendDebugData() {
 
         switch (entry.type) {
             case MOTOR_DEBUG:
-                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
                                entry.data.motor.side,
                                entry.data.motor.distance,
                                entry.data.motor.speed,
                                entry.data.motor.set_speed,
                                entry.data.motor.error,
-                               entry.data.motor.adjustment);
+                               entry.data.motor.adjustment,
+                               entry.data.motor.persistent_error,
+                               entry.data.motor.set_rpm);
                 break;
 
             case SENSOR_DEBUG:

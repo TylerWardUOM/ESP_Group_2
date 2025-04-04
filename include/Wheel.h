@@ -88,6 +88,13 @@ public:
      * @param kp Proportional gain value.
      */
     void setKp(float kp);
+
+    /**
+     * @brief Sets the intergral gain (Ki) for speed control.
+     * @param ki Intergral gain value.
+     */
+    void setKi(float ki);
+  
   
     void setThreshold(float new_threshold);
   
@@ -106,8 +113,10 @@ public:
 
 private:
     int target_rpm; ///< Target speed in RPM
+    int set_rpm; ///< Target speed in RPM Taking into account error history
     int max_rpm; ///< Maximum allowable speed in RPM
     float Kp; ///< Proportional gain for speed regulation
+    float Ki; ///< Integral gain for speed regulation
     float boost;
     float threshold;
     float actual_rpm;  ///< Measured RPM from encoder
@@ -115,6 +124,10 @@ private:
     float adjustment;  ///< P correction value
     Ticker ticker; ///< Timer for automatic speed regulation
     Bluetooth &_bt;  ///< Reference to the Bluetooth module for debugging.
+    float error_history[5];  // Store the last 5 error values
+    int error_index;       // Circular buffer index
+    float persistent_error;
+
 };
 
 #endif // WHEEL_H

@@ -38,6 +38,8 @@ public:
         float set_speed; /**< Desired speed of the motor. */
         float error;     /**< Error in speed tracking. */
         float adjustment; /**< Adjustments applied for error correction. */
+        float persistent_error;
+        float set_rpm;
     };
 
     /**
