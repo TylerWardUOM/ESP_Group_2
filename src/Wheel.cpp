@@ -29,7 +29,7 @@ void Wheel::setSpeed(int rpm) {
         target_rpm = rpm;
 
         float normalizedSpeed = static_cast<float>(rpm) / max_rpm;
-        motor.setSpeed(normalizedSpeed);
+        motor->setSpeed(normalizedSpeed);
     }
     else{
         target_rpm = rpm;
@@ -52,12 +52,12 @@ void Wheel::regulateSpeed() {
     error = target_rpm - actual_rpm;
 
     adjustment = error/max_rpm * Kp;  // Tuning factor
-    float newSpeed = (motor.getSpeed() + adjustment);
+    float newSpeed = (motor->getSpeed() + adjustment);
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;
     if (newSpeed < -1.0f) newSpeed = -1.0f;
 
-    motor.setSpeed(newSpeed);
+    motor->setSpeed(newSpeed);
 }
     
 void Wheel::regulateSpeedwithBOOST() {
@@ -74,10 +74,10 @@ void Wheel::regulateSpeedwithBOOST() {
     }
 
     // Calculate new speed and clamp it
-    float newSpeed = motor.getSpeed() + adjustment;
+    float newSpeed = motor->getSpeed() + adjustment;
     newSpeed = fmaxf(fminf(newSpeed, 1.0f), -1.0f);
 
-    motor.setSpeed(newSpeed);
+    motor->setSpeed(newSpeed);
 }
 
 
@@ -86,12 +86,12 @@ void Wheel::regulateSpeedDebug() {
     error = target_rpm - actual_rpm;
 
     adjustment = error/max_rpm * Kp;  // Tuning factor
-    float newSpeed = (motor.getSpeed() + adjustment);
+    float newSpeed = (motor->getSpeed() + adjustment);
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;
     if (newSpeed < -1.0f) newSpeed = -1.0f;
 
-    motor.setSpeed(newSpeed);
+    motor->setSpeed(newSpeed);
     //Debug Print
     //printf("Target: %d, Actual: %d, Adjusted Speed: %.2f\n", target_rpm, actual_rpm, newSpeed);
 }
@@ -105,16 +105,16 @@ void Wheel::stopRegulation() {
 }
 
 void Wheel::enableMotor(){
-     motor.enable();
+     motor->enable();
 }
 
 void Wheel::disableMotor(){
-    motor.disable();
+    motor->disable();
 }
 
 void Wheel::stop() {
     target_rpm = 0;  // Ensure target speed is reset
-    motor.setSpeed(0.0f);  // Stop the motor
+    motor->setSpeed(0.0f);  // Stop the motor
 }
 
 void Wheel::debugWheelData(int side){

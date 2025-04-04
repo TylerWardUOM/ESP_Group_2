@@ -19,7 +19,7 @@ Encoder::Encoder(PinName pinA, PinName pinB, float wheelDiameter, int resolution
         _channelB.fall(callback(this, &Encoder::encoderISR));
     }
 
-    _speedTicker.attach(callback(this, &Encoder::updateSpeed), 0.1);
+    _speedTicker.attach(callback(this, &Encoder::updateSpeed), 0.01);
 }
 
 void Encoder::encoderISR() {
