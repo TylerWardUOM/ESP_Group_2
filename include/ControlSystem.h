@@ -135,6 +135,11 @@ public:
      * @brief Calls wheel debug logging functions.
      */
     void debugWheels();
+
+    /**
+     * @brief Calls wheel live debug functions.
+     */
+    void live_debugWheels();
     
     /**
      * @brief Sets PID parameters based on the current movement mode.

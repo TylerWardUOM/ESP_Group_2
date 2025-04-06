@@ -139,3 +139,10 @@ void Wheel::debugWheelData(int side){
     Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment,persistent_error,set_rpm};
     _bt.logDebugData(Bluetooth::MOTOR_DEBUG, &motorData);
 }
+
+
+void Wheel::live_debugWheelData(int side){
+    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment,persistent_error,set_rpm};
+    _bt.printLiveDebugData(Bluetooth::MOTOR_DEBUG, &motorData);
+}
+

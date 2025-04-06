@@ -79,6 +79,11 @@ public:
     void debugWheelData(int side);
 
     /**
+     * @brief Sends live wheel data for debugging purposes via Bluetooth.
+     */
+    void live_debugWheelData(int side);
+
+    /**
      * @brief Disables the motor.
      */
     void disableMotor();

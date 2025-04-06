@@ -41,8 +41,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-Serial btSerial(PA_11,PA_12);
-//Serial btSerial(USBTX,USBRX);
+//Serial btSerial(PA_11,PA_12);
+Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -129,6 +129,7 @@ int main() {
     float speedRawR;
     float desiredSpeedL;
     float desiredSpeedR;
+    bool motor_debug_ticker_flag = false;
     int VoltageReading, CurrentReading; 
     float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
@@ -202,6 +203,13 @@ int main() {
                 }
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
+                }
+                if (bluetooth.shouldDebugMotor() && !motor_debug_ticker_flag){
+                    motor_debug_ticker_flag=true;
+                    motor_debugTicker.attach(callback(&control, &ControlSystem::live_debugWheels), 0.5);
+                }else if (!bluetooth.shouldDebugMotor() && motor_debug_ticker_flag){
+                    motor_debug_ticker_flag=false;
+                    motor_debugTicker.detach();
                 }
                 break;
 
@@ -319,6 +327,9 @@ int main() {
                 controlticker.detach();
                 sensorTicker.detach();
                 motorTicker.detach();
+                sensor_debugTicker.detach();
+                motor_debugTicker.detach();
+                control_debugTicker.detach();
                 stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
                 break;
         }
