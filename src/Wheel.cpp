@@ -14,6 +14,7 @@ Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinN
     if (motorDirection != NC) {  // Check if a motorDirection pin was passed
         // Use Unipolar Motor
         motor = new MotorUnipolar(motorBipolar, motorDirection, motorMultiplier, motorPwm, motorEnable);
+        printf("uniPolar\n");
     } else {
         // Use Bipolar Motor
         motor = new Motor(motorBipolar, motorMultiplier, motorPwm, motorEnable);
