@@ -19,10 +19,11 @@ Encoder::Encoder(PinName pinA, PinName pinB, float wheelDiameter, int resolution
         _channelB.fall(callback(this, &Encoder::encoderISR));
     }
 
-    _speedTicker.attach(callback(this, &Encoder::updateSpeed), 0.01);
+    _speedTicker.attach(callback(this, &Encoder::updateSpeed), 0.05);
 }
 
 void Encoder::encoderISR() {
+    int change = 0;
     int chanA = _channelA.read();  // Read state of channel A
     int chanB = _channelB.read();  // Read state of channel B
 
@@ -41,19 +42,19 @@ void Encoder::encoderISR() {
     } else if (_resolution == 4) {
         // X4 Encoding Mode (advanced quadrature encoding)
         // Only update pulses if the state has changed and it's a valid transition
-        if ((currState_ ^ prevState_) != 0x00) {
+        if ((currState_ ^ prevState_) != 0x3 && currState_!=prevState_) {
             // Use XOR to determine direction based on state change
-            int change = (prevState_ & 0x02) ^ ((currState_ & 0x01) << 1);
+            change = (prevState_ & 0x1) ^ ((currState_ & 0x2) >> 1);
             if (change == 0) {
-                _pulses++;  // Reverse direction
-            } else {
-                _pulses--;  // Forward direction
+                change=-1;
             }
+            _pulses-=change;
         }
     }
 
     // Update the previous state for the next ISR cycle
     prevState_ = currState_;
+    //printf("%d\n",_pulses);
 }
 
 void Encoder::updateSpeed() {

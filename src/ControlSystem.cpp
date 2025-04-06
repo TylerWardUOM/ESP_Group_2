@@ -517,9 +517,16 @@ void ControlSystem::setWheelKp(float wheelKp){
     rightWheel.setKp(wheelKp);
 }
 
-void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost){
+void ControlSystem::setWheelKi(float wheelKi){
+    leftWheel.setKi(wheelKi);
+    rightWheel.setKi(wheelKi);
+}
+
+void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost, float wheelKi){
     leftWheel.setKp(wheelKp);
     rightWheel.setKp(wheelKp);
+    leftWheel.setKi(wheelKi);
+    rightWheel.setKi(wheelKi);
     leftWheel.setThreshold(wheel_threshold);
     rightWheel.setThreshold(wheel_threshold);
     leftWheel.setBoost(wheel_boost);

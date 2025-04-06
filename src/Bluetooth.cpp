@@ -90,6 +90,7 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbParams.motor_Kp);
+            _serial.printf("motorKi=%.7f\n", _bbParams.motor_Ki);
             _serial.printf("debugFlag=%.7f\n", _bbParams.debugFlag);
             break;
 
@@ -101,6 +102,7 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbbParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbbParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbbParams.motor_Kp);
+            _serial.printf("motorKi=%.7f\n", _bbbParams.motor_Ki);
             _serial.printf("motorThreshold=%.7f\n",_bbbParams.motor_threshold);
             _serial.printf("motorBoost=%.7f\n",_bbbParams.motor_boost);
             _serial.printf("debugFlag=%.7f\n", _bbbParams.debugFlag);
@@ -137,13 +139,15 @@ void Bluetooth::sendDebugData() {
 
         switch (entry.type) {
             case MOTOR_DEBUG:
-                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
                                entry.data.motor.side,
                                entry.data.motor.distance,
                                entry.data.motor.speed,
                                entry.data.motor.set_speed,
                                entry.data.motor.error,
-                               entry.data.motor.adjustment);
+                               entry.data.motor.adjustment,
+                               entry.data.motor.persistent_error,
+                               entry.data.motor.set_rpm);
                 break;
 
             case SENSOR_DEBUG:
@@ -329,6 +333,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbParams.motor_Kp = value;
+                else if (strcmp(key, "motorKi") == 0) _bbParams.motor_Ki = value;
                 else if (strcmp(key, "debugFlag") == 0) _bbParams.debugFlag = value;
                 break;
 
@@ -340,6 +345,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbbParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbbParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbbParams.motor_Kp = value;
+                else if (strcmp(key, "motorKi") == 0) _bbbParams.motor_Ki = value;
                 else if (strcmp(key, "motorThreshold") == 0) _bbbParams.motor_threshold = value;
                 else if (strcmp(key, "motorBoost") == 0) _bbbParams.motor_boost = value;
                 else if (strcmp(key, "debugFlag") == 0) _bbbParams.debugFlag = value;

@@ -30,6 +30,11 @@ class MotorUnipolar : public Motor {public:
      */
     void setSpeed(float speed);
 
+
+    /**
+     * @brief Stops the motor by setting speed to zero.
+     */
+    void stop();
 private:
     DigitalOut _direction; ///< Controls motor direction.
 };

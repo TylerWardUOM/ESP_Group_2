@@ -110,8 +110,14 @@ public:
      * @param wheelKp Proportional gain value.
      */
     void setWheelKp(float wheelKp);
+
+    /**
+     * @brief Sets the wheel Intergral gain (Ki) for motor control.
+     * @param wheelKi Intergral gain value.
+     */
+    void setWheelKi(float wheelKi);
   
-    void setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost);
+    void setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost, float wheelKi = 0.0);
 
     void regulateWheelSpeedwithBOOST();
 

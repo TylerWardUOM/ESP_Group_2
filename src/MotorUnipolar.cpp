@@ -20,3 +20,7 @@ void MotorUnipolar::setSpeed(float speed) {
     float duty = fabs(speed);      // Use the absolute value for unipolar mode
     _pwm.write(duty);
 }
+
+void MotorUnipolar::stop(){
+    _pwm.write(0.0);
+}
