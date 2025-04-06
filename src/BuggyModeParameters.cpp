@@ -26,12 +26,12 @@ FollowParams::FollowParams()
 BangBangParams::BangBangParams()
     : baseSpeed(250.0), turnSpeedMultiplier(0.25),bangBangThreshold(0.65),
       sensorSamplePeriod(0.0001), controlPeriod(0.0001),
-      motorRegulatePeriod(0.1),motor_Kp(0.01), debugFlag(0.0) {}
+      motorRegulatePeriod(0.1),motor_Kp(0.01),motor_Ki(0.01) ,debugFlag(0.0) {}
 
 BangBangBoostParams::BangBangBoostParams()
     : baseSpeed(250.0), turnSpeedMultiplier(0.25),bangBangThreshold(0.65),
       sensorSamplePeriod(0.0001), controlPeriod(0.0001),
-      motorRegulatePeriod(0.1),motor_Kp(0.01),
+      motorRegulatePeriod(0.1),motor_Kp(0.01),motor_Ki(0.01),
       motor_threshold(100.0),motor_boost(0.2),
       debugFlag(0.0) {}
 

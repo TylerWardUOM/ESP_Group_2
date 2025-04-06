@@ -115,7 +115,8 @@ void switchToFollowMode(ControlSystem& control,  SensorArray& sensorArray, Buggy
 }
 
 void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangParams& params){
-    control.setWheelKp(params.motor_Kp);    
+    control.setWheelKp(params.motor_Kp);
+    control.setWheelKi(params.motor_Ki);
     control.setBangBangMode(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
@@ -124,7 +125,7 @@ void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, Bug
 }
 
 void switchToBangBangBoostMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangBoostParams& params){
-    control.setWheelParams(params.motor_Kp,params.motor_threshold,params.motor_boost);
+    control.setWheelParams(params.motor_Kp,params.motor_threshold,params.motor_boost,params.motor_Ki);
     control.setBangBangBoostMode(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
