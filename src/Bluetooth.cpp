@@ -139,7 +139,7 @@ void Bluetooth::sendDebugData() {
 
         switch (entry.type) {
             case MOTOR_DEBUG:
-                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
                                entry.data.motor.side,
                                entry.data.motor.distance,
                                entry.data.motor.speed,
@@ -147,7 +147,8 @@ void Bluetooth::sendDebugData() {
                                entry.data.motor.error,
                                entry.data.motor.adjustment,
                                entry.data.motor.persistent_error,
-                               entry.data.motor.set_rpm);
+                               entry.data.motor.newSpeed,
+                               entry.data.motor.originalSpeed);
                 break;
 
             case SENSOR_DEBUG:
@@ -565,7 +566,7 @@ void Bluetooth::printLiveDebugData(DebugType type, void* data) {
     switch (type) {
         case MOTOR_DEBUG: {
             MotorDebugData* d = static_cast<MotorDebugData*>(data);
-            _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+            _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
                            d->side,
                            d->distance,
                            d->speed,
@@ -573,7 +574,8 @@ void Bluetooth::printLiveDebugData(DebugType type, void* data) {
                            d->error,
                            d->adjustment,
                            d->persistent_error,
-                           d->set_rpm);
+                           d->newSpeed,
+                           d->originalSpeed);
             break;
         }
 

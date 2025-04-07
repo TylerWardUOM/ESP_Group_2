@@ -16,7 +16,7 @@
 //if not going correct distance adjust wheel_diameter
 #define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 4        // encoder resolution (1, 2, or 4)
-#define MAX_RPM 500
+int MAX_RPM = 500;
 
 //Constants for Buggy
 //If not turning to set angle adjust track width
@@ -140,6 +140,12 @@ int main() {
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                VoltageReading = ReadVoltage(); 
+                Voltage = VoltageReading*0.00967; 
+                CurrentReading = ReadCurrent(); 
+                Current = CurrentReading/6400.0;
+                batteryPercentage=getBatteryPercentage();
+                control.setWheelMaxRpm((int)((Voltage / 11.0f) * MAX_RPM));
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
                     bluetooth.sendCallibrationFinished();//Update to send the callibrated values
@@ -151,14 +157,8 @@ int main() {
                     break;
                 }
                 if (bluetooth.shouldReadBattery()){
-                    VoltageReading = ReadVoltage(); 
-                    Voltage = VoltageReading*0.00967; 
-                    CurrentReading = ReadCurrent(); 
-                    Current = CurrentReading/6400.0;
-                    batteryPercentage=getBatteryPercentage();
                     bluetooth.sendBatteryInfo(Voltage, Current, batteryPercentage);
                 }
-
                 break;
 
             case speed_control_mode:
@@ -206,10 +206,13 @@ int main() {
                 }
                 if (bluetooth.shouldDebugMotor() && !motor_debug_ticker_flag){
                     motor_debug_ticker_flag=true;
-                    motor_debugTicker.attach(callback(&control, &ControlSystem::live_debugWheels), 0.5);
+                    bluetooth.resetDebugData();
+                    motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.05);
                 }else if (!bluetooth.shouldDebugMotor() && motor_debug_ticker_flag){
                     motor_debug_ticker_flag=false;
                     motor_debugTicker.detach();
+                    control.stopWheels();
+                    bluetooth.sendDebugData();
                 }
                 break;
 
