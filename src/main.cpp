@@ -41,8 +41,8 @@ BuggyMode buggyMode = idle_mode;
 
 
 // Bluetooth Instance
-//Serial btSerial(PA_11,PA_12);
-Serial btSerial(USBTX,USBRX);
+Serial btSerial(PA_11,PA_12);
+//Serial btSerial(USBTX,USBRX);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
@@ -145,7 +145,11 @@ int main() {
                 CurrentReading = ReadCurrent(); 
                 Current = CurrentReading/6400.0;
                 batteryPercentage=getBatteryPercentage();
-                control.setWheelMaxRpm((int)((Voltage / 11.0f) * MAX_RPM));
+                if ((int)Voltage==0){
+                    control.setWheelMaxRpm(MAX_RPM);
+                }else{
+                    control.setWheelMaxRpm((int)((Voltage / 11.0f) * MAX_RPM));
+                }
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
                     bluetooth.sendCallibrationFinished();//Update to send the callibrated values
