@@ -135,6 +135,17 @@ public:
      * @brief Calls wheel debug logging functions.
      */
     void debugWheels();
+
+    /**
+     * @brief Calls wheel live debug functions.
+     */
+    void live_debugWheels();
+
+    /**
+     * @brief Sets the Max Rpm of the wheels.
+     * @param MaxRpm Max Rpm of Wheels.
+     */
+    void setWheelMaxRpm(int MaxRpm);
     
     /**
      * @brief Sets PID parameters based on the current movement mode.

@@ -79,6 +79,11 @@ public:
     void debugWheelData(int side);
 
     /**
+     * @brief Sends live wheel data for debugging purposes via Bluetooth.
+     */
+    void live_debugWheelData(int side);
+
+    /**
      * @brief Disables the motor.
      */
     void disableMotor();
@@ -99,6 +104,8 @@ public:
     void setThreshold(float new_threshold);
   
     void setBoost(float new_boost);
+
+    void setMaxRpm(int MaxRpm);
 
     /**
      * @brief Stops the wheel by setting speed to zero.
@@ -127,6 +134,8 @@ private:
     float error_history[5];  // Store the last 5 error values
     int error_index;       // Circular buffer index
     float persistent_error;
+    float newSpeed;
+    float originalSpeed;
 
 };
 

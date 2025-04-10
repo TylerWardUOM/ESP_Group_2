@@ -537,3 +537,13 @@ void ControlSystem::debugWheels(){
     leftWheel.debugWheelData(0);
     rightWheel.debugWheelData(1);
 }
+
+void ControlSystem::live_debugWheels(){
+    leftWheel.live_debugWheelData(0);
+    rightWheel.live_debugWheelData(1);
+}
+
+void ControlSystem::setWheelMaxRpm(int MaxRpm){
+    leftWheel.setMaxRpm(MaxRpm);
+    rightWheel.setMaxRpm(MaxRpm);
+}

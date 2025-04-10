@@ -16,7 +16,7 @@
 //if not going correct distance adjust wheel_diameter
 #define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
 #define ENCODER_RESOLUTION 4        // encoder resolution (1, 2, or 4)
-#define MAX_RPM 500
+int MAX_RPM = 500;
 
 //Constants for Buggy
 //If not turning to set angle adjust track width
@@ -129,6 +129,7 @@ int main() {
     float speedRawR;
     float desiredSpeedL;
     float desiredSpeedR;
+    bool motor_debug_ticker_flag = false;
     int VoltageReading, CurrentReading; 
     float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
@@ -139,6 +140,16 @@ int main() {
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
+                VoltageReading = ReadVoltage(); 
+                Voltage = VoltageReading*0.00967; 
+                CurrentReading = ReadCurrent(); 
+                Current = CurrentReading/6400.0;
+                batteryPercentage=getBatteryPercentage();
+                if ((int)Voltage==0){
+                    control.setWheelMaxRpm(MAX_RPM);
+                }else{
+                    control.setWheelMaxRpm((int)((Voltage / 11.0f) * MAX_RPM));
+                }
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
                     bluetooth.sendCallibrationFinished();//Update to send the callibrated values
@@ -150,14 +161,8 @@ int main() {
                     break;
                 }
                 if (bluetooth.shouldReadBattery()){
-                    VoltageReading = ReadVoltage(); 
-                    Voltage = VoltageReading*0.00967; 
-                    CurrentReading = ReadCurrent(); 
-                    Current = CurrentReading/6400.0;
-                    batteryPercentage=getBatteryPercentage();
                     bluetooth.sendBatteryInfo(Voltage, Current, batteryPercentage);
                 }
-
                 break;
 
             case speed_control_mode:
@@ -202,6 +207,16 @@ int main() {
                 }
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
+                }
+                if (bluetooth.shouldDebugMotor() && !motor_debug_ticker_flag){
+                    motor_debug_ticker_flag=true;
+                    bluetooth.resetDebugData();
+                    motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.05);
+                }else if (!bluetooth.shouldDebugMotor() && motor_debug_ticker_flag){
+                    motor_debug_ticker_flag=false;
+                    motor_debugTicker.detach();
+                    control.stopWheels();
+                    bluetooth.sendDebugData();
                 }
                 break;
 
@@ -319,6 +334,9 @@ int main() {
                 controlticker.detach();
                 sensorTicker.detach();
                 motorTicker.detach();
+                sensor_debugTicker.detach();
+                motor_debugTicker.detach();
+                control_debugTicker.detach();
                 stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
                 break;
         }
