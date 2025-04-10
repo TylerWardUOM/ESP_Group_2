@@ -420,13 +420,13 @@ void ControlSystem::processBangBang() {
     }else{
     if (error > bangBangThreshold) {
         // Turn right sharply
-        leftWheel.setSpeed(basespeed);
-        rightWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down right wheel
+        leftWheel.setSpeed(basespeed * (1+turnSpeedMultiplier));   // Speed up left wheel
+        rightWheel.setSpeed(basespeed * (1-turnSpeedMultiplier));  // Slow down right wheel
     } 
     else if (error < -bangBangThreshold) {
         // Turn left sharply
-        leftWheel.setSpeed(basespeed * turnSpeedMultiplier);  // Slow down left wheel
-        rightWheel.setSpeed(basespeed);
+        leftWheel.setSpeed(basespeed  * (1-turnSpeedMultiplier));  // Slow down left wheel
+        rightWheel.setSpeed(basespeed  * (1+turnSpeedMultiplier)); // Speed up right wheel
     } 
     else {
         // Drive straight
