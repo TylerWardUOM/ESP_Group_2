@@ -131,9 +131,9 @@ private:
     float adjustment;  ///< P correction value
     Ticker ticker; ///< Timer for automatic speed regulation
     Bluetooth &_bt;  ///< Reference to the Bluetooth module for debugging.
-    float error_history[5];  // Store the last 5 error values
-    int error_index;       // Circular buffer index
-    float persistent_error;
+    float correction_history[5];  // Store the last 5 Correction values
+    int correction_index;       // Circular buffer index
+    float persistent_correction;
     float newSpeed;
     float originalSpeed;
 
