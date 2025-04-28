@@ -132,8 +132,10 @@ private:
     Ticker ticker; ///< Timer for automatic speed regulation
     Bluetooth &_bt;  ///< Reference to the Bluetooth module for debugging.
     float correction_history[5];  // Store the last 5 Correction values
+    float error_history[5];
     int correction_index;       // Circular buffer index
     float persistent_correction;
+    float persistent_error;
     float newSpeed;
     float originalSpeed;
 

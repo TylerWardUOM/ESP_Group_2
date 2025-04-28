@@ -4,11 +4,12 @@ Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinN
              PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm,
              Bluetooth &bt, PinName motorDirection)  // Make motorDirection optional with default value NC
     : encoder(encoderA, encoderB, wheelDiameter, encoderResolution), 
-      target_rpm(0), max_rpm(maxRpm), Kp(0.05), _bt(bt), Ki(0.15), persistent_correction(0.0), correction_index(0) {
+      target_rpm(0), max_rpm(maxRpm), Kp(0.05), _bt(bt), Ki(0.15), persistent_correction(0.0),persistent_error(0.0), correction_index(0) {
 
     // Initialize error history to zero
     for (int i = 0; i < 5; i++) {
         correction_history[i] = 0.0;
+        error_history[i] = 0.0;
     }
     // Dynamically allocate the correct motor type based on the presence of a motorDirection pin
     if (motorDirection != NC) {  // Check if a motorDirection pin was passed
@@ -60,15 +61,19 @@ void Wheel::regulateSpeed() {
     
     // Store error in circular array
     correction_history[correction_index] = (newSpeed-originalSpeed);
+    error_history[correction_index] = error;
     correction_index = (correction_index + 1) % 5;
 
     float sum_correction = 0;
+    float sum_error = 0;
     for (int i = 0; i < 5; i++) {
         sum_correction += correction_history[i];
+        sum_error += error_history[i];
     }
     persistent_correction = sum_correction / 5.0f;
+    persistent_error = sum_error / 5.0f;
 
-    adjustment = (error / max_rpm) * Kp; //+ (persistent_error/max_rpm)*Ki;  // Tuning factor
+    adjustment = (error / max_rpm) * Kp + (persistent_error/max_rpm)*Ki;  // Tuning factor
     newSpeed = motor->getSpeed() + adjustment;
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;

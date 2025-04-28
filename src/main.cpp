@@ -269,8 +269,8 @@ int main() {
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
                     if (bangbangParams.debugFlag==1.0){
-                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.3);
-                        sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.3);
+                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.15);
+                        sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.15);
                     }
                     switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
                     break;
