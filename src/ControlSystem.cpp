@@ -92,13 +92,15 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
 
 
 
-void ControlSystem::setBangBangMode(const BangBangParams& params) {
+void ControlSystem::setBangBangMode(const BangBangParams& params,float wheel_dt) {
     // Ensure wheels are enabled before setting control mode
     enableWheels();
     // Store the given parameters
     basespeed = params.baseSpeed;
     bangBangThreshold = params.bangBangThreshold;
     turnSpeedMultiplier = params.turnSpeedMultiplier;
+    leftWheel.setDT(wheel_dt);
+    rightWheel.setDT(wheel_dt);
 
     // Set control state
     state = BANG_BANG;

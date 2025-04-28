@@ -4,7 +4,7 @@ Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinN
              PinName encoderA, PinName encoderB, float wheelDiameter, int encoderResolution, int maxRpm,
              Bluetooth &bt, PinName motorDirection)  // Make motorDirection optional with default value NC
     : encoder(encoderA, encoderB, wheelDiameter, encoderResolution), 
-      target_rpm(0), max_rpm(maxRpm), Kp(0.05), _bt(bt), Ki(0.15), persistent_error(0.0), error_index(0) {
+      target_rpm(0), max_rpm(maxRpm), Kp(0.05), _bt(bt), Ki(0.15), persistent_correction(0.0), error_index(0), integral(0.0), correction_sum(0.0) {
 
     // Initialize error history to zero
     for (int i = 0; i < 5; i++) {
@@ -33,7 +33,7 @@ void Wheel::setSpeed(int rpm) {
     if (abs(target_rpm-rpm)>30){
         
 
-        originalSpeed = (static_cast<float>(rpm) / max_rpm)+(persistent_error*(0.8));
+        originalSpeed = (static_cast<float>(rpm) / max_rpm)+(persistent_correction*(1));
         motor->setSpeed(originalSpeed);
     }
     target_rpm = rpm;
@@ -52,6 +52,11 @@ void Wheel::setThreshold(float new_threshold){
 }
 void Wheel::setBoost(float new_boost){
     boost=new_boost;
+}
+
+void Wheel::setDT(float new_dt){
+    dt = new_dt;
+    integral = 0.0;
 }
 
 void Wheel::regulateSpeed() {
@@ -135,13 +140,13 @@ void Wheel::stop() {
 }
 
 void Wheel::debugWheelData(int side){
-    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment,persistent_error,newSpeed,originalSpeed};
+    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment,persistent_correction,newSpeed,originalSpeed};
     _bt.logDebugData(Bluetooth::MOTOR_DEBUG, &motorData);
 }
 
 
 void Wheel::live_debugWheelData(int side){
-    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment,persistent_error,newSpeed,originalSpeed};
+    Bluetooth::MotorDebugData motorData = {side,encoder.getDistance(),actual_rpm,target_rpm,error,adjustment,persistent_correction,newSpeed,originalSpeed};
     _bt.printLiveDebugData(Bluetooth::MOTOR_DEBUG, &motorData);
 }
 

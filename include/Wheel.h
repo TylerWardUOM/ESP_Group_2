@@ -105,6 +105,8 @@ public:
   
     void setBoost(float new_boost);
 
+    void setDT(float dt);
+
     void setMaxRpm(int MaxRpm);
 
     /**
@@ -124,6 +126,8 @@ private:
     int max_rpm; ///< Maximum allowable speed in RPM
     float Kp; ///< Proportional gain for speed regulation
     float Ki; ///< Integral gain for speed regulation
+    float dt;
+    float integral;
     float boost;
     float threshold;
     float actual_rpm;  ///< Measured RPM from encoder
@@ -131,9 +135,10 @@ private:
     float adjustment;  ///< P correction value
     Ticker ticker; ///< Timer for automatic speed regulation
     Bluetooth &_bt;  ///< Reference to the Bluetooth module for debugging.
-    float error_history[5];  // Store the last 5 error values
+    float correction_history[250];  // Store the last 5 correction values
     int error_index;       // Circular buffer index
-    float persistent_error;
+    float persistent_correction;
+    float correction_sum;
     float newSpeed;
     float originalSpeed;
 

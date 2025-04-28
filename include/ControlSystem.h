@@ -54,7 +54,7 @@ public:
      * @brief Engages Bang-Bang control mode.
      * @param params Parameters for Bang-Bang mode.
      */
-    void setBangBangMode(const BangBangParams& params);
+    void setBangBangMode(const BangBangParams& params,float wheel_dt);
   
     void setBangBangBoostMode(const BangBangBoostParams& params);
 
