@@ -37,6 +37,8 @@ void ControlSystem::moveForward(float distance, float speed) {
 void ControlSystem::turn(float angle, float speed) {
     //Ensure Wheels Enabled
     enableWheels();
+    leftWheel.setDT(0.001);
+    rightWheel.setDT(0.001);
     //Set turn distance
     turnDirection = (angle > 0) ? 1 : -1;
     targetDistance = (_track_width / 2.0f) * (fabs(angle) * 3.14159f / 180.0f);

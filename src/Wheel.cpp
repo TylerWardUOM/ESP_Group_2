@@ -7,8 +7,8 @@ Wheel::Wheel(PinName motorBipolar, float motorMultiplier, PinName motorPwm, PinN
       target_rpm(0), max_rpm(maxRpm), Kp(0.05), _bt(bt), Ki(0.15), persistent_correction(0.0), error_index(0), integral(0.0), correction_sum(0.0) {
 
     // Initialize error history to zero
-    for (int i = 0; i < 5; i++) {
-        error_history[i] = 0.0;
+    for (int i = 0; i < 250; i++) {
+        correction_history[i] = 0.0;
     }
     // Dynamically allocate the correct motor type based on the presence of a motorDirection pin
     if (motorDirection != NC) {  // Check if a motorDirection pin was passed
@@ -57,23 +57,32 @@ void Wheel::setBoost(float new_boost){
 void Wheel::setDT(float new_dt){
     dt = new_dt;
     integral = 0.0;
+    for (int i = 0; i < 250; i++) {
+        correction_history[i] = 0.0;
+    }
+    persistent_correction=0.0;
 }
 
 void Wheel::regulateSpeed() {
     actual_rpm = encoder.getSpeed();
     error = target_rpm - actual_rpm;
     
-    // Store error in circular array
-    error_history[error_index] = (newSpeed-originalSpeed);
-    error_index = (error_index + 1) % 5;
 
-    float sum_error = 0;
-    for (int i = 0; i < 5; i++) {
-        sum_error += error_history[i];
-    }
-    persistent_error = sum_error / 5.0f;  // Compute average
+    integral *= 0.7;   // Decay old integral slightly each update
+    integral += error * dt;
 
-    adjustment = (error / max_rpm) * Kp + (persistent_error/max_rpm)*Ki;  // Tuning factor
+    float old_correction = correction_history[error_index];  // Value being overwritten
+    float new_correction = newSpeed - originalSpeed;         // New correction value
+
+    correction_sum -= old_correction;  // Remove the old value
+    correction_sum += new_correction;  // Add the new value
+
+    correction_history[error_index] = new_correction;        // Store the new value
+    error_index = (error_index + 1) % 250;
+
+    persistent_correction = correction_sum / 250.0f;  // Fast average
+
+    adjustment = (error / max_rpm) * Kp + (integral/max_rpm)*Ki;  // Tuning factor
     newSpeed = motor->getSpeed() + adjustment;
 
     if (newSpeed > 1.0f) newSpeed = 1.0f;
