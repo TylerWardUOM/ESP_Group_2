@@ -94,7 +94,7 @@ void switchToTurnAround(ControlSystem& control, BuggyMode& buggyMode, Ticker& co
     //Set Relevant PID Parameters
     control.setModePIDParameters(NULL,NULL,&params,NULL);
     //Begin Control
-    control.turn(180,params.speed);
+    control.turn(182,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;

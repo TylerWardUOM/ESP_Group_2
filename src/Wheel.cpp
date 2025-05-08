@@ -68,9 +68,11 @@ void Wheel::regulateSpeed() {
     error = target_rpm - actual_rpm;
     
 
-    integral *= 0.7;   // Decay old integral slightly each update
+    integral *= 0.8;   // Decay old integral slightly each update
     integral += error * dt;
-
+    float integral_change = (integral/max_rpm)*Ki;
+    if (integral_change>0.4){integral_change=0.4;}
+    if (integral_change<-0.4){integral_change=-0.4;}
     float old_correction = correction_history[error_index];  // Value being overwritten
     float new_correction = newSpeed - originalSpeed;         // New correction value
 
