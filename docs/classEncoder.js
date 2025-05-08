@@ -15,5 +15,7 @@ var classEncoder =
     [ "_resolution", "classEncoder.html#a6c1cf7c9fee4ff24c1886b0dcd6aba5c", null ],
     [ "_speed", "classEncoder.html#ac58bc345f44ef0600567aeb1647f0c46", null ],
     [ "_speedTicker", "classEncoder.html#a804ea5b4127bc3771f0d6c8b5b46399c", null ],
-    [ "_wheelCircumference", "classEncoder.html#a941159068617797865ca31624e939df4", null ]
+    [ "_wheelCircumference", "classEncoder.html#a941159068617797865ca31624e939df4", null ],
+    [ "currState_", "classEncoder.html#a70a41c74b10702a730d61e63df92cf9b", null ],
+    [ "prevState_", "classEncoder.html#ad36e03cd69b2c910cad7bde23fe17879", null ]
 ];

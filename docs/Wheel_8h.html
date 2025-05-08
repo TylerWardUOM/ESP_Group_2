@@ -105,6 +105,7 @@ $(document).ready(function(){initNavTree('Wheel_8h.html',''); initResizable(); }
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;mbed.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="Motor_8h_source.html">Motor.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MotorUnipolar_8h_source.html">MotorUnipolar.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Encoder_8h_source.html">Encoder.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -112,27 +113,31 @@ Include dependency graph for Wheel.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="Wheel_8h__incl.png" border="0" usemap="#ainclude_2Wheel_8h" alt=""/></div>
 <map name="ainclude_2Wheel_8h" id="ainclude_2Wheel_8h">
-<area shape="rect" title="Defines the Wheel class, which handles motor control and speed regulation." alt="" coords="35,5,162,31"/>
-<area shape="rect" title=" " alt="" coords="96,225,167,251"/>
-<area shape="poly" title=" " alt="" coords="85,33,57,59,27,95,16,116,9,136,9,156,16,176,30,192,46,205,84,223,82,228,43,210,26,196,12,179,4,157,4,135,11,113,23,92,53,55,82,29"/>
-<area shape="rect" href="Motor_8h.html" title="Defines the Motor class for controlling a DC motor using PWM." alt="" coords="27,152,98,177"/>
-<area shape="poly" title=" " alt="" coords="98,32,71,139,66,138,93,30"/>
-<area shape="rect" href="Encoder_8h.html" title="Defines the Encoder class for measuring wheel rotation, speed, and distance." alt="" coords="96,79,181,104"/>
-<area shape="poly" title=" " alt="" coords="107,30,127,65,123,68,102,32"/>
-<area shape="rect" href="Bluetooth_8h.html" title=" " alt="" coords="235,79,332,104"/>
-<area shape="poly" title=" " alt="" coords="129,28,242,71,240,76,127,33"/>
-<area shape="poly" title=" " alt="" coords="76,176,113,214,109,217,72,180"/>
-<area shape="poly" title=" " alt="" coords="140,105,135,212,130,212,135,104"/>
-<area shape="poly" title=" " alt="" coords="270,106,213,154,153,217,149,213,210,150,266,102"/>
-<area shape="rect" href="BuggyModes_8h.html" title="Function declarations for controlling buggy movement modes." alt="" coords="224,152,343,177"/>
-<area shape="poly" title=" " alt="" coords="286,104,286,138,281,138,281,104"/>
-<area shape="rect" href="BuggyModeEnum_8h.html" title="Defines the BuggyMode enum and provides a function to get mode names." alt="" coords="400,225,548,251"/>
-<area shape="poly" title=" " alt="" coords="305,102,377,150,453,214,450,218,374,154,302,106"/>
-<area shape="rect" href="BuggyModeParameters_8h.html" title="Defines parameter structures for various buggy movement modes." alt="" coords="191,225,376,251"/>
-<area shape="poly" title=" " alt="" coords="307,102,334,122,357,151,359,171,351,190,336,207,318,220,315,216,332,203,347,187,354,171,352,153,331,126,304,106"/>
-<area shape="poly" title=" " alt="" coords="260,180,170,222,167,217,258,175"/>
-<area shape="poly" title=" " alt="" coords="315,175,431,218,429,223,313,180"/>
-<area shape="poly" title=" " alt="" coords="286,178,286,212,281,212,281,178"/>
+<area shape="rect" title="Defines the Wheel class, which handles motor control and speed regulation." alt="" coords="91,5,217,31"/>
+<area shape="rect" title=" " alt="" coords="148,225,219,251"/>
+<area shape="poly" title=" " alt="" coords="131,33,87,58,40,93,22,113,11,134,9,155,18,176,41,199,71,216,104,226,135,231,134,237,102,231,69,220,38,204,13,179,4,155,6,132,18,110,37,89,84,54,129,28"/>
+<area shape="rect" href="Motor_8h.html" title="Defines the Motor class for controlling a DC motor using PWM." alt="" coords="188,152,259,177"/>
+<area shape="poly" title=" " alt="" coords="179,29,208,48,221,62,231,78,238,109,234,139,229,138,232,109,226,80,217,65,204,52,176,33"/>
+<area shape="rect" href="MotorUnipolar_8h.html" title="Defines the MotorUnipolar class for controlling a DC motor using PWM." alt="" coords="91,79,217,104"/>
+<area shape="poly" title=" " alt="" coords="157,31,157,65,151,65,151,31"/>
+<area shape="rect" href="Encoder_8h.html" title="Defines the Encoder class for measuring wheel rotation, speed, and distance." alt="" coords="27,152,113,177"/>
+<area shape="poly" title=" " alt="" coords="132,33,104,52,80,80,71,109,70,138,65,138,66,108,76,77,101,48,129,29"/>
+<area shape="rect" href="Bluetooth_8h.html" title=" " alt="" coords="299,79,396,104"/>
+<area shape="poly" title=" " alt="" coords="186,28,304,71,302,76,184,33"/>
+<area shape="poly" title=" " alt="" coords="219,179,199,215,194,212,215,176"/>
+<area shape="poly" title=" " alt="" coords="159,104,181,211,176,212,154,105"/>
+<area shape="poly" title=" " alt="" coords="167,102,205,140,201,144,164,106"/>
+<area shape="poly" title=" " alt="" coords="90,175,155,216,152,220,87,180"/>
+<area shape="poly" title=" " alt="" coords="340,106,311,140,272,179,216,220,213,216,268,175,307,137,336,103"/>
+<area shape="rect" href="BuggyModes_8h.html" title="Function declarations for controlling buggy movement modes." alt="" coords="385,152,504,177"/>
+<area shape="poly" title=" " alt="" coords="365,102,419,141,416,146,362,106"/>
+<area shape="rect" href="BuggyModeEnum_8h.html" title="Defines the BuggyMode enum and provides a function to get mode names." alt="" coords="275,225,423,251"/>
+<area shape="poly" title=" " alt="" coords="350,104,351,212,346,212,345,104"/>
+<area shape="rect" href="BuggyModeParameters_8h.html" title="Defines parameter structures for various buggy movement modes." alt="" coords="448,225,633,251"/>
+<area shape="poly" title=" " alt="" coords="397,95,427,102,460,112,492,128,519,150,536,180,542,211,537,212,531,182,515,154,489,133,458,117,426,107,396,100"/>
+<area shape="poly" title=" " alt="" coords="404,180,233,226,231,221,402,175"/>
+<area shape="poly" title=" " alt="" coords="431,180,377,219,374,215,428,175"/>
+<area shape="poly" title=" " alt="" coords="462,175,516,215,512,219,459,180"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">

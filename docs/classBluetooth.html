@@ -221,6 +221,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37cad8b425ef88bc88565b0bc5a65c9c" id="r_a37cad8b425ef88bc88565b0bc5a65c9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#a37cad8b425ef88bc88565b0bc5a65c9c">printDebugData</a> (const char *format,...)</td></tr>
 <tr class="memdesc:a37cad8b425ef88bc88565b0bc5a65c9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints debug data immediatly to ble in a formatted manner.  <br /></td></tr>
 <tr class="separator:a37cad8b425ef88bc88565b0bc5a65c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1781231e8987ef71e6293384e06c6e3c" id="r_a1781231e8987ef71e6293384e06c6e3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#a1781231e8987ef71e6293384e06c6e3c">printLiveDebugData</a> (<a class="el" href="classBluetooth.html#a08c6b1544a375926c8745ad1ba864919">DebugType</a> type, void *data)</td></tr>
+<tr class="separator:a1781231e8987ef71e6293384e06c6e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7b3375729e06ba322df8266b487ef1c" id="r_af7b3375729e06ba322df8266b487ef1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#af7b3375729e06ba322df8266b487ef1c">printLiveSensorData</a> (float sensorValues[], int numSensors, float error)</td></tr>
 <tr class="memdesc:af7b3375729e06ba322df8266b487ef1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints live sensor data immediately to <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> in a formatted manner.  <br /></td></tr>
 <tr class="separator:af7b3375729e06ba322df8266b487ef1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,6 +235,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa11efe7a9ff86431395d409928e2ba44" id="r_aa11efe7a9ff86431395d409928e2ba44"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#aa11efe7a9ff86431395d409928e2ba44">SpeedRequestRight</a> ()</td></tr>
 <tr class="memdesc:aa11efe7a9ff86431395d409928e2ba44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns desired right motor speed.  <br /></td></tr>
 <tr class="separator:aa11efe7a9ff86431395d409928e2ba44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af10031d8259c619ee7de2372fa60db49" id="r_af10031d8259c619ee7de2372fa60db49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#af10031d8259c619ee7de2372fa60db49">shouldDebugMotor</a> ()</td></tr>
+<tr class="memdesc:af10031d8259c619ee7de2372fa60db49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the buggy should be sending motor Debugging.  <br /></td></tr>
+<tr class="separator:af10031d8259c619ee7de2372fa60db49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30261107c4020aadc04d14cfc1e7b0a8" id="r_a30261107c4020aadc04d14cfc1e7b0a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#a30261107c4020aadc04d14cfc1e7b0a8">sendBatteryInfo</a> (float voltage, float current, float batteryPercentage)</td></tr>
 <tr class="memdesc:a30261107c4020aadc04d14cfc1e7b0a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends battery information for monitoring.  <br /></td></tr>
 <tr class="separator:a30261107c4020aadc04d14cfc1e7b0a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -299,6 +304,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aaa49e3e93cdd133874ed55c3defbc1e9" id="r_aaa49e3e93cdd133874ed55c3defbc1e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#aaa49e3e93cdd133874ed55c3defbc1e9">callibrateBlack_flag</a></td></tr>
 <tr class="memdesc:aaa49e3e93cdd133874ed55c3defbc1e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating wether the buggy should callibrate sensors over black.  <br /></td></tr>
 <tr class="separator:aaa49e3e93cdd133874ed55c3defbc1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e7e66efe725b9e1cf33ae60544898f" id="r_af6e7e66efe725b9e1cf33ae60544898f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#af6e7e66efe725b9e1cf33ae60544898f">debugMotor_flag</a></td></tr>
+<tr class="memdesc:af6e7e66efe725b9e1cf33ae60544898f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating wether the buggy be sending motor debugging.  <br /></td></tr>
+<tr class="separator:af6e7e66efe725b9e1cf33ae60544898f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3c7f8056e32d396c76a7f03fcae4be4" id="r_aa3c7f8056e32d396c76a7f03fcae4be4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBluetooth.html#aa3c7f8056e32d396c76a7f03fcae4be4">readBattery_flag</a></td></tr>
 <tr class="memdesc:aa3c7f8056e32d396c76a7f03fcae4be4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating wether the buggy should read battery info.  <br /></td></tr>
 <tr class="separator:aa3c7f8056e32d396c76a7f03fcae4be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -486,7 +494,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00202">202</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00207">207</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -525,7 +533,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00412">412</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00432">432</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -562,7 +570,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00188">188</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00193">193</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -601,7 +609,37 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00449">449</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00469">469</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1781231e8987ef71e6293384e06c6e3c" name="a1781231e8987ef71e6293384e06c6e3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1781231e8987ef71e6293384e06c6e3c">&#9670;&#160;</a></span>printLiveDebugData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Bluetooth::printLiveDebugData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classBluetooth.html#a08c6b1544a375926c8745ad1ba864919">DebugType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00565">565</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -648,7 +686,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00466">466</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00486">486</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -688,7 +726,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00482">482</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00502">502</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -731,7 +769,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Resets the debug data buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00438">438</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00458">458</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -760,7 +798,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Interrupt service routine for receiving <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> data. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00179">179</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00184">184</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -827,7 +865,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00533">533</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00553">553</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -848,7 +886,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Sends a notification that the callibration has finished. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00394">394</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00414">414</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -877,7 +915,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Sends the current buggy mode over <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00402">402</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00422">422</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -941,7 +979,7 @@ Static Private Attributes</h2></td></tr>
 </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00132">132</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00134">134</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -962,7 +1000,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Sends a notification that the movement has finished. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00390">390</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00410">410</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -983,7 +1021,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Sends a notification that the testing has finished. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00398">398</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00418">418</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1005,7 +1043,7 @@ Static Private Attributes</h2></td></tr>
 <p>Check if the buggy should callibrate black. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if Callibrate Command recieved, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00382">382</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00397">397</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1027,7 +1065,29 @@ Static Private Attributes</h2></td></tr>
 <p>Check if the buggy should callibrate white. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if Callibrate Command recieved, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00374">374</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00389">389</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af10031d8259c619ee7de2372fa60db49" name="af10031d8259c619ee7de2372fa60db49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af10031d8259c619ee7de2372fa60db49">&#9670;&#160;</a></span>shouldDebugMotor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Bluetooth::shouldDebugMotor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the buggy should be sending motor Debugging. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if should Debug False if Shoudlnt. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00405">405</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1047,9 +1107,9 @@ Static Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check if the buggy should read battery info. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if Callibrate Command recieved, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if battery Command recieved, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00537">537</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00557">557</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1071,7 +1131,7 @@ Static Private Attributes</h2></td></tr>
 <p>Check to see if the buggy should start movement. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the start command has been received, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00366">366</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00381">381</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1092,7 +1152,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Returns desired left motor speed. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00494">494</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00514">514</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1113,7 +1173,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Returns desired right motor speed. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00503">503</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00523">523</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1176,7 +1236,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00273">273</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00286">286</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1212,7 +1272,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00513">513</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8cpp_source.html#l00533">533</a> of file <a class="el" href="Bluetooth_8cpp_source.html">Bluetooth.cpp</a>.</p>
 
 </div>
 </div>
@@ -1239,7 +1299,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to bang bang boost movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00296">296</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00309">309</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1265,7 +1325,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to bang bang movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00295">295</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00308">308</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1291,7 +1351,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to bang bang proportional movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00297">297</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00310">310</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1317,7 +1377,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to the current buggy mode. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00290">290</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00303">303</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1343,7 +1403,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to follow line movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00294">294</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00307">307</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1369,7 +1429,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Reference to the Serial interface for <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> communication. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00289">289</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00302">302</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1395,7 +1455,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to straight-line movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00292">292</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00305">305</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1421,7 +1481,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to square pattern movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00291">291</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00304">304</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1447,7 +1507,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Pointer to turn angle movement parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00293">293</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00306">306</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1473,7 +1533,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Size of the receive buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00304">304</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00318">318</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1499,7 +1559,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Flag indicating wether the buggy should callibrate sensors over black. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00301">301</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00314">314</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1525,7 +1585,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Flag indicating wether the buggy should callibrate sensors over white. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00300">300</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00313">313</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1551,7 +1611,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Buffer for storing debug data entries. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00359">359</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00373">373</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1577,7 +1637,33 @@ Static Private Attributes</h2></td></tr>
 
 <p>Current index in the debug data buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00360">360</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00374">374</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+
+</div>
+</div>
+<a id="af6e7e66efe725b9e1cf33ae60544898f" name="af6e7e66efe725b9e1cf33ae60544898f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6e7e66efe725b9e1cf33ae60544898f">&#9670;&#160;</a></span>debugMotor_flag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Bluetooth::debugMotor_flag</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flag indicating wether the buggy be sending motor debugging. </p>
+
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00315">315</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1603,7 +1689,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Timer for debug log time stamps. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00361">361</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00375">375</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1627,7 +1713,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00363">363</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00377">377</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1651,7 +1737,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00364">364</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00378">378</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1677,7 +1763,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Flag indicating whether the buggy should start. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00299">299</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00312">312</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1701,7 +1787,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00306">306</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00320">320</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1727,7 +1813,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Flag indicating wether the buggy should read battery info. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00302">302</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00316">316</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1753,7 +1839,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Buffer for storing received commands. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00305">305</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00319">319</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>
@@ -1779,7 +1865,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Circular buffer head and tail indices. </p>
 
-<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00306">306</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Bluetooth_8h_source.html#l00320">320</a> of file <a class="el" href="Bluetooth_8h_source.html">Bluetooth.h</a>.</p>
 
 </div>
 </div>

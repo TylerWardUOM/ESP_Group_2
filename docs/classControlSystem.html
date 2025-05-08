@@ -175,9 +175,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa87ad87de5c3146ccecc665d2d7d2aa8" id="r_aa87ad87de5c3146ccecc665d2d7d2aa8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#aa87ad87de5c3146ccecc665d2d7d2aa8">follow</a> (const <a class="el" href="structFollowParams.html">FollowParams</a> &amp;params)</td></tr>
 <tr class="memdesc:aa87ad87de5c3146ccecc665d2d7d2aa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engages line-following mode using PID control.  <br /></td></tr>
 <tr class="separator:aa87ad87de5c3146ccecc665d2d7d2aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdfd754b285fa6c8b339c56eaa4284c2" id="r_acdfd754b285fa6c8b339c56eaa4284c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#acdfd754b285fa6c8b339c56eaa4284c2">setBangBangMode</a> (const <a class="el" href="structBangBangParams.html">BangBangParams</a> &amp;params)</td></tr>
-<tr class="memdesc:acdfd754b285fa6c8b339c56eaa4284c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engages Bang-Bang control mode.  <br /></td></tr>
-<tr class="separator:acdfd754b285fa6c8b339c56eaa4284c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa8eaa6168706abadc8368d5a8ecebd5" id="r_afa8eaa6168706abadc8368d5a8ecebd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#afa8eaa6168706abadc8368d5a8ecebd5">setBangBangMode</a> (const <a class="el" href="structBangBangParams.html">BangBangParams</a> &amp;params, float wheel_dt)</td></tr>
+<tr class="memdesc:afa8eaa6168706abadc8368d5a8ecebd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engages Bang-Bang control mode.  <br /></td></tr>
+<tr class="separator:afa8eaa6168706abadc8368d5a8ecebd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25eb4444c4f0c7bc91a64f929677823a" id="r_a25eb4444c4f0c7bc91a64f929677823a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a25eb4444c4f0c7bc91a64f929677823a">setBangBangBoostMode</a> (const <a class="el" href="structBangBangBoostParams.html">BangBangBoostParams</a> &amp;params)</td></tr>
 <tr class="separator:a25eb4444c4f0c7bc91a64f929677823a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9addb701a47988767523e15a1c4aa127" id="r_a9addb701a47988767523e15a1c4aa127"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a9addb701a47988767523e15a1c4aa127">setBangBangProportionalMode</a> (const <a class="el" href="structBangBangProportionalParams.html">BangBangProportionalParams</a> &amp;params)</td></tr>
@@ -207,8 +207,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a83c92ca12138213a4aeb539edb6a5c9e" id="r_a83c92ca12138213a4aeb539edb6a5c9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a83c92ca12138213a4aeb539edb6a5c9e">setWheelKp</a> (float wheelKp)</td></tr>
 <tr class="memdesc:a83c92ca12138213a4aeb539edb6a5c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the wheel proportional gain (Kp) for motor control.  <br /></td></tr>
 <tr class="separator:a83c92ca12138213a4aeb539edb6a5c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a8db5028d51219beb9a0fae7a86f482" id="r_a1a8db5028d51219beb9a0fae7a86f482"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a1a8db5028d51219beb9a0fae7a86f482">setWheelParams</a> (float wheelKp, float wheel_threshold, float wheel_boost)</td></tr>
-<tr class="separator:a1a8db5028d51219beb9a0fae7a86f482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9abadcbcbd46cc2dac9d3ad8861abba3" id="r_a9abadcbcbd46cc2dac9d3ad8861abba3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a9abadcbcbd46cc2dac9d3ad8861abba3">setWheelKi</a> (float wheelKi)</td></tr>
+<tr class="memdesc:a9abadcbcbd46cc2dac9d3ad8861abba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the wheel Intergral gain (Ki) for motor control.  <br /></td></tr>
+<tr class="separator:a9abadcbcbd46cc2dac9d3ad8861abba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bd441ad4373ae28734c7e1e199dc756" id="r_a7bd441ad4373ae28734c7e1e199dc756"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a7bd441ad4373ae28734c7e1e199dc756">setWheelParams</a> (float wheelKp, float wheel_threshold, float wheel_boost, float wheelKi=0.0)</td></tr>
+<tr class="separator:a7bd441ad4373ae28734c7e1e199dc756"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9758f81b48ad47debf770f8c2c379e04" id="r_a9758f81b48ad47debf770f8c2c379e04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a9758f81b48ad47debf770f8c2c379e04">regulateWheelSpeedwithBOOST</a> ()</td></tr>
 <tr class="separator:a9758f81b48ad47debf770f8c2c379e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea4add29d5584d5d95df37b16b7a8df8" id="r_aea4add29d5584d5d95df37b16b7a8df8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#aea4add29d5584d5d95df37b16b7a8df8">regulateWheelSpeed</a> ()</td></tr>
@@ -220,6 +223,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0effa06c5d77f954705446457afeb866" id="r_a0effa06c5d77f954705446457afeb866"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a0effa06c5d77f954705446457afeb866">debugWheels</a> ()</td></tr>
 <tr class="memdesc:a0effa06c5d77f954705446457afeb866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls wheel debug logging functions.  <br /></td></tr>
 <tr class="separator:a0effa06c5d77f954705446457afeb866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc602391afcae272e585b7079c6c57ec" id="r_afc602391afcae272e585b7079c6c57ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#afc602391afcae272e585b7079c6c57ec">live_debugWheels</a> ()</td></tr>
+<tr class="memdesc:afc602391afcae272e585b7079c6c57ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls wheel live debug functions.  <br /></td></tr>
+<tr class="separator:afc602391afcae272e585b7079c6c57ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68dc73149a868e87f1b32ff10dc62b7b" id="r_a68dc73149a868e87f1b32ff10dc62b7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#a68dc73149a868e87f1b32ff10dc62b7b">setWheelMaxRpm</a> (int MaxRpm)</td></tr>
+<tr class="memdesc:a68dc73149a868e87f1b32ff10dc62b7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the Max Rpm of the wheels.  <br /></td></tr>
+<tr class="separator:a68dc73149a868e87f1b32ff10dc62b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae76b080251cfba407c0d8a67bdaf549c" id="r_ae76b080251cfba407c0d8a67bdaf549c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classControlSystem.html#ae76b080251cfba407c0d8a67bdaf549c">setModePIDParameters</a> (const <a class="el" href="structSquarePatternParams.html">SquarePatternParams</a> *<a class="el" href="main_8cpp.html#a9389652741c6a76fb539c85562986158">squareParams</a>, const <a class="el" href="structStraightLineParams.html">StraightLineParams</a> *<a class="el" href="main_8cpp.html#a56fd617617b9dd4de828e4c176c83bc5">straightlineParams</a>, const <a class="el" href="structTurnAngleParams.html">TurnAngleParams</a> *<a class="el" href="main_8cpp.html#a8de6358e37d1da063746d747aeefa7c5">turnangleParams</a>, const <a class="el" href="structFollowParams.html">FollowParams</a> *<a class="el" href="main_8cpp.html#a64016af38736e426b2e17068ed4738b9">followParams</a>)</td></tr>
 <tr class="memdesc:ae76b080251cfba407c0d8a67bdaf549c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets PID parameters based on the current movement mode.  <br /></td></tr>
 <tr class="separator:ae76b080251cfba407c0d8a67bdaf549c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -401,7 +410,7 @@ Private Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a3b830aff4b92916aec06eef45a432b9aa79c7ca05c541bb20cfb4578cd4ade9e2" name="a3b830aff4b92916aec06eef45a432b9aa79c7ca05c541bb20cfb4578cd4ade9e2"></a>STOP_SQUARE&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00158">158</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00175">175</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -436,7 +445,7 @@ Private Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a65cce478a68b55ad9616905535672d65a88f05ab2a23474f009d80b0470f88906" name="a65cce478a68b55ad9616905535672d65a88f05ab2a23474f009d80b0470f88906"></a>BANG_BANG&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00152">152</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00169">169</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -572,7 +581,7 @@ Private Attributes</h2></td></tr>
 
 <p>Calls the wheel control functions to regulate speed and logs debug data. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00504">504</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00508">508</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -593,7 +602,7 @@ Private Attributes</h2></td></tr>
 
 <p>Calls wheel debug logging functions. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00529">529</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00540">540</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -614,7 +623,7 @@ Private Attributes</h2></td></tr>
 
 <p>Disables the wheels by setting motor enable pin. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00484">484</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00488">488</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -635,7 +644,7 @@ Private Attributes</h2></td></tr>
 
 <p>Enables the wheels by setting motor enable pin. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00481">481</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00485">485</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -663,7 +672,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00057">57</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00059">59</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -685,7 +694,7 @@ Private Attributes</h2></td></tr>
 <p>Checks if movement is complete. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if movement is complete, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00191">191</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00195">195</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -707,7 +716,28 @@ Private Attributes</h2></td></tr>
 <p>Checks if the square movement pattern is complete. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if square movement is complete, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00195">195</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00199">199</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afc602391afcae272e585b7079c6c57ec" name="afc602391afcae272e585b7079c6c57ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc602391afcae272e585b7079c6c57ec">&#9670;&#160;</a></span>live_debugWheels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ControlSystem::live_debugWheels </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calls wheel live debug functions. </p>
+
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00545">545</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -799,7 +829,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00066">66</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00068">68</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -828,7 +858,7 @@ Private Attributes</h2></td></tr>
 
 <p>Processes Bang-Bang control logic. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00409">409</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00413">413</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -857,7 +887,7 @@ Private Attributes</h2></td></tr>
 
 <p>Processes Bang-Bang proportional control logic. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00442">442</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00446">446</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -893,7 +923,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00384">384</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00388">388</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -929,7 +959,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00243">243</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00247">247</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -958,7 +988,7 @@ Private Attributes</h2></td></tr>
 
 <p>Processes square movement logic. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00309">309</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00313">313</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -994,7 +1024,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00275">275</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00279">279</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1015,7 +1045,7 @@ Private Attributes</h2></td></tr>
 
 <p>Calls the wheel control functions to regulate speed using feedback control. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00494">494</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00498">498</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1034,7 +1064,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00499">499</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00503">503</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1063,7 +1093,7 @@ Private Attributes</h2></td></tr>
 
 <p>Resets wheel encoders. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00489">489</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00493">493</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1083,12 +1113,12 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00112">112</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00116">116</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
-<a id="acdfd754b285fa6c8b339c56eaa4284c2" name="acdfd754b285fa6c8b339c56eaa4284c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdfd754b285fa6c8b339c56eaa4284c2">&#9670;&#160;</a></span>setBangBangMode()</h2>
+<a id="afa8eaa6168706abadc8368d5a8ecebd5" name="afa8eaa6168706abadc8368d5a8ecebd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa8eaa6168706abadc8368d5a8ecebd5">&#9670;&#160;</a></span>setBangBangMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1097,8 +1127,18 @@ Private Attributes</h2></td></tr>
           <td class="memname">void ControlSystem::setBangBangMode </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structBangBangParams.html">BangBangParams</a> &amp;&#160;</td>
-          <td class="paramname"><em>params</em></td><td>)</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>wheel_dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1111,7 +1151,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00095">95</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00097">97</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1139,7 +1179,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00129">129</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00133">133</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1192,7 +1232,35 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00199">199</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00203">203</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9abadcbcbd46cc2dac9d3ad8861abba3" name="a9abadcbcbd46cc2dac9d3ad8861abba3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9abadcbcbd46cc2dac9d3ad8861abba3">&#9670;&#160;</a></span>setWheelKi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ControlSystem::setWheelKi </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>wheelKi</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the wheel Intergral gain (Ki) for motor control. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wheelKi</td><td>Intergral gain value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00524">524</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1220,12 +1288,40 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00515">515</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00519">519</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a1a8db5028d51219beb9a0fae7a86f482" name="a1a8db5028d51219beb9a0fae7a86f482"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a8db5028d51219beb9a0fae7a86f482">&#9670;&#160;</a></span>setWheelParams()</h2>
+<a id="a68dc73149a868e87f1b32ff10dc62b7b" name="a68dc73149a868e87f1b32ff10dc62b7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68dc73149a868e87f1b32ff10dc62b7b">&#9670;&#160;</a></span>setWheelMaxRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ControlSystem::setWheelMaxRpm </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>MaxRpm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the Max Rpm of the wheels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">MaxRpm</td><td>Max Rpm of Wheels. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00550">550</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7bd441ad4373ae28734c7e1e199dc756" name="a7bd441ad4373ae28734c7e1e199dc756"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bd441ad4373ae28734c7e1e199dc756">&#9670;&#160;</a></span>setWheelParams()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1246,7 +1342,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>wheel_boost</em>&#160;</td>
+          <td class="paramname"><em>wheel_boost</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>wheelKi</em> = <code>0.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1256,7 +1358,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00520">520</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00529">529</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1277,7 +1379,7 @@ Private Attributes</h2></td></tr>
 
 <p>Stops the wheels immediately. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00474">474</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00478">478</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1337,7 +1439,7 @@ Private Attributes</h2></td></tr>
 
 <p>Updates the control system state. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00150">150</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8cpp_source.html#l00154">154</a> of file <a class="el" href="ControlSystem_8cpp_source.html">ControlSystem.cpp</a>.</p>
 
 </div>
 </div>
@@ -1364,7 +1466,7 @@ Private Attributes</h2></td></tr>
 
 <p>Width of the buggy track. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00173">173</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00190">190</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1390,7 +1492,7 @@ Private Attributes</h2></td></tr>
 
 <p>Threshold for Bang-Bang control. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00186">186</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00203">203</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1416,7 +1518,7 @@ Private Attributes</h2></td></tr>
 
 <p>Base movement speed. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00160">160</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00177">177</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1442,7 +1544,7 @@ Private Attributes</h2></td></tr>
 
 <p>Reference to the <a class="el" href="classBluetooth.html" title="Handles Bluetooth communication for controlling the buggy.">Bluetooth</a> module. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00164">164</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00181">181</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1468,7 +1570,7 @@ Private Attributes</h2></td></tr>
 
 <p>Proportional gain for Bang-Bang proportional control. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00187">187</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00204">204</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1494,7 +1596,7 @@ Private Attributes</h2></td></tr>
 
 <p>Reference to the left wheel. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00161">161</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00178">178</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1520,7 +1622,7 @@ Private Attributes</h2></td></tr>
 
 <p>Maximum speed multiplier. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00188">188</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00205">205</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1546,7 +1648,7 @@ Private Attributes</h2></td></tr>
 
 <p>Flag for movement completion. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00171">171</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00188">188</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1572,7 +1674,7 @@ Private Attributes</h2></td></tr>
 
 <p>Flag indicating if movement is active. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00177">177</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00194">194</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1591,7 +1693,7 @@ Private Attributes</h2></td></tr>
 <p>PID Controllers. </p>
 <p>PID controller for forward movement. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00143">143</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00160">160</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1609,7 +1711,7 @@ Private Attributes</h2></td></tr>
 
 <p>PID controller for line following. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00145">145</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00162">162</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1635,7 +1737,7 @@ Private Attributes</h2></td></tr>
 
 <p>Timer for PID control updates. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00163">163</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00180">180</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1653,7 +1755,7 @@ Private Attributes</h2></td></tr>
 
 <p>PID controller for turning. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00144">144</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00161">161</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1679,7 +1781,7 @@ Private Attributes</h2></td></tr>
 
 <p>Flag indicating if the buggy is retracing a path. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00176">176</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00193">193</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1705,7 +1807,7 @@ Private Attributes</h2></td></tr>
 
 <p>Reference to the right wheel. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00162">162</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00179">179</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1731,7 +1833,7 @@ Private Attributes</h2></td></tr>
 
 <p>Reference to the sensor array. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00165">165</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00182">182</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1757,7 +1859,7 @@ Private Attributes</h2></td></tr>
 
 <p>Count of completed sides in a square movement pattern. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00175">175</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00192">192</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1783,7 +1885,7 @@ Private Attributes</h2></td></tr>
 
 <p>Distance per square segment. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00180">180</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00197">197</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1809,7 +1911,7 @@ Private Attributes</h2></td></tr>
 
 <p>Multiplier for left turns. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00182">182</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00199">199</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1835,7 +1937,7 @@ Private Attributes</h2></td></tr>
 
 <p>Multiplier for right turns. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00183">183</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00200">200</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1861,7 +1963,7 @@ Private Attributes</h2></td></tr>
 
 <p>Speed during square movement. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00181">181</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00198">198</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1887,7 +1989,7 @@ Private Attributes</h2></td></tr>
 
 <p>Flag for square movement completion. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00172">172</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00189">189</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1913,7 +2015,7 @@ Private Attributes</h2></td></tr>
 
 <p>Current square movement state. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00168">168</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00185">185</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1939,7 +2041,7 @@ Private Attributes</h2></td></tr>
 
 <p>Current movement state. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00167">167</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00184">184</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1965,7 +2067,7 @@ Private Attributes</h2></td></tr>
 
 <p>Target distance for movement. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00169">169</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00186">186</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -1991,7 +2093,7 @@ Private Attributes</h2></td></tr>
 
 <p>Direction of the turn. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00170">170</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00187">187</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>
@@ -2017,7 +2119,7 @@ Private Attributes</h2></td></tr>
 
 <p>Speed multiplier for turning. </p>
 
-<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00185">185</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ControlSystem_8h_source.html#l00202">202</a> of file <a class="el" href="ControlSystem_8h_source.html">ControlSystem.h</a>.</p>
 
 </div>
 </div>

@@ -165,6 +165,10 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a6c1cf7c9fee4ff24c1886b0dcd6aba5c" id="r_a6c1cf7c9fee4ff24c1886b0dcd6aba5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEncoder.html#a6c1cf7c9fee4ff24c1886b0dcd6aba5c">_resolution</a></td></tr>
 <tr class="memdesc:a6c1cf7c9fee4ff24c1886b0dcd6aba5c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classEncoder.html" title="Measures wheel rotations using an incremental encoder and calculates speed and distance.">Encoder</a> resolution in pulses per revolution.  <br /></td></tr>
 <tr class="separator:a6c1cf7c9fee4ff24c1886b0dcd6aba5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad36e03cd69b2c910cad7bde23fe17879" id="r_ad36e03cd69b2c910cad7bde23fe17879"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEncoder.html#ad36e03cd69b2c910cad7bde23fe17879">prevState_</a></td></tr>
+<tr class="separator:ad36e03cd69b2c910cad7bde23fe17879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70a41c74b10702a730d61e63df92cf9b" id="r_a70a41c74b10702a730d61e63df92cf9b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEncoder.html#a70a41c74b10702a730d61e63df92cf9b">currState_</a></td></tr>
+<tr class="separator:a70a41c74b10702a730d61e63df92cf9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Measures wheel rotations using an incremental encoder and calculates speed and distance. </p>
@@ -250,7 +254,7 @@ Private Attributes</h2></td></tr>
 
 <p>Interrupt service routine for handling encoder pulses. </p>
 
-<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00024">24</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00025">25</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +276,7 @@ Private Attributes</h2></td></tr>
 <p>Computes the total distance traveled based on encoder pulses. </p>
 <dl class="section return"><dt>Returns</dt><dd>Distance traveled in meters. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00040">40</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00071">71</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
 
 </div>
 </div>
@@ -294,7 +298,7 @@ Private Attributes</h2></td></tr>
 <p>Retrieves the number of wheel revolutions. </p>
 <dl class="section return"><dt>Returns</dt><dd>The total number of revolutions since the last reset. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00036">36</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00067">67</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
 
 </div>
 </div>
@@ -316,7 +320,7 @@ Private Attributes</h2></td></tr>
 <p>Retrieves the current speed of the wheel. </p>
 <dl class="section return"><dt>Returns</dt><dd>The speed in meters per second. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00044">44</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00075">75</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +341,7 @@ Private Attributes</h2></td></tr>
 
 <p>Resets the encoder count and clears stored values. </p>
 
-<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00048">48</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00079">79</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
 
 </div>
 </div>
@@ -366,7 +370,7 @@ Private Attributes</h2></td></tr>
 
 <p>Updates the calculated speed based on encoder pulses. </p>
 
-<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00029">29</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Encoder_8cpp_source.html#l00060">60</a> of file <a class="el" href="Encoder_8cpp_source.html">Encoder.cpp</a>.</p>
 
 </div>
 </div>
@@ -602,6 +606,54 @@ Private Attributes</h2></td></tr>
 <p>Computed wheel circumference based on diameter. </p>
 
 <p class="definition">Definition at line <a class="el" href="Encoder_8h_source.html#l00064">64</a> of file <a class="el" href="Encoder_8h_source.html">Encoder.h</a>.</p>
+
+</div>
+</div>
+<a id="a70a41c74b10702a730d61e63df92cf9b" name="a70a41c74b10702a730d61e63df92cf9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70a41c74b10702a730d61e63df92cf9b">&#9670;&#160;</a></span>currState_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Encoder::currState_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Encoder_8h_source.html#l00073">73</a> of file <a class="el" href="Encoder_8h_source.html">Encoder.h</a>.</p>
+
+</div>
+</div>
+<a id="ad36e03cd69b2c910cad7bde23fe17879" name="ad36e03cd69b2c910cad7bde23fe17879"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad36e03cd69b2c910cad7bde23fe17879">&#9670;&#160;</a></span>prevState_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Encoder::prevState_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Encoder_8h_source.html#l00072">72</a> of file <a class="el" href="Encoder_8h_source.html">Encoder.h</a>.</p>
 
 </div>
 </div>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['getbatterypercentage_0',['getBatteryPercentage',['../main_8cpp.html#afb965e734929f6f7c15fbff43d604413',1,'main.cpp']]],
+  ['getbatterypercentage_0',['getBatteryPercentage',['../main_8cpp.html#a1fde18a0f5157181bef878bfcbbbb51c',1,'main.cpp']]],
   ['getcurrentsamplenorm_1',['getCurrentSampleNorm',['../classPotentiometer.html#a08272c7d8a85fd4acefba309d25d9004',1,'Potentiometer']]],
   ['getcurrentsamplevolts_2',['getCurrentSampleVolts',['../classPotentiometer.html#a3bbad0d08ee0bfa42723b9b18fd8a335',1,'Potentiometer']]],
   ['getdistance_3',['getDistance',['../classEncoder.html#aa4c38fc45f4a2952c1220985e2aaa010',1,'Encoder']]],

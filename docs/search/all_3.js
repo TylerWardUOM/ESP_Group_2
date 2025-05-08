@@ -16,6 +16,9 @@ var searchData=
   ['controlsystem_2ecpp_13',['ControlSystem.cpp',['../ControlSystem_8cpp.html',1,'']]],
   ['controlsystem_2eh_14',['ControlSystem.h',['../ControlSystem_8h.html',1,'']]],
   ['controlticker_15',['controlticker',['../main_8cpp.html#a81d43f1dae6b8d3d2c276c0f97b3ffb0',1,'main.cpp']]],
-  ['currentsamplenorm_16',['currentSampleNorm',['../classPotentiometer.html#a3121f3e3eddc8d935abd58a7e90a3efc',1,'Potentiometer']]],
-  ['currentsamplevolts_17',['currentSampleVolts',['../classPotentiometer.html#a1cae72c49d7112284a1a009a0b6b0249',1,'Potentiometer']]]
+  ['correction_5fhistory_16',['correction_history',['../classWheel.html#a0a632985221128eaecebf38d0d324c82',1,'Wheel']]],
+  ['correction_5fsum_17',['correction_sum',['../classWheel.html#a6cc8d5e4c7264d06b50b9284ef1d34c6',1,'Wheel']]],
+  ['currentsamplenorm_18',['currentSampleNorm',['../classPotentiometer.html#a3121f3e3eddc8d935abd58a7e90a3efc',1,'Potentiometer']]],
+  ['currentsamplevolts_19',['currentSampleVolts',['../classPotentiometer.html#a1cae72c49d7112284a1a009a0b6b0249',1,'Potentiometer']]],
+  ['currstate_5f_20',['currState_',['../classEncoder.html#a70a41c74b10702a730d61e63df92cf9b',1,'Encoder']]]
 ];

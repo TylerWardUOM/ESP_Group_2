@@ -8,6 +8,7 @@ var annotated_dup =
     [ "Encoder", "classEncoder.html", "classEncoder" ],
     [ "FollowParams", "structFollowParams.html", "structFollowParams" ],
     [ "Motor", "classMotor.html", "classMotor" ],
+    [ "MotorUnipolar", "classMotorUnipolar.html", "classMotorUnipolar" ],
     [ "PIDController", "classPIDController.html", "classPIDController" ],
     [ "Potentiometer", "classPotentiometer.html", "classPotentiometer" ],
     [ "Sensor", "classSensor.html", "classSensor" ],

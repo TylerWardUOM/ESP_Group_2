@@ -6,6 +6,7 @@ var structBangBangBoostParams =
     [ "controlPeriod", "structBangBangBoostParams.html#ac2989f10a14fe3e0d38f93f04b6d078b", null ],
     [ "debugFlag", "structBangBangBoostParams.html#ab0c6f1831a44c80be7ecdc81bb856a4e", null ],
     [ "motor_boost", "structBangBangBoostParams.html#a966fedfec5b5e1a22f9807a89900812a", null ],
+    [ "motor_Ki", "structBangBangBoostParams.html#a4077bcf3c04881ec23a2998fc224569f", null ],
     [ "motor_Kp", "structBangBangBoostParams.html#a871100ecfae91ec3079281bdde22cd4c", null ],
     [ "motor_threshold", "structBangBangBoostParams.html#ae9fda35951f1c10e10547d03f0beee55", null ],
     [ "motorRegulatePeriod", "structBangBangBoostParams.html#aafeb9286f7fc2a9a81cf16b1ea222dab", null ],
