@@ -37,6 +37,8 @@ void ControlSystem::moveForward(float distance, float speed) {
 void ControlSystem::turn(float angle, float speed) {
     //Ensure Wheels Enabled
     enableWheels();
+    leftWheel.setDT(0.001);
+    rightWheel.setDT(0.001);
     //Set turn distance
     turnDirection = (angle > 0) ? 1 : -1;
     targetDistance = (_track_width / 2.0f) * (fabs(angle) * 3.14159f / 180.0f);
@@ -92,13 +94,15 @@ void ControlSystem::moveSquare(float distance, float speed, float left_turn_mult
 
 
 
-void ControlSystem::setBangBangMode(const BangBangParams& params) {
+void ControlSystem::setBangBangMode(const BangBangParams& params,float wheel_dt) {
     // Ensure wheels are enabled before setting control mode
     enableWheels();
     // Store the given parameters
     basespeed = params.baseSpeed;
     bangBangThreshold = params.bangBangThreshold;
     turnSpeedMultiplier = params.turnSpeedMultiplier;
+    leftWheel.setDT(wheel_dt);
+    rightWheel.setDT(wheel_dt);
 
     // Set control state
     state = BANG_BANG;
@@ -517,9 +521,16 @@ void ControlSystem::setWheelKp(float wheelKp){
     rightWheel.setKp(wheelKp);
 }
 
-void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost){
+void ControlSystem::setWheelKi(float wheelKi){
+    leftWheel.setKi(wheelKi);
+    rightWheel.setKi(wheelKi);
+}
+
+void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost, float wheelKi){
     leftWheel.setKp(wheelKp);
     rightWheel.setKp(wheelKp);
+    leftWheel.setKi(wheelKi);
+    rightWheel.setKi(wheelKi);
     leftWheel.setThreshold(wheel_threshold);
     rightWheel.setThreshold(wheel_threshold);
     leftWheel.setBoost(wheel_boost);
@@ -529,4 +540,14 @@ void ControlSystem::setWheelParams(float wheelKp, float wheel_threshold, float w
 void ControlSystem::debugWheels(){
     leftWheel.debugWheelData(0);
     rightWheel.debugWheelData(1);
+}
+
+void ControlSystem::live_debugWheels(){
+    leftWheel.live_debugWheelData(0);
+    rightWheel.live_debugWheelData(1);
+}
+
+void ControlSystem::setWheelMaxRpm(int MaxRpm){
+    leftWheel.setMaxRpm(MaxRpm);
+    rightWheel.setMaxRpm(MaxRpm);
 }

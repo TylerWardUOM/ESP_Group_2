@@ -67,6 +67,10 @@ private:
     volatile int _lastPulses;  ///< Stores the last recorded pulse count for speed calculation.
     volatile float _speed;  ///< Stores the computed speed of the wheel.
     int _resolution;  ///< Encoder resolution in pulses per revolution.
+
+        // Previous and current states for tracking encoder state
+    int prevState_;
+    int currState_;
 };
 
 #endif // ENCODER_H

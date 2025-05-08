@@ -101,6 +101,7 @@ struct BangBangParams {
     float controlPeriod; ///< Control loop execution period.
     float motorRegulatePeriod; ///< Motor regulation period.
     float motor_Kp; ///< Motor proportional control gain.
+    float motor_Ki;
     float debugFlag; ///< Flag for if should debug log.
 
     /**
@@ -117,6 +118,7 @@ struct BangBangBoostParams {
     float controlPeriod;        // Control loop execution period
     float motorRegulatePeriod;
     float motor_Kp;
+    float motor_Ki;
     float motor_threshold;
     float motor_boost;
     float debugFlag; ///< Flag for if should debug log.

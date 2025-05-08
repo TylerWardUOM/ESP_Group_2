@@ -38,6 +38,9 @@ public:
         float set_speed; /**< Desired speed of the motor. */
         float error;     /**< Error in speed tracking. */
         float adjustment; /**< Adjustments applied for error correction. */
+        float persistent_error;
+        float newSpeed;
+        float originalSpeed;
     };
 
     /**
@@ -201,7 +204,7 @@ public:
 
         /**
      * @brief Check if the buggy should read battery info.
-     * @return True if Callibrate Command recieved, false otherwise.
+     * @return True if battery Command recieved, false otherwise.
      */
     bool shouldReadBattery();
 
@@ -239,6 +242,9 @@ public:
      */
     void printDebugData(const char* format, ...);
 
+
+    void printLiveDebugData(DebugType type, void* data);
+
     /**
      * @brief Prints live sensor data immediately to Bluetooth in a formatted manner.
      * 
@@ -275,6 +281,13 @@ public:
     */
     float SpeedRequestRight();
 
+            /**
+     * @brief Check if the buggy should be sending motor Debugging.
+     * @return True if should Debug False if Shoudlnt.
+     */
+    bool shouldDebugMotor();
+
+
     /**
      * @brief Sends battery information for monitoring.
      * 
@@ -299,6 +312,7 @@ private:
     bool go_flag = false; ///< Flag indicating whether the buggy should start.
     bool callibrateWhite_flag; ///<Flag indicating wether the buggy should callibrate sensors over white.
     bool callibrateBlack_flag; ///<Flag indicating wether the buggy should callibrate sensors over black.
+    bool debugMotor_flag; ///<Flag indicating wether the buggy be sending motor debugging.
     bool readBattery_flag; ///<Flag indicating wether the buggy should read battery info.
 
     static const int BUFFER_SIZE = 128; ///< Size of the receive buffer.
