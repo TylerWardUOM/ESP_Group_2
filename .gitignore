@@ -66,3 +66,4 @@ Makefile
 mbed-os.lib
 lib/C12832/C12832.lib
 /lib/C12832
+/.obsidian
