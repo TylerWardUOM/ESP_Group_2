@@ -62,7 +62,7 @@ void switchToSensorDebug(BuggyMode& buggyMode, Ticker& sensorTicker, SensorArray
 }
 
 void switchToMotorDebug(BuggyMode& buggyMode, Ticker& motorTicker, ControlSystem& control){
-    motorTicker.attach(callback(&control, &ControlSystem::debugRegulateWheelSpeed), 0.01);
+    motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), 0.01);
     buggyMode = motor_debug;
 }
 
@@ -94,7 +94,7 @@ void switchToTurnAround(ControlSystem& control, BuggyMode& buggyMode, Ticker& co
     //Set Relevant PID Parameters
     control.setModePIDParameters(NULL,NULL,&params,NULL);
     //Begin Control
-    control.turn(180,params.speed);
+    control.turn(182,params.speed);
     controlticker.attach(callback(&control, &ControlSystem::update), 0.05);
     //Update Mode state
     buggyMode = waiting_for_movement;
@@ -115,8 +115,9 @@ void switchToFollowMode(ControlSystem& control,  SensorArray& sensorArray, Buggy
 }
 
 void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangParams& params){
-    control.setWheelKp(params.motor_Kp);    
-    control.setBangBangMode(params);
+    control.setWheelKp(params.motor_Kp);
+    control.setWheelKi(params.motor_Ki);
+    control.setBangBangMode(params,params.motorRegulatePeriod);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);
     motorTicker.attach(callback(&control, &ControlSystem::regulateWheelSpeed), params.motorRegulatePeriod);
@@ -124,7 +125,7 @@ void switchToBangBangMode(ControlSystem& control,  SensorArray& sensorArray, Bug
 }
 
 void switchToBangBangBoostMode(ControlSystem& control,  SensorArray& sensorArray, BuggyMode& buggyMode, Ticker& controlticker, Ticker& sensorTicker,Ticker& motorTicker, BangBangBoostParams& params){
-    control.setWheelParams(params.motor_Kp,params.motor_threshold,params.motor_boost);
+    control.setWheelParams(params.motor_Kp,params.motor_threshold,params.motor_boost,params.motor_Ki);
     control.setBangBangBoostMode(params);
     controlticker.attach(callback(&control, &ControlSystem::update), params.controlPeriod);
     sensorTicker.attach(callback(&sensorArray, &SensorArray::sample), params.sensorSamplePeriod);

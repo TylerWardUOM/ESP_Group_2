@@ -27,12 +27,12 @@ public:
      * @brief Sets the motor speed.
      * @param speed Speed value ranging from -1.0 (full reverse) to 1.0 (full forward).
      */
-    void setSpeed(float speed);
+    virtual void setSpeed(float speed);
 
     /**
      * @brief Stops the motor by setting speed to zero.
      */
-    void stop();
+    virtual void stop();
 
     /**
      * @brief Disables the motor, cutting off power.
@@ -51,11 +51,13 @@ public:
     float getSpeed();
 
 private:
-    DigitalOut _bipolar; ///< Controls motor direction.
     float _multiplier; ///< Multiplier for speed adjustment.
-    PwmOut _pwm; ///< PWM output for speed control.
     DigitalOut _enable; ///< Digital output to enable/disable the motor.
+
+protected:
+    DigitalOut _bipolar; ///< Controls motor direction.
     float _speed; ///< Stores the current motor speed.
+    PwmOut _pwm; ///< PWM output for speed control.
 };
 
 #endif // MOTOR_H

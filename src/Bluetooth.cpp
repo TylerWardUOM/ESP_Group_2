@@ -90,6 +90,7 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbParams.motor_Kp);
+            _serial.printf("motorKi=%.7f\n", _bbParams.motor_Ki);
             _serial.printf("debugFlag=%.7f\n", _bbParams.debugFlag);
             break;
 
@@ -101,6 +102,7 @@ void Bluetooth::sendAvailableParameters() {
             _serial.printf("controlPeriod=%.7f\n", _bbbParams.controlPeriod);
             _serial.printf("motorRegulatePeriod=%.7f\n", _bbbParams.motorRegulatePeriod);
             _serial.printf("motorKp=%.7f\n", _bbbParams.motor_Kp);
+            _serial.printf("motorKi=%.7f\n", _bbbParams.motor_Ki);
             _serial.printf("motorThreshold=%.7f\n",_bbbParams.motor_threshold);
             _serial.printf("motorBoost=%.7f\n",_bbbParams.motor_boost);
             _serial.printf("debugFlag=%.7f\n", _bbbParams.debugFlag);
@@ -137,13 +139,16 @@ void Bluetooth::sendDebugData() {
 
         switch (entry.type) {
             case MOTOR_DEBUG:
-                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
                                entry.data.motor.side,
                                entry.data.motor.distance,
                                entry.data.motor.speed,
                                entry.data.motor.set_speed,
                                entry.data.motor.error,
-                               entry.data.motor.adjustment);
+                               entry.data.motor.adjustment,
+                               entry.data.motor.persistent_error,
+                               entry.data.motor.newSpeed,
+                               entry.data.motor.originalSpeed);
                 break;
 
             case SENSOR_DEBUG:
@@ -250,6 +255,14 @@ void Bluetooth::handleCommand(const char *cmd) {
     }else if (strcmp(cmd, "BATTERY") == 0) {
         readBattery_flag=true;
         _serial.printf("SENDING_BATTERY\n");
+    }else if (strcmp(cmd, "DEBUG_MOTOR") == 0) {
+        if (debugMotor_flag){
+            debugMotor_flag=false;
+            _serial.printf("STOPPING_DEBUG\n");
+        }else{
+            debugMotor_flag=true;
+            _serial.printf("STARTING_DEBUG\n");
+        }
     }else if (strcmp(cmd, "PARAMETER") == 0) {
         sendAvailableParameters();  // Return current mode parameters
     } else if (strcmp(cmd, "STATE") == 0){
@@ -329,6 +342,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbParams.motor_Kp = value;
+                else if (strcmp(key, "motorKi") == 0) _bbParams.motor_Ki = value;
                 else if (strcmp(key, "debugFlag") == 0) _bbParams.debugFlag = value;
                 break;
 
@@ -340,6 +354,7 @@ void Bluetooth::updateParameter(const char *paramStr) {
                 else if (strcmp(key, "controlPeriod") == 0) _bbbParams.controlPeriod = value;
                 else if (strcmp(key, "motorRegulatePeriod") == 0) _bbbParams.motorRegulatePeriod = value;
                 else if (strcmp(key, "motorKp") == 0) _bbbParams.motor_Kp = value;
+                else if (strcmp(key, "motorKi") == 0) _bbbParams.motor_Ki = value;
                 else if (strcmp(key, "motorThreshold") == 0) _bbbParams.motor_threshold = value;
                 else if (strcmp(key, "motorBoost") == 0) _bbbParams.motor_boost = value;
                 else if (strcmp(key, "debugFlag") == 0) _bbbParams.debugFlag = value;
@@ -386,6 +401,11 @@ bool Bluetooth::shouldCallibrateBlack() {
     }
     return false;
 }
+
+bool Bluetooth::shouldDebugMotor() {
+    return debugMotor_flag;
+}
+
 
 void Bluetooth::sendMovementFinished(){
     _serial.printf("MOVEMENT FINISHED\n");
@@ -540,4 +560,51 @@ bool Bluetooth::shouldReadBattery() {
         return true;
     }
     return false;
+}
+
+void Bluetooth::printLiveDebugData(DebugType type, void* data) {
+    switch (type) {
+        case MOTOR_DEBUG: {
+            MotorDebugData* d = static_cast<MotorDebugData*>(data);
+            _serial.printf("MOTOR:%d,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                           d->side,
+                           d->distance,
+                           d->speed,
+                           d->set_speed,
+                           d->error,
+                           d->adjustment,
+                           d->persistent_error,
+                           d->newSpeed,
+                           d->originalSpeed);
+            break;
+        }
+
+        case SENSOR_DEBUG: {
+            SensorDebugData* d = static_cast<SensorDebugData*>(data);
+            _serial.printf("SENSOR:%.5f,", d->error);
+            for (int j = 0; j < 6; j++) {
+                _serial.printf("%.5f", d->sensor_values[j]);
+                if (j < 5) _serial.printf(",");
+            }
+            _serial.printf("\n");
+            break;
+        }
+
+        case CONTROL_DEBUG: {
+            ControlDebugData* d = static_cast<ControlDebugData*>(data);
+            _serial.printf("CONTROL:%.5f,%.5f\n", d->pid_output, d->multiplier);
+            break;
+        }
+
+        case SQUARE_DEBUG: {
+            SquareDebugData* d = static_cast<SquareDebugData*>(data);
+            _serial.printf("SQUARE:%.5f,%.5f,%.5f,%.5f,%.5f\n",
+                           d->left_distance,
+                           d->right_distance,
+                           d->error,
+                           d->pid_output,
+                           d->multiplier);
+            break;
+        }
+    }
 }

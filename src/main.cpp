@@ -15,8 +15,8 @@
 //Constants for Wheel
 //if not going correct distance adjust wheel_diameter
 #define WHEEL_DIAMETER 0.078f       // wheel diameter in meters
-#define ENCODER_RESOLUTION 1        // encoder resolution (1, 2, or 4)
-#define MAX_RPM 500
+#define ENCODER_RESOLUTION 4        // encoder resolution (1, 2, or 4)
+int MAX_RPM = 500;
 
 //Constants for Buggy
 //If not turning to set angle adjust track width
@@ -46,8 +46,8 @@ Serial btSerial(PA_11,PA_12);
 Bluetooth bluetooth(btSerial, buggyMode, squareParams, straightlineParams, turnangleParams, followParams,bangbangParams,bangbangboostParams,bangbangproportionalParams);
 
 //Maybe adjust the left wheel multiplier if you see a consitant drift in one direction
-Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PB_8,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM,bluetooth); //change max rpm by testing
-Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PB_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM,bluetooth);
+Wheel leftWheel(PB_7,1.10,PB_14,PA_14,PA_13,PA_15,WHEEL_DIAMETER,ENCODER_RESOLUTION,MAX_RPM,bluetooth); //change max rpm by testing
+Wheel rightWheel(PB_15, 1, PB_13, PA_14,PB_2, PA_8, WHEEL_DIAMETER, ENCODER_RESOLUTION,MAX_RPM,bluetooth);
 
 Sensor sensor1(A0, NC);
 Sensor sensor2(A1, NC);
@@ -82,28 +82,24 @@ long map(long x, long in_min, long in_max, long out_min, long out_max){
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-Timer energyTimer;
-float accumulatedCharge;
 float fullBatteryCapacity;
-bool energyTimerStarted = false;  
+float Rsns= 1000.0;
+float getBatteryPercentage() {
+    uint32_t accumulatedCurrent = ReadAccumulatedCurrent();  // Get accumulated charge (in nVhr/Rsns)
 
-float getBatteryPercentage(float voltage, float current) {
-
-    float dt = energyTimer.read();  // Time in seconds
-    energyTimer.reset();  // Reset for next interval
-
-    // Convert current (A) * time (s) to charge (mAh)
-    accumulatedCharge += (current * dt * 1000.0) / 3600.0;
+    // Convert to mAh based on sense resistor (Rsns) and time factor
+    float accumulatedCharge_mAh = accumulatedCurrent * (1.526e-9) / Rsns * 1000.0 / 3600.0;
 
     // Estimate remaining capacity
-    float remainingCapacity = fullBatteryCapacity - accumulatedCharge;
-    
+    float remainingCapacity = fullBatteryCapacity - accumulatedCharge_mAh;
+
     // Calculate battery percentage
     float batteryPercentage = (remainingCapacity / fullBatteryCapacity) * 100.0;
     batteryPercentage = fmax(0.0, fmin(100.0, batteryPercentage)); // Ensure within 0-100%
 
     return batteryPercentage;
 }
+
 
 // Update LCD periodically using a Ticker
 Ticker lcdUpdateTicker; 
@@ -133,6 +129,7 @@ int main() {
     float speedRawR;
     float desiredSpeedL;
     float desiredSpeedR;
+    bool motor_debug_ticker_flag = false;
     int VoltageReading, CurrentReading; 
     float Voltage, Current, batteryPercentage; 
     mode_t previousMode = buggyMode;  // Store previous mode
@@ -143,10 +140,15 @@ int main() {
         switch (buggyMode) {
             case idle_mode:
                 control.stopWheels();
-                if (energyTimerStarted!=true){
-                    energyTimer.reset();
-                    energyTimer.start();
-                    energyTimerStarted=true;
+                VoltageReading = ReadVoltage(); 
+                Voltage = VoltageReading*0.00967; 
+                CurrentReading = ReadCurrent(); 
+                Current = CurrentReading/6400.0;
+                batteryPercentage=getBatteryPercentage();
+                if ((int)Voltage==0){
+                    control.setWheelMaxRpm(MAX_RPM);
+                }else{
+                    control.setWheelMaxRpm((int)((Voltage / 11.0f) * MAX_RPM));
                 }
                 if (bluetooth.shouldCallibrateWhite()){
                     sensorArray.calibrate();
@@ -159,14 +161,8 @@ int main() {
                     break;
                 }
                 if (bluetooth.shouldReadBattery()){
-                    VoltageReading = ReadVoltage(); 
-                    Voltage = VoltageReading*0.00967; 
-                    CurrentReading = ReadCurrent(); 
-                    Current = CurrentReading/6400.0;
-                    batteryPercentage=getBatteryPercentage(Voltage,Current);
                     bluetooth.sendBatteryInfo(Voltage, Current, batteryPercentage);
                 }
-
                 break;
 
             case speed_control_mode:
@@ -211,6 +207,16 @@ int main() {
                 }
                 if (desiredSpeedR!=5000.00){
                     rightWheel.setSpeed(desiredSpeedR);
+                }
+                if (bluetooth.shouldDebugMotor() && !motor_debug_ticker_flag){
+                    motor_debug_ticker_flag=true;
+                    bluetooth.resetDebugData();
+                    motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.05);
+                }else if (!bluetooth.shouldDebugMotor() && motor_debug_ticker_flag){
+                    motor_debug_ticker_flag=false;
+                    motor_debugTicker.detach();
+                    control.stopWheels();
+                    bluetooth.sendDebugData();
                 }
                 break;
 
@@ -263,7 +269,7 @@ int main() {
                 if (bluetooth.shouldStart()){
                     previousMode=buggyMode;
                     if (bangbangParams.debugFlag==1.0){
-                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.3);
+                        motor_debugTicker.attach(callback(&control, &ControlSystem::debugWheels), 0.15);
                         sensor_debugTicker.attach(callback(&sensorArray, &SensorArray::debugSensorData), 0.3);
                     }
                     switchToBangBangMode(control,sensorArray,buggyMode,controlticker,sensorTicker,motorTicker,bangbangParams);
@@ -328,6 +334,9 @@ int main() {
                 controlticker.detach();
                 sensorTicker.detach();
                 motorTicker.detach();
+                sensor_debugTicker.detach();
+                motor_debugTicker.detach();
+                control_debugTicker.detach();
                 stopMotorAndSwitchToIdleMode(control,buggyMode,controlticker,sensorTicker,motorTicker,square_flag);
                 break;
         }

@@ -54,7 +54,7 @@ public:
      * @brief Engages Bang-Bang control mode.
      * @param params Parameters for Bang-Bang mode.
      */
-    void setBangBangMode(const BangBangParams& params);
+    void setBangBangMode(const BangBangParams& params,float wheel_dt);
   
     void setBangBangBoostMode(const BangBangBoostParams& params);
 
@@ -110,8 +110,14 @@ public:
      * @param wheelKp Proportional gain value.
      */
     void setWheelKp(float wheelKp);
+
+    /**
+     * @brief Sets the wheel Intergral gain (Ki) for motor control.
+     * @param wheelKi Intergral gain value.
+     */
+    void setWheelKi(float wheelKi);
   
-    void setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost);
+    void setWheelParams(float wheelKp, float wheel_threshold, float wheel_boost, float wheelKi = 0.0);
 
     void regulateWheelSpeedwithBOOST();
 
@@ -129,6 +135,17 @@ public:
      * @brief Calls wheel debug logging functions.
      */
     void debugWheels();
+
+    /**
+     * @brief Calls wheel live debug functions.
+     */
+    void live_debugWheels();
+
+    /**
+     * @brief Sets the Max Rpm of the wheels.
+     * @param MaxRpm Max Rpm of Wheels.
+     */
+    void setWheelMaxRpm(int MaxRpm);
     
     /**
      * @brief Sets PID parameters based on the current movement mode.
