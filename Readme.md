@@ -5,7 +5,19 @@
 - **Web App Source Code:** [GitHub Repository](https://github.com/TylerWardUOM/ESP_Web_App)  
 
 ---
+## 🏆 Technical Demonstrations — Results Summary
+- **TD1:** 97%
+- **TD2:** 99%
+- **TD3:** 99%
+- **TD4:** 80%
+- ---
+## **📸 Final Buggy — Photos & Media**
+-  **Final Buggy** 
+	![Final Buggy](docs/media/Front_Left.jpeg)
 
+- **PCB Design**
+	![PCB Design](docs/media/PCB_DESIGN.png)
+---
 ## **📦 Required Dependencies**  
 
 This project requires a specific version of **Mbed OS** and the **C12832 display library**.  

@@ -38,7 +38,6 @@ mbed_config.h
 mbed_settings.py
 
 # Doxygen-generated documentation
-docs
 /docs/html/
 docs/latex/
 docs/man/
@@ -66,3 +65,4 @@ Makefile
 mbed-os.lib
 lib/C12832/C12832.lib
 /lib/C12832
+/.obsidian
